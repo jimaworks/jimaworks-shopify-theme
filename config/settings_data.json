@@ -459,6 +459,13 @@
               "link": ""
             }
           },
+          "1564767634441": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/HomePagePic_WishpondOnMap300ppi.png",
+              "link": ""
+            }
+          },
           "1538517611974": {
             "type": "image",
             "settings": {
@@ -477,13 +484,6 @@
             "type": "image",
             "settings": {
               "image": "shopify:\/\/shop_images\/CoverSlides-1910America_IdealFacebookRect.png",
-              "link": ""
-            }
-          },
-          "1564767634441": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/HomePagePic_WishpondOnMap300ppi.png",
               "link": ""
             }
           }
@@ -510,7 +510,7 @@
           "title": "We build pictures.",
           "text": "<p>The pictures we build tell stories.<br>We'll build you a picture of&nbsp;<strong><em>your<\/em>&nbsp;story<\/strong>.<br>The story will depict<strong> your family's first generation<\/strong> to cross&nbsp;to America.<\/p>",
           "button_label": "Get Started",
-          "button_link": "shopify:\/\/pages\/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start"
+          "button_link": "shopify:\/\/pages\/your-relationships-project"
         }
       },
       "1526685704254": {

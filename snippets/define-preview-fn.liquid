@@ -23,7 +23,7 @@
     Jun 14 2019:1100 replace "showTripVisuals" and "showTextBoxes" functions with "describeTripVisuals" and "describeTextBoxes"
     Jun 17 2019:0615 Fix showTextBoxes" header and turn off default seascape
     Jul 14 2019:0700 Add RelationShipsPreviewZ("highlightTitle", "showFrame") ;
-
+    Aug 11 2019:0945 Fixed undefined webPlaqueText initialization
 -->
 
 <script>// <![CDATA[
@@ -815,7 +815,7 @@ function generatePlaqueHTML(
     webPlaqueAttribs = ' class=\"Plaque\" width='+webPlaqueWidth+'px height='+webPlaqueHeight+'px' ;
     webPlaqueStyle = ' style=\"width:'+webPlaqueWidth+'px; maxwidth: 25%;'+webPlaqueHeight+'px;\";' ;
     // plaque text ### this is not being used.  Redo and use ###
-    var webPlaqueText ;
+    var webPlaqueText = "";
     numFilledPlaqueLines = 0 ;
     var showExtraLine = true ;
     webPlaqueText +=   '<p>' ;
@@ -857,6 +857,9 @@ function generatePlaqueHTML(
         plaqueHTML +=   '</div>' ;
     }
 */
+    console.log("*****Start PlaqueHTML*****") ;
+    console.log(plaqueHTML) ;
+    console.log("*****End PlaqueHTML*****") ;
     return plaqueHTML ;
 } //generatePlaqueHTML()
 

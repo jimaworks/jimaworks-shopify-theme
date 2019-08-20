@@ -3,7 +3,15 @@
     Original Nov 7, 2018
     Nxt: Dec 6, 2018
     
-    Origins:
+    Jul 31 2019:1400 Update Save&Return variables in view of changes to the user interaction.
+    Aug 03 2019:0600 Set localStorage defaults, construct clearAllJimaworksLocalStorage function
+    Aug 04 2019:0800 Extend/debug initializeDefaults()
+    Aug 04 2019:1800 Build up writeOutContextVars() 
+    Aug 05 2019:1800 Hugh G. global replace of "localStorage.clear(<varname>)" with "localStorage.removeItem(<varname>)"
+    Aug 06 2019:1515 Start selecting the variables that need to be restored...
+    Aug 06 2019:1800 Start splitting the functions up and sending to approp files...
+    
+    Title:
         localStorage.setItem("RegionOfOrigin", regionName) ;
         localStorage.setItem("RegionOfOriginDefault", "UserProvided") ;
         localStorage.setItem("RegionOfOriginAbbrev", regionAbbrev) ;
@@ -66,17 +74,26 @@ var backgroundIndex =  9 ;
     
     
 -->
-
 <script type="text/javascript">// <![CDATA[
+
+// ###  Aug 06 2019:1515 Start selecting the variables that need to be restored... send initializeDefaults() to page.initialize-jimaworks.liquid
+
 function initializeDefaults() {
 /*
     console.log("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
     alert("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
 */
 
-/* localVarNam      localVarDefault     localVarDefaultAbbrev  */
+/* First page (7/31/2019) == Home.  No user-added values to RelationShips localStorage */
 
-/* "RegionOfOrigin"  "EuropeAndTheMediterranean"  "EuM"  */
+/*
+Second page (7/31/2019) == RegionOfOrigin.
+"Set the Stage. In What Part of the World did this Story Start?"
+### RegionOfOriginImageFileName ? ###
+*/
+
+    /* localVarNam      localVarDefault     localVarDefaultAbbrev  */
+    /* "RegionOfOrigin"  "EuropeAndTheMediterranean"  "EuM"  */
 
         var RegionOfOriginDefault = "EuropeAndTheMediterranean" ;
         var RegionOfOriginAbbrevDefault = "EuM" ;
@@ -88,7 +105,118 @@ function initializeDefaults() {
             /* localStorage.setItem("RegionOfOriginImageFileName", RegionOfOriginImgFileName) ; */
         } ;
 
-/* "Era"  "EraOfThePassengerLiner"  "Liner"  */  //### issue: sometimes use dates, sometimes not.  Fix - not ###
+/* 
+Third page (7/31/2019) == Title Text Box Line 1. 
+"1. Title. What Is This Story About?"
+*/
+        /* localVarNam      localVarDefault     localVarDefaultAbbrev  */
+        /* e.g., "RegionOfOrigin"  "EuropeAndTheMediterranean"  "EuM"  */
+        /* localStorage.RelationShipMember... not used */
+
+//###localStorage.FirstGenLastName ... = "<Provide a Name>"?
+
+    /* "FirstGenLastName"  "FirstGenLastNameDefault"  "FirstGenLastNameDefaultAbbrev"  */
+        var FirstGenLastNameDefault = "<Provide a Name>";
+        localStorage.setItem("FirstGenLastNameDefault", FirstGenLastNameDefault) ;
+        if (localStorage.FirstGenLastName==undefined) {
+            localStorage.setItem("FirstGenLastName", FirstGenLastNameDefault) ;
+        } ;
+
+
+    /* "TitleLine1"  "TitleLine1Default"  "TitleLine1DefaultAbbrev"  */
+        var TitleLine1Default = "The Family Crossing: First Generation";
+        localStorage.setItem("TitleLine1Default", TitleLine1Default) ;
+        if (localStorage.TitleLine1==undefined) {
+            localStorage.setItem("TitleLine1", TitleLine1Default) ;
+        } ;
+
+    /* "TitleLine2"  "TitleLine2Default"  "TitleLine2DefaultAbbrev"  */
+        var TitleLine2Default = "A Thread in the Great Tapistry that is America";
+        localStorage.setItem("TitleLine2Default", TitleLine2Default) ;
+        if (localStorage.TitleLine2==undefined) {
+            localStorage.setItem("TitleLine2", TitleLine2Default) ;
+        } ;
+
+    /* "TitleLine3"  "TitleLine3Default"  "TitleLine3DefaultAbbrev"  */
+        var TitleLine3Default = "";
+        localStorage.setItem("TitleLine3Default", TitleLine3Default) ;
+        if (localStorage.TitleLine3==undefined) {
+            localStorage.setItem("TitleLine3", TitleLine3Default) ;
+        } ;
+
+/* Third(b) page:  invocation of Preview fn.
+    PreviewFn -- The Story So Far...
+    page.initialize-jimaworks
+    
+    Defines
+        localStorage.viewingTripVisuals
+        localStorage.viewingTextBoxes
+    
+    Uses
+        localStorage.TitleLine1 = titleTextBoxEntry1 ;
+        localStorage.TitleLine2 = titleTextBoxEntry2 ;
+        localStorage.TitleLine3 = titleTextBoxEntry3 ;
+
+        localStorage.OriginsLine1 = originTextBoxEntry1 ;
+        localStorage.OriginsLine2 = originTextBoxEntry2 ;
+
+        localStorage.DestinyLine1 = destinationTextBoxEntry1 ;
+        localStorage.DestinyLine2 = destinationTextBoxEntry2 ;
+
+            localStorage.ShipInfoLine1 = shipInfoTextBoxEntry1 ;
+            localStorage.ShipInfoLine2 = shipInfoTextBoxEntry2 ;
+
+        localStorage.PlaqueLine###
+                localStorage.PlaqueLine1 = plaqueTextBoxEntry1 ;
+                localStorage.PlaqueLine2 = plaqueTextBoxEntry2 ;
+                localStorage.PlaqueLine3 = plaqueTextBoxEntry3 ;
+                localStorage.PlaqueLine4 = plaqueTextBoxEntry4 ;
+                localStorage.PlaqueLine5 = plaqueTextBoxEntry5 ;
+                localStorage.PlaqueLine6 = plaqueTextBoxEntry6 ;
+                localStorage.PlaqueLine7 = plaqueTextBoxEntry7 ;
+                
+       localStorage.MapStyle
+       localStorage.MapStyleAbbrev ;
+       localStorage.webMapImg    
+       localStorage.shipPic
+       localStorage.Frame
+       localStorage.shipImageTransparentBackground   
+       
+       ### in the Safari page, the imgWidth is 1024 and the height is 713 ###
+       ### in the defaults, the imgWidth 640 and the height isi 237 ###
+       ### set the former as the defaults??
+       
+       ### also, shouldn't these always be set in Preview? ###
+                localStorage.webShipImgWidth =width;
+                localStorage.webShipImgHeight =height;
+                
+in comments:
+        var webFrameImg = localStorage.FrameImg ;
+        var webShipImg = localStorage.shipPicImg ;
+
+
+ */
+    /* "viewingTripVisuals"  "viewingTripVisualsDefault"  "viewingTripVisualsDefaultAbbrev"  */
+        var viewingTripVisualsDefault = "";
+        localStorage.setItem("viewingTripVisualsDefault", viewingTripVisualsDefault) ;
+        if (localStorage.viewingTripVisuals==undefined) {
+            localStorage.setItem("viewingTripVisuals", viewingTripVisualsDefault) ;
+        } ;
+
+    /* "viewingTextBoxes"  "viewingTextBoxesDefault"  "viewingTextBoxesDefaultAbbrev"  */
+        var viewingTextBoxesDefault = "";
+        localStorage.setItem("viewingTextBoxesDefault", viewingTextBoxesDefault) ;
+        if (localStorage.viewingTextBoxes==undefined) {
+            localStorage.setItem("viewingTextBoxes", viewingTextBoxesDefault) ;
+        } ;
+
+/* 
+Fourth page (7/31/2019) == Title Text Box Line 2. 
+"1. Title. Line2: When did it take place?"
+### EraImageFileName ? ### 
+*/
+     
+    /* "Era"  "EraDefault"  "EraDefaultAbbrev"  */
         var EraDefault = "EraOfThePassengerLiner(1895-1970)";
         var EraAbbrevDefault = "Liner";
         /* var EraImgFileName = "..."; */
@@ -99,144 +227,651 @@ function initializeDefaults() {
             /* localStorage.setItem("EraImageFileName", EraImgFileName) ; */
         } ;
 
-/* "TimePeriod"  "EraOfThePassengerLiner"  "Liner"  */  //### issue: sometimes use dates, sometimes not.  Fix - not ###
-//    shopifyPrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
-//    shopifyImgSizePostfix = "_256x256" ;
-//    currMapFile = shopifyPrefix + prevThisNextAvailMapYears[1]+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
-        localStorage.setItem("YearOfCrossing", 1907) ;
-        localStorage.setItem("currRteMapFile", "1910-Routes-EuM_256x256.png") ;
-        localStorage.setItem("currRteMapYear", 1910) ;
-        localStorage.setItem("prevRteMapYear", 1900) ;
-        localStorage.setItem("nextMapYear", 1914) ;
-
-/* "Route"  "Northern"  "Liner"  */
-        var PassageDefault = "Northern";
-        var PassageAbbrevDefault = "Nor";
-        /* var PassageImgFileName = "..."; */
-        localStorage.setItem("PassageDefault", PassageDefault) ;
-        if (localStorage.Passage==undefined) {
-            localStorage.setItem("Passage", PassageDefault) ;
-            localStorage.setItem("PassageAbbrev", PassageAbbrevDefault) ;
-            /* localStorage.setItem("PassageImageFileName", PassageImgFileName) ; */
+    /* "CommemorationTimePeriodStart"  "CommemorationTimePeriodStartDefault"  "CommemorationTimePeriodStartDefaultAbbrev"  */
+    // ### this should always be calculated from Era.  Deprecate? ###
+        var CommemorationTimePeriodStartDefault = "1895";
+        localStorage.setItem("CommemorationTimePeriodStartDefault", CommemorationTimePeriodStartDefault) ;
+        if (localStorage.CommemorationTimePeriodStart==undefined) {
+            localStorage.setItem("CommemorationTimePeriodStart", CommemorationTimePeriodStartDefault) ;
         } ;
 
-    /* ship info  */
-    /* initialize by using the a specially made ship array */
-    initializationShipArray =  [
-                    ["ID","name","era", "operator", "class", "careerStart","careerEnd","totalPsgrs",
-                     "imagery", 
-                     "background"]
-                ] ;
-    var IDIndex =  0 ;
-    var nameIndex =  1 ;
-    var eraIndex =  2 ; 
-    var operatorIndex =  3 ; 
-    var classIndex =  4 ; 
-    var careerStartIndex =  5 ; 
-    var careerEndIndex =  6 ; 
-    var totalPsgrsIndex =  7 ; 
-    var imageryIndex =  8 ; 
-    var backgroundIndex =  9 ;
-    initializationShipArray.push(["Maasdam", "Maasdam", "EraOfThePassengerLiner(1895-1970)", "Holland-America", "PsgLiner", 1952, 1968, 270.643,  "Maasdam-colpic.jpg|Maasdam_1952-1968_-640x413-b_wpic.png|Maasdam_1952-1968_-499x303-colpic.png|Maasdam_1952-1968_-640x177-mdlrend.png", "background|background|background|transparent"]) ; 
-   
-        var TransportCraftDefault = initializationShipArray[1][IDIndex] ;
-        localStorage.setItem("TransportCraftDefault", TransportCraftDefault) ;
-        if (localStorage.TransportCraft==undefined) {
-            localStorage.setItem("TransportCraft", TransportCraftDefault) ;
-        } ;
-        
-        var shipNameDefault = initializationShipArray[1][nameIndex] ;
-        localStorage.setItem("shipNameDefault", shipNameDefault) ;
-        if (localStorage.shipName==undefined) {
-            localStorage.setItem("shipName", shipNameDefault) ;
-        } ;
-        
-        var shipEraDefault = initializationShipArray[1][eraIndex] ;
-        localStorage.setItem("shipEraDefault", shipEraDefault) ;
-        if (localStorage.shipEra==undefined) {
-            localStorage.setItem("shipEra", shipEraDefault) ;
-        } ;
-        
-        var thisShipsImages = initializationShipArray[1][imageryIndex].split("|");
-        var shipPicDefault = thisShipsImages[0];
-        localStorage.setItem("shipPicDefault", shipPicDefault) ;
-        if (localStorage.shipPic==undefined) {
-            localStorage.setItem("shipPic", shipPicDefault) ;
-        } ;
-        
-        var shipImageBackgroundArray = initializationShipArray[1][backgroundIndex].split("|") ;
-        var shipImageTransparentBackgroundDefault = shipImageBackgroundArray[0];
-        localStorage.setItem("shipImageTransparentBackgroundDefault", shipImageTransparentBackgroundDefault) ;
-        if (localStorage.shipImageTransparentBackground==undefined) {
-            localStorage.setItem("shipImageTransparentBackground", shipImageTransparentBackgroundDefault) ;
+    /* "CommemorationTimePeriodEnd"  "CommemorationTimePeriodEndDefault"  "CommemorationTimePeriodEndDefaultAbbrev"  */
+    // ### this should always be calculated from Era.  Deprecate? ###
+        var CommemorationTimePeriodEndDefault = "1970";
+        localStorage.setItem("CommemorationTimePeriodEndDefault", CommemorationTimePeriodEndDefault) ;
+        if (localStorage.CommemorationTimePeriodEnd==undefined) {
+            localStorage.setItem("CommemorationTimePeriodEnd", CommemorationTimePeriodEndDefault) ;
         } ;
 
-        var shipCareerStartDefault = initializationShipArray[1][careerStartIndex] ;
-        localStorage.setItem("shipCareerStartDefault", shipCareerStartDefault) ;
-        if (localStorage.shipCareerStart==undefined) {
-            localStorage.setItem("shipCareerStart", shipCareerStartDefault) ;
-        } ;
-        
-        var shipCareerEndDefault = initializationShipArray[1][careerEndIndex] ;
-        localStorage.setItem("shipCareerEndDefault", shipCareerEndDefault) ;
-        if (localStorage.shipCareerEnd==undefined) {
-            localStorage.setItem("shipCareerEnd", shipCareerEndDefault) ;
-        } ;
-        
-        var shipTotPsgrVolumeDefault = initializationShipArray[1][totalPsgrsIndex] ;
-        localStorage.setItem("shipTotPsgrVolumeDefault", shipTotPsgrVolumeDefault) ;
-        if (localStorage.shipTotPsgrVolume==undefined) {
-            localStorage.setItem("shipTotPsgrVolume", shipTotPsgrVolumeDefault) ;
-        } ;
-        
-        var shippingLineDefault = initializationShipArray[1][operatorIndex] ;
-        localStorage.setItem("shippingLineDefault", shippingLineDefault) ;
-        if (localStorage.shippingLine==undefined) {
-            localStorage.setItem("shippingLine", shippingLineDefault) ;
+    /* "CommemorationTimePeriodReprYr"  "CommemorationTimePeriodReprYrDefault"  "CommemorationTimePeriodReprYrDefaultAbbrev"  */
+    // ### this should always be calculated from Era.  Deprecate? ###
+        var CommemorationTimePeriodReprYrDefault = "1907";
+        localStorage.setItem("CommemorationTimePeriodReprYrDefault", CommemorationTimePeriodReprYrDefault) ;
+        if (localStorage.CommemorationTimePeriodReprYr==undefined) {
+            localStorage.setItem("CommemorationTimePeriodReprYr", CommemorationTimePeriodReprYrDefault) ;
         } ;
 
-        var TransportCraftDefault = "Pretoria(1890-1930)";
-        var TransportCraftAbbrevDefault = "Pretoria";
-        /* var TransportCraftImgFileName = "..."; */
-        localStorage.setItem("TransportCraftDefault", TransportCraftDefault) ;
-        if (localStorage.TransportCraft==undefined) {
-            localStorage.setItem("TransportCraft", TransportCraftDefault) ;
-            localStorage.setItem("TransportCraftAbbrev", TransportCraftAbbrevDefault) ;
-            /* localStorage.setItem("TransportCraftImageFileName", TransportCraftImgFileName) ; */
+    /* "EarliestPossibleYearOfCrossing"  "EarliestPossibleYearOfCrossingDefault"  "EarliestPossibleYearOfCrossingDefaultAbbrev"  */
+        var EarliestPossibleYearOfCrossingDefault = "1607";
+        localStorage.setItem("EarliestPossibleYearOfCrossingDefault", EarliestPossibleYearOfCrossingDefault) ;
+        if (localStorage.EarliestPossibleYearOfCrossing==undefined) {
+            localStorage.setItem("EarliestPossibleYearOfCrossing", EarliestPossibleYearOfCrossingDefault) ;
         } ;
 
-        var ShowTransportCraftImageDefault = "TypicalShip";
-        var ShowTransportCraftImageAbbrevDefault = "Typ";
-        /* var ShowTransportCraftImageImgFileName = "..."; */
-        localStorage.setItem("ShowTransportCraftImageDefault", ShowTransportCraftImageDefault) ;
-        if (localStorage.ShowTransportCraftImage==undefined) {
-            localStorage.setItem("ShowTransportCraftImage", ShowTransportCraftImageDefault) ;
-            localStorage.setItem("ShowTransportCraftImageAbbrev", ShowTransportCraftImageAbbrevDefault) ;
-            /* localStorage.setItem("ShowTransportCraftImageFileName", ShowTransportCraftImageFileName) ; */
+    /* "LatestPossibleYearOfCrossing"  "LatestPossibleYearOfCrossingDefault"  "LatestPossibleYearOfCrossingDefaultAbbrev"  */
+        var LatestPossibleYearOfCrossingDefault = "2019";
+        localStorage.setItem("LatestPossibleYearOfCrossingDefault", LatestPossibleYearOfCrossingDefault) ;
+        if (localStorage.LatestPossibleYearOfCrossing==undefined) {
+            localStorage.setItem("LatestPossibleYearOfCrossing", LatestPossibleYearOfCrossingDefault) ;
         } ;
 
-        /*
-        var webMapImg = localStorage.MapStyleImg ;
-        var webFrameImg = localStorage.FrameIg ;
-        var webShipImg = localStorage.shipPicImg ;
+    /* "YearOfCrossing"  "YearOfCrossingDefault"  "YearOfCrossingDefaultAbbrev"  */
+        var YearOfCrossingDefault = "1907";
+        localStorage.setItem("YearOfCrossingDefault", YearOfCrossingDefault) ;
+        if (localStorage.YearOfCrossing==undefined) {
+            localStorage.setItem("YearOfCrossing", YearOfCrossingDefault) ;
+        } ;
 
-        var webMapImg =   '\"https://cdn.shopify.com/s/files/1/1336/0641/files/2016-NAtlantic-MayanGlow-640pxW.png\" ' ;
-        var webShipImg =      '\"https://cdn.shopify.com/s/files/1/1336/0641/files/St_Paul-24-640pxW.jpg\" ' ;
-        var webFrameImg =     '\"https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-640pxW.png\" ' ; 
-        var webMapImgDefault = '\"https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png?5705690595026422411\" ' ;
-        */
+    /* "currRteMapFile"  "currRteMapFileDefault"  "currRteMapFileDefaultAbbrev"  */
+        var currRteMapFileDefault = "1910-Routes-EuM_256x256.png";
+        localStorage.setItem("currRteMapFileDefault", currRteMapFileDefault) ;
+        if (localStorage.currRteMapFile==undefined) {
+            localStorage.setItem("currRteMapFile", currRteMapFileDefault) ;
+        } ;
 
-        /*
-         * var webMapImgDefault = "https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png?5705690595026422411" ;
-         */
-        var webMapImgDefault = "EuM-Liner-Pari.png" ;
+
+    /* "currRteMapYear"  "currRteMapYearDefault"  "currRteMapYearDefaultAbbrev"  */
+        var currRteMapYearDefault = "1910";
+        localStorage.setItem("currRteMapYearDefault", currRteMapYearDefault) ;
+        if (localStorage.currRteMapYear==undefined) {
+            localStorage.setItem("currRteMapYear", currRteMapYearDefault) ;
+        } ;
+
+    /* "prevRteMapYear"  "prevRteMapYearDefault"  "prevRteMapYearDefaultAbbrev"  */
+    // ### Shouldn't the previous to 1910 be 1905?. ###
+        var prevRteMapYearDefault = "1900";
+        localStorage.setItem("prevRteMapYearDefault", prevRteMapYearDefault) ;
+        if (localStorage.prevRteMapYear==undefined) {
+            localStorage.setItem("prevRteMapYear", prevRteMapYearDefault) ;
+        } ;
+
+    /* "nextRteMapYear"  "nextRteMapYearDefault"  "nextRteMapYearDefaultAbbrev"  */
+    // ### seems this is not getting set on the "When" page. ###
+        var nextRteMapYearDefault = "1914";
+        localStorage.setItem("nextRteMapYearDefault", nextRteMapYearDefault) ;
+        if (localStorage.nextRteMapYear==undefined) {
+            console.log("Setting nextRteMapYear to "+nextRteMapYearDefault) ;
+            localStorage.setItem("nextRteMapYear", nextRteMapYearDefault) ;
+        } ;
+
+/* 
+Fifth page (8/02/2019) == Origins Text Box Line 1. 
+"###title?### Origins: 1.d From Where did this First Generation come?"
+### anything like "seaLaneDepartureCountries" on this page? ###
+*/
+
+    /* "originsTextBoxL1"  "originsTextBoxL1Default"  "originsTextBoxL1DefaultAbbrev"  */
+        var originsTextBoxL1Default = "Origin: The Old World";
+        localStorage.setItem("originsTextBoxL1Default", originsTextBoxL1Default) ;
+        if (localStorage.originsTextBoxL1==undefined) {
+            localStorage.setItem("originsTextBoxL1", originsTextBoxL1Default) ;
+        } ;
+
+
+    /* "originsTextBoxL2"  "originsTextBoxL2Default"  "originsTextBoxL2DefaultAbbrev"  */
+        var originsTextBoxL2Default = "Crossing: The North Atlantic";
+        localStorage.setItem("originsTextBoxL2Default", originsTextBoxL2Default) ;
+        if (localStorage.originsTextBoxL2==undefined) {
+            localStorage.setItem("originsTextBoxL2", originsTextBoxL2Default) ;
+        } ;
+
+
+    /* "AreaOfOrigin"  "AreaOfOriginDefault"  "AreaOfOriginDefaultAbbrev"  */
+        var AreaOfOriginDefault = "Western Europe";
+        localStorage.setItem("AreaOfOriginDefault", AreaOfOriginDefault) ;
+        if (localStorage.AreaOfOrigin==undefined) {
+            localStorage.setItem("AreaOfOrigin", AreaOfOriginDefault) ;
+        } ;
+
+
+    /* "CountryOfOrigin"  "CountryOfOriginDefault"  "CountryOfOriginDefaultAbbrev"  */
+        var CountryOfOriginDefault = "United Kingdom";
+        localStorage.setItem("CountryOfOriginDefault", CountryOfOriginDefault) ;
+        if (localStorage.CountryOfOrigin==undefined) {
+            localStorage.setItem("CountryOfOrigin", CountryOfOriginDefault) ;
+        } ;
+
+
+    /* "ProvinceOfOrigin"  "ProvinceOfOriginDefault"  "ProvinceOfOriginDefaultAbbrev"  */
+        var ProvinceOfOriginDefault = "";
+        localStorage.setItem("ProvinceOfOriginDefault", ProvinceOfOriginDefault) ;
+        if (localStorage.ProvinceOfOrigin==undefined) {
+            localStorage.setItem("ProvinceOfOrigin", ProvinceOfOriginDefault) ;
+        } ;
+
+
+    /* "CityOfOrigin"  "CityOfOriginDefault"  "CityOfOriginDefaultAbbrev"  */
+        var CityOfOriginDefault = "";
+        localStorage.setItem("CityOfOriginDefault", CityOfOriginDefault) ;
+        if (localStorage.CityOfOrigin==undefined) {
+            localStorage.setItem("CityOfOrigin", CityOfOriginDefault) ;
+        } ;
+
+/* 
+Sixth page (8/02/2019) == Origins Text Box Line 2. 
+
+OriginsLine1&2 are already defined
+
+###
+
+  Issues with the titling of this file:
+
+"Title: 1.d From Where did this First Generation come?"
+want something like:
+"origins: 1.d From Where did this First Gen leave?"
+change page to correct page
+change page to page.initialize-jimaworks
+
+The following probably shouldn't be localStorage:
+
+    localStorage.ArrivalPortSortMethod = "alpha" ;
+    localStorage.DeparturePortSortMethod = "alpha" ;
+
+    localStorage.ArrivalPortFilter = "filterArrivalPortsByRegion" ;
+    localStorage.DeparturePortFilter = "filterDeparturePortsByRegion" ;
+
+###
+
+*/
+
+    /* "AreaOfDeparture"  "AreaOfDepartureDefault"  "AreaOfDepartureDefaultAbbrev"  */
+        var AreaOfDepartureDefault = "Western Europe";
+        localStorage.setItem("AreaOfDepartureDefault", AreaOfDepartureDefault) ;
+        if (localStorage.AreaOfDeparture==undefined) {
+            localStorage.setItem("AreaOfDeparture", AreaOfDepartureDefault) ;
+        } ;
+
+    /* "SeaLane"  "SeaLaneDefault"  "SeaLaneDefaultAbbrev"  */
+    // ### these are expressed as plural but would be referring singularly to someone's crossing ###
+        var SeaLaneDefault = "EnglishChannelRoutes";
+        localStorage.setItem("SeaLaneDefault", SeaLaneDefault) ;
+        if (localStorage.SeaLane==undefined) {
+            localStorage.setItem("SeaLane", SeaLaneDefault) ;
+        } ;
+
+    /* "DepartureCountry"  "DepartureCountryDefault"  "DepartureCountryDefaultAbbrev"  */
+    // ### replacing the very long 'United Kingdom of Great Britain and Northern Ireland' with just UK ###
+        var DepartureCountryDefault = "United Kingdom";
+        localStorage.setItem("DepartureCountryDefault", DepartureCountryDefault) ;
+        if (localStorage.DepartureCountry==undefined) {
+            localStorage.setItem("DepartureCountry", DepartureCountryDefault) ;
+        } ;
+
+    /* "PortOfDeparture"  "PortOfDepartureDefault"  "PortOfDepartureDefaultAbbrev"  */
+        var PortOfDepartureDefault = "Southampton";
+        localStorage.setItem("PortOfDepartureDefault", PortOfDepartureDefault) ;
+        if (localStorage.PortOfDeparture==undefined) {
+            localStorage.setItem("PortOfDeparture", PortOfDepartureDefault) ;
+        } ;
+
+    /* "seaLaneDepartureCountries"  "seaLaneDepartureCountriesDefault"  "seaLaneDepartureCountriesDefaultAbbrev"  */
+    // ### replacing the very long 'United Kingdom of Great Britain and Northern Ireland' with just UK ###
+    // ### Seems like a duplicate ###
+        var seaLaneDepartureCountriesDefault = "United Kingdom";
+        localStorage.setItem("seaLaneDepartureCountriesDefault", seaLaneDepartureCountriesDefault) ;
+        if (localStorage.seaLaneDepartureCountries==undefined) {
+            localStorage.setItem("seaLaneDepartureCountries", seaLaneDepartureCountriesDefault) ;
+        } ;
+
+    /* "ArrivalPortSortMethod"  "ArrivalPortSortMethodDefault"  "ArrivalPortSortMethodDefaultAbbrev"  */
+        var ArrivalPortSortMethodDefault = "alpha";
+        localStorage.setItem("ArrivalPortSortMethodDefault", ArrivalPortSortMethodDefault) ;
+        if (localStorage.ArrivalPortSortMethod==undefined) {
+            localStorage.setItem("ArrivalPortSortMethod", ArrivalPortSortMethodDefault) ;
+        } ;
+//### setting defaults to "", but check below here for required definitions for some defaults ###
+    /* "ArrivalPortFilter"  "ArrivalPortFilterDefault"  "ArrivalPortFilterDefaultAbbrev"  */
+        var ArrivalPortFilterDefault = "";
+        localStorage.setItem("ArrivalPortFilterDefault", ArrivalPortFilterDefault) ;
+        if (localStorage.ArrivalPortFilter==undefined) {
+            localStorage.setItem("ArrivalPortFilter", ArrivalPortFilterDefault) ;
+        } ;
+
+    /* "ArrivalPortStruct"  "ArrivalPortStructDefault"  "ArrivalPortStructDefaultAbbrev"  */
+        var ArrivalPortStructDefault = "";
+        localStorage.setItem("ArrivalPortStructDefault", ArrivalPortStructDefault) ;
+        if (localStorage.ArrivalPortStruct==undefined) {
+            localStorage.setItem("ArrivalPortStruct", ArrivalPortStructDefault) ;
+        } ;
+
+    /* "arrivalPort"  "arrivalPortDefault"  "arrivalPortDefaultAbbrev"  */
+        var arrivalPortDefault = "";
+        localStorage.setItem("arrivalPortDefault", arrivalPortDefault) ;
+        if (localStorage.arrivalPort==undefined) {
+            localStorage.setItem("arrivalPort", arrivalPortDefault) ;
+        } ;
+
+    /* "DeparturePortSortMethod"  "DeparturePortSortMethodDefault"  "DeparturePortSortMethodDefaultAbbrev"  */
+        var DeparturePortSortMethodDefault = "";
+        localStorage.setItem("DeparturePortSortMethodDefault", DeparturePortSortMethodDefault) ;
+        if (localStorage.DeparturePortSortMethod==undefined) {
+            localStorage.setItem("DeparturePortSortMethod", DeparturePortSortMethodDefault) ;
+        } ;
+
+    /* "DeparturePortFilter"  "DeparturePortFilterDefault"  "DeparturePortFilterDefaultAbbrev"  */
+        var DeparturePortFilterDefault = "";
+        localStorage.setItem("DeparturePortFilterDefault", DeparturePortFilterDefault) ;
+        if (localStorage.DeparturePortFilter==undefined) {
+            localStorage.setItem("DeparturePortFilter", DeparturePortFilterDefault) ;
+        } ;
+
+    /* "DeparturePortStruct"  "DeparturePortStructDefault"  "DeparturePortStructDefaultAbbrev"  */
+        var DeparturePortStructDefault = "";
+        localStorage.setItem("DeparturePortStructDefault", DeparturePortStructDefault) ;
+        if (localStorage.DeparturePortStruct==undefined) {
+            localStorage.setItem("DeparturePortStruct", DeparturePortStructDefault) ;
+        } ;
+
+    /* "departurePort"  "departurePortDefault"  "departurePortDefaultAbbrev"  */
+        var departurePortDefault = "";
+        localStorage.setItem("departurePortDefault", departurePortDefault) ;
+        if (localStorage.departurePort==undefined) {
+            localStorage.setItem("departurePort", departurePortDefault) ;
+        } ;
+
+    /* "webMapImg"  "webMapImgDefault"  "webMapImgDefaultAbbrev"  */
+   //### ParisSage, but coordinating with the StPaul default.. ###
+        var webMapImgDefault = "EuM-Liner-Pari.png";
         localStorage.setItem("webMapImgDefault", webMapImgDefault) ;
         if (localStorage.webMapImg==undefined) {
             localStorage.setItem("webMapImg", webMapImgDefault) ;
         } ;
 
-        var MapStyleDefault = "ParisSage";
-        var MapStyleAbbrevDefault = "Pari";
+/* 
+Seventh page (8/02/2019) == Destination Text Box Line 1. 
+
+3. American Destiny. Where did they land?
+
+https://jimaworks.com/pages/textbox3-destination-where-did-they-land
+
+OriginsLine1&2 are already defined
+
+###
+
+  Issues with the titling of this file:
+
+Lne 669:  else if (localStorage.PortOfDeparture != selPort) {
+          ### set up graphics ### 
+      portInfoStr = extractPortInfoFromName(selPort, "arrivalPort") ;
+      RecordNewPortChoice(selPort, portInfoStr, portRole) ;       
+      localStorage.PortOfEntry = selPort ;
+  }
+  console.log("ChangeCountryPortsList() selPort(###change###)=="+selPort)
+
+line 727: function portsState(port) {
+    // ### find the port's info and extract the country it's from ###
+    if (localStorage.EntryState != 'Unk') {
+        return(localStorage.EntryStat) ;     
+    }
+    else { // ### add in the port's country ###
+        return("portsState(PortOfEntry)") ;                 
+    }
+}
+
+line 811 (and thereafter) : function UserProvidedPlacename(locationType) {
+    var newPlaceName ;
+    if (locationType=="homeProvince") {
+        newPlaceName = prompt("Enter the name of the home province.") ;
+        localStorage.DepartureCountry = newPlaceName ;
+        return(newPlaceName) ;
+    }
+...
+RegionOfOrigin; Arrival/Departure Port/struct/Sort/Filter options; webMapImg
+
+###
+
+*/
+
+    /* "DestinyLine1"  "DestinyLine1Default"  "DestinyLine1DefaultAbbrev"  */
+        var DestinyLine1Default = "";
+        localStorage.setItem("DestinyLine1Default", DestinyLine1Default) ;
+        if (localStorage.DestinyLine1==undefined) {
+            localStorage.setItem("DestinyLine1", DestinyLine1Default) ;
+        } ;
+
+    /* "DestinyLine2"  "DestinyLine2Default"  "DestinyLine2DefaultAbbrev"  */
+        var DestinyLine2Default = "";
+        localStorage.setItem("DestinyLine2Default", DestinyLine2Default) ;
+        if (localStorage.DestinyLine2==undefined) {
+            localStorage.setItem("DestinyLine2", DestinyLine2Default) ;
+        } ;
+
+    /* "RegionOfArrival"  "RegionOfArrivalDefault"  "RegionOfArrivalDefaultAbbrev"  */
+        var RegionOfArrivalDefault = "";
+        localStorage.setItem("RegionOfArrivalDefault", RegionOfArrivalDefault) ;
+        if (localStorage.RegionOfArrival==undefined) {
+            localStorage.setItem("RegionOfArrival", RegionOfArrivalDefault) ;
+        } ;
+
+    /* "Approaches"  "ApproachesDefault"  "ApproachesDefaultAbbrev"  */
+        var ApproachesDefault = "";
+        localStorage.setItem("ApproachesDefault", ApproachesDefault) ;
+        if (localStorage.Approaches==undefined) {
+            localStorage.setItem("Approaches", ApproachesDefault) ;
+        } ;
+
+    /* "EntryState"  "EntryStateDefault"  "EntryStateDefaultAbbrev"  */
+        var EntryStateDefault = "";
+        localStorage.setItem("EntryStateDefault", EntryStateDefault) ;
+        if (localStorage.EntryState==undefined) {
+            localStorage.setItem("EntryState", EntryStateDefault) ;
+        } ;
+
+    /* "PortOfEntry"  "PortOfEntryDefault"  "PortOfEntryDefaultAbbrev"  */
+        var PortOfEntryDefault = "";
+        localStorage.setItem("PortOfEntryDefault", PortOfEntryDefault) ;
+        if (localStorage.PortOfEntry==undefined) {
+            localStorage.setItem("PortOfEntry", PortOfEntryDefault) ;
+        } ;
+
+/* 
+Eighth page (8/02/2019) == Destination Text Box Line 2. 
+
+3: Destination: Where did they end up?
+
+https://jimaworks.com/pages/textbox3-destination-where-did-they-end-up
+
+DestinyLine1&2 are already defined
+
+###
+
+    Issues with the titling of this file:
+
+    RegionOfOrigin; Arrival/Departure Port/struct/Sort/Filter options; webMapImg
+
+###
+      localStorage.DestinationSection = selSection ;
+      localStorage.DestinationState = 'Unk' ;
+      localStorage.DestinationCounty = 'Unk' ;
+      localStorage.DestinationCity = 'Unk' ;
+*/
+
+    /* "DestinationSection"  "DestinationSectionDefault"  "DestinationSectionDefaultAbbrev"  */
+        var DestinationSectionDefault = "";
+        localStorage.setItem("DestinationSectionDefault", DestinationSectionDefault) ;
+        if (localStorage.DestinationSection==undefined) {
+            localStorage.setItem("DestinationSection", DestinationSectionDefault) ;
+        } ;
+
+
+    /* "DestinationState"  "DestinationStateDefault"  "DestinationStateDefaultAbbrev"  */
+        var DestinationStateDefault = "";
+        localStorage.setItem("DestinationStateDefault", DestinationStateDefault) ;
+        if (localStorage.DestinationState==undefined) {
+            localStorage.setItem("DestinationState", DestinationStateDefault) ;
+        } ;
+
+
+    /* "DestinationCounty"  "DestinationCountyDefault"  "DestinationCountyDefaultAbbrev"  */
+        var DestinationCountyDefault = "";
+        localStorage.setItem("DestinationCountyDefault", DestinationCountyDefault) ;
+        if (localStorage.DestinationCounty==undefined) {
+            localStorage.setItem("DestinationCounty", DestinationCountyDefault) ;
+        } ;
+
+
+    /* "DestinationCity"  "DestinationCityDefault"  "DestinationCityDefaultAbbrev"  */
+        var DestinationCityDefault = "";
+        localStorage.setItem("DestinationCityDefault", DestinationCityDefault) ;
+        if (localStorage.DestinationCity==undefined) {
+            localStorage.setItem("DestinationCity", DestinationCityDefault) ;
+        } ;
+
+/* 
+Ninth page (8/02/2019) == Type of Ship Image. 
+
+Ship Image - Options
+
+https://jimaworks.com/pages/000-knownshipoptions
+
+DestinyLine1&2 are already defined
+
+###
+
+    Issues with this file:
+
+    localStorage.ShipName in comments - add a bunch of shipinfo elements?
+    frame variables in comments
+    
+    Should not be defining ship info when just figuring out what kind of rendering is desired...
+
+###
+*/
+    /* "ShipInfoLine1"  "ShipInfoLine1Default"  "ShipInfoLine1DefaultAbbrev"  */
+        var ShipInfoLine1Default = "";
+        localStorage.setItem("ShipInfoLine1Default", ShipInfoLine1Default) ;
+        if (localStorage.ShipInfoLine1==undefined) {
+            localStorage.setItem("ShipInfoLine1", ShipInfoLine1Default) ;
+        } ;
+
+
+    /* "ShipInfoLine2"  "ShipInfoLine2Default"  "ShipInfoLine2DefaultAbbrev"  */
+        var ShipInfoLine2Default = "";
+        localStorage.setItem("ShipInfoLine2Default", ShipInfoLine2Default) ;
+        if (localStorage.ShipInfoLine2==undefined) {
+            localStorage.setItem("ShipInfoLine2", ShipInfoLine2Default) ;
+        } ;
+
+    /* "ShipSort"  "ShipSortDefault"  "ShipSortDefaultAbbrev"  */
+        var ShipSortDefault = "";
+        localStorage.setItem("ShipSortDefault", ShipSortDefault) ;
+        if (localStorage.ShipSort==undefined) {
+            localStorage.setItem("ShipSort", ShipSortDefault) ;
+        } ;
+
+//### okay - going for the StPaul as the initial try here...  Have to collect all the relevant info for it ###
+    /* "shipPic"  "shipPicDefault"  "shipPicDefaultAbbrev"  */
+        var shipPicDefault = "jimaworksStPaul640.png";
+        localStorage.setItem("shipPicDefault", shipPicDefault) ;
+        if (localStorage.shipPic==undefined) {
+            localStorage.setItem("shipPic", shipPicDefault) ;
+        } ;
+        
+/* 
+Ten(a)th page (8/02/2019) == Historic Ship Image. 
+
+4. How did they get here? The Ship.
+
+https://jimaworks.com/pages/textbox4-tripinfo-how-did-they-get-here
+
+###
+
+    Issues with this file:
+    
+    Close parallel to the jimaworks-made file.  Unify through common functions.
+    
+ > note: *not* using:
+ 
+        1.g.i. Historical Ship Imagery
+        https://jimaworks.com/pages/1-g-i-historical-ship-imagery
+
+ > a lot of these variables should be re-constructable from ship info avail at reconstruct time...
+ 
+    localStorage.ShipSort, shipPic, ShipInfo1&2, Earlieist/LatestPossibleYearOfCrossing, already defined
+    localStorage.shipEra - not defined before used?
+    localStorage.shipCareerStart
+    localStorage.shipCareerEnd
+    localStorate.shipName
+ 
+    localStorage.setItem("TransportCraft")  ...but dont really want this terminology
+    localStorage.shipEra 
+    localStorage.setItem("shipName"
+    localStorage.setItem("shippingLine"
+    localStorage.setItem("shipTotPsgrVolume"
+    localStorage.setItem("shipCareerStart"
+    localStorage.setItem("shipCareerEnd"
+    localStorage.setItem("shipImageIndex", shipImageIndex) ;
+    localStorage.shipImageTransparentBackground
+    localStorage.setItem("shipImageType"    
+    }
+    
+Might add:
+Ship length, 
+width, 
+tons, p
+assengers, 
+routes...
+###
+
+### not sure what this was being used for: ###
+*/
+     /* "ShowTransportCraftImage"  "ShowTransportCraftImageDefault"  "ShowTransportCraftImageDefaultAbbrev"  */
+        var ShowTransportCraftImageDefault = "TypicalShip";
+        var ShowTransportCraftImageAbbrevDefault = "Typ";
+        //var ShowTransportCraftImageImgFileName = "...";
+        localStorage.setItem("ShowTransportCraftImageDefault", ShowTransportCraftImageDefault) ;
+        if (localStorage.ShowTransportCraftImage==undefined) {
+            localStorage.setItem("ShowTransportCraftImage", ShowTransportCraftImageDefault) ;
+            localStorage.setItem("ShowTransportCraftImageAbbrev", ShowTransportCraftImageAbbrevDefault) ;
+            //localStorage.setItem("ShowTransportCraftImageFileName", ShowTransportCraftImageFileName) ;
+        } ;
+
+
+//### StPaul as the initial default ...  Collecting all the relevant info for it (from prev invocation of code) ###
+
+
+    /* "TransportCraft"  "TransportCraftDefault"  "TransportCraftDefaultAbbrev"  */
+// ### really would like to get rid of "transportCraft".  Substitute?  Vessel?  Completely fork planes vs boats? ###
+        var TransportCraftDefault = "St.Paul";
+         localStorage.setItem("TransportCraftDefault", TransportCraftDefault) ;
+        if (localStorage.TransportCraft==undefined) {
+            localStorage.setItem("TransportCraft", TransportCraftDefault) ;
+        } ;
+
+    /* "shipEra"  "shipEraDefault"  "shipEraDefaultAbbrev"  */
+        var shipEraDefault = "EraOfThePassengerLiner(1895-1970)";
+        localStorage.setItem("shipEraDefault", shipEraDefault) ;
+        if (localStorage.shipEra==undefined) {
+            localStorage.setItem("shipEra", shipEraDefault) ;
+        } ;
+
+    /* "shipName"  "shipNameDefault"  "shipNameDefaultAbbrev"  */
+        var shipNameDefault = "St.Paul";
+        localStorage.setItem("shipNameDefault", shipNameDefault) ;
+        if (localStorage.shipName==undefined) {
+            localStorage.setItem("shipName", shipNameDefault) ;
+        } ;
+
+    /* "shippingLine"  "shippingLineDefault"  "shippingLineDefaultAbbrev"  */
+        var shippingLineDefault = "American";
+        localStorage.setItem("shippingLineDefault", shippingLineDefault) ;
+        if (localStorage.shippingLine==undefined) {
+            localStorage.setItem("shippingLine", shippingLineDefault) ;
+        } ;
+
+    /* "shipTotPsgrVolume"  "shipTotPsgrVolumeDefault"  "shipTotPsgrVolumeDefaultAbbrev"  */
+        var shipTotPsgrVolumeDefault = "";
+        localStorage.setItem("shipTotPsgrVolumeDefault", shipTotPsgrVolumeDefault) ;
+        if (localStorage.shipTotPsgrVolume==undefined) {
+            localStorage.setItem("shipTotPsgrVolume", shipTotPsgrVolumeDefault) ;
+        } ;
+
+    /* "shipCareerStart"  "shipCareerStartDefault"  "shipCareerStartDefaultAbbrev"  */
+        var shipCareerStartDefault = "1895";
+        localStorage.setItem("shipCareerStartDefault", shipCareerStartDefault) ;
+        if (localStorage.shipCareerStart==undefined) {
+            localStorage.setItem("shipCareerStart", shipCareerStartDefault) ;
+        } ;
+
+    /* "shipCareerEnd"  "shipCareerEndDefault"  "shipCareerEndDefaultAbbrev"  */
+        var shipCareerEndDefault = "1923";
+        localStorage.setItem("shipCareerEndDefault", shipCareerEndDefault) ;
+        if (localStorage.shipCareerEnd==undefined) {
+            localStorage.setItem("shipCareerEnd", shipCareerEndDefault) ;
+        } ;
+
+    /* "shipImageIndex"  "shipImageIndexDefault"  "shipImageIndexDefaultAbbrev"  */
+        var shipImageIndexDefault = "0";
+        localStorage.setItem("shipImageIndexDefault", shipImageIndexDefault) ;
+        if (localStorage.shipImageIndex==undefined) {
+            localStorage.setItem("shipImageIndex", shipImageIndexDefault) ;
+        } ;
+
+    /* "shipImageTransparentBackground"  "shipImageTransparentBackgroundDefault"  "shipImageTransparentBackgroundDefaultAbbrev"  */
+// ### transparent... shouldn't the value here be "transparent" instead of "t"? ###
+        var shipImageTransparentBackgroundDefault = "t";
+        localStorage.setItem("shipImageTransparentBackgroundDefault", shipImageTransparentBackgroundDefault) ;
+        if (localStorage.shipImageTransparentBackground==undefined) {
+            localStorage.setItem("shipImageTransparentBackground", shipImageTransparentBackgroundDefault) ;
+        } ;
+
+    /* "shipImageType"  "shipImageTypeDefault"  "shipImageTypeDefaultAbbrev"  */
+// ### unused? ###
+        var shipImageTypeDefault = "";
+        localStorage.setItem("shipImageTypeDefault", shipImageTypeDefault) ;
+        if (localStorage.shipImageType==undefined) {
+            localStorage.setItem("shipImageType", shipImageTypeDefault) ;
+        } ;
+
+/* 
+Ten(b)th page (8/02/2019) == jimaworks Ship Image. 
+
+1.g.ii. jimaworks-made Ship Imagery
+
+https://jimaworks.com/pages/1-g-ii-jimaworks-madeshipimagery
+
+###
+
+    Issues with the titling of this file:
+ > a lot of these variables should be re-constructable from ship info avail at reconstruct time...
+ > "EraOfCrossing", "localStorage.ShipFilter" in the comments
+ > lots of previously defined vars used
+ > Should be the same as Ten(a)th page
+ > finished Ten(a)?  Seem to be some additions
+ 
+localStorage.userProvidedShipName    
+
+###
+
+*/
+
+    /* "userProvidedShipName"  "userProvidedShipNameDefault"  "userProvidedShipNameDefaultAbbrev"  */
+        var userProvidedShipNameDefault = "";
+        localStorage.setItem("userProvidedShipNameDefault", userProvidedShipNameDefault) ;
+        if (localStorage.userProvidedShipName==undefined) {
+            localStorage.setItem("userProvidedShipName", userProvidedShipNameDefault) ;
+        } ;
+
+
+/* 
+Eleventh page (8/02/2019) == maps. 
+
+2: Define the Look and Feel of your Commemoration. a: Your Map.
+
+https://jimaworks.com/pages/1-c-map-background
+###
+
+    Issues with this file:
+ > 
+ 
+ Uses:
+ localStorage.RegionOfOrigin
+ localStorage.Era
+    var currTransportCraft = localStorage.TransportCraft;
+    var currShipName = localStorage.shipName;
+    var currShipImg = localStorage.shipPic;
+localStorage.shipImageTransparentBackground
+
+defines; 
+        localStorage.setItem("MapStyle", styleName) ;
+  
+###
+
+*/
+
+    /* "MapStyle"  "MapStyleDefault"  "MapStyleDefaultAbbrev"  */ 
+        var MapStyleDefault = "ParisSage" ;
+        var MapStyleAbbrevDefault = "Pari" ;
         /* var MapStyleImgFileName = "..."; */
         localStorage.setItem("MapStyleDefault", MapStyleDefault) ;
         if (localStorage.MapStyle==undefined) {
@@ -245,8 +880,31 @@ function initializeDefaults() {
             /* localStorage.setItem("MapStyleImageFileName", MapStyleImgFileName) ; */
         } ;
 
-        var FrameDefault = "BlackWalnut";
-        var FrameAbbrevDefault = "Wal";
+/* 
+Twelfth page (8/02/2019) == choose a format. 
+
+Choose a format for your RelationShips delivery
+
+https://jimaworks.com/pages/choose-a-format-for-your-relationships-delivery
+###
+
+    Issues with this file:
+ > 
+ 
+ Uses:
+
+
+defines; 
+localStorage.setItem("Frame", "NoFrame") ;
+localStorage.setItem("FrameImg"
+  
+###
+
+*/
+
+    /* "Frame"  "FrameDefault"  "FrameDefaultAbbrev"  */ 
+        var FrameDefault = "BlackWalnut" ;
+        var FrameAbbrevDefault = "Walnut" ;
         /* var FrameImgFileName = "..."; */
         localStorage.setItem("FrameDefault", FrameDefault) ;
         if (localStorage.Frame==undefined) {
@@ -255,6 +913,182 @@ function initializeDefaults() {
             /* localStorage.setItem("FrameImageFileName", FrameImgFileName) ; */
         } ;
 
+    /* "FrameImg"  "FrameImgDefault"  "FrameImgDefaultAbbrev"  */
+    // ### got the default by comparing prev code in Safari w new code in Chrome...  ###
+        var FrameImgDefault = "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoRuler-72ppi.png";
+        localStorage.setItem("FrameImgDefault", FrameImgDefault) ;
+        if (localStorage.FrameImg==undefined) {
+            localStorage.setItem("FrameImg", FrameImgDefault) ;
+        } ;
+
+/* 
+Thirteenth page (8/02/2019) ... depending on path.  Could be frame, or could be at the accordian page...
+
+2. b: Pick your Frame.
+
+https://jimaworks.com/pages/2-the-frame
+###
+
+    Issues with this file:
+ > 
+ 
+ Uses:
+        localStorage.setItem("Frame", styleName) ;
+        localStorage.setItem("FrameAbbrev", styleAbbrev) ; // ### changed from mapStyleAbbrevs[styleIndex] ; ###
+        localStorage.setItem("FrameImg", styleImageFileNm) ; // ### FrameImg anywhere else? ###
+        localStorage.RegionOfOrigin;
+        localStorage.Era
+        localStorage.TransportCraft
+        localStorage.shipName
+        localStorage.shipPic
+        localStorage.shipImageTransparentBackground
+        localStorage.MapStyle
+
+defines; 
+        >> doesn't define but does set new value to localStorage.setItem("Frame", styleName)
+  
+###
+
+*/
+
+
+/* 
+Fourteenth page (8/02/2019) == accordian page (if not already there). 
+
+RelationShips commemoration - Framed
+
+https://jimaworks.com/products/genericrelationshipsproduct-framed
+###
+
+    Issues with this file:
+ > 
+ 
+ Uses:
+      var origins = localStorage.RegionOfOrigin;
+      var Era = localStorage.Era;
+      var shipImgTransparentBackground = localStorage.shipImageTransparentBackground ;
+      var webFrame = localStorage.Frame ;
+      var webMapImgName = localStorage.webMapImg ;
+      var webShipImgName = localStorage.shipPic ;      
+
+      document.getElementById("map-style").value = localStorage.MapStyle ;
+      document.getElementById("time-period").value = localStorage.Era ;
+      document.getElementById("region-of-origin").value = localStorage.RegionOfOrigin ;
+      document.getElementById("routes").value = localStorage.Routes ;  ### undefined in this page ###
+      document.getElementById("ship-name").value = localStorage.shipName ;
+      document.getElementById("departure-port").value = localStorage.departurePort ; ### undefined in this page ###
+      document.getElementById("arrival-port").value = localStorage.arrivalPort ; ### undefined in this page ###
+>>?      document.getElementById("seascape").value = localStorage.seascape ; ### undefined in this page ###
+      document.getElementById("frame").value = localStorage.Frame ;
+      document.getElementById("size").value = localStorage.Size ;
+      document.getElementById("year").value = localStorage.YearOfCrossing ;
+
+      if(localStorage.TitleLine1==undefined) {document.getElementById("title-line-1").value="" ;}
+      if(localStorage.TitleLine2==undefined) {document.getElementById("title-line-2").value="" ;}
+      if(localStorage.TitleLine3==undefined) {document.getElementById("title-line-3").value="" ;}
+      if(localStorage.OriginsLine1==undefined) {document.getElementById("trailer-line-1").value="" ;}
+      if(localStorage.OriginsLine2==undefined) {document.getElementById("trailer-line-2").value="" ;}
+>>    if(localStorage.DestinyLine1==undefined) {document.getElementById("trailer-line-3").value="" ;}
+>>    if(localStorage.DestinyLine2==undefined) {document.getElementById("arrival-line-2").value="" ;}
+>>    in comment: localStorage.CommemorationTimePeriodStart
+>>    in comment: localStorage.CommemorationTimePeriodEnd
+      if (localStorage.Era == 'EraOfAirTravel(1945-Present)') {crossingTypeString='The Plane'} else 'The Ship'   .
+      if (localStorage.Era == 'EraOfAirTravel(1945-Present)') {document.write('Plane Information')} else {document.write('Ship Information')}
+>>    in comments: if (localStorage.Era == 'ColonialAndEarlyIndependenceEra(1607-1820)') {carrierNumPassengers = 60 ; carrierVoyageDuration = "2-3 months" ;}
+>>    in comments: 
+        if (localStorage.ShowTransportCraftImage=="NoShip") {
+            shipInfoLine1 ="Typical "+crossingTypeString+" of this era: "+carrierNumPassengers+" passengers." ;
+            shipInfoLine2 ="Length of the cross-ocean voyage: about "+carrierVoyageDuration+"." ;
+        }
+        else if (localStorage.ShowTransportCraftImage=="TypicalShip") {
+            shipInfoLine1 ="Typical "+crossingTypeString+" of this era: the "+carrierName+"." ;
+            shipInfoLine2 ="Length of the cross-ocean voyage: about "+carrierVoyageDuration+"." ;
+        }
+        else if (localStorage.ShowTransportCraftImage=="KnownShip") {
+            shipInfoLine1 ="The "+crossingTypeString+" of this crossing was the "+carrierName ;
+            shipInfoLine2 ="Duration of its crossing: about "+carrierVoyageDuration+"." ;
+        }
+        else {
+            shipInfoLine1 ="The Voyage.  Approximate Duration:" ;
+            shipInfoLine2 ="1700: 2 Mo. 1900: 2 Wks.  Present: 6 Hrs" ;
+            console.log("Error in 'generateShipInfoLine()' - undefined ShowTransportCraftImage value") ;
+            }
+>>    end in comments
+
+      line 713:  ### not sure this is all right.  Mixing up Destiny and ShipInfo lines?
+      
+      if(localStorage.DestinyLine1==undefined) {document.getElementById("shipping-line-1").value="" ;}
+      else {document.getElementById("shipping-line-1").value=localStorage.ShipInfoLine1 ;}
+      
+      if(localStorage.DestinyLine2==undefined) {document.getElementById("shipping-line-2").value="" ;}
+      else {document.getElementById("shipping-line-2").value=localStorage.ShipInfoLine2 ;} ;
+      
+      if(localStorage.DestinyLine2==undefined) {document.getElementById("shipping-line-3").value="" ;}
+      else {document.getElementById("shipping-line-3").value=localStorage.ShipInfoLine3 ; } ;
+     
+     line 777:  ### similarly not completley sure this is totally right.  Mixing up Destiny and Plaque lines?
+       if((localStorage.DestinyLine1==undefined)||(localStorage.DestinyLine1==undefined)) 
+            {document.getElementById("plaque-line-1").value="" ;}
+        else {document.getElementById("plaque-line-1").value=localStorage.PlaqueLine1 ;}
+        
+        if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined"))
+            {document.getElementById("plaque-line-2").value="" ;}
+        else {document.getElementById("plaque-line-2").value=localStorage.PlaqueLine2 ;}
+        
+        if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined")) 
+            {document.getElementById("plaque-line-2").value="" ;}
+        else {document.getElementById("plaque-line-2").value=localStorage.PlaqueLine2 ;}
+        
+        if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined"))
+            {document.getElementById("plaque-line-3").value="" ;}
+        else {document.getElementById("plaque-line-3").value=localStorage.PlaqueLine3 ;} ;
+        
+        if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined"))
+            {document.getElementById("plaque-line-4").value="" ;}
+        else {document.getElementById("plaque-line-4").value=localStorage.PlaqueLine4 ;} ;
+        
+        if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined"))
+            {document.getElementById("plaque-line-5").value="" ;}
+        else {document.getElementById("plaque-line-5").value=localStorage.PlaqueLine5 ;} ;
+        
+        if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined"))
+            {document.getElementById("plaque-line-6").value="" ;}
+        else {document.getElementById("plaque-line-6").value=localStorage.PlaqueLine6 ;} ;
+        
+        if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined"))
+            {document.getElementById("plaque-line-7").value="" ;}
+        else {document.getElementById("plaque-line-7").value=localStorage.PlaqueLine7 ; } ;
+
+        if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined"))
+            {document.getElementById("plaque-line-8").value="" ;}
+        else {document.getElementById("plaque-line-8").value=localStorage.PlaqueLine8 ; } ;
+
+      function genShipInfoLine1() 
+        var carrierName = localStorage.TransportCraft ;
+         if (localStorage.Era == 'ColonialAndEarlyIndependenceEra(1607-1820)') {
+            carrierNumPassengers = 60 ;
+            carrierVoyageDuration = "2-3 months" ;
+            } 
+         ...
+         if (localStorage.ShowTransportCraftImage=="NoShip") {
+            shipInfoLine1 ="A typical "+crossingTypeString+" of this era would carry "+carrierNumPassengers+" passengers." ;
+            shipInfoLine2 ="It would take on the order of "+carrierVoyageDuration+" to make the cross-ocean voyage." ;
+        }
+        ...
+     function generateShipInfoLines2(lineNum) {
+        if (localStorage.Era == 'ColonialAndEarlyIndependenceEra(1607-1820)') {
+            carrierNumPassengers = 150 ;
+            carrierVoyageDuration = "8 hours" ;
+            } 
+        ...
+        
+    
+        >> doesn't define but does set new value to localStorage.setItem("Frame", styleName)
+  
+###
+
+*/
+    
         var SizeDefault = "Medium";
         var SizeAbbrevDefault = "Med";
         /* var SizeImgFileName = "..."; */
@@ -262,7 +1096,6 @@ function initializeDefaults() {
         if (localStorage.Size==undefined) {
             localStorage.setItem("Size", SizeDefault) ;
             localStorage.setItem("SizeAbbrev", SizeAbbrevDefault) ;
-            /* localStorage.setItem("SizeImageFileName", SizeImgFileName) ; */
         } ;
 
         var OptionsDefault = "None";
@@ -272,112 +1105,718 @@ function initializeDefaults() {
         if (localStorage.Options==undefined) {
             localStorage.setItem("Options", OptionsDefault) ;
             localStorage.setItem("OptionsAbbrev", OptionsAbbrevDefault) ;
-            /* localStorage.setItem("OptionsImageFileName", OptionsImgFileName) ; */
         } ;
 
-        var TitleLine1Default = "Our Family's Atlantic Crossing";
-        /* var TitleLine1ImgFileName = "..."; */
-        localStorage.setItem("TitleLine1Default", TitleLine1Default) ;
-        if (localStorage.TitleLine1==undefined) {
-            localStorage.setItem("TitleLine1", TitleLine1Default) ;
-            /* localStorage.setItem("TitleLine1ImageFileName", TitleLine1ImgFileName) ; */
-        } ;
+ 
+}
 
-        var TitleLine2Default = "A Thread in the Great American Tapestry";
-        /* var TitleLine2ImgFileName = "..."; */
-        localStorage.setItem("TitleLine2Default", TitleLine2Default) ;
-        if (localStorage.TitleLine2==undefined) {
-            localStorage.setItem("TitleLine2", TitleLine2Default) ;
-            /* localStorage.setItem("TitleLine2ImageFileName", TitleLine2ImgFileName) ; */
-        } ;
 
-        var OriginsLine1Default = "Origins: The Old World";
-        /* var OriginsLine1ImgFileName = "..."; */
-        localStorage.setItem("OriginsLine1Default", OriginsLine1Default) ;
-        if (localStorage.OriginsLine1==undefined) {
-            localStorage.setItem("OriginsLine1", OriginsLine1Default) ;
-            /* localStorage.setItem("OriginsLine1ImageFileName", OriginsLine1ImgFileName) ; */
-        } ;
 
-        var OriginsLine2Default = "Crossing: The North Atlantic";
-        /* var OriginsLine2ImgFileName = "..."; */
-        localStorage.setItem("OriginsLine2Default", OriginsLine2Default) ;
-        if (localStorage.OriginsLine2==undefined) {
-            localStorage.setItem("OriginsLine2", OriginsLine2Default) ;
-            /* localStorage.setItem("OriginsLine2ImageFileName", OriginsLine2ImgFileName) ; */
-        } ;
 
-        var DestinyLine1Default = "Arrival: A New World Port";
-        /* var DestinyLine1ImgFileName = "..."; */
-        localStorage.setItem("DestinyLine1Default", DestinyLine1Default) ;
-        if (localStorage.DestinyLine1==undefined) {
-            localStorage.setItem("DestinyLine1", DestinyLine1Default) ;
-            /* localStorage.setItem("DestinyLine1ImageFileName", DestinyLine1ImgFileName) ; */
-        } ;
-
-        var DestinyLine2Default = "Destiny: An American Lineage";
-        /* var DestinyLine2ImgFileName = "..."; */
-        localStorage.setItem("DestinyLine2Default", DestinyLine2Default) ;
-        if (localStorage.DestinyLine2==undefined) {
-            localStorage.setItem("DestinyLine2", DestinyLine2Default) ;
-            /* localStorage.setItem("DestinyLine2ImageFileName", DestinyLine2ImgFileName) ; */
-        } ;
-
-        var ShipInfoLine1Default = "Typical Ship of this Era: 1200 Passengers";
-        /* var ShipInfoLine1ImgFileName = "..."; */
-        localStorage.setItem("ShipInfoLine1Default", ShipInfoLine1Default) ;
-        if (localStorage.ShipInfoLine1==undefined) {
-            localStorage.setItem("ShipInfoLine1", ShipInfoLine1Default) ;
-            /* localStorage.setItem("ShipInfoLine1ImageFileName", ShipInfoLine1ImgFileName) ; */
-        } ;
-
-        var ShipInfoLine2Default = "Typical Duration of Crossing: Two Weeks";
-        /* var ShipInfoLine2ImgFileName = "..."; */
-        localStorage.setItem("ShipInfoLine2Default", ShipInfoLine2Default) ;
-        if (localStorage.ShipInfoLine2==undefined) {
-            localStorage.setItem("ShipInfoLine2", ShipInfoLine2Default) ;
-            /* localStorage.setItem("ShipInfoLine2ImageFileName", ShipInfoLine2ImgFileName) ; */
-        } ;
-
-        var PlaqueLine1Default = "In Appreciation of";
-        /* var PlaqueLine1ImgFileName = "..."; */
-        localStorage.setItem("PlaqueLine1Default", PlaqueLine1Default) ;
-        if (localStorage.PlaqueLine1==undefined) {
-            localStorage.setItem("PlaqueLine1", PlaqueLine1Default) ;
-            /* localStorage.setItem("PlaqueLine1ImageFileName", PlaqueLine1ImgFileName) ; */
-        } ;
-
-        var PlaqueLine2Default = "the Courage and Perseverance";
-        /* var PlaqueLine2ImgFileName = "..."; */
-        localStorage.setItem("PlaqueLine2Default", PlaqueLine2Default) ;
-        if (localStorage.PlaqueLine2==undefined) {
-            localStorage.setItem("PlaqueLine2", PlaqueLine2Default) ;
-            /* localStorage.setItem("PlaqueLine2ImageFileName", PlaqueLine2ImgFileName) ; */
-        } ;
-
-        var PlaqueLine3Default = "of Those of Our Forebears";
-        /* var PlaqueLine3ImgFileName = "..."; */
-        localStorage.setItem("PlaqueLine3Default", PlaqueLine3Default) ;
-        if (localStorage.PlaqueLine3==undefined) {
-            localStorage.setItem("PlaqueLine3", PlaqueLine3Default) ;
-            /* localStorage.setItem("PlaqueLine3ImageFileName", PlaqueLine3ImgFileName) ; */
-        } ;
+function clearLocalStorageVars() {
+/*
+    console.log("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
+    alert("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
+*/
+    // if (confirm("clear all jimaworks-defined localStorage?")) {
         
-        var PlaqueLine4Default = "Who First Crossed to America";
-        /* var PlaqueLine4ImgFileName = "..."; */
-        localStorage.setItem("PlaqueLine3Default", PlaqueLine4Default) ;
-        if (localStorage.PlaqueLine4==undefined) {
-            localStorage.setItem("PlaqueLine4", PlaqueLine4Default) ;
-            /* localStorage.setItem("PlaqueLine4ImageFileName", PlaqueLine4ImgFileName) ; */
-        } ;
+/* First page (7/31/2019) == Home.  No user-added values to RelationShips localStorage */
+
+/*
+Second page (7/31/2019) == RegionOfOrigin.
+"Set the Stage. In What Part of the World did this Story Start?"
+### RegionOfOriginImageFileName ? ###
+*/
+
+    /* localVarNam      localVarDefault     localVarDefaultAbbrev  */
+    /* "RegionOfOrigin"  "EuropeAndTheMediterranean"  "EuM"  */
+
+        localStorage.removeItem("RegionOfOriginDefault") ;
+        localStorage.removeItem("RegionOfOrigin") ;
+        localStorage.removeItem("RegionOfOriginAbbrev") ;
+
+/* 
+Third page (7/31/2019) == Title Text Box Line 1. 
+"1. Title. What Is This Story About?"
+*/
+        /* localVarNam      localVarDefault     localVarDefaultAbbrev  */
+        /* e.g., "RegionOfOrigin"  "EuropeAndTheMediterranean"  "EuM"  */
+        /* localStorage.RelationShipMember... not used */
+
+    /* "TitleLine1"  "TitleLine1Default"  "TitleLine1DefaultAbbrev"  */
+        localStorage.removeItem("TitleLine1Default") ;
+        localStorage.removeItem("TitleLine1") ;
+
+    /* "TitleLine2"  "TitleLine2Default"  "TitleLine2DefaultAbbrev"  */
+        localStorage.removeItem("TitleLine2Default") ;
+        localStorage.removeItem("TitleLine2") ;
+
+    /* "TitleLine3"  "TitleLine3Default"  "TitleLine3DefaultAbbrev"  */
+        localStorage.removeItem("TitleLine3Default") ;
+        localStorage.removeItem("TitleLine3") ;
+
+/* 
+Fourth page (7/31/2019) == Title Text Box Line 2. 
+"1. Title. Line2: When did it take place?"
+### EraImageFileName ? ### 
+*/
+     
+    /* "Era"  "EraDefault"  "EraDefaultAbbrev"  */
+        localStorage.removeItem("EraDefault") ;
+        localStorage.removeItem("EraAbbrev") ;
+
+    // "CommemorationTimePeriodStart"  "CommemorationTimePeriodStartDefault"  "CommemorationTimePeriodStartDefaultAbbrev"
+        localStorage.removeItem("CommemorationTimePeriodStartDefault") ;
+        localStorage.removeItem("CommemorationTimePeriodStart") ;
+ 
+    // "CommemorationTimePeriodEnd"  "CommemorationTimePeriodEndDefault"  "CommemorationTimePeriodEndDefaultAbbrev"  
+        localStorage.removeItem("CommemorationTimePeriodEndDefault") ;
+        localStorage.removeItem("CommemorationTimePeriodEnd") ;
+
+    // "CommemorationTimePeriodReprYr"  "CommemorationTimePeriodReprYrDefault"  "CommemorationTimePeriodReprYrDefaultAbbrev"  
+        localStorage.removeItem("CommemorationTimePeriodReprYrDefault") ;
+        localStorage.removeItem("CommemorationTimePeriodReprYr") ;
+
+    /* "EarliestPossibleYearOfCrossing"  "EarliestPossibleYearOfCrossingDefault"  "EarliestPossibleYearOfCrossingDefaultAbbrev"  */
+        localStorage.removeItem("EarliestPossibleYearOfCrossingDefault") ;
+        localStorage.removeItem("EarliestPossibleYearOfCrossing") ;
+
+    /* "LatestPossibleYearOfCrossing"  "LatestPossibleYearOfCrossingDefault"  "LatestPossibleYearOfCrossingDefaultAbbrev"  */
+        localStorage.removeItem("LatestPossibleYearOfCrossingDefault") ;
+        localStorage.removeItem("LatestPossibleYearOfCrossing") ;
+
+    /* "YearOfCrossing"  "YearOfCrossingDefault"  "YearOfCrossingDefaultAbbrev"  */
+        localStorage.removeItem("YearOfCrossingDefault") ;
+        localStorage.removeItem("YearOfCrossing") ;
+
+    /* "currRteMapFile"  "currRteMapFileDefault"  "currRteMapFileDefaultAbbrev"  */
+        localStorage.removeItem("currRteMapFileDefault") ;
+        localStorage.removeItem("currRteMapFile") ;
+
+
+    /* "currRteMapYear"  "currRteMapYearDefault"  "currRteMapYearDefaultAbbrev"  */
+        localStorage.removeItem("currRteMapYearDefault") ;
+        localStorage.removeItem("currRteMapYear") ;
+
+    /* "prevRteMapYear"  "prevRteMapYearDefault"  "prevRteMapYearDefaultAbbrev"  */
+        localStorage.removeItem("prevRteMapYearDefault") ;
+        localStorage.removeItem("prevRteMapYear") ;
+
+    /* "nextRteMapYear"  "nextRteMapYearDefault"  "nextRteMapYearDefaultAbbrev"  */
+        localStorage.removeItem("nextRteMapYearDefault") ;
+        localStorage.removeItem("nextRteMapYear") ;
+
+/* 
+Fifth page (8/02/2019) == Origins Text Box Line 1. 
+"###title?### Origins: 1.d From Where did this First Generation come?"
+### anything like "seaLaneDepartureCountries" on this page? ###
+*/
+
+    /* "originsTextBoxL1"  "originsTextBoxL1Default"  "originsTextBoxL1DefaultAbbrev"  */
+        localStorage.removeItem("originsTextBoxL1Default") ;
+        localStorage.removeItem("originsTextBoxL1") ;
+
+
+    /* "originsTextBoxL2"  "originsTextBoxL2Default"  "originsTextBoxL2DefaultAbbrev"  */
+        localStorage.removeItem("originsTextBoxL2Default") ;
+        localStorage.removeItem("originsTextBoxL2") ;
+
+
+    /* "AreaOfOrigin"  "AreaOfOriginDefault"  "AreaOfOriginDefaultAbbrev"  */
+        localStorage.removeItem("AreaOfOriginDefault") ;
+        localStorage.removeItem("AreaOfOrigin") ;
+
+
+    /* "CountryOfOrigin"  "CountryOfOriginDefault"  "CountryOfOriginDefaultAbbrev"  */
+        localStorage.removeItem("CountryOfOriginDefault") ;
+        localStorage.removeItem("CountryOfOrigin") ;
+
+
+    /* "ProvinceOfOrigin"  "ProvinceOfOriginDefault"  "ProvinceOfOriginDefaultAbbrev"  */
+        localStorage.removeItem("ProvinceOfOriginDefault") ;
+        localStorage.removeItem("ProvinceOfOrigin") ;
+
+
+    /* "CityOfOrigin"  "CityOfOriginDefault"  "CityOfOriginDefaultAbbrev"  */
+        localStorage.removeItem("CityOfOriginDefault") ;
+        localStorage.removeItem("CityOfOrigin") ;
+
+/* 
+Sixth page (8/02/2019) == Origins Text Box Line 2. 
+
+OriginsLine1&2 are already defined
+
+###
+
+  Issues with the titling of this file:
+
+"Title: 1.d From Where did this First Generation come?"
+want something like:
+"origins: 1.d From Where did this First Gen leave?"
+change page to correct page
+change page to page.initialize-jimaworks
+
+The following probably shouldn't be localStorage:
+
+    localStorage.ArrivalPortSortMethod = "alpha" ;
+    localStorage.DeparturePortSortMethod = "alpha" ;
+
+    localStorage.ArrivalPortFilter = "filterArrivalPortsByRegion" ;
+    localStorage.DeparturePortFilter = "filterDeparturePortsByRegion" ;
+
+###
+
+*/
+    /* "AreaOfDeparture"  "AreaOfDepartureDefault"  "AreaOfDepartureDefaultAbbrev"  */
+        localStorage.removeItem("AreaOfDepartureDefault") ;
+        localStorage.removeItem("AreaOfDeparture") ;
+
+    /* "SeaLane"  "SeaLaneDefault"  "SeaLaneDefaultAbbrev"  */
+        localStorage.removeItem("SeaLaneDefault") ;
+        localStorage.removeItem("SeaLane") ;
+
+    /* "DepartureCountry"  "DepartureCountryDefault"  "DepartureCountryDefaultAbbrev"  */
+        localStorage.removeItem("DepartureCountryDefault") ;
+        localStorage.removeItem("DepartureCountry") ;
+
+    /* "PortOfDeparture"  "PortOfDepartureDefault"  "PortOfDepartureDefaultAbbrev"  */
+        localStorage.removeItem("PortOfDepartureDefault") ;
+        localStorage.removeItem("PortOfDeparture") ;
+
+    /* "seaLaneDepartureCountries"  "seaLaneDepartureCountriesDefault"  "seaLaneDepartureCountriesDefaultAbbrev"  */
+        localStorage.removeItem("seaLaneDepartureCountriesDefault") ;
+        localStorage.removeItem("seaLaneDepartureCountries") ;
+ 
+    /* "ArrivalPortSortMethod"  "ArrivalPortSortMethodDefault"  "ArrivalPortSortMethodDefaultAbbrev"  */
+        localStorage.removeItem("ArrivalPortSortMethodDefault") ;
+        localStorage.removeItem("ArrivalPortSortMethod") ;
+ 
+    /* "ArrivalPortFilter"  "ArrivalPortFilterDefault"  "ArrivalPortFilterDefaultAbbrev"  */
+        localStorage.removeItem("ArrivalPortFilterDefault") ;
+        localStorage.removeItem("ArrivalPortFilter") ;
+
+    /* "ArrivalPortStruct"  "ArrivalPortStructDefault"  "ArrivalPortStructDefaultAbbrev"  */
+        localStorage.removeItem("ArrivalPortStructDefault") ;
+        localStorage.removeItem("ArrivalPortStruct") ;
+
+    /* "arrivalPort"  "arrivalPortDefault"  "arrivalPortDefaultAbbrev"  */
+        localStorage.removeItem("arrivalPortDefault") ;
+        localStorage.removeItem("arrivalPort") ;
+
+    /* "DeparturePortSortMethod"  "DeparturePortSortMethodDefault"  "DeparturePortSortMethodDefaultAbbrev"  */
+        localStorage.removeItem("DeparturePortSortMethodDefault") ;
+        localStorage.removeItem("DeparturePortSortMethodAbbrev") ;
+
+    /* "DeparturePortFilter"  "DeparturePortFilterDefault"  "DeparturePortFilterDefaultAbbrev"  */
+        localStorage.removeItem("DeparturePortFilterDefault") ;
+        localStorage.removeItem("DeparturePortFilter") ;
+
+    /* "DeparturePortStruct"  "DeparturePortStructDefault"  "DeparturePortStructDefaultAbbrev"  */
+        localStorage.removeItem("DeparturePortStructDefault") ;
+        localStorage.removeItem("DeparturePortStruct") ;
+
+    /* "departurePort"  "departurePortDefault"  "departurePortDefaultAbbrev"  */
+        localStorage.removeItem("departurePortDefault") ;
+        localStorage.removeItem("departurePort") ;
+
+    /* "webMapImg"  "webMapImgDefault"  "webMapImgDefaultAbbrev"  */
+        localStorage.removeItem("webMapImgDefault") ;
+        localStorage.removeItem("webMapImg") ;
+
+/* 
+Seventh page (8/02/2019) == Destination Text Box Line 1. 
+
+3. American Destiny. Where did they land?
+
+https://jimaworks.com/pages/textbox3-destination-where-did-they-land
+
+*/
+
+    /* "DestinyLine1"  "DestinyLine1Default"  "DestinyLine1DefaultAbbrev"  */
+        localStorage.removeItem("DestinyLine1Default") ;
+        localStorage.removeItem("DestinyLine1") ;
+
+    /* "DestinyLine2"  "DestinyLine2Default"  "DestinyLine2DefaultAbbrev"  */
+        localStorage.removeItem("DestinyLine2Default") ;
+        localStorage.removeItem("DestinyLine2") ;
+
+    /* "RegionOfArrival"  "RegionOfArrivalDefault"  "RegionOfArrivalDefaultAbbrev"  */
+        localStorage.removeItem("RegionOfArrivalDefault") ;
+        localStorage.removeItem("RegionOfArrival") ;
+
+    /* "Approaches"  "ApproachesDefault"  "ApproachesDefaultAbbrev"  */
+        localStorage.removeItem("ApproachesDefault") ;
+        localStorage.removeItem("Approaches") ;
+
+    /* "EntryState"  "EntryStateDefault"  "EntryStateDefaultAbbrev"  */
+        localStorage.removeItem("EntryStateDefault") ;
+        localStorage.removeItem("EntryState") ;
+
+    /* "PortOfEntry"  "PortOfEntryDefault"  "PortOfEntryDefaultAbbrev"  */
+        localStorage.removeItem("PortOfEntryDefault") ;
+        localStorage.removeItem("PortOfEntry") ;
+
+/* 
+Eighth page (8/02/2019) == Destination Text Box Line 2. 
+
+3: Destination: Where did they end up?
+
+https://jimaworks.com/pages/textbox3-destination-where-did-they-end-up
+
+DestinyLine1&2 are already defined
+
+*/
+
+    /* "DestinationSection"  "DestinationSectionDefault"  "DestinationSectionDefaultAbbrev"  */
+        localStorage.removeItem("DestinationSectionDefault") ;
+        localStorage.removeItem("DestinationSection") ;
+
+
+    /* "DestinationState"  "DestinationStateDefault"  "DestinationStateDefaultAbbrev"  */
+        localStorage.removeItem("DestinationStateDefault") ;
+        localStorage.removeItem("DestinationState") ;
+
+
+    /* "DestinationCounty"  "DestinationCountyDefault"  "DestinationCountyDefaultAbbrev"  */
+        localStorage.removeItem("DestinationCountyDefault") ;
+        localStorage.removeItem("DestinationCounty") ;
+
+
+    /* "DestinationCity"  "DestinationCityDefault"  "DestinationCityDefaultAbbrev"  */
+        localStorage.removeItem("DestinationCityDefault") ;
+        localStorage.removeItem("DestinationCity") ;
+
+/* 
+Ninth page (8/02/2019) == Type of Ship Image. 
+
+Ship Image - Options
+
+https://jimaworks.com/pages/000-knownshipoptions
+
+DestinyLine1&2 are already defined
+
+*/
+    /* "ShipInfoLine1"  "ShipInfoLine1Default"  "ShipInfoLine1DefaultAbbrev"  */
+        localStorage.removeItem("ShipInfoLine1Default") ;
+        localStorage.removeItem("ShipInfoLine1") ;
+
+    /* "ShipInfoLine2"  "ShipInfoLine2Default"  "ShipInfoLine2DefaultAbbrev"  */
+        localStorage.removeItem("ShipInfoLine2Default") ;
+        localStorage.removeItem("ShipInfoLine2") ;
+
+    /* "ShipSort"  "ShipSortDefault"  "ShipSortDefaultAbbrev"  */
+        localStorage.removeItem("ShipSortDefault") ;
+        localStorage.removeItem("ShipSort") ;
+
+    /* "shipPic"  "shipPicDefault"  "shipPicDefaultAbbrev"  */
+        localStorage.removeItem("shipPicDefault") ;
+        localStorage.removeItem("shipPic") ;
+  
+/* 
+Ten(a)th page (8/02/2019) == Historic Ship Image. 
+
+4. How did they get here? The Ship.
+
+https://jimaworks.com/pages/textbox4-tripinfo-how-did-they-get-here
+
+    
+Might add:
+Ship length, width, tons, passengers, routes...
+###
+
+*/
+
+    /* "TransportCraft"  "TransportCraftDefault"  "TransportCraftDefaultAbbrev"  */
+        localStorage.removeItem("TransportCraftDefault") ;
+        localStorage.removeItem("TransportCraft") ;
+
+    /* "shipEra"  "shipEraDefault"  "shipEraDefaultAbbrev"  */
+        localStorage.removeItem("shipEraDefault") ;
+        localStorage.removeItem("shipEra") ;
+
+    /* "shipName"  "shipNameDefault"  "shipNameDefaultAbbrev"  */
+        localStorage.removeItem("shipNameDefault") ;
+        localStorage.removeItem("shipName") ;
+
+
+    /* "shippingLine"  "shippingLineDefault"  "shippingLineDefaultAbbrev"  */
+        localStorage.removeItem("shippingLineDefault") ;
+        localStorage.removeItem("shippingLine") ;
+
+
+    /* "shipTotPsgrVolume"  "shipTotPsgrVolumeDefault"  "shipTotPsgrVolumeDefaultAbbrev"  */
+        localStorage.removeItem("shipTotPsgrVolumeDefault") ;
+        localStorage.removeItem("shipTotPsgrVolume") ;
+
+
+    /* "shipCareerStart"  "shipCareerStartDefault"  "shipCareerStartDefaultAbbrev"  */
+        localStorage.removeItem("shipCareerStartDefault") ;
+        localStorage.removeItem("shipCareerStart") ;
+
+
+    /* "shipCareerEnd"  "shipCareerEndDefault"  "shipCareerEndDefaultAbbrev"  */
+        localStorage.removeItem("shipCareerEndDefault") ;
+        localStorage.removeItem("shipCareerEnd") ;
+
+
+    /* "shipImageIndex"  "shipImageIndexDefault"  "shipImageIndexDefaultAbbrev"  */
+        localStorage.removeItem("shipImageIndexDefault") ;
+        localStorage.removeItem("shipImageIndex") ;
+
+
+    /* "shipImageTransparentBackground"  "shipImageTransparentBackgroundDefault"  "shipImageTransparentBackgroundDefaultAbbrev"  */
+        localStorage.removeItem("shipImageTransparentBackgroundDefault") ;
+        localStorage.removeItem("shipImageTransparentBackground") ;
+
+
+    /* "shipImageType"  "shipImageTypeDefault"  "shipImageTypeDefaultAbbrev"  */
+        localStorage.removeItem("shipImageTypeDefault") ;
+        localStorage.removeItem("shipImageType") ;
+
+/* 
+Ten(b)th page (8/02/2019) == jimaworks Ship Image. 
+
+1.g.ii. jimaworks-made Ship Imagery
+
+https://jimaworks.com/pages/1-g-ii-jimaworks-madeshipimagery
+*/
+
+    /* "userProvidedShipName"  "userProvidedShipNameDefault"  "userProvidedShipNameDefaultAbbrev"  */
+        localStorage.removeItem("userProvidedShipNameDefault") ;
+        localStorage.removeItem("userProvidedShipName") ;
+
+/* 
+Eleventh page (8/02/2019) == maps. 
+
+2: Define the Look and Feel of your Commemoration. a: Your Map.
+
+https://jimaworks.com/pages/1-c-map-background
+
+*/
+
+    /* "MapStyle"  "MapStyleDefault"  "MapStyleDefaultAbbrev"  */
+        localStorage.removeItem("MapStyleDefault") ;
+        localStorage.removeItem("MapStyle") ;
+
+/* 
+Twelfth page (8/02/2019) == choose a format. 
+
+Choose a format for your RelationShips delivery
+
+https://jimaworks.com/pages/choose-a-format-for-your-relationships-delivery
+*/
+
+    /* "Frame"  "FrameDefault"  "FrameDefaultAbbrev"  */
+        localStorage.removeItem("FrameDefault") ;
+        localStorage.removeItem("Frame") ;
+
+
+    /* "FrameImg"  "FrameImgDefault"  "FrameImgDefaultAbbrev"  */
+        localStorage.removeItem("FrameImgDefault") ;
+        localStorage.removeItem("FrameImg") ;
+
+
+/* 
+Thirteenth page (8/02/2019) ... depending on path.  Could be frame, or could be at the accordian page...
+
+2. b: Pick your Frame.
+
+https://jimaworks.com/pages/2-the-frame
+
+<no localStorage>
+
+*/
+
+/* 
+Fourteenth page (8/02/2019) == accordian page (if not already there). 
+
+RelationShips commemoration - Framed
+
+https://jimaworks.com/products/genericrelationshipsproduct-framed
+
+<uses but does not define localStorage>
+
+*/
+
+        localStorage.removeItem("SizeDefault") ;
+        localStorage.removeItem("Size") ;
+        localStorage.removeItem("SizeAbbrev") ;
+
+        localStorage.removeItem("OptionsDefault") ;
+        localStorage.removeItem("Options") ;
+        localStorage.removeItem("OptionsAbbrev") ;
+
+    // } //if (confirm("clear all jimaworks-defined localStorage?"))
+}
+
+window.onunload = function(event) {
+  localStorage.removeItem('hugh-test');
+  console.log('localStorage cleared');
+};
+
+// ### Trying to get the clear() to work on page exit... Send to Hugh? ###
+window.onbeforeunload = function(event) {
+  var keepVars = setTimeout(function() {
+    window.onunload = function(){};
+    console.log('localStorage kept');
+  }, 1000);
+
+  event.preventDefault();
+  // Chrome requires returnValue to be set
+  event.returnValue = '';
+
+  return '';
+};
+
+
+// ]]></script>
+<script>// <![CDATA[
+    
+function WriteOutContextVars(prefixString, lastPage, ConnectorString, suffixString) {
+    var contextVarsString    = prefixString ;
+        contextVarsString   +='OriginatingPage'+'='+lastPage ;
+        contextVarsString   += GenerateHTMLContextVarsString(ConnectorString);
+        contextVarsString   += suffixString ;
+    /*        
+    alert("WriteOutContextVars(): contextVarsString=="+contextVarsString) ;
+    */
+    return contextVarsString
+}
+
+
+function GenerateHTMLContextVarsString(ConnectorString) {
+    // expect to first invoke the "initializeDefaults" function.
+    // so don't restore defaults, since they will have been set again
+    
+    var contextVarsString    = "" ;
+
+        //  contextVarsString   += ConnectorString+'RegionOfOriginDefault'+'='+localStorage.RegionOfOriginDefault ;
+        contextVarsString   += ConnectorString+'RegionOfOrigin'+'='+localStorage.RegionOfOrigin ;
+        contextVarsString   += ConnectorString+'RegionOfOriginAbbrev'+'='+localStorage.RegionOfOriginAbbrev ;
+/*  
+Third p age (7/31/2019) == Title Text Box Line 1. 
+"1. Title. What Is This Story About?"
+*/
+        //contextVarsString   += ConnectorString+'TitleLine1Default'+'='+localStorage.TitleLine1Default ;
+        contextVarsString   += ConnectorString+'TitleLine1'+'='+localStorage.TitleLine1 ;
+        //contextVarsString   += ConnectorString+'TitleLine2Default'+'='+localStorage.TitleLine2Default ;
+        contextVarsString   += ConnectorString+'TitleLine2'+'='+localStorage.TitleLine2 ;
+        //contextVarsString   += ConnectorString+'TitleLine3Default'+'='+localStorage.TitleLine3Default ;
+        contextVarsString   += ConnectorString+'TitleLine3'+'='+localStorage.TitleLine3 ;
+/* 
+Fourth page (7/31/2019) == Title Text Box Line 2. 
+"1. Title. Line2: When did it take place?"
+### EraImageFileName ? ### 
+*/
+        // contextVarsString   += ConnectorString+'EraDefault'+'='+localStorage.EraDefault ;
+        contextVarsString   += ConnectorString+'EraAbbrev'+'='+localStorage.EraAbbrev ;
+        // contextVarsString   += ConnectorString+'CommemorationTimePeriodStartDefault'+'='+localStorage.CommemorationTimePeriodStartDefault ;
+        contextVarsString   += ConnectorString+'CommemorationTimePeriodStart'+'='+localStorage.CommemorationTimePeriodStart ;
+        // contextVarsString   += ConnectorString+'CommemorationTimePeriodEndDefault'+'='+localStorage.CommemorationTimePeriodEndDefault ;
+        contextVarsString   += ConnectorString+'CommemorationTimePeriodEnd'+'='+localStorage.CommemorationTimePeriodEnd ;
+        // contextVarsString   += ConnectorString+'CommemorationTimePeriodReprYrDefault'+'='+localStorage.CommemorationTimePeriodReprYrDefault ;
+        contextVarsString   += ConnectorString+'CommemorationTimePeriodReprYr'+'='+localStorage.CommemorationTimePeriodReprYr ;
+        // contextVarsString   += ConnectorString+'EarliestPossibleYearOfCrossingDefault'+'='+localStorage.EarliestPossibleYearOfCrossingDefault ;
+        contextVarsString   += ConnectorString+'EarliestPossibleYearOfCrossing'+'='+localStorage.EarliestPossibleYearOfCrossing ;
+        // contextVarsString   += ConnectorString+'LatestPossibleYearOfCrossingDefault'+'='+localStorage.LatestPossibleYearOfCrossingDefault ;
+        contextVarsString   += ConnectorString+'LatestPossibleYearOfCrossing'+'='+localStorage.LatestPossibleYearOfCrossing ;
+        // contextVarsString   += ConnectorString+'YearOfCrossingDefault'+'='+localStorage.YearOfCrossingDefault ;
+        contextVarsString   += ConnectorString+'YearOfCrossing'+'='+localStorage.YearOfCrossing ;
+        // contextVarsString   += ConnectorString+'currRteMapFileDefault'+'='+localStorage.currRteMapFileDefault ;
+        contextVarsString   += ConnectorString+'currRteMapFile'+'='+localStorage.currRteMapFile ;
+        // contextVarsString   += ConnectorString+'currRteMapYearDefault'+'='+localStorage.currRteMapYearDefault ;
+        contextVarsString   += ConnectorString+'currRteMapYear'+'='+localStorage.currRteMapYear ;
+        // contextVarsString   += ConnectorString+'prevRteMapYearDefault'+'='+localStorage.prevRteMapYearDefault ;
+        contextVarsString   += ConnectorString+'prevRteMapYear'+'='+localStorage.prevRteMapYear ;
+        // contextVarsString   += ConnectorString+'nextRteMapYearDefault'+'='+localStorage.nextRteMapYearDefault ;
+        contextVarsString   += ConnectorString+'nextRteMapYear'+'='+localStorage.nextRteMapYear ;
+/* 
+Fifth page (8/02/2019) == Origins Text Box Line 1. 
+"###title?### Origins: 1.d From Where did this First Generation come?"
+### anything like "seaLaneDepartureCountries" on this page? ###
+*/
+        // contextVarsString   += ConnectorString+'originsTextBoxL1Default'+'='+localStorage.originsTextBoxL1Default ;
+        contextVarsString   += ConnectorString+'originsTextBoxL1'+'='+localStorage.originsTextBoxL1 ;
+        // contextVarsString   += ConnectorString+'originsTextBoxL2Default'+'='+localStorage.originsTextBoxL2Default ;
+        contextVarsString   += ConnectorString+'originsTextBoxL2'+'='+localStorage.originsTextBoxL2 ;
+        // contextVarsString   += ConnectorString+'AreaOfOriginDefault'+'='+localStorage.AreaOfOriginDefault ;
+        contextVarsString   += ConnectorString+'AreaOfOrigin'+'='+localStorage.AreaOfOrigin ;
+        // contextVarsString   += ConnectorString+'CountryOfOriginDefault'+'='+localStorage.CountryOfOriginDefault ;
+        contextVarsString   += ConnectorString+'CountryOfOrigin'+'='+localStorage.CountryOfOrigin ;
+        // contextVarsString   += ConnectorString+'ProvinceOfOriginDefault'+'='+localStorage.ProvinceOfOriginDefault ;
+        contextVarsString   += ConnectorString+'ProvinceOfOrigin'+'='+localStorage.ProvinceOfOrigin ;
+        // contextVarsString   += ConnectorString+'CityOfOriginDefault'+'='+localStorage.CityOfOriginDefault ;
+        contextVarsString   += ConnectorString+'CityOfOrigin'+'='+localStorage.CityOfOrigin ;
+/* 
+Sixth page (8/02/2019) == Origins Text Box Line 2. 
+*/
+        // contextVarsString   += ConnectorString+'AreaOfDepartureDefault'+'='+localStorage.AreaOfDepartureDefault ;
+        contextVarsString   += ConnectorString+'AreaOfDeparture'+'='+localStorage.AreaOfDeparture ;
+        // contextVarsString   += ConnectorString+'SeaLaneDefault'+'='+localStorage.SeaLaneDefault ;
+        contextVarsString   += ConnectorString+'SeaLane'+'='+localStorage.SeaLane ;
+        // contextVarsString   += ConnectorString+'DepartureCountryDefault'+'='+localStorage.DepartureCountryDefault ;
+        contextVarsString   += ConnectorString+'DepartureCountry'+'='+localStorage.DepartureCountry ;
+        // contextVarsString   += ConnectorString+'PortOfDepartureDefault'+'='+localStorage.PortOfDepartureDefault ;
+        contextVarsString   += ConnectorString+'PortOfDeparture'+'='+localStorage.PortOfDeparture ;
+        // contextVarsString   += ConnectorString+'seaLaneDepartureCountriesDefault'+'='+localStorage.seaLaneDepartureCountriesDefault ;
+        contextVarsString   += ConnectorString+'seaLaneDepartureCountries'+'='+localStorage.seaLaneDepartureCountries ;
+        // contextVarsString   += ConnectorString+'ArrivalPortSortMethodDefault'+'='+localStorage.ArrivalPortSortMethodDefault ;
+        contextVarsString   += ConnectorString+'ArrivalPortSortMethod'+'='+localStorage.ArrivalPortSortMethod ;
+        // contextVarsString   += ConnectorString+'ArrivalPortFilterDefault'+'='+localStorage.ArrivalPortFilterDefault ;
+        contextVarsString   += ConnectorString+'ArrivalPortFilter'+'='+localStorage.ArrivalPortFilter ;
+        // contextVarsString   += ConnectorString+'ArrivalPortStructDefault'+'='+localStorage.ArrivalPortStructDefault ;
+        contextVarsString   += ConnectorString+'ArrivalPortStruct'+'='+localStorage.ArrivalPortStruct ;
+        // contextVarsString   += ConnectorString+'arrivalPortDefault'+'='+localStorage.arrivalPortDefault ;
+        contextVarsString   += ConnectorString+'arrivalPort'+'='+localStorage.arrivalPort ;
+        // contextVarsString   += ConnectorString+'DeparturePortSortMethodDefault'+'='+localStorage.DeparturePortSortMethodDefault ;
+        contextVarsString   += ConnectorString+'DeparturePortSortMethodAbbrev'+'='+localStorage.DeparturePortSortMethodAbbrev ;
+        // contextVarsString   += ConnectorString+'DeparturePortFilterDefault'+'='+localStorage.DeparturePortFilterDefault ;
+        contextVarsString   += ConnectorString+'DeparturePortFilter'+'='+localStorage.DeparturePortFilter ;
+        // contextVarsString   += ConnectorString+'DeparturePortStructDefault'+'='+localStorage.DeparturePortStructDefault ;
+        contextVarsString   += ConnectorString+'DeparturePortStruct'+'='+localStorage.DeparturePortStruct ;
+        contextVarsString   += ConnectorString+'departurePortDefault'+'='+localStorage.departurePortDefault ;
+        contextVarsString   += ConnectorString+'departurePort'+'='+localStorage.departurePort ;
+        // contextVarsString   += ConnectorString+'webMapImgDefault'+'='+localStorage.webMapImgDefault ;
+        contextVarsString   += ConnectorString+'webMapImg'+'='+localStorage.webMapImg ;
+/* 
+Seventh page (8/02/2019) == Destination Text Box Line 1. 
+
+3. American Destiny. Where did they land?
+
+https://jimaworks.com/pages/textbox3-destination-where-did-they-land
+*/
+        // contextVarsString   += ConnectorString+'DestinyLine1Default'+'='+localStorage.DestinyLine1Default ;
+        contextVarsString   += ConnectorString+'DestinyLine1'+'='+localStorage.DestinyLine1 ;
+        // contextVarsString   += ConnectorString+'DestinyLine2Default'+'='+localStorage.DestinyLine2Default ;
+        contextVarsString   += ConnectorString+'DestinyLine2'+'='+localStorage.DestinyLine2 ;
+        // contextVarsString   += ConnectorString+'RegionOfArrivalDefault'+'='+localStorage.RegionOfArrivalDefault ;
+        contextVarsString   += ConnectorString+'RegionOfArrival'+'='+localStorage.RegionOfArrival ;
+        // contextVarsString   += ConnectorString+'ApproachesDefault'+'='+localStorage.ApproachesDefault ;
+        contextVarsString   += ConnectorString+'Approaches'+'='+localStorage.Approaches ;
+        // contextVarsString   += ConnectorString+'EntryStateDefault'+'='+localStorage.EntryStateDefault ;
+        contextVarsString   += ConnectorString+'EntryState'+'='+localStorage.EntryState ;
+        // contextVarsString   += ConnectorString+'PortOfEntryDefault'+'='+localStorage.PortOfEntryDefault ;
+        contextVarsString   += ConnectorString+'PortOfEntry'+'='+localStorage.PortOfEntry ;
+/* 
+Eighth page (8/02/2019) == Destination Text Box Line 2. 
+
+3: Destination: Where did they end up?
+
+https://jimaworks.com/pages/textbox3-destination-where-did-they-end-up
+*/
+        // contextVarsString   += ConnectorString+'DestinationSectionDefault'+'='+localStorage.DestinationSectionDefault ;
+        contextVarsString   += ConnectorString+'DestinationSection'+'='+localStorage.DestinationSection ;
+        // contextVarsString   += ConnectorString+'DestinationStateDefault'+'='+localStorage.DestinationStateDefault ;
+        contextVarsString   += ConnectorString+'DestinationState'+'='+localStorage.DestinationState ;
+        // contextVarsString   += ConnectorString+'DestinationCountyDefault'+'='+localStorage.DestinationCountyDefault ;
+        contextVarsString   += ConnectorString+'DestinationCounty'+'='+localStorage.DestinationCounty ;
+        // contextVarsString   += ConnectorString+'DestinationCityDefault'+'='+localStorage.DestinationCityDefault ;
+        contextVarsString   += ConnectorString+'DestinationCity'+'='+localStorage.DestinationCity ;
+/* 
+Ninth page (8/02/2019) == Type of Ship Image. 
+
+Ship Image - Options
+
+https://jimaworks.com/pages/000-knownshipoptions
+*/
+        // contextVarsString   += ConnectorString+'ShipInfoLine1Default'+'='+localStorage.ShipInfoLine1Default ;
+        contextVarsString   += ConnectorString+'ShipInfoLine1'+'='+localStorage.ShipInfoLine1 ;
+        // contextVarsString   += ConnectorString+'ShipInfoLine2Default'+'='+localStorage.ShipInfoLine2Default ;
+        contextVarsString   += ConnectorString+'ShipInfoLine2'+'='+localStorage.ShipInfoLine2 ;
+        // contextVarsString   += ConnectorString+'ShipSortDefault'+'='+localStorage.ShipSortDefault ;
+        contextVarsString   += ConnectorString+'ShipSort'+'='+localStorage.ShipSort ;
+        // contextVarsString   += ConnectorString+'shipPicDefault'+'='+localStorage.shipPicDefault ;
+        contextVarsString   += ConnectorString+'shipPic'+'='+localStorage.shipPic ;  
+/* 
+Ten(a)th page (8/02/2019) == Historic Ship Image. 
+
+4. How did they get here? The Ship.
+
+https://jimaworks.com/pages/textbox4-tripinfo-how-did-they-get-here
+*/
+        // contextVarsString   += ConnectorString+'TransportCraftDefault'+'='+localStorage.TransportCraftDefault ;
+        contextVarsString   += ConnectorString+'TransportCraft'+'='+localStorage.TransportCraft ;
+        // contextVarsString   += ConnectorString+'shipEraDefault'+'='+localStorage.shipEraDefault ;
+        contextVarsString   += ConnectorString+'shipEra'+'='+localStorage.shipEra ;
+        // contextVarsString   += ConnectorString+'shipNameDefault'+'='+localStorage.shipNameDefault ;
+        contextVarsString   += ConnectorString+'shipName'+'='+localStorage.shipName ;
+        // contextVarsString   += ConnectorString+'shippingLineDefault'+'='+localStorage.shippingLineDefault ;
+        contextVarsString   += ConnectorString+'shippingLine'+'='+localStorage.shippingLine ;
+        // contextVarsString   += ConnectorString+'shipTotPsgrVolumeDefault'+'='+localStorage.shipTotPsgrVolumeDefault ;
+        contextVarsString   += ConnectorString+'shipTotPsgrVolume'+'='+localStorage.shipTotPsgrVolume ;
+        // contextVarsString   += ConnectorString+'shipCareerStartDefault'+'='+localStorage.shipCareerStartDefault ;
+        contextVarsString   += ConnectorString+'shipCareerStart'+'='+localStorage.shipCareerStart ;
+        // contextVarsString   += ConnectorString+'shipCareerEndDefault'+'='+localStorage.shipCareerEndDefault ;
+        contextVarsString   += ConnectorString+'shipCareerEnd'+'='+localStorage.shipCareerEnd ;
+        // contextVarsString   += ConnectorString+'shipImageIndexDefault'+'='+localStorage.shipImageIndexDefault ;
+        contextVarsString   += ConnectorString+'shipImageIndex'+'='+localStorage.shipImageIndex ;
+        // contextVarsString   += ConnectorString+'shipImageTransparentBackgroundDefault'+'='+localStorage.shipImageTransparentBackgroundDefault ;
+        contextVarsString   += ConnectorString+'shipImageTransparentBackground'+'='+localStorage.shipImageTransparentBackground ;
+        // contextVarsString   += ConnectorString+'shipImageTypeDefault'+'='+localStorage.shipImageTypeDefault ;
+        contextVarsString   += ConnectorString+'shipImageType'+'='+localStorage.shipImageType ;
+/* 
+Ten(b)th page (8/02/2019) == jimaworks Ship Image. 
+
+1.g.ii. jimaworks-made Ship Imagery
+
+https://jimaworks.com/pages/1-g-ii-jimaworks-madeshipimagery
+*/
+        // contextVarsString   += ConnectorString+'userProvidedShipNameDefault'+'='+localStorage.userProvidedShipNameDefault ;
+        contextVarsString   += ConnectorString+'userProvidedShipName'+'='+localStorage.userProvidedShipName ;
+/* 
+Eleventh page (8/02/2019) == maps. 
+
+2: Define the Look and Feel of your Commemoration. a: Your Map.
+
+https://jimaworks.com/pages/1-c-map-background
+*/
+        // contextVarsString   += ConnectorString+'MapStyleDefault'+'='+localStorage.MapStyleDefault ;
+        contextVarsString   += ConnectorString+'MapStyle'+'='+localStorage.MapStyle ;
+/* 
+Twelfth page (8/02/2019) == choose a format. 
+
+Choose a format for your RelationShips delivery
+
+https://jimaworks.com/pages/choose-a-format-for-your-relationships-delivery
+*/
+        // contextVarsString   += ConnectorString+'FrameDefault'+'='+localStorage.FrameDefault ;
+        contextVarsString   += ConnectorString+'Frame'+'='+localStorage.Frame ;
+        // contextVarsString   += ConnectorString+'FrameImgDefault'+'='+localStorage.FrameImgDefault ;
+        contextVarsString   += ConnectorString+'FrameImg'+'='+localStorage.FrameImg ;
+/* 
+Thirteenth page (8/02/2019) ... depending on path.  Could be frame, or could be at the accordian page...
+
+2. b: Pick your Frame.
+
+https://jimaworks.com/pages/2-the-frame
+*/
+
+/* 
+Fourteenth page (8/02/2019) == accordian page (if not already there). 
+
+RelationShips commemoration - Framed
+
+https://jimaworks.com/products/genericrelationshipsproduct-framed
+*/
+        // contextVarsString   += ConnectorString+'SizeDefault'+'='+localStorage.SizeDefault ;
+        contextVarsString   += ConnectorString+'Size'+'='+localStorage.Size ;
+        contextVarsString   += ConnectorString+'SizeAbbrev'+'='+localStorage.SizeAbbrev ;
+        // contextVarsString   += ConnectorString+'OptionsDefault'+'='+localStorage.OptionsDefault ;
+        contextVarsString   += ConnectorString+'Options'+'='+localStorage.Options ;
+        contextVarsString   += ConnectorString+'OptionsAbbrev'+'='+localStorage.OptionsAbbrev ;
         
-        var ShipSortDefault = "alpha";
-        localStorage.setItem("ShipSortDefault", ShipSortDefault) ;
-        if (localStorage.ShipSort==undefined) {
-            localStorage.setItem("ShipSort", ShipSortDefault) ;
-        } ;
-        
-        var currentShipSortMethod = localStorage.shipSort ;
-        
-    }
+
+
+
+
+
+   
+   
+    return contextVarsString
+}
+    
+// Test it out 
+// WriteOutContextVars(prefixString, lastPage, ConnectorString, suffixString) 
+WriteOutContextVars('?', document.referrer, '&amp;', '') ;
+
 // ]]></script>
