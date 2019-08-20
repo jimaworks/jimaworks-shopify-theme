@@ -1,0 +1,139 @@
+var origins = localStorage.Origins;
+var prodTitle = "{{ product.title }}";
+var currentVariant = "{{product.selected_or_first_available_variant.id}}";
+var frame = "{{product.selected_or_first_available_variant.option2}}";
+
+console.log('origins =' + origins);
+console.log('title = ' + prodTitle);
+console.log('current variant = ' + currentVariant);
+console.log('frame = ' + frame) ;
+
+    
+var currentProductDescription = "{{product.selected_or_first_available_variant.description}}";
+console.log('product.selected_or_first_available_variant.description = ' + currentProductDescription) ;
+
+var currentProductDescription = "{{selected_or_first_available_variant.description}}";
+console.log('selected_or_first_available_variant.description = ' + currentProductDescription) ;
+
+var currentProductDescription = "{{product.description}}";
+console.log('product.description = ' + currentProductDescription) ;
+
+if (currentProductDescription.match(/Paris/g)) {res='True'} 
+else {res='false'};
+
+console.log('match to \"Paris\"?' + res) ;	
+
+var currentProductDescription = "{{product.selected_or_first_available_variant.title}}";
+console.log('product.selected_or_first_available_variant.title = ' + currentProductDescription) ;
+
+var currentProductDescription = "{{selected_or_first_available_variant.title}}";
+console.log('selected_or_first_available_variant.title = ' + currentProductDescription) ;
+
+var currentProductDescription = "{{product.title}}";
+console.log('product.title = ' + currentProductDescription) ;
+
+if (currentProductDescription.match(/Paris/g)) {res='True'} 
+else {res='false'};
+
+console.log('match to \"Paris\"?' + res) ;	
+
+var currentProductDescription = "{{product.selected_or_first_available_variant.tags}}";
+console.log('product.selected_or_first_available_variant.tags = ' + currentProductDescription) ;
+
+var currentProductDescription = "{{selected_or_first_available_variant.tags}}";
+console.log('selected_or_first_available_variant.tags = ' + currentProductDescription) ;
+
+var currentProductDescription = "{{product.tags}}";
+console.log('product.tags = ' + currentProductDescription) ;
+
+if (currentProductDescription.match(/Paris/g)) {res='True'} 
+else {res='false'};
+
+console.log('match to \"Paris\"?' + res) ;
+
+	
+/*
+### seems pretty dangerous to lock in these file prefixes and suffixes... ###
+    Is there a better way to do this in liquid so can just use the filename (e.g., "GoldRatio-Med-Black-NoRuler-640pxW.png")?
+    (BTW, the plan is to generate the filenames from the customer's choices, e.g., "GoldRatio+Med+Walnut" etc)
+*/
+var shopifyFilePreFix = "https://cdn.shopify.com/s/files/1/1336/0641/files/"
+var shopifyFileSufFix = "?16338137725744926710"
+
+var webFrame = "{{product.selected_or_first_available_variant.option2}}" ;
+if (webFrame == "BlackRopedFrame") {
+    webFrameImg = shopifyFilePreFix + "GoldRatio-Med-Black-NoRuler-640pxW.png" + shopifyFileSufFix ;
+    }
+else if (webFrame == "BlkWalnutFrame") {
+    webFrameImg = shopifyFilePreFix + "GoldRatio-Med-Walnut-NoRuler-72ppi.png" + shopifyFileSufFix ;
+}
+else if (webFrame == "CherryFrame") {
+    webFrameImg = shopifyFilePreFix + "GoldRatio-Med-Cherry-NoRuler-72ppi.png" + shopifyFileSufFix ;
+    }
+else if (webFrame == "GoldFrame") {
+    webFrameImg = shopifyFilePreFix + "GoldRatio-Med-Gold-NoRuler-72ppi.png" + shopifyFileSufFix ;
+    }
+else if (webFrame == "NoFrame") {
+    webFrameImg = shopifyFilePreFix + "GoldRatio-Med-NoFrame-NoRuler-72ppi.png" + shopifyFileSufFix ;
+    }
+else {
+    webFrameImg = shopifyFilePreFix + "GoldRatio-Med-Black-NoRuler-640pxW.png" + shopifyFileSufFix ;
+    } ;
+
+var webMapImgName = localStorage.webMapImg ;
+var webMapImg =     "\'" + shopifyFilePreFix  + webMapImgName + "\'" ;
+
+var webShipImgName = localStorage.shipPic ;      
+var webShipImg =    "\'"
+                    + shopifyFilePreFix
+                    + webShipImgName.replace("(","_").replace(")","_")  /* ### (need to formalize these image names) ### */
+                    + "\'"
+
+ImgOverlayPrelude = "" ;
+webMapImgWidth = 400 ;
+webMapImgTopPos = 40 ;
+webMapImgLeftPos = 40 ;
+
+/* Will be adding additional image components, e.g., seascapes and routes... */
+/* ( and will be working those out on a separate page) */
+/* ### how to can I get this to update automatically when the visitor changes options?  ### */
+console.log('webFrame = ' + webFrame);
+console.log('webMapImg = ' + webMapImg);
+console.log('webShipImg = ' + webShipImg);
+/*             
+<input type="number" id="webMapImgWidth" value=webMapImgWidth>
+<p>Width of background MapImg?</p>        
+<input type="number" id="webMapImgTopPos" value=webMapImgTopPos>
+<p>Top of background MapImg (relative to...?)</p>
+<input type="number" id="webMapImgLeftPos" value=webMapImgLEftPos>
+<p>LEft of background MapImg (relative to...?)</p>
+
+var ImgOverlayPrelude = '<input type=\"number\" id=\"webMapImgWidth\" value='+webMapImgWidth+'>' ;
+ImgOverlayPrelude += '<p>Width of background MapImg?</p>' ;			
+*/        
+
+/*             
+var ImgOverlayHTML = '<div style=\"position: relative; top:' + webMapImgTopPos + 'px; left:' + webMapImgLeftPos + 'px; z-index: 0;\">' ;
+    ImgOverlayHTML +=   '<img src=' + webMapImg ;
+    ImgOverlayHTML +=   'class=\"map\" style=\"width: ' + webMapImgWidth + 'px; height: auto;\" />' ;
+*/        
+var ImgOverlayHTML = '<div style=\"position: relative; top: 60px; left: -300px; z-index: 0;\">' ;
+    ImgOverlayHTML +=   '<img src=' + webMapImg ;
+    ImgOverlayHTML +=   'class=\"map\" style=\"width: 200px; height: auto;\" />' ;
+
+    ImgOverlayHTML +=   '<div style=\"position: absolute; top: -40px; left: -50px; z-index: 2;\">' ;
+    ImgOverlayHTML +=     '<img src=' + webFrameImg ;
+    ImgOverlayHTML +=     'class=\"frame\" width=\"640px\" height=\"auto\"' ;
+    ImgOverlayHTML +=     'style=\"width: 280px; maxwidth: 25%; height: auto;\" />' ;
+    ImgOverlayHTML +=   '</div>' ;
+
+    ImgOverlayHTML +=   '<div style=\"position: absolute; top: 60px; left: 50px; z-index: 1;\">' ;
+    ImgOverlayHTML +=     '<img src=' + webShipImg ;
+    ImgOverlayHTML +=     'class=\"ship\" width=\"80px\" height=\"auto\"' ;
+    ImgOverlayHTML +=     'style=\"width: 80px maxwidth:25%; height: auto; '
+    ImgOverlayHTML +=     'border-style: solid; border-width: 3px; border-color: darkblue; \" />' ;
+    ImgOverlayHTML +=   '</div>' ;
+
+    ImgOverlayHTML += '</div>' ;
+
+document.getElementById("ProductPhoto").innerHTML = ImgOverlayPrelude+ImgOverlayHTML;

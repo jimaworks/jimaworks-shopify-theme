@@ -1,0 +1,383 @@
+<!--   
+    initialize-defaults.liquid
+    Original Nov 7, 2018
+    Nxt: Dec 6, 2018
+    
+    Origins:
+        localStorage.setItem("RegionOfOrigin", regionName) ;
+        localStorage.setItem("RegionOfOriginDefault", "UserProvided") ;
+        localStorage.setItem("RegionOfOriginAbbrev", regionAbbrev) ;
+        localStorage.setItem("RegionOfOriginImageFileName", regionImageFileNm) ;
+    Era:
+        localStorage.setItem("YearOfCrossing", YrOfXing) ;
+        localStorage.setItem("currRteMapFile", currRteMapFileNm) ;
+        localStorage.setItem("currRteMapYear", currRteMapYear) ;
+        localStorage.setItem("prevRteMapYear", prevRteMapYear) ;
+        localStorage.setItem("nextMapYear", nextRteMapYear) ;
+        console.log("1") ;
+        
+        localStorage.setItem("Era", erasArray[eraIndex]) ;
+        localStorage.setItem("EraAbbrev", eraAbbrevs[eraIndex]) ;
+        localStorage.setItem("CommemorationTimePeriodStart", eraStartArray[eraIndex]) ;
+        localStorage.setItem("CommemorationTimePeriodEnd", eraEndArray[eraIndex]) ;
+        localStorage.setItem("CommemorationTimePeriodReprYr", eraRepresentativeYearArray[eraIndex]) ;
+//  ###?###      localStorage.setItem("EraImageFileName", eraImageFileNm) ;
+
+    Ship:
+    var currentShipFilterMethod = "eraFilter"  ; /* localStorage.ShipFilter ; */
+        localStorage.ShipSort = "alpha" ;
+        webShipImg = localStorage.shipPic;  
+        localStorage.setItem("TransportCraft", shipInfo[IDIndex]) ;
+        localStorage.setItem("shipName", shipInfo[nameIndex]) ;
+        localStorage.setItem("shippingLine", shipInfo[operatorIndex]) ;
+        localStorage.setItem("shipTotPsgrVolume", shipInfo[totalPsgrsIndex]) ;
+        localStorage.setItem("shipCareerEnd", eraEndArray[eraIndex]) ; /*  ### shipCareerBegin? ### */
+        localStorage.setItem("shipImageIndex", shipImageIndex) ;
+        localStorage.setItem("shipPic", shipImageFile) ;
+        localStorage.setItem("shipImageTransparentBackground", shipImageBackground) ;
+/* this requires the target string "localStorage.userProvidedShipName" to be set up first */
+        var tgtShipName = localStorage.userProvidedShipName;
+        
+        -- or --
+        var IDIndex =  0 ; 
+var nameIndex =  1 ; 
+var eraIndex =  2 ; 
+var operatorIndex =  3 ; 
+var classIndex =  4 ; 
+var careerStartIndex =  5 ; 
+var careerEndIndex =  6 ; 
+var totalPsgrsIndex =  7 ; 
+var imageryIndex =  8 ; 
+var backgroundIndex =  9 ;
+
+*/
+    localStorage.setItem("TransportCraft", shipInfo[IDIndex]) ;
+    localStorage.setItem("shipName", shipInfo[nameIndex]) ;
+    localStorage.setItem("shipName", shipInfo[nameIndex]) ;
+    localStorage.setItem("shippingLine", shipInfo[operatorIndex]) ;
+    localStorage.setItem("shipTotPsgrVolume", shipInfo[totalPsgrsIndex]) ;
+    localStorage.setItem("shipCareerStart", shipInfo[careerStartIndex]) ; /*  ### shipCareerBegin? ### */
+    localStorage.setItem("shipCareerEnd", shipInfo[careerEndIndex]) ; /*  ### shipCareerBegin? ### */
+    localStorage.setItem("shipImageIndex", shipImageIndex) ;
+    localStorage.setItem("shipPic", shipImageFile) ;
+    localStorage.setItem("shipImageTransparentBackground", shipImageBackground) ;
+
+    Route:
+    
+    
+-->
+
+<script type="text/javascript">// <![CDATA[
+function initializeDefaults() {
+/*
+    console.log("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
+    alert("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
+*/
+
+/* localVarNam      localVarDefault     localVarDefaultAbbrev  */
+
+/* "RegionOfOrigin"  "EuropeAndTheMediterranean"  "EuM"  */
+
+        var RegionOfOriginDefault = "EuropeAndTheMediterranean" ;
+        var RegionOfOriginAbbrevDefault = "EuM" ;
+        /* var RegionOfOriginImgFileName = "..."; */
+        localStorage.setItem("RegionOfOriginDefault", RegionOfOriginDefault) ;
+        if (localStorage.RegionOfOrigin==undefined) {
+            localStorage.setItem("RegionOfOrigin", RegionOfOriginDefault) ;
+            localStorage.setItem("RegionOfOriginAbbrev", RegionOfOriginAbbrevDefault) ;
+            /* localStorage.setItem("RegionOfOriginImageFileName", RegionOfOriginImgFileName) ; */
+        } ;
+
+/* "Era"  "EraOfThePassengerLiner"  "Liner"  */  //### issue: sometimes use dates, sometimes not.  Fix - not ###
+        var EraDefault = "EraOfThePassengerLiner(1895-1970)";
+        var EraAbbrevDefault = "Liner";
+        /* var EraImgFileName = "..."; */
+        localStorage.setItem("EraDefault", EraDefault) ;
+        if (localStorage.Era==undefined) {
+            localStorage.setItem("Era", EraDefault) ;
+            localStorage.setItem("EraAbbrev", EraAbbrevDefault) ;
+            /* localStorage.setItem("EraImageFileName", EraImgFileName) ; */
+        } ;
+
+/* "TimePeriod"  "EraOfThePassengerLiner"  "Liner"  */  //### issue: sometimes use dates, sometimes not.  Fix - not ###
+//    shopifyPrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+//    shopifyImgSizePostfix = "_256x256" ;
+//    currMapFile = shopifyPrefix + prevThisNextAvailMapYears[1]+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+        localStorage.setItem("YearOfCrossing", 1907) ;
+        localStorage.setItem("currRteMapFile", "1910-Routes-EuM_256x256.png") ;
+        localStorage.setItem("currRteMapYear", 1910) ;
+        localStorage.setItem("prevRteMapYear", 1900) ;
+        localStorage.setItem("nextMapYear", 1914) ;
+
+/* "Route"  "Northern"  "Liner"  */
+        var PassageDefault = "Northern";
+        var PassageAbbrevDefault = "Nor";
+        /* var PassageImgFileName = "..."; */
+        localStorage.setItem("PassageDefault", PassageDefault) ;
+        if (localStorage.Passage==undefined) {
+            localStorage.setItem("Passage", PassageDefault) ;
+            localStorage.setItem("PassageAbbrev", PassageAbbrevDefault) ;
+            /* localStorage.setItem("PassageImageFileName", PassageImgFileName) ; */
+        } ;
+
+    /* ship info  */
+    /* initialize by using the a specially made ship array */
+    initializationShipArray =  [
+                    ["ID","name","era", "operator", "class", "careerStart","careerEnd","totalPsgrs",
+                     "imagery", 
+                     "background"]
+                ] ;
+    var IDIndex =  0 ;
+    var nameIndex =  1 ;
+    var eraIndex =  2 ; 
+    var operatorIndex =  3 ; 
+    var classIndex =  4 ; 
+    var careerStartIndex =  5 ; 
+    var careerEndIndex =  6 ; 
+    var totalPsgrsIndex =  7 ; 
+    var imageryIndex =  8 ; 
+    var backgroundIndex =  9 ;
+    initializationShipArray.push(["Maasdam", "Maasdam", "EraOfThePassengerLiner(1895-1970)", "Holland-America", "PsgLiner", 1952, 1968, 270.643,  "Maasdam-colpic.jpg|Maasdam_1952-1968_-640x413-b_wpic.png|Maasdam_1952-1968_-499x303-colpic.png|Maasdam_1952-1968_-640x177-mdlrend.png", "background|background|background|transparent"]) ; 
+   
+        var TransportCraftDefault = initializationShipArray[1][IDIndex] ;
+        localStorage.setItem("TransportCraftDefault", TransportCraftDefault) ;
+        if (localStorage.TransportCraft==undefined) {
+            localStorage.setItem("TransportCraft", TransportCraftDefault) ;
+        } ;
+        
+        var shipNameDefault = initializationShipArray[1][nameIndex] ;
+        localStorage.setItem("shipNameDefault", shipNameDefault) ;
+        if (localStorage.shipName==undefined) {
+            localStorage.setItem("shipName", shipNameDefault) ;
+        } ;
+        
+        var shipEraDefault = initializationShipArray[1][eraIndex] ;
+        localStorage.setItem("shipEraDefault", shipEraDefault) ;
+        if (localStorage.shipEra==undefined) {
+            localStorage.setItem("shipEra", shipEraDefault) ;
+        } ;
+        
+        var thisShipsImages = initializationShipArray[1][imageryIndex].split("|");
+        var shipPicDefault = thisShipsImages[0];
+        localStorage.setItem("shipPicDefault", shipPicDefault) ;
+        if (localStorage.shipPic==undefined) {
+            localStorage.setItem("shipPic", shipPicDefault) ;
+        } ;
+        
+        var shipImageBackgroundArray = initializationShipArray[1][backgroundIndex].split("|") ;
+        var shipImageTransparentBackgroundDefault = shipImageBackgroundArray[0];
+        localStorage.setItem("shipImageTransparentBackgroundDefault", shipImageTransparentBackgroundDefault) ;
+        if (localStorage.shipImageTransparentBackground==undefined) {
+            localStorage.setItem("shipImageTransparentBackground", shipImageTransparentBackgroundDefault) ;
+        } ;
+
+        var shipCareerStartDefault = initializationShipArray[1][careerStartIndex] ;
+        localStorage.setItem("shipCareerStartDefault", shipCareerStartDefault) ;
+        if (localStorage.shipCareerStart==undefined) {
+            localStorage.setItem("shipCareerStart", shipCareerStartDefault) ;
+        } ;
+        
+        var shipCareerEndDefault = initializationShipArray[1][careerEndIndex] ;
+        localStorage.setItem("shipCareerEndDefault", shipCareerEndDefault) ;
+        if (localStorage.shipCareerEnd==undefined) {
+            localStorage.setItem("shipCareerEnd", shipCareerEndDefault) ;
+        } ;
+        
+        var shipTotPsgrVolumeDefault = initializationShipArray[1][totalPsgrsIndex] ;
+        localStorage.setItem("shipTotPsgrVolumeDefault", shipTotPsgrVolumeDefault) ;
+        if (localStorage.shipTotPsgrVolume==undefined) {
+            localStorage.setItem("shipTotPsgrVolume", shipTotPsgrVolumeDefault) ;
+        } ;
+        
+        var shippingLineDefault = initializationShipArray[1][operatorIndex] ;
+        localStorage.setItem("shippingLineDefault", shippingLineDefault) ;
+        if (localStorage.shippingLine==undefined) {
+            localStorage.setItem("shippingLine", shippingLineDefault) ;
+        } ;
+
+        var TransportCraftDefault = "Pretoria(1890-1930)";
+        var TransportCraftAbbrevDefault = "Pretoria";
+        /* var TransportCraftImgFileName = "..."; */
+        localStorage.setItem("TransportCraftDefault", TransportCraftDefault) ;
+        if (localStorage.TransportCraft==undefined) {
+            localStorage.setItem("TransportCraft", TransportCraftDefault) ;
+            localStorage.setItem("TransportCraftAbbrev", TransportCraftAbbrevDefault) ;
+            /* localStorage.setItem("TransportCraftImageFileName", TransportCraftImgFileName) ; */
+        } ;
+
+        var ShowTransportCraftImageDefault = "TypicalShip";
+        var ShowTransportCraftImageAbbrevDefault = "Typ";
+        /* var ShowTransportCraftImageImgFileName = "..."; */
+        localStorage.setItem("ShowTransportCraftImageDefault", ShowTransportCraftImageDefault) ;
+        if (localStorage.ShowTransportCraftImage==undefined) {
+            localStorage.setItem("ShowTransportCraftImage", ShowTransportCraftImageDefault) ;
+            localStorage.setItem("ShowTransportCraftImageAbbrev", ShowTransportCraftImageAbbrevDefault) ;
+            /* localStorage.setItem("ShowTransportCraftImageFileName", ShowTransportCraftImageFileName) ; */
+        } ;
+
+        /*
+        var webMapImg = localStorage.MapStyleImg ;
+        var webFrameImg = localStorage.FrameIg ;
+        var webShipImg = localStorage.shipPicImg ;
+
+        var webMapImg =   '\"https://cdn.shopify.com/s/files/1/1336/0641/files/2016-NAtlantic-MayanGlow-640pxW.png\" ' ;
+        var webShipImg =      '\"https://cdn.shopify.com/s/files/1/1336/0641/files/St_Paul-24-640pxW.jpg\" ' ;
+        var webFrameImg =     '\"https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-640pxW.png\" ' ; 
+        var webMapImgDefault = '\"https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png?5705690595026422411\" ' ;
+        */
+
+        /*
+         * var webMapImgDefault = "https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png?5705690595026422411" ;
+         */
+        var webMapImgDefault = "EuM-Liner-Pari.png" ;
+        localStorage.setItem("webMapImgDefault", webMapImgDefault) ;
+        if (localStorage.webMapImg==undefined) {
+            localStorage.setItem("webMapImg", webMapImgDefault) ;
+        } ;
+
+        var MapStyleDefault = "ParisSage";
+        var MapStyleAbbrevDefault = "Pari";
+        /* var MapStyleImgFileName = "..."; */
+        localStorage.setItem("MapStyleDefault", MapStyleDefault) ;
+        if (localStorage.MapStyle==undefined) {
+            localStorage.setItem("MapStyle", MapStyleDefault) ;
+            localStorage.setItem("MapStyleAbbrev", MapStyleAbbrevDefault) ;
+            /* localStorage.setItem("MapStyleImageFileName", MapStyleImgFileName) ; */
+        } ;
+
+        var FrameDefault = "BlackWalnut";
+        var FrameAbbrevDefault = "Wal";
+        /* var FrameImgFileName = "..."; */
+        localStorage.setItem("FrameDefault", FrameDefault) ;
+        if (localStorage.Frame==undefined) {
+            localStorage.setItem("Frame", FrameDefault) ;
+            localStorage.setItem("FrameAbbrev", FrameAbbrevDefault) ;
+            /* localStorage.setItem("FrameImageFileName", FrameImgFileName) ; */
+        } ;
+
+        var SizeDefault = "Medium";
+        var SizeAbbrevDefault = "Med";
+        /* var SizeImgFileName = "..."; */
+        localStorage.setItem("SizeDefault", SizeDefault) ;
+        if (localStorage.Size==undefined) {
+            localStorage.setItem("Size", SizeDefault) ;
+            localStorage.setItem("SizeAbbrev", SizeAbbrevDefault) ;
+            /* localStorage.setItem("SizeImageFileName", SizeImgFileName) ; */
+        } ;
+
+        var OptionsDefault = "None";
+        var OptionsAbbrevDefault = "Non";
+        /* var OptionsImgFileName = "..."; */
+        localStorage.setItem("OptionsDefault", OptionsDefault) ;
+        if (localStorage.Options==undefined) {
+            localStorage.setItem("Options", OptionsDefault) ;
+            localStorage.setItem("OptionsAbbrev", OptionsAbbrevDefault) ;
+            /* localStorage.setItem("OptionsImageFileName", OptionsImgFileName) ; */
+        } ;
+
+        var TitleLine1Default = "Our Family's Atlantic Crossing";
+        /* var TitleLine1ImgFileName = "..."; */
+        localStorage.setItem("TitleLine1Default", TitleLine1Default) ;
+        if (localStorage.TitleLine1==undefined) {
+            localStorage.setItem("TitleLine1", TitleLine1Default) ;
+            /* localStorage.setItem("TitleLine1ImageFileName", TitleLine1ImgFileName) ; */
+        } ;
+
+        var TitleLine2Default = "A Thread in the Great American Tapestry";
+        /* var TitleLine2ImgFileName = "..."; */
+        localStorage.setItem("TitleLine2Default", TitleLine2Default) ;
+        if (localStorage.TitleLine2==undefined) {
+            localStorage.setItem("TitleLine2", TitleLine2Default) ;
+            /* localStorage.setItem("TitleLine2ImageFileName", TitleLine2ImgFileName) ; */
+        } ;
+
+        var OriginsLine1Default = "Origins: The Old World";
+        /* var OriginsLine1ImgFileName = "..."; */
+        localStorage.setItem("OriginsLine1Default", OriginsLine1Default) ;
+        if (localStorage.OriginsLine1==undefined) {
+            localStorage.setItem("OriginsLine1", OriginsLine1Default) ;
+            /* localStorage.setItem("OriginsLine1ImageFileName", OriginsLine1ImgFileName) ; */
+        } ;
+
+        var OriginsLine2Default = "Crossing: The North Atlantic";
+        /* var OriginsLine2ImgFileName = "..."; */
+        localStorage.setItem("OriginsLine2Default", OriginsLine2Default) ;
+        if (localStorage.OriginsLine2==undefined) {
+            localStorage.setItem("OriginsLine2", OriginsLine2Default) ;
+            /* localStorage.setItem("OriginsLine2ImageFileName", OriginsLine2ImgFileName) ; */
+        } ;
+
+        var DestinyLine1Default = "Arrival: A New World Port";
+        /* var DestinyLine1ImgFileName = "..."; */
+        localStorage.setItem("DestinyLine1Default", DestinyLine1Default) ;
+        if (localStorage.DestinyLine1==undefined) {
+            localStorage.setItem("DestinyLine1", DestinyLine1Default) ;
+            /* localStorage.setItem("DestinyLine1ImageFileName", DestinyLine1ImgFileName) ; */
+        } ;
+
+        var DestinyLine2Default = "Destiny: An American Lineage";
+        /* var DestinyLine2ImgFileName = "..."; */
+        localStorage.setItem("DestinyLine2Default", DestinyLine2Default) ;
+        if (localStorage.DestinyLine2==undefined) {
+            localStorage.setItem("DestinyLine2", DestinyLine2Default) ;
+            /* localStorage.setItem("DestinyLine2ImageFileName", DestinyLine2ImgFileName) ; */
+        } ;
+
+        var ShipInfoLine1Default = "Typical Ship of this Era: 1200 Passengers";
+        /* var ShipInfoLine1ImgFileName = "..."; */
+        localStorage.setItem("ShipInfoLine1Default", ShipInfoLine1Default) ;
+        if (localStorage.ShipInfoLine1==undefined) {
+            localStorage.setItem("ShipInfoLine1", ShipInfoLine1Default) ;
+            /* localStorage.setItem("ShipInfoLine1ImageFileName", ShipInfoLine1ImgFileName) ; */
+        } ;
+
+        var ShipInfoLine2Default = "Typical Duration of Crossing: Two Weeks";
+        /* var ShipInfoLine2ImgFileName = "..."; */
+        localStorage.setItem("ShipInfoLine2Default", ShipInfoLine2Default) ;
+        if (localStorage.ShipInfoLine2==undefined) {
+            localStorage.setItem("ShipInfoLine2", ShipInfoLine2Default) ;
+            /* localStorage.setItem("ShipInfoLine2ImageFileName", ShipInfoLine2ImgFileName) ; */
+        } ;
+
+        var PlaqueLine1Default = "In Appreciation of";
+        /* var PlaqueLine1ImgFileName = "..."; */
+        localStorage.setItem("PlaqueLine1Default", PlaqueLine1Default) ;
+        if (localStorage.PlaqueLine1==undefined) {
+            localStorage.setItem("PlaqueLine1", PlaqueLine1Default) ;
+            /* localStorage.setItem("PlaqueLine1ImageFileName", PlaqueLine1ImgFileName) ; */
+        } ;
+
+        var PlaqueLine2Default = "the Courage and Perseverance";
+        /* var PlaqueLine2ImgFileName = "..."; */
+        localStorage.setItem("PlaqueLine2Default", PlaqueLine2Default) ;
+        if (localStorage.PlaqueLine2==undefined) {
+            localStorage.setItem("PlaqueLine2", PlaqueLine2Default) ;
+            /* localStorage.setItem("PlaqueLine2ImageFileName", PlaqueLine2ImgFileName) ; */
+        } ;
+
+        var PlaqueLine3Default = "of Those of Our Forebears";
+        /* var PlaqueLine3ImgFileName = "..."; */
+        localStorage.setItem("PlaqueLine3Default", PlaqueLine3Default) ;
+        if (localStorage.PlaqueLine3==undefined) {
+            localStorage.setItem("PlaqueLine3", PlaqueLine3Default) ;
+            /* localStorage.setItem("PlaqueLine3ImageFileName", PlaqueLine3ImgFileName) ; */
+        } ;
+        
+        var PlaqueLine4Default = "Who First Crossed to America";
+        /* var PlaqueLine4ImgFileName = "..."; */
+        localStorage.setItem("PlaqueLine3Default", PlaqueLine4Default) ;
+        if (localStorage.PlaqueLine4==undefined) {
+            localStorage.setItem("PlaqueLine4", PlaqueLine4Default) ;
+            /* localStorage.setItem("PlaqueLine4ImageFileName", PlaqueLine4ImgFileName) ; */
+        } ;
+        
+        var ShipSortDefault = "alpha";
+        localStorage.setItem("ShipSortDefault", ShipSortDefault) ;
+        if (localStorage.ShipSort==undefined) {
+            localStorage.setItem("ShipSort", ShipSortDefault) ;
+        } ;
+        
+        var currentShipSortMethod = localStorage.shipSort ;
+        
+    }
+// ]]></script>

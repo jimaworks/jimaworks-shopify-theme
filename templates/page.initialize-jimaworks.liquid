@@ -1,0 +1,18 @@
+<div class="grid">
+
+  <div class="grid__item post-large--two-thirds push--post-large--one-sixth">
+
+    <div class="section-header">
+      <h1 class="section-header--title">{{ page.title }}</h1>
+    </div>
+
+    <div class="rte">
+      {% include 'initialize-defaults'%} 
+      {% include 'initialize-shipdb'%} 
+      {% include 'define-preview-fn'%}
+       {{ page.content }}
+    </div>
+
+  </div>
+
+</div>

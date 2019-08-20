@@ -1,0 +1,264 @@
+<style>
+  .site-header__logo a {
+    max-width: {{ section.settings.logo_max_width | escape }}px;
+  }
+
+  /*================= If logo is above navigation ================== */
+  {% if section.settings.nav_below_logo %}
+    .site-nav {
+      {% if section.settings.show_header_lines %}
+        border-top: 1px solid {{ settings.color_borders }};
+        border-bottom: 1px solid {{ settings.color_borders }};
+      {% endif %}
+      margin-top: 30px;
+    }
+  {% endif %}
+
+  /*============ If logo is on the same line as navigation ============ */
+  {% unless section.settings.nav_below_logo or section.settings.show_header_lines == false %}
+    .site-header .grid--full {
+      border-bottom: 1px solid {{ settings.color_borders }};
+      padding-bottom: 30px;
+    }
+  {% endunless %}
+
+
+  {% unless section.settings.nav_below_logo %}
+    @media screen and (min-width: 769px) {
+      .site-nav {
+        text-align: right!important;
+      }
+    }
+  {% endunless %}
+</style>
+
+<div data-section-id="{{ section.id }}" data-section-type="header-section">
+  <div class="header-bar">
+    <div class="wrapper medium-down--hide">
+      <div class="post-large--display-table">
+
+        {% if section.settings.header_text != blank or section.settings.header_search_enable %}
+          <div class="header-bar__left post-large--display-table-cell">
+
+            {% comment %}
+              Add social links to header
+            {% endcomment %}
+
+            {% comment %}
+            <div class="header-bar__module header-bar__module--list">
+              {% include 'social-links' %}
+            </div>
+            {% endcomment %}
+
+            {% if section.settings.header_text != blank %}
+              <div class="header-bar__module header-bar__message">
+                {{ section.settings.header_text | escape }}
+              </div>
+            {% elsif section.settings.header_search_enable %}
+              <div class="header-bar__module header-bar__search">
+                {% include 'search-bar' with 'header' %}
+              </div>
+            {% endif %}
+
+          </div>
+        {% endif %}
+
+        <div class="header-bar__right post-large--display-table-cell">
+
+          {% if shop.customer_accounts_enabled %}
+            <ul class="header-bar__module header-bar__module--list">
+              {% if customer %}
+                <li>
+                  <a href="/account">{{ 'layout.customer.account' | t }}</a>
+                </li>
+                <li>
+                  {{ 'layout.customer.log_out' | t | customer_logout_link }}
+                </li>
+              {% else %}
+                <li>
+                  {{ 'layout.customer.log_in' | t | customer_login_link }}
+                </li>
+                <li>{{ 'layout.customer.or' | t }}</li>
+                <li>
+                  {{ 'layout.customer.create_account' | t | customer_register_link }}
+                </li>
+              {% endif %}
+            </ul>
+          {% endif %}
+
+          <div class="header-bar__module">
+            <span class="header-bar__sep" aria-hidden="true"></span>
+            <a href="/cart" class="cart-page-link">
+              <span class="icon icon-cart header-bar__cart-icon" aria-hidden="true"></span>
+            </a>
+          </div>
+
+          <div class="header-bar__module">
+            <a href="/cart" class="cart-page-link">
+              {{ 'layout.cart.title' | t }}{% unless cart.item_count == 0 %}:{% endunless %}
+              <span class="cart-count header-bar__cart-count{% if cart.item_count == 0 %} hidden-count{% endif %}">{{ cart.item_count }}</span>
+            </a>
+          </div>
+
+          {% if section.settings.header_search_enable %}
+            {% unless section.settings.header_text == blank %}
+              <div class="header-bar__module header-bar__search">
+                {% include 'search-bar' with 'header' %}
+              </div>
+            {% endunless %}
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+    <div class="wrapper post-large--hide">
+      {% unless section.settings.nav_menu == blank and section.settings.header_search_enable == false and shop.customer_accounts_enabled == false %}
+        <button type="button" class="mobile-nav-trigger" id="MobileNavTrigger" data-menu-state="close">
+          <span class="icon icon-hamburger" aria-hidden="true"></span>
+          {{ 'layout.navigation.menu' | t }}
+        </button>
+      {% endunless %}
+      <a href="/cart" class="cart-page-link mobile-cart-page-link">
+        <span class="icon icon-cart header-bar__cart-icon" aria-hidden="true"></span>
+        {{ 'layout.cart.title' | t }} <span class="cart-count{% if cart.item_count == 0 %} hidden-count{% endif %}">{{ cart.item_count }}</span>
+      </a>
+    </div>
+    {% include 'mobile-nav' with linklists[section.settings.nav_menu] %}
+  </div>
+
+  <header class="site-header" role="banner">
+    <div class="wrapper">
+
+      {% if section.settings.nav_below_logo %}
+
+      <div class="grid--full">
+        <div class="grid__item">
+          {% if template.name == 'index' %}
+            <h1 class="site-header__logo{% if section.settings.left_aligned_logo %} post-large--left{% endif %}" itemscope itemtype="http://schema.org/Organization">
+          {% else %}
+            <div class="h1 site-header__logo{% if section.settings.left_aligned_logo %} post-large--left{% endif %}" itemscope itemtype="http://schema.org/Organization">
+          {% endif %}
+            {% if section.settings.logo != blank %}
+              {% capture image_size %}{{ section.settings.logo_max_width | escape }}x{% endcapture %}
+              <a href="/" itemprop="url">
+                <img src="{{ section.settings.logo | img_url: image_size }}" alt="{{ shop.name }}" itemprop="logo">
+              </a>
+            {% else %}
+              <a href="/" itemprop="url">{{ shop.name }}</a>
+            {% endif %}
+          {% if template.name == 'index' %}
+            </h1>
+          {% else %}
+            </div>
+          {% endif %}
+          {% if section.settings.header_text != blank %}
+            <p class="header-message post-large--hide">
+              <small>{{ section.settings.header_text | escape }}</small>
+            </p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="grid--full medium-down--hide">
+        <div class="grid__item">
+          {% include 'site-nav' with linklists[section.settings.nav_menu] %}
+        </div>
+      </div>
+
+      {% else %}
+
+      <div class="grid--full post-large--display-table">
+        <div class="grid__item post-large--one-half post-large--display-table-cell">
+          {% if template.name == 'index' %}
+            <h1 class="site-header__logo post-large--left" itemscope itemtype="http://schema.org/Organization">
+          {% else %}
+            <div class="h1 site-header__logo post-large--left" itemscope itemtype="http://schema.org/Organization">
+          {% endif %}
+            {% if section.settings.logo != blank %}
+              {% capture image_size %}{{ section.settings.logo_max_width | escape }}x{% endcapture %}
+              <a href="/" itemprop="url">
+                <img src="{{ section.settings.logo | img_url: image_size }}" alt="{{ shop.name }}" itemprop="logo">
+              </a>
+            {% else %}
+              <a href="/" itemprop="url">{{ shop.name }}</a>
+            {% endif %}
+          {% if template.name == 'index' %}
+            </h1>
+          {% else %}
+            </div>
+          {% endif %}
+          {% if section.settings.header_text != blank %}
+            <p class="header-message post-large--hide">
+              <small>{{ section.settings.header_text | escape }}</small>
+            </p>
+          {% endif %}
+        </div>
+        <div class="grid__item post-large--one-half post-large--display-table-cell medium-down--hide">
+          {% include 'site-nav' with linklists[section.settings.nav_menu] %}
+        </div>
+      </div>
+
+      {% endif %}
+
+    </div>
+  </header>
+</div>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo",
+        "info": "450 x 200px recommended"
+      },
+      {
+        "type": "text",
+        "id": "logo_max_width",
+        "label": "Custom logo width (in pixels)",
+        "default": "450"
+      },
+      {
+        "type": "header",
+        "content": "Main menu"
+      },
+      {
+        "type": "link_list",
+        "id": "nav_menu",
+        "label": "Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "nav_below_logo",
+        "label": "Center main menu below logo"
+      },
+      {
+        "type": "checkbox",
+        "id": "left_aligned_logo",
+        "label": "Left-align logo"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_header_lines",
+        "label": "Show divider lines in header"
+      },
+      {
+        "type": "header",
+        "content": "Top bar"
+      },
+      {
+        "type": "text",
+        "id": "header_text",
+        "label": "Top bar text",
+        "info": "Max 55 characters"
+      },
+      {
+        "type": "checkbox",
+        "id": "header_search_enable",
+        "label": "Show search bar"
+      }
+    ]
+  }
+{% endschema %}

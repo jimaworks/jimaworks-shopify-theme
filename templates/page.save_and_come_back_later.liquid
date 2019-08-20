@@ -1,0 +1,39 @@
+<div class="grid">
+
+  <div class="grid__item post-large--two-thirds push--post-large--one-sixth">
+
+    <div class="section-header">
+      <h1 class="section-header--title">{{ page.title }}</h1>
+    </div>
+
+    <div class="rte">
+      {% if customer  %}
+          {{ page.content }}
+      {% else %}
+     
+      <h2>The "Save and Come Back Later" button is under development and will soon be complete.</h2>
+      <h3>When complete, a "Save and Come Back Later" action will result in an email to you with a link back to jimaworks.</h3>
+      <p>When you click on that link, you will be restored to your RelationShips project at the point you left it,
+        with all your decisions regarding the Era, Country of Origin, etc., of your relation restored.
+        Sign up now and we will provide access to it as soon as it is available.
+      </p>
+      <p>As a member of the jimaworks community, you will also be eligible for
+        <br>
+      - Special Deals and Discounts
+        <br>
+      - Downloadable, Hints&amp; Tips-annotated worksheet for RelationShips questions
+        <br>
+      - The jimaworks Newsletter
+      </p>
+
+        {{ 'Log in' | customer_login_link }}
+        {% if shop.customer_accounts_optional %}
+          <span>or</span>
+          {{ 'Create an account' | customer_register_link }}
+        {% endif %}
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>

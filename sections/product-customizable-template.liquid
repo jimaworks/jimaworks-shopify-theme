@@ -1,0 +1,465 @@
+<!--JIMAWORKS EDIT-->
+<script src="https://cdn.ckeditor.com/4.6.2/full-all/ckeditor.js"></script>
+<!--JIMAWORKS EDIT-->
+
+
+
+
+<div itemscope itemtype="http://schema.org/Product" id="ProductSection" data-section-id="{{ section.id }}" data-section-type="product-template" data-image-zoom-type="{{ section.settings.product_image_zoom_type }}" data-related-enabled="{{ section.settings.product_related_enable }}" data-show-extra-tab="{{ section.settings.show_extra_tab }}" data-extra-tab-content="{{ section.settings.extra_tab_content }}">
+
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+
+  <div class="section-header section-header--breadcrumb">
+    {% include 'breadcrumb' %}
+  </div>
+
+  <div class="product-single">
+    <div class="grid product-single__hero">
+      <div class="grid__item post-large--one-half">
+
+        {% if section.settings.product_thumbnails_position == 'below' or product.images.size < 2 %}
+
+          <div class="product-single__photos" id="ProductPhoto">
+            {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+            <img src="{{ featured_image | img_url: '1024x1024' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg"{% if section.settings.product_image_zoom_type == 'zoom-in' %} data-zoom="{{ featured_image | img_url: '1024x1024' }}"{% endif %}{% if section.settings.product_image_zoom_type == 'lightbox' %} class="zoom-lightbox"{% endif %} data-image-id="{{ featured_image.id }}">
+          </div>
+
+          {% if product.images.size > 1 %}
+
+            <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
+              {% for image in product.images %}
+                <li class="grid__item wide--one-quarter large--one-third medium-down--one-third">
+                  <a data-image-id="{{ image.id }}" href="{{ image.src | img_url: '1024x1024' }}" class="product-single__thumbnail">
+                    <img src="{{ image.src | img_url: 'grande' }}" alt="{{ image.alt | escape }}">
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+
+          {% endif %}
+
+        {% else %}
+
+          <div class="grid">
+
+            <div class="grid__item four-fifths product-single__photos" id="ProductPhoto">
+              {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+              <img src="{{ featured_image | img_url: '1024x1024' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg"{% if section.settings.product_image_zoom_type == 'zoom-in' %} data-zoom="{{ featured_image | img_url: '1024x1024' }}"{% endif %}{% if section.settings.product_image_zoom_type == 'lightbox' %} class="zoom-lightbox"{% endif %} data-image-id="{{ featured_image.id }}">
+            </div>
+
+            <div class="grid__item one-fifth">
+
+              <ul class="grid product-single__thumbnails" id="ProductThumbs">
+                {% for image in product.images %}
+                  <li class="grid__item">
+                    <a data-image-id="{{ image.id }}" href="{{ image.src | img_url: '1024x1024' }}" class="product-single__thumbnail">
+                      <img src="{{ image.src | img_url: 'grande' }}" alt="{{ image.alt | escape }}">
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+
+            </div>
+
+          </div>
+
+        {% endif %}
+
+        {% if section.settings.product_image_zoom_type == 'lightbox' %}
+        <ul class="gallery" class="hidden">
+          {% for image in product.images %}
+          <li data-image-id="{{ image.id }}" class="gallery__item" data-mfp-src="{{ image | img_url: '1024x1024' }}"></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+      </div>
+      <div class="grid__item post-large--one-half">
+        {% if section.settings.product_vendor_enable %}
+          <span class="h3" itemprop="brand">{{ product.vendor }}</span>
+        {% endif %}
+        <h1 itemprop="name">{{ product.title }}</h1>
+
+        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+          {% assign variant = product.selected_or_first_available_variant %}
+
+          <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+          <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+          <div class="product-single__prices">
+            {% if product.compare_at_price > product.price %}
+              <span id="ComparePriceA11y" class="visually-hidden">{{ 'products.product.sale_price' | t }}</span>
+            {% else %}
+              <span id="PriceA11y" class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+            {% endif %}
+            <span id="ProductPrice" class="product-single__price" itemprop="price" content="{{ product.price | divided_by: 100.00 }}">
+              {{ product.price | money }}
+            </span>
+
+            {% if product.compare_at_price > product.price %}
+              <span id="PriceA11y" class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+              <s id="ComparePrice" class="product-single__sale-price">
+                {{ product.compare_at_price_max | money }}
+              </s>
+            {% endif %}
+          </div>
+
+          <p style="color:#0081a3;font-style:italic;">From {{ product.price_min | money_with_currency }} to {{ product.price_max | money_with_currency }}</p>
+          <!--jimaworks edit-->   
+          {% unless section.settings.show_extra_tab == false or pages[section.settings.extra_tab_content] == empty %}
+            <div class="tabs">
+              <ul class="tab-switch__nav">
+                <li>
+                  <a href="#description" data-link="description" class="tab-switch__trigger h3">{{ 'products.product.description' | t }}</a>
+                </li>
+                <li>
+                  <a href="#extra" data-link="extra" class="tab-switch__trigger h3">{{ pages[section.settings.extra_tab_content].title }}</a>
+                </li>
+              </ul>
+              <div id="description" class="tab-switch__content" data-content="description">
+                <div class="product-description rte" itemprop="description">
+                  {{ product.description }}
+                </div>
+              </div>
+              <div id="extra" class="tab-switch__content" data-content="extra">
+                <div class="rte">
+                  {{ pages[section.settings.extra_tab_content].content }}
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="product-description rte" itemprop="description">
+              {{ product.description }}
+            </div>
+          {% endunless %}
+<!--jimaworks edit-->
+
+<hr />              
+<span style="font-weight:bold;color:#ff0000;">MAP:<br /><br /></span>
+
+          <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm">
+ 
+            <select name="id" id="productSelect" class="product-single__variants">
+              {% for variant in product.variants %}
+                {% if variant.available %}
+
+                  <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+
+                {% else %}
+                  <option disabled="disabled">
+                    {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                  </option>
+                {% endif %}
+              {% endfor %}
+            </select>
+
+            <div class="product-single__quantity{% unless section.settings.product_quantity_enable %} is-hidden{% endunless %}">
+              <label for="Quantity">{{ 'products.product.quantity' | t }}</label>
+              <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
+            </div>
+<!--JIMAWORKS EDIT - ANCESTOR INFORMATION COLLECTION FORM-->
+<p class="line-item-property__field">
+  <label>Historical Date of Map</label>
+  <select  id="historical-date-of-map" name="properties[Historical Date of Map]">
+    <option selected disabled>--please select one --</option>
+    <option disabled>A-Historic (i.e. no political boundaries)</option>
+    <option value="Contemporary">Contemporary</option>
+    <option disabled>1960</option>
+    <option disabled>1955</option>
+    <option disabled>1950</option>
+    <option disabled>1945</option>
+    <option disabled>1940</option>
+    <option disabled>1935</option>
+    <option disabled>1930</option>
+    <option disabled>1925</option>
+    <option disabled>1920</option>
+    <option disabled>1915</option>
+    <option disabled>1910</option>
+    <option disabled>1905</option>
+    <option disabled>1900</option>
+  </select>
+</p>
+
+<!--jimaworks form-->             
+<hr />          
+<p class="line-item-property__field">
+    
+<a href="/pages/resources#departure-arrival-resource"  title="Resources" target="_blank"><span style="background-color:#018699;font-size:12px;vertical-align:center;padding:5px;color:#ffffff;font-style:italics;float:right;clear:none;">Resources</span></a>           
+<span style="font-weight:bold;color:#ff0000;">ROUTE:<br /><br /></span>
+  <label for="place-of-origin">Place of Origin</label>
+  <input id="place-of-origin" type="text" name="properties[Place of Origin]">
+</p><br />
+            
+<p class="line-item-property__field">
+  <label>Port of Departure</label>
+  <select  id="departure-port" name="properties[Departure Port]">
+    <option selected disabled>--Choose One--</option>
+    <option value="Antwerp - Belgium">Antwerp - Belgium</option>
+    <option value="Bremen - Germany">Bremen - Germany</option>
+    <option value="Dublin - Ireland">Dublin - Ireland</option>
+    <option value="Gadsk - Poland">Gadsk - Poland</option>
+    <option value="Genoa - Italy">Genoa - Italy</option>
+    <option value="Haifa - Israel">Haifa - Israel</option>
+    <option value="Hamburg - Germany">Hamburg - Germany</option>
+    <option value="Istanbul - Turkey">Istanbul - Turkey</option>
+    <option value="Le Havre - France">Le Havre - France</option>
+    <option value="Lisbon - Portugal">Lisbon - Portugal</option>
+    <option value="Liverpool - Scotland">Liverpool - Scotland</option>
+    <option value="Naples - Italy">Naples - Italy</option>
+    <option value="Palermo - Italy">Palermo - Italy</option>
+    <option value="Rotterdam - The Netherlands">Rotterdam - The Netherlands</option>
+    <option value="Southampton - England">Southampton - England</option>
+    <option value="St. Petersburg - Russia">St. Petersburg - Russia</option>
+    <option value="Trieste - Italy">Trieste - Italy</option>
+    <option value="--Port of Departure Not Listed--">--Port of Departure Not Listed--</option>
+  </select>
+</p>
+<span style="color:#05537a;font-weight:normal;">
+If you know the port of departure, and it is not listed, please enter it below:</span><br />         
+<p class="line-item-property__field">
+  <label for="unlisted-port-of-departure">Unlisted Port of Departure</label>
+  <input id="unlisted-port-of-departure" type="text" name="properties[Unlisted Port of Departure]">
+</p><br />
+            
+<p class="line-item-property__field">
+  <label>Port of Arrival</label>
+  <select  id="arrival-port" name="properties[Arrival Port]">
+    <option selected disabled>--Current List of Arrival Ports--</option>
+    <option value="Baltimore">Baltimore</option>
+    <option value="Boston">Boston</option>
+    <option value="Charleston">Charleston</option>
+    <option value="Galveston">Galveston</option>
+    <option value="New Orleans">New Orleans</option>
+    <option value="New York">New York</option>
+    <option value="Philadelphia">Philadelphia</option>
+    <option value="--Port of Arrival Not Listed-">--Port of Arrival Not Listed-</option>
+  </select>
+</p>
+<span style="color:#05537a;font-weight:normal;">
+If you know the port of arrival, and it is not listed, please enter it below:</span><br />
+<p class="line-item-property__field">
+  <label for="unlisted-port-of-arrival">Unlisted Port of Arrival</label>
+  <input id="unlisted-port-of-arrival" type="text" name="properties[Unlisted Port of Arrival]">
+</p><br />
+            
+<p class="line-item-property__field">
+  <label for="destination">Destination</label>
+  <input id="destination" type="text" name="properties[Destination]">
+</p>
+      
+     
+<p class="line-item-property__field"><br />
+ <hr />   
+<a href="/pages/resources"  title="Resources" target="_blank"><span style="background-color:#018699;font-size:12px;vertical-align:center;padding:5px;color:#ffffff;font-style:italics;float:right;clear:none;">Resources</span></a>           
+<span style="font-weight:bold;color:#ff0000;">PLAQUE:<br /><br /></span>
+
+<span style="color:#05537a;font-weight:normal;">
+Please list the information you would like to memorialize on the plaque.</span><br />
+            <span style="font-size:small;"><strong>You may use our example below as a guide, or create your own format.  Some examples of information you may want to include:</strong><br />
+              <ul style="list-style-type:disc;list-style-position:inside;padding-left:25px;"><li>just a name</li>
+                <li>first and last name(s)</li>
+                <li>full formal name(s)</li>
+                <li>full name(s) plus nickname(s)</li>
+                <li>any of the above plus the age of the ancestor during the crossing</li>
+                <li>relations to others during the crossing</li>
+                <li><strong>Consider adding:</strong>
+                  <ul style="list-style-type:disc;list-style-position:inside;padding-left:25px;">
+                  <li>the name of the ship they took, and possibly the shipping line</li>
+                  <li>the departure port and the date of departure</li>
+                  <li>the arrival port and the date of arrival</li>
+                  </ul></li>
+              </ul><br />{{ 'plaque-example.jpg' | asset_url | img_tag }}</span>
+<p class="line-item-property__field">
+  <label for="names-of-ancestors">Please contain all information inside the black border below:</label>
+  
+  
+  <textarea  required class="required" id="names-of-ancestors" name="properties[Names of Ancestors]" 
+></textarea>
+  
+
+
+        <script>
+          
+          CKEDITOR.addCss('body{width:408px;height:144px;padding: 10px;border: 1px solid #acacac;margin: 20px auto;}');
+     
+          
+          
+    CKEDITOR.on( 'dialogDefinition', function( ev ) {
+    var dialogName = ev.data.name;
+    var dialogDefinition = ev.data.definition;
+
+    if ( dialogName == 'table' ) {
+        var info = dialogDefinition.getContents( 'info' );
+
+        info.get( 'txtWidth' )[ 'default' ] = '408px';       // Set default width to 500px
+        info.get( 'txtBorder' )[ 'default' ] = '0';         // Set default border to 0
+        info.get( 'cmbAlign' )[ 'default' ] = 'center';         // Set default border to 0
+        
+    }
+      
+});
+         
+          
+          
+          CKEDITOR.replace( 'properties[Names of Ancestors]',
+                           {   enterMode: CKEDITOR.ENTER_BR,
+		toolbar :
+		[
+			{ name: 'basicstyles', items : [ 'Bold', 'Italic' ] },
+			{ name: 'paragraph', items : [ 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
+            { name: 'styles', items : [ 'Font','FontSize' ] },
+            { name: 'insert', items : [ 'Table'] },
+            { name: 'document', items: [ 'Source', 'Preview' ] },
+           
+			
+        ],
+          
+          } );
+          
+        
+         
+        </script>
+  
+
+
+  
+</p>
+                  
+            <br /><br />         
+<!--jimaworks form-->           
+<!--JIMAWORKS EDIT - ANCESTOR INFORMATION COLLECTION FORM--> 
+
+            <button type="submit" name="add" id="AddToCart" class="btn">
+              <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+            </button>
+          </form>
+
+          
+
+          {% if section.settings.social_sharing %}
+            <hr class="hr--clear hr--small">
+            <h2 class="h4">{{ 'products.general.share_title' | t }}</h2>
+            {% include 'social-sharing' %}
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.product_related_enable %}
+    {% include 'related-products' %}
+  {% endif %}
+
+</div>
+
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+{% endunless %}
+
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+
+{% schema %}
+  {
+    "name": "Product pages",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "product_vendor_enable",
+        "label": "Show product vendor"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_quantity_enable",
+        "label": "Show quantity selector"
+      },
+      {
+        "type": "select",
+        "id": "product_image_zoom_type",
+        "label": "Image zoom type",
+        "options": [
+          {
+            "value": "lightbox",
+            "label": "Lightbox"
+          },
+          {
+            "value": "zoom-in",
+            "label": "Zoom-in"
+          },
+          {
+            "value": "",
+            "label": "No zoom"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "product_thumbnails_position",
+        "label": "Product thumbnail position",
+        "options": [
+          {
+            "value": "right",
+            "label": "Right of main image"
+          },
+          {
+            "value": "below",
+            "label": "Below main image"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Description"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_extra_tab",
+        "label": "Show a tab next to your product description",
+        "default": false
+      },
+      {
+        "type": "page",
+        "id": "extra_tab_content",
+        "label": "Tab content",
+        "info": "This page content will appear in the extra tab."
+      },
+      {
+        "type": "checkbox",
+        "id": "social_sharing",
+        "label": "Enable product sharing"
+      },
+      {
+        "type": "header",
+        "content": "Related products"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_related_enable",
+        "label": "Enable related products"
+      },
+      {
+        "type": "checkbox",
+        "id": "vendor_enable",
+        "label": "Show vendor"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sale_circle",
+        "label": "Show sale circle"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sold_out_circle",
+        "label": "Show sold out circle"
+      },
+      {
+        "type": "checkbox",
+        "id": "center_grid_link",
+        "label": "Center text below product images"
+      }
+    ]
+  }
+{% endschema %}

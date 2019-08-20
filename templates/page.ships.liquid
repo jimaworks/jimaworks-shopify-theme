@@ -1,0 +1,548 @@
+<script type="text/javascript">
+  var routes = '{{ shop.metafields.automatik.routes }}';
+  console.log(routes)
+</script>
+
+<script>
+$.getJSON( {{ shop.metafields.automatik.routes }}, function( data ) {
+  var items = [];
+  $.each( data, function( key, val ) {
+    items.push( "<li id='" + key + "'>" + val + "</li>" );
+  });
+ 
+  $( "<ul/>", {
+    "class": "my-new-list",
+    html: items.join( "" )
+  }).appendTo( ".text" );
+});
+</script>
+
+<div class="grid">
+
+  <div class="grid__item post-large--one-whole">
+    <div class="test"></div>
+
+    <div class="section-header">
+      <h1 class="section-header--title">{{ page.title }}</h1>
+    </div>
+
+    <div class="rte">
+      <!-- https://jimaworks.com/pages/1.e.SpecificShip 
+    1d: Specific Ship Name
+    --><script type="text/javascript">// <![CDATA[
+function matchEraString(element, eraString) {
+      return element == eraString;
+    }
+    
+/* first set up a coordinated set of strings for an associative array */
+    var currentlySpecifiedEra = localStorage.Era;
+    var eraArray = ["ColonialAndEarlyIndependenceEra", "EraOfModernSail", "EraOfTheSteamSailShip", "EraOfThePassengerLiner(1890-1970)", "EraOfAirTravel"] ;
+    var eraStartArray = ["1607", "1800", "1840", "1890", "1945"] ;
+    var eraEndArray = ["1820", "1900", "1915", "1970", "2018"] ;
+    var eraIndex = eraArray.findIndex(matchEraString);
+
+    var shipsArray = ["Petersburg", "Pretoria", "Vaderland", "Europa", "Maasdam", "Laconia"] ;
+    var shipMultPixArrayFiles = ["Petersburg-bwpic.jpg", "Pretoria(1897-1921)-bwpic.jpg", "Vaderland(1900-1917)-poster.png", "Europa(1920-1960)-postcd.jpg", "Maasdam-colpic.jpg", "Laconia(1911-1917)-illust.png"] ;
+    var shipEraArray = ["EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)"] ; 
+    var shippingLineArray = ["Russia", "Hamburg-America", "Belgium Red Star", "Italy", "Holland-America", "Cunard"] ;
+    var shipClassArray = ["PsgLiner", "PsgLiner", "PsgLiner", "PsgLiner", "PsgLiner", "PsgLiner"] ;
+    var shipCareerStartArray = ["1880", "1897", "1900", "1930", "1952", "1912"] ;
+    var shipCareerEndArray = ["1910", "1921", "1917", "1945", "1968", "1917"] ;
+    var shipTotVolumeArray = ["115.2", "460.8", "189.6384", "657.792", "270.6432", "140.64"] ;
+
+if (currentlySpecifiedEra=="ColonialAndEarlyIndependenceEra(1607-1820)") {
+    shipsArray = ["Mayflower(1609-1624)", "Winthrop Fleet(1629-1630)", 
+                  "Dutch Flute(1600-1750) ", "Philly Merchantman(1720-1820)", "Typical Snow(1700-1850)", 
+                  "Marie Seraphique (1720-1820)", "Merchantman-Friedreich(1740-1880)", 
+                  "The Slave Trade"] ;
+    shipMultPixArrayFiles = ["Mayflower(1609-1624)-colpic.jpg|Mayflower(1609-1624)-colpic2.png|Mayflower(1609-1624)-painting.jpg|Mayflower(1609-1624)-illust.png|Mayflower(1609-1624)-illust2.png|Mayflower(1609-1624)-mdlrend.png",
+                             "WinthropFleet-painting.png|The_Arbella_1610-1640_-640x391-postcd.png", 
+                             "DutchFlute-illust.png|DutchFlute_1540-1710_-518x398-painting.png|DutchFlute_1540-1710_-670x518-painting2.jpg|DutchFlute_1540-1710_-533x640-illustr2.jpg|Dreimast_Hoeker_Zeylende_voor_de_wind-640x571-illustr.png", 
+                             "PhillyMerchant-painting.jpg", 
+                             "TypicalSnow-illust.png|Typical_Snow-519x640-illustr.png|A_naval_snow-640x529-painting.jpg", 
+                             "MarieSeraphique-painting.jpg", "ScandinavianMerchant3Master-painting.jpg",
+                             "Frigate_Fredensborg_Danish_slave_trade-640x443-illustr.png|La_Rochelle_slave_ship_Le_Saphir_1741-641x506-painting.png|Slave_ship_at_the_National_Maritime_Museum_Greenwich-640x222-painting.png|Walsh-cross-section-of-slave-ship-1830-640x402-illustr.png|SlaveshipposterBrookes-643x754-illustr.png|slave-ship-offloading-print-466x490-illustr.png"] ;
+    shipEraArray = ["ColonialAndEarlyIndependenceEra(1607-1820)", "ColonialAndEarlyIndependenceEra(1607-1820)", "ColonialAndEarlyIndependenceEra(1607-1820)", "ColonialAndEarlyIndependenceEra(1607-1820)", "ColonialAndEarlyIndependenceEra(1607-1820)", "ColonialAndEarlyIndependenceEra(1607-1820)", "ColonialAndEarlyIndependenceEra(1607-1820)", "ColonialAndEarlyIndependenceEra(1607-1820)"] ; 
+    shippingLineArray = ["Plymouth Colony", "Massachusetts Bay", "Unk", "Unk", "Unk", "Unk", "Unk", "Unk"] ;
+    shipClassArray = ["Flute", "Flute", "Flute", "Merchantman", "Snow", "Slave Ship", "Merchantman", "Slave Ship"] ;
+    shipCareerStartArray = ["1609", "1629", "1660", "1720", "1700", "1700", "1740","1600"] ;
+    shipCareerEndArray = ["1624", "1630", "1780", "1850", "1840", "1840", "1860", "1865"] ;
+    shipTotVolumeArray = [".12", "460.8", "115.2", "187.2", "67.2", "201.6", "172.8","500"] ;
+}
+
+else if (currentlySpecifiedEra=="EraOfModernSail(1800-1900)") {   
+    shipsArray = ["Irish Immigration Ships", "Atalanta", "EastIndiaman", "Grossegler", "Stad Amsterdam", "Manai Straits", "Europa"] ;
+    shipMultPixArrayFiles = ["JunkKeyingView70_1847_-640x330-painting.jpg|Davis-700x396-painting.jpg|CatalpaShip-640x539-illustr.jpg|StMary-640x384-painting.jpg", 
+/* 
+problem with: https://cdn.shopify.com/s/files/1/1336/0641/files/Antonio_Jacobsen_-_Sailing_Ship_St._Mary-640x384-painting.jpg?1806421348745133628
+*/
+                             "Atalanta-painting.jpg", 
+                             "East_Indian-painting.jpg", 
+                             "Grosssegler-painting.jpg", 
+                             "StadtAmsterdam-illust.png", 
+                             "MenaiStraits-painting.jpg", 
+                             "Europa-painting.jpg"] ;
+    shipEraArray = ["EraOfModernSail(1800-1900)", "EraOfModernSail(1800-1900)", "EraOfModernSail(1800-1900)", "EraOfModernSail(1800-1900)", "EraOfModernSail(1800-1900)", "EraOfModernSail(1800-1900)", "EraOfModernSail(1800-1900)"] ; 
+    shippingLineArray = ["Brit", "Brit", "Polish", "Netherlands", "Brit", "Polish"] ;
+    shipClassArray = ["3MastedMerchant", "3MastedMerchant", "3MastedMerchant", "3MastedMerchant", "3MastedClipper", "3MastedClipper", "3MastedMerchant"] ;
+    shipCareerStartArray = ["1840", "1800", "1760", "1780", "1820", "1820", "1760"] ;
+    shipCareerEndArray = ["1870", "1870", "1830", "1870", "1915", "1915", "1830"] ;
+    shipTotVolumeArray = ["134.4", "134.4", "134.4", "172.8", "182.4", "182.4", "134.4"] ;
+} 
+else if (currentlySpecifiedEra=="EraOfTheSteamSailShip(1840-1915)") {   
+    shipsArray = ["Brittania", "President", "Great Britain", "Great Britain2", "Great Britain3", "The County of Sutherland"] ;
+    shipMultPixArrayFiles = ["Britannia-painting.jpg", 
+                             "The_President-painting.png", 
+                             "Great_Britain-bwpic.jpg", 
+                             "Great_Britain-illust4.png", 
+                             "Great_Britain-painting2.jpg", 
+                             "County_of_Sutherland-painting.jpg"] ;
+    shipEraArray = ["EraOfTheSteamSailShip(1840-1915)", "EraOfTheSteamSailShip(1840-1915)", "EraOfTheSteamSailShip(1840-1915)", "EraOfTheSteamSailShip(1840-1915)", "EraOfTheSteamSailShip(1840-1915)", "EraOfTheSteamSailShip(1840-1915)"] ; 
+    shippingLineArray = ["Brit", "US", "Brit", "Brit", "Brit", "Brit"] ;
+    shipClassArray = ["PaddleSteamer", "PaddleSteamer", "ScrewSteamer", "ScrewSteamer", "ScrewSteamer", "ScrewSteamer"] ;
+    shipCareerStartArray = ["1840", "1840", "1850", "1850", "1850", "1850"] ;
+    shipCareerEndArray = ["1880", "1880", "1910", "1910", "1910", "1910"] ;
+    shipTotVolumeArray = ["153.6", "153.6", "230.4", "230.4", "230.4", "230.4"] ;
+} 
+/* St.Paul_1895-1923_-640x415-b_wpic.png|St.Paul_1895-1923_-640x415-colpic.png */
+else if (currentlySpecifiedEra=="EraOfThePassengerLiner(1890-1970)") {   
+    shipsArray = ["St.Paul","Kaiser Wilhelm der Grosse", "Petersburg", "Pretoria", "Vaderland", "Europa", "Maasdam", "Laconia"] ;
+    shipMultPixArrayFiles = ["St_Paul_1895-1923_-640x415-bwpic.png|St_Paul_1895-1923_-640x415-colpic.png",
+                             "Kaiser_Wilhelm_der_Grosse-640x371-bwpic.png|Kaiser_Wilhelm_der_Grosse-405x600-poster.png|Kaiser_Wilhelm_der_Grosse-640x404-postcd.png|Kaiser_Wilhelm_der_Grosse-640x180-illustr.png", 
+                             "Petersburg-bwpic.jpg", 
+                             "Pretoria(1897-1921)-bwpic.jpg", 
+                             "Vaderland(1900-1917)-poster.png", 
+                             "Europa(1920-1960)-postcd.jpg", 
+                             "Maasdam-colpic.jpg|Maasdam_1952-1968_-640x413-b_wpic.png|Maasdam_1952-1968_-499x303-colpic.png|Maasdam_1952-1968_-640x177-mdlrend.png", 
+                             "Laconia(1911-1917)-illust.png"] ;
+    shipEraArray = ["EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)"] ; 
+    shippingLineArray = ["American", "North German", "Russia", "Hamburg-America", "Belgium Red Star", "Italy", "Holland-America", "Cunard"] ;
+    shipClassArray = ["PsgLiner", "PsgLiner", "PsgLiner", "PsgLiner", "PsgLiner", "PsgLiner", "PsgLiner", "PsgLiner"] ;
+    shipCareerStartArray = ["1895", "1897", "1880", "1897", "1900", "1930", "1952", "1912"] ;
+    shipCareerEndArray = ["1923", "1914", "1910", "1921", "1917", "1945", "1968", "1917"] ;
+    shipTotVolumeArray = ["95", "244.8", "115.2", "460.8", "189.6384", "657.792", "270.6432", "140.64"] ;
+} 
+else if (currentlySpecifiedEra=="EraOfAirTravel(1945-Present)") {   
+    shipsArray = ["Airbus330", "Boeing 707-320B", "Boeing-377", "LockheedC21Constellation", "McDonnell-DouglasMD-83(DC10)", "Sukhoi-Superjet100"] ;
+    shipMultPixArrayFiles = ["Airbus330-illust.png", "Boeing 707-320B-illust.png", "Boeing-377-bwpic.jpg", "LockheedC21Constellation-colpic.jpg", "McDonnell-DouglasMD-83(DC10)-illust.png", "Sukhoi-Superjet100-illust.png"] ;
+    shipEraArray = ["EraOfAirTravel(1945-Present)", "EraOfAirTravel(1945-Present)", "EraOfAirTravel(1945-Present)", "EraOfAirTravel(1945-Present)", "EraOfAirTravel(1945-Present)", "EraOfAirTravel(1945-Present)"] ; 
+    shippingLineArray = ["NorthWest", "TWA", "PanAm", "American", "AeroFlot", "AeroFlot"] ;
+    shipClassArray = ["PropPlane", "PropPlane", "JetPlane", "JetPlane", "JetPlane", "JetPlane"] ; 
+    shipCareerStartArray = ["1994", "1958", "1949", "1945", "1971", "2008"] ;
+    shipCareerEndArray = ["2018", "1995", "1963", "1992", "2002", "2018"] ;
+    shipTotVolumeArray = ["1929.6", "828.8", "127.68", "300.8", "1041.6", "192"] ;
+} 
+
+/*
+    var shipsArray = [] ;
+    var shipMultPixArrayFiles = [] ;
+    var shipEraArray = [] ; 
+    var shippingLineArray = [] ;
+    var shipClassArray = [] ;
+    var shipCareerStartArray = [] ;
+    var shipCareerEndArray = [] ;
+    var shipTotVolumeArray = [] ;
+    
+    var shipsArray = ["Maasdam", "Rijndam", "Kaiser Wilhelm der Grosse", "Ivernia"] ;
+    var shipPixArrayFiles = ["Maasdam-colpic", "Ryndam-bwpic", "Kaiser_Wilhelm_der_Grosse-poster", "Ivernia-b_wpic"] ;
+    var shipMultPixArrayFiles = ["Maasdam-colpic|Maasdam-bwpic", "Ryndam-colpic|Ryndam-bwpic", "Kaiser_Wilhelm_der_Grosse-bwpic|Kaiser_Wilhelm_der_Grosse-bwpic2|Kaiser_Wilhelm_der_Grosse-bwpic3|Kaiser_Wilhelm_der_Grosse-bwpic4|Kaiser_Wilhelm_der_Grosse-postcd|Kaiser_Wilhelm_der_Grosse-painting", "Ivernia-postcd|Ivernia-postcd2|Ivernia-bwpic|Ivernia-colpic"] ; 
+    var shipEraArray = ["EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)", "EraOfThePassengerLiner(1890-1970)"] ;
+    var shipCareerStartArray = ["1952", "1951", "1897", "1900"] ;
+    var shipCareerEndArray = ["1968", "1970", "1918", "1917"] ;
+    var shipTotVolumeArray = ["135", "160", "255", "243"] ;
+    var shippingLineArray = ["Holland-America Line", "Holland-America Line", "North German#Cunard"] ;
+ */
+    var commemTimeIntervalStart = localStorage.CommemorationTimePeriodStart ;
+    var commemTimeIntervalEnd = localStorage.CommemorationTimePeriodEnd ;
+    var shipIndex = 0 ;
+
+/*
+    document.write('>>>>>>shipchoice-nav-liner-era snippet.  Era=='+eraArray[0]);
+    document.write('; document.referrer='+document.referrer);
+*/
+// ]]></script><!--
+    <form action="/action_page.php">
+First name:<br>
+<input type="text" name="firstname">
+<br>
+Last name:<br>
+<input type="text" name="lastname">
+<br><br>
+<input type="submit">
+</form>
+
+
+    var pagePrologue= "<h2>Select a ship and image below or enter the name of your ship and we will find available images for you</h2>";
+        pagePrologue+= "<form action=\'https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image\'>"
+        pagePrologue+= "ShipName:<br>";
+        pagePrologue+= "<input type=\'text\' name=\'ShipName\'><br>";
+        pagePrologue+= "<p><a href=\'https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image\'"
+        pagePrologue+= "   onclick=RecordNewSpecificShipChoice(\'ShipName\', 1)"
+        pagePrologue+= ">";
+        pagePrologue+= "Submit Shipname"
+        pagePrologue+= "</a></p>";
+
+        pagePrologue+= "<button type=\'button\'" 
+        pagePrologue+= "   onclick=\'RecordNewSpecificShipChoice(\'TestShipName\', -1, \'TBD\')\'"
+        pagePrologue+= ">";
+        pagePrologue+= "Submit Shipname"
+        pagePrologue+= "</button><p></p>";
+
+        pagePrologue+= "<p><a href= " ;
+        pagePrologue+= "\'https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image\'"
+        pagePrologue+= " a=\"\"" ;
+        pagePrologue+= " onclick=\"RecordShipChoice(\"TestShipName\",1,\"TBD\")\">" ;
+        pagePrologue+= " Submit Your Ship"
+        pagePrologue+= "</a></p>"
+
+<input type="text" id="ShipName" name="ShipName" value="<Your Ship's Name Here>"
+-->
+<h2>Enter the name of your ship and we will find available images for you</h2>
+<input type="text" id="ShipName" value="&lt;enter your ship's name&gt;" /> <a href="https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image" a="" onclick="RecordNewShipChoice()"> [Click Here to Submit your Shipname] </a>
+<p> </p>
+<h2>Or... find and image for your ship in the list below</h2>
+<script type="text/javascript">// <![CDATA[
+function RecordNewShipChoice() {
+    /*var newShipName = document.getElementsByName("ShipName").value;*/
+    var newShipName = document.getElementById("ShipName").value ;
+    var shipImageFileName = "TBD" ;
+    localStorage.setItem("Carrier", newShipName) ;
+    localStorage.setItem("shipName", newShipName) ;
+    localStorage.setItem("shipPic", shipImageFileName) ;
+    localStorage.setItem("shipCareerStart", eraStartArray[eraIndex]) ;
+    localStorage.setItem("shipCareerEnd", eraEndArray[eraIndex]) ;
+    localStorage.setItem("shipTotPsgrVolume", -1) ;
+    localStorage.setItem("shippingLine", "UNK") ;
+}
+/*
+    var recordNewShipHTML  = "<p><a href=" ;
+        recordNewShipHTML += "\"https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image\"" ;
+        recordNewShipHTML += "\">" ;
+        recordNewShipHTML += "Submit New Shipname:" ;
+        recordNewShipHTML += "</a></p>" ;
+*/
+    /*window.location.href="https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image" ;*/
+    
+    /*alert("newShipName=="+newShipName)*/
+   /*
+    var recordNewShipHTML  = "<p><a href=" ;
+        recordNewShipHTML += "\"https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image\"" ;
+        recordNewShipHTML += " a=\"\"" ;
+        recordNewShipHTML += "onclick=\"RecordShipChoice(\'" ;
+        recordNewShipHTML += newShipName ;
+        recordNewShipHTML += "\', 0, 'TBD')\">" ;
+        recordNewShipHTML += "Submit New Shipname:" ;
+        recordNewShipHTML += "</a></p>" ;
+    */
+    /* document.write(recordNewShipHTML) ; */
+    document.write(recordNewShipHTML) ;
+// ]]></script><script type="text/javascript">// <![CDATA[
+/*
+
+    var pagePrologue= "<h2>Select a ship and image below or enter the name of your ship and we will find available images for you</h2>";
+        pagePrologue+= "ShipName:<br>";
+        pagePrologue+= "<input type=\'text\' name=\'ShipName\'>";
+        pagePrologue+= "<p><a href="
+                    + "https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image"
+                    + " a=\"\""
+                    + " onclick=\"RecordShipChoice("
+                                                    +"\'"
+                                                    +"newShipName"
+                                                    +"\', "
+                                                    +"0"
+                                                    +", \'"
+                                                    +"TBD"
+                                                    +"\')"
+                    + "\">"
+                    + "Submit New Shipname: "
+                    + "TestName"
+                    + "</a></p>"
+        pagePrologue+= "<div class=\'row\'>";
+*/                                
+    var pagePrologue= "<div class=\'row\'>" ;
+    var pagePostlogue= "<div>";
+    var selectShipPage= "";
+    var selectShipTable= "<table>";
+    var thisShipsImages;
+    var currentlySpecifiedEra = localStorage.Era;
+    
+    /* document.write("CurrentlySpecifiedEra == "+currentlySpecifiedEra); */
+
+    for (var thisShipIndex=0; thisShipIndex<shipsArray.length; thisShipIndex++) {
+        if (thisShipIndex%2) {
+            selectShipTable+="<tr style=\"background-color: #ffff;\">";              
+        }
+        else {
+            selectShipTable+="<tr style=\"background-color: #eeee\">";  
+        }
+        /* 1st column is the ship name... */
+        selectShipTable+="<td style=\"width: 100px; text-align: left; \">"
+                            +shipsArray[thisShipIndex]
+                            +",<br>"
+/*Career span already in ship name
+                            +"("+shipCareerStartArray[thisShipIndex]+"-"+shipCareerEndArray[thisShipIndex]+")"
+                            +"<br>"
+                            +shipClassArray[thisShipIndex]+", "
+*/ 
+                            +shippingLineArray[thisShipIndex]
+                            +" Line"
+/*Estimation issue 
+                                +"Est psgrs carried: "+shipTotVolumeArray[thisShipIndex]*100
+*/ 
+                        +"</td>" ;
+
+        thisShipsImages = shipMultPixArrayFiles[thisShipIndex].split("|");
+        numShipImages = thisShipsImages.length;
+        for (var shipImage=0; shipImage<numShipImages; shipImage++) {
+            selectShipTable+="<td style='width: 100px; text-align: left;'>" 
+                                + "<a href="
+                                + "\'https://cdn.shopify.com/s/files/1/1336/0641/files/"
+                                + thisShipsImages[shipImage].replace("(","_").replace(")","_")
+/*                                + "?7014783462340379492\'"  */
+                                + "\'"
+                                + " data-lightbox=\"jimaworks-gallery\""
+/* ### the code below doesn't invoke RecordShipChoice() ###
+                                + " data-title=\"<a href=\'https://jimaworks.com/pages/the-story-so-far\'"
+                                + "Click here</a> to select this image"
+                                + " onclick=\"RecordShipChoice("
+                                                                +"\'"
+                                                                +shipsArray[thisShipIndex]
+                                                                +"\', "
+                                                                +thisShipIndex
+                                                                +", \'"
+                                                                +thisShipsImages[shipImage]
+                                                                +"\')\""
+### the code above doesn't invoke RecordShipChoice() ### */
+                                                                
+                                +" >"
+
+                                + "<img src="
+                                + "\'https://cdn.shopify.com/s/files/1/1336/0641/files/"
+                                + thisShipsImages[shipImage].replace("(","_").replace(")","_").replace(".","_small.")
+/*                                + "?7014783462340379492\' alt=" */
+                                + "\' alt="
+                                + thisShipsImages[shipImage]
+                                + " />"
+                                
+                                + "<p><a href="
+                                + "https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image"
+                                + " a=\"\""
+                                + " onclick=\"RecordShipChoice("
+                                                                +"\'"
+                                                                +shipsArray[thisShipIndex]
+                                                                +"\', "
+                                                                +thisShipIndex
+                                                                +", \'"
+                                                                +thisShipsImages[shipImage]
+                                                                +"\')"
+                                + "\">"
+/*                                + "Ship: " + thisShipsImages[shipImage] */
+                                + "[select]"
+                                + "</a></p>"
+                                + "</td>";
+        }  
+        selectShipTable+="</tr>";
+    }  
+    selectShipTable+="</table>" ;
+    selectShipPage+=pagePrologue+selectShipTable+pagePostlogue ;
+
+    /*document.write('selectShipTable=='+selectShipTable);*/
+    document.write(selectShipPage) ;
+// ]]></script>
+<div id="selectShipTable"></div>
+<!--   
+<div class="row">
+<table width="100%">
+<tbody>
+<tr>
+<td style="text-align: left;">
+    <a href='https://cdn.shopify.com/s/files/1/1336/0641/files/004EraOfThePassengerLiner1910CustomLaconiaGold.png?9293931416560781875' 
+       data-lightbox="jimaworks-gallery" 
+       data-title="&lt;a href='https://jimaworks.myshopify.com/pages?preview_key=97282eeaf1a1ffd5ca78f3433579570b'
+                   &gt;Click here&lt;/a&gt; to begin the process of commemorating your immigration event!">
+    <img src='https://cdn.shopify.com/s/files/1/1336/0641/files/004EraOfThePassengerLiner1910CustomLaconiaGold.png?9293931416560781875' 
+         alt="Laconia on Special Order Map of N Atlantic Circa 1910" />
+    </a>
+    <p><a href= ***NextChoicePageURL***
+          a=""
+          onclick="RecordShipChoice(***ChoiceNumber***)">
+          ***ChoiceBoxText***
+    </a></p>
+</td>
+<td style="text-align: left;">
+    <a href="//cdn.shopify.com/s/files/1/1336/0641/files/Circa1700-DutchFlute-ParisSage-NAtlantic_1024x1024.png?v=1517983392" data-lightbox="jimaworks-gallery" data-title="&lt;a href='http://jimaworks.com/collections/all'&gt;Click here&lt;/a&gt; to begin the process of commemorating your immigration event!"><img src="//cdn.shopify.com/s/files/1/1336/0641/files/Circa1700-DutchFlute-ParisSage-NAtlantic_1024x1024.png?v=1517983392" alt="Dutch Flute on Paris Sage Map of N Atlantic Circa 1700" /></a>
+    <p><a href= ***NextChoicePageURL***
+          a=""
+          onclick="RecordShipChoice(***ChoiceNumber***)">
+          ***ChoiceBoxText***
+    </a></p>    
+</td>
+<td style="text-align: left;">
+    <a href="//cdn.shopify.com/s/files/1/1336/0641/files/Circa1700-Friedrich-ParisSage-NAtlantic_1024x1024.png?v=1517983432" data-lightbox="jimaworks-gallery" data-title="&lt;a href='http://jimaworks.com/collections/all'&gt;Click here&lt;/a&gt; to begin the process of commemorating your immigration event!"><img src="//cdn.shopify.com/s/files/1/1336/0641/files/Circa1700-Friedrich-ParisSage-NAtlantic_1024x1024.png?v=1517983432" alt="A common two master - a Snow - on Paris Sage Map of N Atlantic Circa 1700" /></a>
+    <p><a href= ***NextChoicePageURL***
+          a=""
+          onclick="RecordShipChoice(***ChoiceNumber***)">
+          ***ChoiceBoxText***
+    </a></p>
+    </td>
+<td style="text-align: left;">
+    <a href="//cdn.shopify.com/s/files/1/1336/0641/files/Circa1700-Snow-ParisSage-NAtlantic_1024x1024.png?v=1517983487" data-lightbox="jimaworks-gallery" data-title="&lt;a href='http://jimaworks.com/collections/all'&gt;Click here&lt;/a&gt; to begin the process of commemorating your immigration event!"><img src="//cdn.shopify.com/s/files/1/1336/0641/files/Circa1700-Snow-ParisSage-NAtlantic_1024x1024.png?v=1517983487" alt="A common two master - a Snow - on Paris Sage Map of N Atlantic Circa 1700" /></a>
+    <p><a href= ***NextChoicePageURL***
+          a=""
+          onclick="RecordShipChoice(***ChoiceNumber***)">
+          ***ChoiceBoxText***
+    </a></p>
+    </td>
+<td style="text-align: left;">
+    <a href="//cdn.shopify.com/s/files/1/1336/0641/files/Circa1700-ThreeMastedMerchantman-ParisSage-NAtlantic_1024x1024.png?v=1517983526" data-lightbox="jimaworks-gallery" data-title="&lt;a href='http://jimaworks.com/collections/all'&gt;Click here&lt;/a&gt; to begin the process of commemorating your immigration event!"><img src="//cdn.shopify.com/s/files/1/1336/0641/files/Circa1700-ThreeMastedMerchantman-ParisSage-NAtlantic_1024x1024.png?v=1517983526" alt="A common two master - a Snow - on Paris Sage Map of N Atlantic Circa 1700" /></a>
+    <p><a href= ***NextChoicePageURL***
+          a=""
+          onclick="RecordShipChoice(***ChoiceNumber***)">
+          ***ChoiceBoxText***
+    </a></p>
+    </td>
+<td style="text-align: left;">
+    <a href="//cdn.shopify.com/s/files/1/1336/0641/files/Circa1700-WinthropFleet-ParisSage-NAtlantic_1024x1024.png?v=1517983573" data-lightbox="jimaworks-gallery" data-title="&lt;a href='http://jimaworks.com/collections/all'&gt;Click here&lt;/a&gt; to begin the process of commemorating your immigration event!"><img src="//cdn.shopify.com/s/files/1/1336/0641/files/Circa1700-WinthropFleet-ParisSage-NAtlantic_1024x1024.png?v=1517983573" alt="The Winthrop Fleet on Paris Sage Map of N Atlantic Circa 1700" /></a>
+    <p><a href= ***NextChoicePageURL***
+          a=""
+          onclick="RecordShipChoice(***ChoiceNumber***)">
+          ***ChoiceBoxText***
+    </a></p>
+    </td>
+<td style="text-align: left;">
+    <a href="//cdn.shopify.com/s/files/1/1336/0641/files/KnownShip-ParisSageMap-NoFrame-NewRoutes-GemSized_1024x1024.png?v=1508859277" data-lightbox="jimaworks-gallery" data-title="&lt;a href='https://jimaworks.myshopify.com/products/knownship-parissagemap'&gt;Click here&lt;/a&gt; to begin the process of commemorating your immigration event!"><img src="//cdn.shopify.com/s/files/1/1336/0641/files/KnownShip-ParisSageMap-NoFrame-NewRoutes-GemSized_1024x1024.png?v=1508859277" alt="Ship Image - Your Ship Here - Paris Sage" /></a>
+    <p><a href= ***NextChoicePageURL***
+          a=""
+          onclick="RecordShipChoice(***ChoiceNumber***)">
+          ***ChoiceBoxText***
+    </a></p>
+    </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+<p>Philly Merchantman</p>
+</td>
+<td style="text-align: left;">
+<p>Dutch Flute</p>
+</td>
+<td style="text-align: left;">
+<p>Mid-Crossing</p>
+</td>
+<td style="text-align: left;">
+<p>A Common Snow</p>
+</td>
+<td style="text-align: left;">
+<p>Three-Masted Merchantman</p>
+</td>
+<td style="text-align: left;">
+<p>Winthrop Fleet</p>
+</td>
+<td style="text-align: left;">
+<p><a href="https://jimaworks.myshopify.com/products/knownship-parissagemap" a="">Ship Special Order</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+--> <!-- Taking out the "back" button...
+    <div style="float: left; background-color: #ff", "fff; border: 1px solid #FF0000; padding: 5px; margin: 0px 3px 0px 0px; font-size: 11px;"><a href="2.html" onclick="location.href=document.referrer;return false;">Back2-inline</a></div>
+<p> </p>
+...Took out "back" button --> <!-- Taking out where the javascript output would go...
+<div id="TBL1"></div>
+<div id="TBL2"></div>
+<div id="TBL3"></div>
+...Took out landing place for javascipt output -->
+<div id="tablePrint"></div>
+<script type="text/javascript">// <![CDATA[
+localStorage.setItem("TitleTextBoxLine1", "TitleTextBoxLine1");
+localStorage.setItem("TitleTextBoxLine2", "TitleTextBoxLine2");
+localStorage.setItem("TitleTextBoxLine3", "TitleTextBoxLine3");
+localStorage.setItem("OriginsTextBoxLine1", "OriginsTextBoxLine1");
+localStorage.setItem("OriginsTextBoxLine2", "OriginsTextBoxLine2");
+localStorage.setItem("DestinationTextBoxLine1", "DestinationTextBoxLine1");
+localStorage.setItem("DestinationTextBoxLine2", "DestinationTextBoxLine2");
+localStorage.setItem("ShipInofTextBoxLine1", "ShipInofTextBoxLine1");
+localStorage.setItem("ShipInfoTextBoxLine2", "ShipInofTextBoxLine2");
+document.getElementById("TBL1").innerHTML = "TitleTextBoxLine1 is " + localStorage.TitleTextBoxLine1 + ".";
+document.getElementById("TBL2").innerHTML = "TitleTextBoxLine2 is " + localStorage.TitleTextBoxLine2 + ".";
+document.getElementById("TBL3").innerHTML = "TitleTextBoxLine3 is " + localStorage.TitleTextBoxLine3 + ".";
+// ]]></script><script>// <![CDATA[
+function myFunction() {
+    localStorage.setItem("TestVar1", "TestVal1");
+    document.getElementById("Choice1").innerHTML = "TestVar1 is " + localStorage.TestVar1 + ".";
+}
+// ]]></script><script type="text/javascript">// <![CDATA[
+function RecordShipChoiceTest() {
+/*  alert('RecordShipChoice()') ; */
+    localStorage.setItem("TestAttrib1", "localStorageTestAttrib1c");
+/*    localStorage.setItem("TestAttrib2", "localStorageTestAttrib2c"); */
+/*  alert('localStorage.Carrier =='+localStorage.Carrier) ; */
+ }
+// ]]></script><script type="text/javascript">// <![CDATA[
+function RecordShipChoice(shipNm, shipIndex, shipImageFileNm) {
+    /*alert("RecordShipChoice: Shipnm=="+shipNm+" shipIndex=="+shipIndex+" shipImageFileNm=="+shipImageFileNm ) ;*/
+    localStorage.setItem("Carrier", shipNm) ;
+    localStorage.setItem("shipName", shipNm) ;
+    localStorage.setItem("shipPic", shipImageFileNm) ;
+    localStorage.setItem("shipCareerStart", shipCareerStartArray[shipIndex]) ;
+    localStorage.setItem("shipCareerEnd", shipCareerEndArray[shipIndex]) ;
+    localStorage.setItem("shipTotPsgrVolume", shipTotVolumeArray[shipIndex]) ;
+    localStorage.setItem("shippingLine", shippingLineArray[shipIndex]) ;
+}
+// ]]></script><script type="text/javascript">// <![CDATA[
+function RecordNewSpecificShipChoice(shipNm, eraIndex) {  /*  (shipName, shipIndex, shipImage) {  */
+/*    
+*/
+    alert("RecordNewSpecificShipChoice: Shipnm==", shipNm, " eraIndex==", eraIndex) ;
+    localStorage.setItem("Carrier", shipNm) ;
+    localStorage.setItem("shipName", shipNm) ;
+    localStorage.setItem("shipPic", "TBD") ;
+    localStorage.setItem("shipCareerStart", eraStartArray[eraIndex]) ;
+    localStorage.setItem("shipCareerEnd", eraEndArray[eraIndex]) ;
+    localStorage.setItem("shipTotPsgrVolume", -1) ;
+    localStorage.setItem("shippingLine", "UNK") ;
+    window.location.href="https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image" ;
+/*    
+ */
+}
+// ]]></script><!--
+<td style='width: 100px; text-align: right;'>
+<a href='https://cdn.shopify.com/s/files/1/1336/0641/files/Maasdam-colpic.jpg?7014783462340379492'
+ data-lightbox="jimaworks-gallery"
+ data-title=
+    <a href='https://jimaworks.myshopify.com/pages?preview_key=97282eeaf1a1ffd5ca78f3433579570b'
+    Click here
+    </a> 
+    to select this image">
+    <img src='https://cdn.shopify.com/s/files/1/1336/0641/files/Maasdam-colpic.jpg?7014783462340379492' 
+    alt=Maasdam-colpic />
+    <p>
+<a href=https://jimaworks.myshopify.com/products/knownship-parissagemap 
+    a="" 
+    onclick="RecordShipChoice(1)"
+    >
+Maasdam-colpic
+</a>
+</p>
+</td>
+  
+  <td style="text-align: left;">
+    <a href='https://cdn.shopify.com/s/files/1/1336/0641/files/004EraOfThePassengerLiner1910CustomLaconiaGold.png?9293931416560781875' 
+       data-lightbox="jimaworks-gallery" 
+       data-title="&lt;a href='https://jimaworks.myshopify.com/pages?preview_key=97282eeaf1a1ffd5ca78f3433579570b'
+                   &gt;Click here&lt;/a&gt; to begin the process of commemorating your immigration event!">
+    <img src='https://cdn.shopify.com/s/files/1/1336/0641/files/004EraOfThePassengerLiner1910CustomLaconiaGold.png?9293931416560781875' 
+         alt="Laconia on Special Order Map of N Atlantic Circa 1910" />
+    </a>
+    <p><a href= ***NextChoicePageURL***
+          a=""
+          onclick="RecordShipChoice(***ChoiceNumber***)">
+          ***ChoiceBoxText***
+    </a></p>
+</td>
+-->
+    </div>
+
+  </div>
+
+</div>

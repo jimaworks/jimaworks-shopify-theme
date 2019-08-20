@@ -1,0 +1,17 @@
+
+
+<header class="section-header">
+  <h1 class="section-header__title">{{ page.title }}</h1>
+
+</header>
+
+{% comment %}
+ 
+{% endcomment %}
+<div class="rte">
+  {{ page.content }}
+  {% section 'gallery' %}
+  {% section 'gallery-2' %}
+  {% section 'gallery-3' %}
+  {% section 'gallery-4' %}
+</div>
