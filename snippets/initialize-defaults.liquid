@@ -1549,6 +1549,12 @@ https://jimaworks.com/products/genericrelationshipsproduct-framed
     // } //if (confirm("clear all jimaworks-defined localStorage?"))
 }
 
+/* “Are you sure you want to leave?” Prompt
+These functions trigger a prompt if:
+   - The user attempts to navigate away from the page
+   - The user has interacted with the page prior to navigating (clicking, scrolling, etc.)
+*/
+/*
 window.onunload = function(event) {
   localStorage.removeItem('hugh-test');
   console.log('localStorage cleared');
@@ -1567,7 +1573,7 @@ window.onbeforeunload = function(event) {
 
   return '';
 };
-
+*/
 
 // ]]></script>
 <script>// <![CDATA[
