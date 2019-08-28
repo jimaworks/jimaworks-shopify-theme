@@ -10,6 +10,7 @@
     Aug 05 2019:1800 Hugh G. global replace of "localStorage.clear(<varname>)" with "localStorage.removeItem(<varname>)"
     Aug 06 2019:1515 Start selecting the variables that need to be restored...
     Aug 06 2019:1800 Start splitting the functions up and sending to approp files...
+    Aug 20 2019:0800 Remove the window.onbefore function to restore intended page-transition behavior
     
     Title:
         localStorage.setItem("RegionOfOrigin", regionName) ;
@@ -1549,18 +1550,13 @@ https://jimaworks.com/products/genericrelationshipsproduct-framed
     // } //if (confirm("clear all jimaworks-defined localStorage?"))
 }
 
-/* “Are you sure you want to leave?” Prompt
-These functions trigger a prompt if:
-   - The user attempts to navigate away from the page
-   - The user has interacted with the page prior to navigating (clicking, scrolling, etc.)
-*/
+// ### Trying to get the clear() to work on page exit... Send to Hugh?  [but 8/20 left in and got unintended page-chang behavior] ###
 /*
 window.onunload = function(event) {
   localStorage.removeItem('hugh-test');
   console.log('localStorage cleared');
 };
 
-// ### Trying to get the clear() to work on page exit... Send to Hugh? ###
 window.onbeforeunload = function(event) {
   var keepVars = setTimeout(function() {
     window.onunload = function(){};

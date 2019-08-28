@@ -6,6 +6,8 @@
       Aug 07 2019:1500 Wrap up Save&Return rebuild  
       Aug 08 2019:0930 Changes to the write-out-localStorage function to elim blank and undefined var values
       Aug 10 2019:1015 Tracked down 404 issue.  Change return page to the "What" page.  New: AWS acct update needed.
+      Aug 27 2019:2100 No-mail issue repaired (somehow.  Introduced a double-write?  Request explanation of ASW from Bridge)
+      Aug 28 2019:2100 Re-instate the variable-writing into the return link's HTMLform suffix
       Next: Add abbviations in the generated text.
      
 -->
@@ -108,10 +110,10 @@ function SaveAndReturnLaterFn() {
         // so the user is basically back at the beginning of the specification
         // but with all the variables set according to when he/she invoked the save
         // >> no longer returnPageURLWithContextVars += WriteOutContextVars('?', document.referrer, '&amp;', '') ;
-//        returnPageURLWithContextVars += WriteOutContextVars('?', pageToWhichToReturnTheUser, '&amp;', '') ;
+        returnPageURLWithContextVars += WriteOutContextVars('?', pageToWhichToReturnTheUser, '&amp;', '') ;
 
-        alert("Shopify.customer_email="+Shopify.customer_email) ;
-        alert("returnPageURLWithContextVars="+returnPageURLWithContextVars) ;
+        //alert("Shopify.customer_email="+Shopify.customer_email) ;
+        //alert("returnPageURLWithContextVars="+returnPageURLWithContextVars) ;
 
 /*
         returnPageURLWithContextVars+=WriteOutContextVars('?', OriginatingPage, '&', '') ;
@@ -417,3 +419,46 @@ https://jimaworks.com/products/genericrelationshipsproduct-framed
 //WriteOutContextVars('?', document.referrer, '&amp;', '') ;
 
 // ]]></script>
+
+  </div>
+
+</div>
+
+<!-- August 26. ??  prev:
+<div class="grid">
+
+  <div class="grid__item post-large--two-thirds push--post-large--one-sixth">
+
+    <div class="section-header">
+      <h1 class="section-header--title">{{ page.title }}</h1>
+    </div>
+
+    <div class="rte">
+      {% if customer  %}
+          {{ page.content }}
+      {% else %}
+     
+      <h2>The "Save and Come Back Later" button is under development and will soon be complete.</h2>
+      <h3>When complete, a "Save and Come Back Later" action will result in an email to you with a link back to jimaworks.</h3>
+      <p>When you click on that link, you will be restored to your RelationShips project at the point you left it,
+        with all your decisions regarding the Era, Country of Origin, etc., of your relation restored.
+        Sign up now and we will provide access to it as soon as it is available.
+      </p>
+      <p>As a member of the jimaworks community, you will also be eligible for
+        <br>
+      - Special Deals and Discounts
+        <br>
+      - Downloadable, Hints&amp; Tips-annotated worksheet for RelationShips questions
+        <br>
+      - The jimaworks Newsletter
+      </p>
+
+        {{ 'Log in' | customer_login_link }}
+        {% if shop.customer_accounts_optional %}
+          <span>or</span>
+          {{ 'Create an account' | customer_register_link }}
+        {% endif %}
+      {% endif %}
+    </div>
+-->
+
