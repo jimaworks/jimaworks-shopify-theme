@@ -168,8 +168,8 @@
         destinationTextBoxEntry1 = document.getElementById("enterDestinyLine1").value;
         destinationTextBoxEntry2 = document.getElementById("enterDestinyLine2").value;
 
-        document.getElementById("destinationTextBoxL1").innerHTML = destinationTextBoxEntry1;
-        document.getElementById("destinationTextBoxL2").innerHTML = destinationTextBoxEntry2;
+        document.getElementById("DestinationTextBoxL1").innerHTML = destinationTextBoxEntry1;
+        document.getElementById("DestinationTextBoxL2").innerHTML = destinationTextBoxEntry2;
 
         localStorage.DestinyLine1 = destinationTextBoxEntry1;
         localStorage.DestinyLine2 = destinationTextBoxEntry2;
@@ -463,12 +463,12 @@
             if (i > 1) webTitleText += '<br>';
             // use current value of text box lines if there is a value
             if (eval('(localStorage.TitleLine' + i + ' !== undefined) & (localStorage.TitleLine' + i + ' !== "undefined")')) {
-                webTitleText += '<scan id="TitleTextBoxL' + i + '">' + eval('localStorage.TitleLine' + i) + '</scan></em>';  // ### </em> ? ###
+                webTitleText += '<span id="TitleTextBoxL' + i + '">' + eval('localStorage.TitleLine' + i) + '</span></em>';  // ### </em> ? ###
                 numFilledTitleLines++;
             }
             // else blank lines
             else if (showExtraLine) {
-                webTitleText += '<scan id="TitleTextBoxL' + i + '">' + ' ' + '</scan></em>';
+                webTitleText += '<span id="TitleTextBoxL' + i + '">' + ' ' + '</span></em>';
                 showExtraLine = false;
             }
         }
@@ -529,12 +529,12 @@
             if (i > 1) webOriginText += '<br>';
             // use current value of text box lines if there is a value
             if (eval('(localStorage.OriginsLine' + i + ' !== undefined) & (localStorage.OriginsLine' + i + ' !== "undefined")')) {
-                webOriginText += '<scan id="OriginTextBoxL' + i + '">' + eval('localStorage.OriginsLine' + i) + '</scan></em>';  // ### </em> ? ###
+                webOriginText += '<span id="OriginTextBoxL' + i + '">' + eval('localStorage.OriginsLine' + i) + '</span></em>';  // ### </em> ? ###
                 numFilledOriginLines++;
             }
             // else blank lines
             else if (showExtraLine) {
-                webOriginText += '<scan id="OriginTextBoxL' + i + '">' + ' ' + '</scan></em>';
+                webOriginText += '<span id="OriginTextBoxL' + i + '">' + ' ' + '</span></em>';
                 showExtraLine = false;
             }
         }
@@ -597,12 +597,12 @@
             if (i > 1) webDestinationText += '<br>';
             // use current value of text box lines if there is a value
             if (eval('(localStorage.DestinyLine' + i + ' !== undefined) & (localStorage.DestinyLine' + i + ' !== "undefined")')) {
-                webDestinationText += '<scan id="DestinationTextBoxL' + i + '">' + eval('localStorage.DestinyLine' + i) + '</scan></em>';  // ### </em> ? ###
+                webDestinationText += '<span id="DestinationTextBoxL' + i + '">' + eval('localStorage.DestinyLine' + i) + '</span></em>';  // ### </em> ? ###
                 numFilledDestinationLines++;
             }
             // else blank lines
             else if (showExtraLine) {
-                webDestinationText += '<scan id="DestinationTextBoxL' + i + '">' + ' ' + '</scan></em>';
+                webDestinationText += '<span id="DestinationTextBoxL' + i + '">' + ' ' + '</span></em>';
                 showExtraLine = false;
             }
         }
@@ -654,8 +654,8 @@
 
         shipInfoHTML += '<div style=\"position: absolute; bottom: ' + shipInfoTextBoxBottomOffset + 'px; left: ' + shipInfoTextBoxLeftOffset + 'px; z-index: 25; line-height: ' + shipInfoTextBoxLineHeight + '; font-size: ' + shipInfoTextBoxFontSize + 'px; text-align: center; \">';
         //shipInfoHTML +=   '<div style=\"position: absolute; bottom: 20px; left: 115px; z-index: 25; line-height: 0.8;  font-size: 8px; text-align: center; \">' ;
-        shipInfoHTML += '<p><scan id="shipInfoTextBoxL1">' + localStorage.ShipInfoLine1 + '</scan></em>';
-        shipInfoHTML += '<br><scan id="shipInfoTextBoxL2">' + localStorage.ShipInfoLine2 + '</scan></em></p>';
+        shipInfoHTML += '<p><span id="shipInfoTextBoxL1">' + localStorage.ShipInfoLine1 + '</span></em>';
+        shipInfoHTML += '<br><span id="shipInfoTextBoxL2">' + localStorage.ShipInfoLine2 + '</span></em></p>';
         shipInfoHTML += '</div>';
 
         // webShipInfoAttribs = ' class=\"Plaque\" width='+webShipInfoTextBoxWidth+'px height='+webShipInfoTextBoxHeight+'px' ;
@@ -670,12 +670,12 @@
             if (i > 1) webShipInfoText += '<br>';
             // use current value of text box lines if there is a value
             if (eval('(localStorage.ShipInfoLine' + i + ' !== undefined) & (localStorage.ShipInfoLine' + i + ' !== "undefined")')) {
-                webShipInfoText += '<scan id="ShipInfoTextBoxL' + i + '">' + eval('localStorage.ShipInfoLine' + i) + '</scan></em>';  // ### </em> ? ###
+                webShipInfoText += '<span id="ShipInfoTextBoxL' + i + '">' + eval('localStorage.ShipInfoLine' + i) + '</span></em>';  // ### </em> ? ###
                 numFilledShipInfoLines++;
             }
             // else blank lines
             else if (showExtraLine) {
-                webShipInfoText += '<scan id="ShipInfoTextBoxL' + i + '">' + ' ' + '</scan></em>';
+                webShipInfoText += '<span id="ShipInfoTextBoxL' + i + '">' + ' ' + '</span></em>';
                 showExtraLine = false;
             }
         }
@@ -822,11 +822,11 @@
         for (i = 1; i < numAvailPlaqueLines + 1; i++) {
             if (i > 1) webPlaqueText += '<br>';
             if (eval('(localStorage.PlaqueLine' + i + ' !== undefined) & (localStorage.PlaqueLine' + i + ' !== "undefined")')) {
-                webPlaqueText += '<scan id="plaqueTextBoxL' + i + '">' + eval('localStorage.PlaqueLine' + i) + '</scan></em>';
+                webPlaqueText += '<span id="plaqueTextBoxL' + i + '">' + eval('localStorage.PlaqueLine' + i) + '</span></em>';
                 numFilledPlaqueLines++;
             }
             else if (showExtraLine) {
-                webPlaqueText += '<scan id="plaqueTextBoxL' + i + '">' + ' ' + '</scan></em>';
+                webPlaqueText += '<span id="plaqueTextBoxL' + i + '">' + ' ' + '</span></em>';
                 showExtraLine = false;
             }
         }

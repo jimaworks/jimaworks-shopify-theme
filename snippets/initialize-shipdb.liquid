@@ -983,9 +983,9 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 titleTextBoxLeftOffset = 85 * webFrameScale;
                 
                 ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+titleTextBoxTopOffset+'px; left: '+titleTextBoxLeftOffset+'px; z-index: 25; line-height: '+titleTextBoxLineHeight+'; font-size: '+titleTextBoxFontSize+'px; text-align: center; \">' ;
-                ImgOverlayHTML +=   '<p><em><scan id="titleTextBoxL1">'+localStorage.TitleLine1+'</scan>' ;
-                ImgOverlayHTML +=   '<br><scan id="titleTextBoxL2">'+localStorage.TitleLine2+'</scan></em>' ;
-                ImgOverlayHTML +=   '<br><scan id="titleTextBoxL3">'+localStorage.TitleLine3+'</scan></em></p>' ;
+                ImgOverlayHTML +=   '<p><em><span id="titleTextBoxL1">'+localStorage.TitleLine1+'</span>' ;
+                ImgOverlayHTML +=   '<br><span id="titleTextBoxL2">'+localStorage.TitleLine2+'</span></em>' ;
+                ImgOverlayHTML +=   '<br><span id="titleTextBoxL3">'+localStorage.TitleLine3+'</span></em></p>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                 /* departure */
@@ -998,8 +998,8 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 
                 ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+departureTextBoxTopOffset+'px; left: '+departureTextBoxLeftOffset+'px; z-index: 25; line-height: '+departureTextBoxLineHeight+'; font-size: '+departureTextBoxFontSize+'px; text-align: left; \">' ;
                 //ImgOverlayHTML +=   '<div style=\"position: absolute; top: 55px; left: 250px; z-index: 25; line-height: 0.8;  font-size: 8px; \">' ;
-                ImgOverlayHTML +=   '<br><scan id="originTextBoxL1">'+localStorage.OriginsLine1+'</scan></em>' ;
-                ImgOverlayHTML +=   '<br><scan id="originTextBoxL2">'+localStorage.OriginsLine2+'</scan></em></p>' ;
+                ImgOverlayHTML +=   '<br><span id="originTextBoxL1">'+localStorage.OriginsLine1+'</span></em>' ;
+                ImgOverlayHTML +=   '<br><span id="originTextBoxL2">'+localStorage.OriginsLine2+'</span></em></p>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                 /* arrival */
@@ -1012,8 +1012,8 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 
                 ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+arrivalTextBoxTopOffset+'px; left: '+arrivalTextBoxLeftOffset+'px; z-index: 25; line-height: '+arrivalTextBoxLineHeight+'; font-size: '+arrivalTextBoxFontSize+'px; text-align: right; \">' ;
                 //ImgOverlayHTML +=   '<div style=\"position: absolute; top: 60px; left: 25px; z-index: 25; line-height: 0.8;  font-size: 8px; \">' ;
-                ImgOverlayHTML +=   '<br><scan id="destinationTextBoxL1">'+localStorage.DestinyLine1+'</scan></em>' ;
-                ImgOverlayHTML +=   '<br><scan id="destinationTextBoxL2">'+localStorage.DestinyLine2+'</scan></em></p>' ;
+                ImgOverlayHTML +=   '<br><span id="destinationTextBoxL1">'+localStorage.DestinyLine1+'</span></em>' ;
+                ImgOverlayHTML +=   '<br><span id="destinationTextBoxL2">'+localStorage.DestinyLine2+'</span></em></p>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                 /* ship */
@@ -1077,8 +1077,8 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 
                 ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: '+shipInfoTextBoxBottomOffset+'px; left: '+shipInfoTextBoxLeftOffset+'px; z-index: 25; line-height: '+shipInfoTextBoxLineHeight+'; font-size: '+shipInfoTextBoxFontSize+'px; text-align: center; \">' ;
                 //ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 20px; left: 115px; z-index: 25; line-height: 0.8;  font-size: 8px; text-align: center; \">' ;
-                ImgOverlayHTML +=   '<p><scan id="shipInfoTextBoxL1">'+localStorage.ShipInfoLine1+'</scan></em>' ;
-                ImgOverlayHTML +=   '<br><scan id="shipInfoTextBoxL2">'+localStorage.ShipInfoLine2+'</scan></em></p>' ;
+                ImgOverlayHTML +=   '<p><span id="shipInfoTextBoxL1">'+localStorage.ShipInfoLine1+'</span></em>' ;
+                ImgOverlayHTML +=   '<br><span id="shipInfoTextBoxL2">'+localStorage.ShipInfoLine2+'</span></em></p>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                 /* plaque */
@@ -1103,73 +1103,73 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 var showExtraLine = true ;
                 ImgOverlayHTML +=   '<p>' ;
                 if ((localStorage.PlaqueLine1 !== undefined) & (localStorage.PlaqueLine1 !== "undefined")) {
-                   ImgOverlayHTML +=   '<scan id="plaqueTextBoxL1">'+localStorage.PlaqueLine1+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<span id="plaqueTextBoxL1">'+localStorage.PlaqueLine1+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 }
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<scan id="plaqueTextBoxL1">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<span id="plaqueTextBoxL1">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine2 !== undefined) & (localStorage.PlaqueLine2 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL2">'+localStorage.PlaqueLine2+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL2">'+localStorage.PlaqueLine2+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL2">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL2">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine3 !== undefined) & (localStorage.PlaqueLine3 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL3">'+localStorage.PlaqueLine3+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL3">'+localStorage.PlaqueLine3+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL3">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL3">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine4 !== undefined) & (localStorage.PlaqueLine4 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL4">'+localStorage.PlaqueLine4+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL4">'+localStorage.PlaqueLine4+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL4">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL4">'+' '+'</span></em>' ;
                    showExtraLine = false ;
                 }
                 if ((localStorage.PlaqueLine5 !== undefined) & (localStorage.PlaqueLine5 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL5">'+localStorage.PlaqueLine5+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL5">'+localStorage.PlaqueLine5+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL5">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL5">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine6 !== undefined) & (localStorage.PlaqueLine6 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL6">'+localStorage.PlaqueLine6+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL6">'+localStorage.PlaqueLine6+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL6">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL6">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine7 !== undefined) & (localStorage.PlaqueLine7 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL7">'+localStorage.PlaqueLine7+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL7">'+localStorage.PlaqueLine7+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL7">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL7">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine8 !== undefined) & (localStorage.PlaqueLine8 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL8">'+localStorage.PlaqueLine8+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL8">'+localStorage.PlaqueLine8+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 }                
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL8">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL8">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
