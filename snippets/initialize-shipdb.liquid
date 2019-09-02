@@ -125,8 +125,8 @@
                 originTextBoxEntry1 = document.getElementById("enterOriginLine1").value;
                 originTextBoxEntry2 = document.getElementById("enterOriginLine2").value;
                 
-                document.getElementById("originTextBoxL1").innerHTML = originTextBoxEntry1;
-                document.getElementById("originTextBoxL2").innerHTML = originTextBoxEntry2;
+                document.getElementById("OriginTextBoxL1").innerHTML = originTextBoxEntry1;
+                document.getElementById("OriginTextBoxL2").innerHTML = originTextBoxEntry2;
                 
                 localStorage.OriginsLine1 = originTextBoxEntry1 ;
                 localStorage.OriginsLine2 = originTextBoxEntry2 ;
@@ -998,8 +998,8 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 
                 ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+departureTextBoxTopOffset+'px; left: '+departureTextBoxLeftOffset+'px; z-index: 25; line-height: '+departureTextBoxLineHeight+'; font-size: '+departureTextBoxFontSize+'px; text-align: left; \">' ;
                 //ImgOverlayHTML +=   '<div style=\"position: absolute; top: 55px; left: 250px; z-index: 25; line-height: 0.8;  font-size: 8px; \">' ;
-                ImgOverlayHTML +=   '<br><span id="originTextBoxL1">'+localStorage.OriginsLine1+'</span></em>' ;
-                ImgOverlayHTML +=   '<br><span id="originTextBoxL2">'+localStorage.OriginsLine2+'</span></em></p>' ;
+                ImgOverlayHTML +=   '<br><span id="OriginTextBoxL1">'+localStorage.OriginsLine1+'</span></em>' ;
+                ImgOverlayHTML +=   '<br><span id="OriginTextBoxL2">'+localStorage.OriginsLine2+'</span></em></p>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                 /* arrival */
