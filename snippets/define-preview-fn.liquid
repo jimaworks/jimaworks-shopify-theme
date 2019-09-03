@@ -153,8 +153,8 @@
         document.getElementById("OriginTextBoxL1").innerHTML = originTextBoxEntry1;
         document.getElementById("OriginTextBoxL2").innerHTML = originTextBoxEntry2;
 
-        localStorage.OriginsLine1 = originTextBoxEntry1;
-        localStorage.OriginsLine2 = originTextBoxEntry2;
+        localStorage.originsTextBoxL1 = originTextBoxEntry1
+        localStorage.originsTextBoxL2 = originTextBoxEntry2;
     }
 
     function editDestinationTextBox() {
@@ -212,19 +212,22 @@
             //alert('enterPlaqueText(): localStoragePlaqueLineStr ='+localStoragePlaqueLineStr+' plaqueTextBoxEntryStr ='+ plaqueTextBoxEntryStr+'PlaqueLineStr='+PlaqueLineStr) ;
             //alert("eval(localStoragePlaqueLineStr+' !== undefined')"+eval(localStoragePlaqueLineStr+' !== undefined'));
             //alert("eval(localStoragePlaqueLineStr+' !== \"undefined\"')"+eval(localStoragePlaqueLineStr+' !== "undefined"'));
-            if (eval(localStoragePlaqueLineStr + ' !== undefined') & eval(localStoragePlaqueLineStr + ' !== "undefined"')) {
-                plaqueTextBoxEntry = eval('document.getElementById(\"' + plaqueTextBoxEntryStr + '\").value');
+            if (
+                (localStoragePlaqueLineStr !== undefined)
+                & (localStoragePlaqueLineStr !== "undefined")
+            ) {
+                plaqueTextBoxEntry = document.getElementById(plaqueTextBoxEntryStr).value;
                 //alert('enterPlaqueText(): plaqueTextBoxEntry='+plaqueTextBoxEntry) ;
-                document.getElementById(eval('\"' + 'plaqueTextBoxL' + i + '\"')).innerHTML = plaqueTextBoxEntry;
-                eval('localStorage.PlaqueLine' + i + '= plaqueTextBoxEntry');
+                document.getElementById('plaqueTextBoxL' + i).innerHTML = plaqueTextBoxEntry;
+                localStorage['PlaqueLine' + i] = plaqueTextBoxEntry;
             }
             // add new line if there is one
             /*
             */
             else if (newText) {
-                plaqueTextBoxEntry = eval('document.getElementById(\"' + plaqueTextBoxEntryStr + '\").value');
-                document.getElementById(eval('\"' + 'plaqueTextBoxL' + i + '\"')).innerHTML = plaqueTextBoxEntry;
-                eval('localStorage.PlaqueLine' + i + '= plaqueTextBoxEntry');
+                plaqueTextBoxEntry = document.getElementById(plaqueTextBoxEntryStr).value;
+                document.getElementById(plaqueTextBoxL + i).innerHTML = plaqueTextBoxEntry;
+                localStorage['PlaqueLine' + i] = plaqueTextBoxEntry;
                 //alert("enterPlaqueText(): plaqueTextBoxEntry ="+plaqueTextBoxEntry)
             }
         }
@@ -390,7 +393,7 @@
             numTxtBoxLines = 2;
         }
         else if (previewRole == "editOrigin") {
-            localStoreNamePrefix = "OriginsLine";
+            localStoreNamePrefix = "originsTextBoxL";
             numTxtBoxLines = 2;
         }
         else if (previewRole == "editTitle") {
@@ -401,17 +404,20 @@
             alert('removeLastLine(' + previewRole + '): "' + previewRole + '" is not a recognized text box');
         }
         lastFilledLine = 0
-        console.log('removeLastLine(' + previewRole + '): testing localStorage.' + previewRole + i + '==' + eval('localStorage.' + previewRole + i));
+        console.log('removeLastLine(' + previewRole + '): testing localStorage.' + previewRole + i + '==' + localStorage[previewRole + i]);
         for (i = 1; i <= numTxtBoxLines; i++) {
-            if (eval('(localStorage.' + previewRole + i + ' !== undefined) & (localStorage.' + previewRole + i + ' !== "undefined")')) {
+            if (
+                (localStorage[previewRole + i] !== undefined)
+                & (localStorage[previewRole + i] !== "undefined")
+            ) {
                 lastFilledLine++;
                 console.log('removeLastLine(' + previewRole + '): "' + previewRole + '" Clause1');
             }
-            else if (eval('localStorage.' + previewRole + i) !== undefined) {
+            else if (localStorage[previewRole + i] !== undefined) {
                 lastFilledLine++;
                 console.log('removeLastLine(' + previewRole + '): "' + previewRole + '" Clause2');
             }
-            else if (eval('localStorage.' + previewRole + i) !== "undefined") {
+            else if (localStorage[previewRole + i] !== "undefined") {
                 lastFilledLine++;
                 console.log('removeLastLine(' + previewRole + '): "' + previewRole + '" Clause3');
             }
@@ -420,7 +426,7 @@
             }
         }
         console.log('removeLastLine(' + previewRole + '): "' + previewRole + '". lastFilledLine==' + lastFilledLine + '. Evalling: (localStorage.' + previewRole + lastFilledLine + ' = undefined)');
-        eval('(localStorage.' + previewRole + lastFilledLine + ' = undefined)');
+        localStorage[previewRole + lastFilledLine] = undefined;
         RelationShipsPreviewZ("mockup", "showFrame", "BuyButton", "SaveButton", "ReturnButton");
     }
 
@@ -462,8 +468,11 @@
             // horizontal lines
             if (i > 1) webTitleText += '<br>';
             // use current value of text box lines if there is a value
-            if (eval('(localStorage.TitleLine' + i + ' !== undefined) & (localStorage.TitleLine' + i + ' !== "undefined")')) {
-                webTitleText += '<span id="TitleTextBoxL' + i + '">' + eval('localStorage.TitleLine' + i) + '</span></em>';  // ### </em> ? ###
+            if (
+                (localStorage['TitleLine' + i] !== undefined)
+                & (localStorage['TitleLine' + i] !== "undefined")
+            ) {
+                webTitleText += '<span id="TitleTextBoxL' + i + '">' + (localStorage.TitleLine + i) + '</span></em>';  // ### </em> ? ###
                 numFilledTitleLines++;
             }
             // else blank lines
@@ -475,7 +484,7 @@
         webTitleText += '</p>';
         if (showTextBoxSVG) { //localStorage.viewingTripVisuals) {
             for (i = 1; i < numAvailOriginLines + 1; i++) {
-                titleTextBoxWidth = Math.max(titleTextBoxWidth, eval('localStorage.OriginsLine' + i + '.length'));
+                titleTextBoxWidth = Math.max(titleTextBoxWidth, localStorage['originsTextBoxL' + i].length);
             }
             titleTextBoxHeight = numAvailTitleLines * titleTextBoxFontSize * titleTextBoxLineHeight;
             //textBoxSVG +=   '<div style=\"position: absolute; bottom: 20px; left: 150px; z-index: 10000;\">' ;
@@ -509,6 +518,7 @@
         var textBoxSVG = "";
         var showExtraLine;
         var originHTML = '';
+        var currentOriginLine;
 
         originTextBoxFontSize = 8 * webFrameScale;
         originTextBoxLineHeight = 0.8 * webFrameScale;
@@ -524,24 +534,29 @@
         numFilledOriginLines = 0;
         numAvailOriginLines = 2; // ### draw this from some other place... ###
         showExtraLine = true;
+
         for (i = 1; i < numAvailOriginLines + 1; i++) {
+            currentOriginLine = localStorage['originsTextBoxL' + i]; // 
             // horizontal lines
             if (i > 1) webOriginText += '<br>';
             // use current value of text box lines if there is a value
-            if (eval('(localStorage.OriginsLine' + i + ' !== undefined) & (localStorage.OriginsLine' + i + ' !== "undefined")')) {
-                webOriginText += '<span id="OriginTextBoxL' + i + '">' + eval('localStorage.OriginsLine' + i) + '</span></em>';  // ### </em> ? ###
+            if (
+                ( currentOriginLine !== undefined )
+                & ( currentOriginLine !== "undefined" )
+            ) {
+                webOriginText += '<span id="OriginTextBoxL' + i + '">' + currentOriginLine + '</span></em>';  // ### </em> ? ###
                 numFilledOriginLines++;
             }
             // else blank lines
             else if (showExtraLine) {
-                webOriginText += '<span id="OriginTextBoxL' + i + '">' + ' ' + '</span></em>';
+                webOriginText += '<span id="OriginTextBoxL' + i + '"> </span></em>';
                 showExtraLine = false;
             }
         }
         webOriginText += '</p>';
         if (showTextBoxSVG) { //localStorage.viewingTripVisuals) {
             for (i = 1; i < numAvailOriginLines + 1; i++) {
-                originTextBoxWidth = Math.max(originTextBoxWidth, eval('localStorage.OriginsLine' + i + '.length'));
+                originTextBoxWidth = Math.max(originTextBoxWidth, localStorage['originsTextBoxL' + i].length);
             }
             originTextBoxHeight = numAvailOriginLines * originTextBoxFontSize * originTextBoxLineHeight;
             //textBoxSVG +=   '<div style=\"position: absolute; bottom: 20px; left: 150px; z-index: 10000;\">' ;
@@ -596,8 +611,11 @@
             // horizontal lines
             if (i > 1) webDestinationText += '<br>';
             // use current value of text box lines if there is a value
-            if (eval('(localStorage.DestinyLine' + i + ' !== undefined) & (localStorage.DestinyLine' + i + ' !== "undefined")')) {
-                webDestinationText += '<span id="DestinationTextBoxL' + i + '">' + eval('localStorage.DestinyLine' + i) + '</span></em>';  // ### </em> ? ###
+            if (
+                (localStorage['DestinyLine' + i] !== undefined)
+                & (localStorage['DestinyLine' + i] !== "undefined")
+            ) {
+                webDestinationText += '<span id="DestinationTextBoxL' + i + '">' + localStorage['DestinyLine' + i] + '</span></em>';  // ### </em> ? ###
                 numFilledDestinationLines++;
             }
             // else blank lines
@@ -609,7 +627,7 @@
         webDestinationText += '</p>';
         if (showTextBoxSVG) { //localStorage.viewingTripVisuals) {
             for (i = 1; i < numAvailDestinationLines + 1; i++) {
-                destinationTextBoxWidth = Math.max(destinationTextBoxWidth, eval('localStorage.OriginsLine' + i + '.length'));
+                destinationTextBoxWidth = Math.max(destinationTextBoxWidth, localStorage['originsTextBoxL' + i].length);
             }
             destinationTextBoxHeight = numAvailDestinationLines * destinationTextBoxFontSize * destinationTextBoxLineHeight;
             //textBoxSVG +=   '<div style=\"position: absolute; bottom: 20px; left: 150px; z-index: 10000;\">' ;
@@ -669,8 +687,11 @@
             // horizontal lines
             if (i > 1) webShipInfoText += '<br>';
             // use current value of text box lines if there is a value
-            if (eval('(localStorage.ShipInfoLine' + i + ' !== undefined) & (localStorage.ShipInfoLine' + i + ' !== "undefined")')) {
-                webShipInfoText += '<span id="ShipInfoTextBoxL' + i + '">' + eval('localStorage.ShipInfoLine' + i) + '</span></em>';  // ### </em> ? ###
+            if (
+                (localStorage['ShipInfoLine' + i] !== undefined)
+                & (localStorage['ShipInfoLine' + i] !== "undefined")
+            ) {
+                webShipInfoText += '<span id="ShipInfoTextBoxL' + i + '">' + localStorage['ShipInfoLine' + i] + '</span></em>';  // ### </em> ? ###
                 numFilledShipInfoLines++;
             }
             // else blank lines
@@ -682,7 +703,7 @@
         webShipInfoText += '</p>';
         if (showTextBoxSVG) { //localStorage.viewingTripVisuals) {
             for (i = 1; i < numAvailShipInfoLines + 1; i++) {
-                shipInfoTextBoxWidth = Math.max(shipInfoTextBoxWidth, eval('localStorage.OriginsLine' + i + '.length'));
+                shipInfoTextBoxWidth = Math.max(shipInfoTextBoxWidth, localStorage['originsTextBoxL' + i].length);
             }
             shipInfoTextBoxHeight = numAvailShipInfoLines * shipInfoTextBoxFontSize * shipInfoTextBoxLineHeight;
             //textBoxSVG +=   '<div style=\"position: absolute; bottom: 20px; left: 150px; z-index: 10000;\">' ;
@@ -821,8 +842,11 @@
         webPlaqueText += '<p>';
         for (i = 1; i < numAvailPlaqueLines + 1; i++) {
             if (i > 1) webPlaqueText += '<br>';
-            if (eval('(localStorage.PlaqueLine' + i + ' !== undefined) & (localStorage.PlaqueLine' + i + ' !== "undefined")')) {
-                webPlaqueText += '<span id="plaqueTextBoxL' + i + '">' + eval('localStorage.PlaqueLine' + i) + '</span></em>';
+            if (
+                (localStorage['PlaqueLine' + i] !== undefined)
+                & (localStorage['PlaqueLine' + i] !== "undefined")
+            ) {
+                webPlaqueText += '<span id="plaqueTextBoxL' + i + '">' + localStorage['PlaqueLine' + i] + '</span></em>';
                 numFilledPlaqueLines++;
             }
             else if (showExtraLine) {
@@ -1273,8 +1297,8 @@
         }
         if (EnterOriginsText !== "nope") {
             //                        controlButtons +=  '<p>Change Origin Lines here:<\p>'
-            controlButtons += '<input id="enterOriginLine1" type="text" value="' + localStorage.OriginsLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterOriginText()">';
-            controlButtons += '<br><input id="enterOriginLine2" type="text" value="' + localStorage.OriginsLine2 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterOriginText()">';
+            controlButtons += '<input id="enterOriginLine1" type="text" value="' + localStorage.originsTextBoxL1 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterOriginText()">';
+            controlButtons += '<br><input id="enterOriginLine2" type="text" value="' + localStorage.originsTextBoxL2 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterOriginText()">';
         }
         if (EnterDestinationText !== "nope") {
             //                        controlButtons +=  '<p>Change Destination Lines here:<\p>'
@@ -1330,9 +1354,12 @@
         var thisLineNum = 0;
         for (i = 0; i < numAvailPlaqueLines; i++) {
             //console.log("(eval('localStorage.PlaqueLine'+i)["+eval('localStorage.PlaqueLine'+i)+"] !== undefined)"+(eval('localStorage.PlaqueLine'+i) !== undefined));
-            if ((eval('localStorage.PlaqueLine' + i) !== undefined) & (eval('localStorage.PlaqueLine' + i) !== "undefined")) {
+            if (
+                (localStorage['PlaqueLine' + i] !== undefined)
+                & (localStorage['PlaqueLine' + i] !== "undefined")
+            ) {
                 numFilledPlaqueLines++;
-                maxLnOfFilledPlaqueLines = Math.max(maxLnOfFilledPlaqueLines, eval('localStorage.PlaqueLine' + i + '.length'));
+                maxLnOfFilledPlaqueLines = Math.max(maxLnOfFilledPlaqueLines, localStorage['PlaqueLine' + i].length);
             }
         }
         //                alert('number of filled plaque lines == '+numFilledPlaqueLines);
@@ -1973,7 +2000,7 @@
         console.log("               webFrameImg =" + webFrameImg);
         console.log("               webFrameAbbrv =" + webFrameAbbrv);
         console.log("               webFrameStyleName =" + webFrameStyleName);
-    } /* function DisplayInitialRelationShipsMockup() */
+    } /* function RelationShipsPreviewZ() */
 
     /* RelationShipsPreviewZ("initialView", "noFrame") */
     if (localStorage.viewingTextBoxes == "yup") {
