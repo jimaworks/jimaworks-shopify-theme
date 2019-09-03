@@ -893,6 +893,30 @@
     function RelationShipsPreviewZ(previewRole, showFrame) {
         /* fancy parameter management... */
         console.log("RelationShipsPreviewZ()...");
+
+        /*
+            Generally speaking we should avoid global variables & side-effects,
+            but in this case we need to make sure the variable is not being reset
+            each time the function is called.
+            
+            On first invocation, the overlay rendering will occur inside the
+            `DOMContentLoaded` event listener, so we can be sure
+            `document.getElementById("DisplayOverlays")` will be non-null, and
+            can therefore set `innerHTML` without issue.
+
+            The `DOMContentLoaded` event only occurs once though, so we need
+            to flip `overlaysRendered` to `true` after the first render, and then
+            subsequent renders will call `innerHTML` outside of the event.
+
+            See bottom of `RelationShipsPreviewZ` for implementation.
+        */
+        window.Jimaworks = ( window.Jimaworks || {} ); // Singleton for namespacing; avoids global variable conflicts
+        window.Jimaworks.overlaysRendered = (
+            ( typeof window.overlaysRendered !== "undefined" )
+            ? window.overlaysRendered
+            : false
+        );
+
         var FeaturesButton = "nope";
         var SizeButton = "nope";
         var PriceButton = "nope";
@@ -1985,12 +2009,16 @@
 
         /* wrap up */
         ImgOverlayHTML += '</div>';
+        // console.log("ImgOverlayHTML=" + ImgOverlayHTML);
 
-        console.log("ImgOverlayHTML=" + ImgOverlayHTML);
-        // this seems to fail sometimes - is "DisplayOverlays" always in th scope of this function?
-        window.addEventListener('DOMContentLoaded', function () {
+        if ( !window.overlaysRendered ) {
+            window.addEventListener('DOMContentLoaded', function () {
+                document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
+                window.overlaysRendered = true;
+            });
+        } else {
             document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
-        });
+        }
         // ]]>
 
 
