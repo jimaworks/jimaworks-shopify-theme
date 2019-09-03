@@ -1988,7 +1988,9 @@
 
         console.log("ImgOverlayHTML=" + ImgOverlayHTML);
         // this seems to fail sometimes - is "DisplayOverlays" always in th scope of this function?
-        document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
+        window.addEventListener('DOMContentLoaded', function () {
+            document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
+        });
         // ]]>
 
 

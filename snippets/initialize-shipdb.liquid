@@ -1181,7 +1181,9 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 ImgOverlayHTML += '</div>' ;
                 
             console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
-            document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
+            window.addEventListener('DOMContentLoaded', function () {
+                document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
+            });
         // ]]>
         
         

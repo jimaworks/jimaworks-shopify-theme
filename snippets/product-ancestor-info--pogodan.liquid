@@ -231,8 +231,10 @@ function ProductMockup() {
                 ImgOverlayHTML +=   '</div>' ;
     
                 ImgOverlayHTML += '</div>' ;
-    
-        document.getElementById("DisplayOverlays").innerHTML = ImgOverlayPrelude+ImgOverlayHTML;
+        
+        window.addEventListener('DOMContentLoaded', function () {
+            document.getElementById("DisplayOverlays").innerHTML = ImgOverlayPrelude+ImgOverlayHTML;
+        });
 
         </script>    
     </div> 
