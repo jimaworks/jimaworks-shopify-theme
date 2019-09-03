@@ -380,6 +380,8 @@
 
     function removeLastLine(previewRole) {
         var numTxtBoxLines;
+        var currentLocalStoreName;
+
         if (previewRole == "editPlaque") {
             localStoreNamePrefix = "PlaqueLine";
             numTxtBoxLines = 8;
@@ -401,32 +403,41 @@
             numTxtBoxLines = 3;
         }
         else {
-            alert('removeLastLine(' + previewRole + '): "' + previewRole + '" is not a recognized text box');
+            alert('removeLastLine(' + previewRole + '): "' + localStoreNamePrefix + '" is not a recognized text box');
         }
         lastFilledLine = 0
-        console.log('removeLastLine(' + previewRole + '): testing localStorage.' + previewRole + i + '==' + localStorage[previewRole + i]);
+
         for (i = 1; i <= numTxtBoxLines; i++) {
+            currentLocalStoreName = localStoreNamePrefix + i;
+            currentLocalStore = localStorage[currentLocalStoreName];
+
+            console.log('removeLastLine(' + previewRole + '): testing localStorage.' + localStoreNamePrefix + i + '==' + currentLocalStore);
+
             if (
-                (localStorage[previewRole + i] !== undefined)
-                & (localStorage[previewRole + i] !== "undefined")
+                (currentLocalStore !== undefined)
+                & (currentLocalStore !== "undefined")
             ) {
                 lastFilledLine++;
-                console.log('removeLastLine(' + previewRole + '): "' + previewRole + '" Clause1');
+                console.log('removeLastLine(' + previewRole + '): "' + currentLocalStoreName + '" Clause1');
             }
-            else if (localStorage[previewRole + i] !== undefined) {
+            else if (currentLocalStore !== undefined) {
                 lastFilledLine++;
-                console.log('removeLastLine(' + previewRole + '): "' + previewRole + '" Clause2');
+                console.log('removeLastLine(' + previewRole + '): "' + currentLocalStoreName + '" Clause2');
             }
-            else if (localStorage[previewRole + i] !== "undefined") {
+            else if (currentLocalStore !== "undefined") {
                 lastFilledLine++;
-                console.log('removeLastLine(' + previewRole + '): "' + previewRole + '" Clause3');
+                console.log('removeLastLine(' + previewRole + '): "' + currentLocalStoreName + '" Clause3');
             }
             else {
-                console.log('removeLastLine(' + previewRole + '): "' + previewRole + '" Clause4');
+                console.log('removeLastLine(' + previewRole + '): "' + currentLocalStoreName + '" Clause4');
             }
-        }
-        console.log('removeLastLine(' + previewRole + '): "' + previewRole + '". lastFilledLine==' + lastFilledLine + '. Evalling: (localStorage.' + previewRole + lastFilledLine + ' = undefined)');
-        localStorage[previewRole + lastFilledLine] = undefined;
+        } // for
+        console.log('removeLastLine(' + previewRole + '): "' + localStoreNamePrefix + '". lastFilledLine==' + lastFilledLine + '. Evalling: (localStorage.' + localStoreNamePrefix + lastFilledLine + ' = undefined)');
+
+        // To remove the key/value pair entirely:
+        // localStorage.removeItem( localStoreNamePrefix + lastFilledLine );
+        localStorage.setItem( localStoreNamePrefix + lastFilledLine, '' );
+
         RelationShipsPreviewZ("mockup", "showFrame", "BuyButton", "SaveButton", "ReturnButton");
     }
 
