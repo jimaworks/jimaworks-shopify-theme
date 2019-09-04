@@ -459,6 +459,7 @@
         var showExtraLine;
         var textBoxSVG = "";
         var titleHTML = '';
+        var currentTitleLine;
 
         titleTextBoxFontSize = 12 * webFrameScale;
         titleTextBoxLineHeight = 0.8 * webFrameScale;
@@ -476,14 +477,16 @@
         numAvailTitleLines = 2; // ### draw this from some other place... ###
         showExtraLine = true;
         for (i = 1; i < numAvailTitleLines + 1; i++) {
+            currentTitleLine = localStorage['TitleLine' + i];
+
             // horizontal lines
             if (i > 1) webTitleText += '<br>';
             // use current value of text box lines if there is a value
             if (
-                (localStorage['TitleLine' + i] !== undefined)
-                & (localStorage['TitleLine' + i] !== "undefined")
+                (currentTitleLine !== undefined)
+                & (currentTitleLine !== "undefined")
             ) {
-                webTitleText += '<span id="TitleTextBoxL' + i + '">' + (localStorage.TitleLine + i) + '</span></em>';  // ### </em> ? ###
+                webTitleText += '<span id="TitleTextBoxL' + i + '">' + currentTitleLine + '</span></em>';  // ### </em> ? ###
                 numFilledTitleLines++;
             }
             // else blank lines
