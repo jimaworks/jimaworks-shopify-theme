@@ -623,10 +623,11 @@
                 var theGoldenRatio = 1.618 ;
                 var webMapWidth = 400 * webFrameScale ;
                 var webMapHeight = (webMapWidth/theGoldenRatio) * webFrameScale ; /* get the actual height of the map */
-        
+                var shipPic = ( localStorage.getItem('shipPic') || '' );
+
                 /* ship */
-                var webShipImg = '\"' + shopifyFilePreFix + localStorage.shipPic.replace("(", "_").replace(")", "_") + '\"';  
-                var webShipImg2 = shopifyFilePreFix + localStorage.shipPic.replace("(", "_").replace(")", "_") ;  
+                var webShipImg = shopifyFilePreFix + shipPic.replace("(", "_").replace(")", "_");
+                // var webShipImgQuoted = '\"' + webShipImg + '\"'; // Not necessary
 
                 /* frame */
                 var webFrameSrcStr ;
@@ -886,12 +887,12 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
         
                 var webMapImg = localStorage.MapStyleImg ;
                 var webFrameImg = localStorage.FrameIg ;
-                var webShipImg = localStorage.shipPicImg ;
+                var webShipImgQuoted = localStorage.shipPicImg ;
                 */
         
                 /* examples...
                 var webMapImg =   '\"https://cdn.shopify.com/s/files/1/1336/0641/files/2016-NAtlantic-MayanGlow-640pxW.png\" ' ;
-                var webShipImg =      '\"https://cdn.shopify.com/s/files/1/1336/0641/files/St_Paul-24-640pxW.jpg\" ' ;
+                var webShipImgQuoted =      '\"https://cdn.shopify.com/s/files/1/1336/0641/files/St_Paul-24-640pxW.jpg\" ' ;
                 var webFrameImg =     '\"https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-640pxW.png\" ' ; 
                 */
         
@@ -1023,7 +1024,7 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 var webShipImgWidth, webShipImgHeight, webShipImgXYRatio, webShipImgXYArea;
                 
                 getImgWidthAndHeight(
-                    webShipImg2,
+                    webShipImg,
                     function(width, height) {
                         localStorage.webShipImgWidth =width;
                         localStorage.webShipImgHeight =height;
@@ -1057,7 +1058,7 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
         /*        ImgOverlayHTML +=   '<div style=\"position: absolute; top: 120px; left: 120px; z-index: 3;\">' ;  */
                 //ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 45px; left: 115px; z-index: 3;\">' ;
                 ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: '+shipImageBottomOffset+'px; left: '+shipImageLeftOffset+'px; z-index: 3;\">' ;
-                ImgOverlayHTML +=     '<img src=' + webShipImg ;
+                ImgOverlayHTML +=     '<img src="' + webShipImg + '"';
                 //ImgOverlayHTML +=     ' class=\"ship\" width=\"160px\" height=\"auto\"' ;
                 //ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
                 ImgOverlayHTML +=     ' class=\"ship\" width=\"'+shipImageWidth+'px\" height=\"'+shipImageHeight+'\"' ;
