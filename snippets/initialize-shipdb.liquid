@@ -789,7 +789,22 @@ webPlaqueBottomOffset = -(webPlaqueHeight) + (4* webFrameScale) ; // + webPlaque
 
 webPlaqueLeftOffset = webMapWidth/2 - webPlaqueWidth/2 ; /* 100+400/2-140/2 = 220... nope */
 
-webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset+'px; left:'+webPlaqueLeftOffset+'px; text-align: center; line-height: '+plaqueTextBoxLineHeight+';  font-size: '+plaqueTextBoxFontSize+'px; z-index: 25;\">' ;
+                webPlaqueDivStyle = 
+                    ' style=\"position: absolute;'
+                    + ' bottom:' + webPlaqueBottomOffset + 'px;'
+                    + ' left:' + webPlaqueLeftOffset + 'px;'
+                    + ' text-align: center;'
+                    + ' line-height: '+ plaqueTextBoxLineHeight + ';'
+                    + ' font-size: ' + plaqueTextBoxFontSize + 'px;'
+                    + ' z-index: 25;\"'
+                    // EmptyPlaque as background-image:
+                    + 'background-image: url(' + webPlaqueImg + ');'
+                    + 'background-size: contain;'
+                    + 'background-repeat: no-repeat;'
+                    + 'width: 306px;'
+                    + 'padding: 9.5px 12.8px;'
+                    // End EmptyPlaque as background-image
+                    + '>';
 
                 webPlaqueAttribs = ' class=\"Plaque\" width='+webPlaqueWidth+'px height='+webPlaqueHeight+'px' ;
                 webPlaqueStyle = ' style=\"width:'+webPlaqueWidth+'px; maxwidth: 25%;'+webPlaqueHeight+'px;\";' ;
@@ -1090,9 +1105,9 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
            ### */ 
         /*
         */ 
-                ImgOverlayHTML +=   '<div' + webPlaqueDivStyle ;
-                ImgOverlayHTML +=     '<img src=' + webPlaqueImg + webPlaqueAttribs + webPlaqueStyle + '/>' ;
-                ImgOverlayHTML +=   '</div>' ;
+                // ImgOverlayHTML +=   '<div' + webPlaqueDivStyle ;
+                // ImgOverlayHTML +=     '<img src=' + webPlaqueImg + webPlaqueAttribs + webPlaqueStyle + '/>' ;
+                // ImgOverlayHTML +=   '</div>' ;
                 ImgOverlayHTML +=   '<div' + webPlaqueDivStyle ;
 
 //                ImgOverlayHTML +=   '<p>In Appreciation Of' ; 

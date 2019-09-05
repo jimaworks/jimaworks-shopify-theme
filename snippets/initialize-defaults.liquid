@@ -1109,9 +1109,14 @@ https://jimaworks.com/products/genericrelationshipsproduct-framed
 
     // Plaque Lines
     var totalPlaqueLines = 8;
+    var currentPlaqueLine = '';
+
     for (var lineNumber = 1; lineNumber <= totalPlaqueLines; lineNumber++) {
-        console.log('PlaqueLine' + lineNumber);
-        localStorage.setItem( 'PlaqueLine' + lineNumber, '' );
+        currentPlaqueLine = 'PlaqueLine' + lineNumber;
+
+        if ( localStorage.getItem( currentPlaqueLine ) === null ) {
+            localStorage.setItem( currentPlaqueLine, '' );
+        }
     }
 }
 
