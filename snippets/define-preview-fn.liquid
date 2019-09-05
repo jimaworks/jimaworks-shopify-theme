@@ -1390,14 +1390,17 @@
         var numFilledPlaqueLines = 0;
         var maxLnOfFilledPlaqueLines = 0;
         var thisLineNum = 0;
+        var currentPlaqueLine;
+
         for (i = 0; i < numAvailPlaqueLines; i++) {
+            currentPlaqueLine = localStorage['PlaqueLine' + i];
             //console.log("(eval('localStorage.PlaqueLine'+i)["+eval('localStorage.PlaqueLine'+i)+"] !== undefined)"+(eval('localStorage.PlaqueLine'+i) !== undefined));
             if (
-                (localStorage['PlaqueLine' + i] !== undefined)
-                & (localStorage['PlaqueLine' + i] !== "undefined")
+                (currentPlaqueLine !== undefined)
+                & (currentPlaqueLine !== "undefined")
             ) {
                 numFilledPlaqueLines++;
-                maxLnOfFilledPlaqueLines = Math.max(maxLnOfFilledPlaqueLines, localStorage['PlaqueLine' + i].length);
+                maxLnOfFilledPlaqueLines = Math.max(maxLnOfFilledPlaqueLines, currentPlaqueLine.length);
             }
         }
         //                alert('number of filled plaque lines == '+numFilledPlaqueLines);
