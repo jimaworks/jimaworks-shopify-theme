@@ -1,0 +1,242 @@
+<!--  RelationShips Get Started test new 
+      https://jimaworks.com/pages/your-relationships-project
+      template:  page.initialize-jimaworks
+      title: Your Relationships Project
+      subtitle: A RelationShips project tells a story. 
+                Each consists of five Text Boxes for you to fill out. 
+                Six Trip Visuals beautifully stage this bit of your history.
+      Feb 08 2019:0940 Change prompt for name - add value="Our Family".  (But would like that to be overwritten on input)
+      Feb 22 2019:0806 New prompt leads to "Our Family Family Atlantic Crossing" so remove redundancy (when condition Atlantic/Pacific?)
+      Apr 15 2019:1230 Edit prompt to emphasize ability to edit or leave default "Our Family Family Atlantic Crossing"
+      Apr 23 2019:0800 Put in "nextPage" convention.  Change subtitle to "Whose story is this?"
+      Apr 25 2019:1430 Put in the correct "nextPage"'s to make it live.
+      May 20 2019:0730 Bring final choice button to the top - make it overlay all else
+      
+      Changeover.  Insert at RelationShips introduction.
+      https://jimaworks.com/pages/1-RelationShips Introduction
+      template:  page.initialize-jimaworks
+      title: Your RelationShips Project
+      subtitle: 
+      Jun 07 2019:1430 Incorporate localStorage.viewingTextBoxes to lead user into "5 TextBoxes" view of product
+      Jun 08 2019:1200 Add the "View 5 TextBoxs" button, remove "register last name", and follow nextPage to start the project
+      Jun 09 2019:1845 Insert the "Region" textbox0 to set the part of the world
+      Jun 10 2019:1715 Polish wording/add line breaks.
+      Jun 14 2019:1800 Add the describeTextBoxes and describeTripVisuals buttons, add the SaveAndReturnLater button
+      Jun 18 2019:0700 Link to Resources/Hints and Tips page
+      Aug 11 2019:0745 Add "Skip to Project" button, rename to "your-relationships-project" vs "1-your-relationships-project-test"
+  --> <!-- added comment to remove leading imagery
+<div class="row">
+<table width="100%">
+<tbody>
+<tr>
+<td style="text-align: left;"><a href="https://cdn.shopify.com/s/files/1/1336/0641/files/RelationShipsImage-Campania_1897-1918_-Walnut-ParisSage-72ppi.png?15266436432026494628" data-lightbox="jimaworks-gallery" data-title="&lt;a href='https://jimaworks.com/pages/0-1-origins'
+                    &gt;Click here&lt;/a&gt; to get started"> <img style="vertical-align: top;" src="https://cdn.shopify.com/s/files/1/1336/0641/files/RelationShipsImage-Campania_1897-1918_-Walnut-ParisSage-72ppi.png?15266436432026494628" alt="RelationShips example" /> </a>
+<p><a href="https://jimaworks.com/pages/examplesinarraywlargerpics" a=""> Click HERE for some examples </a></p>
+
+...had a comment start
+<p><a href="https://jimaworks.com/pages/0-1-origins" a="" onclick="GetStartedWithARelationShipsProject()"> Click HERE to skip the intro </a></p>
+... had a comment nd
+
+</td>
+</tr>
+</table>
+</div>
+
+... had a comment start
+<h1>Putting Membership Requirement in place</h1>
+<button onclick="requireMembershipFunction()">Member?</button>
+<p id="textOut"></p>
+<script type="text/javascript">
+    if (localStorage.RelationShipMember===undefined) {
+        function requireMembershipFunction() {
+            var requireMembershipString=  
+                            "You must be a member of the jimaworks RelationShips community to enter this page\n"
+                            +"The benefits of membership include:\n"
+                            +"- Ability to initiate RelationShips Projects\n"
+                            +"- \"Hints and Tips\" pages\n"
+                            +"- the jimaworks Newsletter\n"
+                            +"- Downloadable \"Cheat Sheet\" for RelationShips questions"
+                            +"- Soon: a \"Save and Come Back Later\" button" ;
+            var txt;
+            if (confirm(requireMembershipString)) {
+                txt = "You pressed Sure!";
+                /* go to https://jimaworks.com/account/login */
+            } else {
+                txt = "You pressed NoThx!";
+                /* go to https://jimaworks.com */
+            }
+            document.getElementById("textOut").innerHTML = txt;
+        } ;
+    }
+    else {
+        document.write(  "localStorage.RelationShipMember=="+localStorage.RelationShipMember) ;
+    }
+</script>
+... had a comment end
+<h2>Buying a jimaworks RelationShips or ArrivalMaps product:</h2>
+-->
+<script>// <![CDATA[
+    //var nextPage = "https://jimaworks.com/pages/1-b-in-what-part-of-the-world-did-this-story-start" ; //"https://jimaworks.com/pages/000-test-set-the-stage-of-your-story" ; //"https://jimaworks.com/pages/x1-region" ;
+    //var nextPage = "https://jimaworks.com/pages/my-relationships-project" ;   // this is now the introduction page for RelationShips projects
+    //var nextPage = "https://jimaworks.com/pages/1-a-whose-story-is-this" ;
+    var nextPage = "/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start" ;
+    
+    initializeDefaults() ; 
+    
+    function actionOnCR(event){
+        var x = event.which || event.keyCode;
+        if (x==13) {
+            registerFirstGenLastName() ;
+            startProject() ;
+        }
+    }
+    
+    function actionOnDone(){
+            //registerFirstGenLastName() ;
+            startProject() ;
+    }
+    
+    function registerFirstGenLastName() {
+        localStorage.FirstGenLastName = document.getElementById("lastname").value ;
+        var TitleLine1 = localStorage.FirstGenLastName+" Atlantic Crossing";
+        /* var TitleLine1ImgFileName = "..."; */
+        localStorage.setItem("TitleLine1", TitleLine1) ;
+        document.getElementById("lastname").innerHTML="FirstGen Name provided = "+localStorage.FirstGenLastName ;
+    }
+    
+    function startProject() {
+        var GetStartedPage = nextPage ; //"https://jimaworks.com/pages/x1-region";
+        window.location.assign(GetStartedPage);
+    }
+    /*
+    window.onbeforeunload = function(){
+        alert("onbeforeunload fn") ;
+      return 'Are you sure you want to leave?';
+    };
+    */
+    
+    localStorage.viewingTextBoxes = "yup" ;
+    localStorage.viewingTripVisuals = "yup" ;
+    
+    window.onbeforeunload = function(){
+        localStorage.removeItem("viewingTextBoxes");
+        localStorage.removeItem("viewingTripVisuals");
+    };
+    // ]]></script>
+    <h2>A RelationShips project tells a story. <br />Each consists of five Text Boxes for you to fill out. <br />Six Trip Visuals beautifully stage this bit of your history.</h2>
+    <div id="ButtonDisplay" style="float: left; position: relative; z-index: 1000; margin-bottom: 36px;"><!--
+            <input type="text" id="lastname" value="Our Family" title="Enter the name of the FirstGen you are commemorating, or just leave as 'Our Family Atlantic Crossing'" onkeypress="actionOnCR(event)" /> 
+        Jun 14 2019:1100 replace "showTripVisuals" and "showTextBoxes" functions with "describeTripVisuals" and "describeTextBoxes"
+        --> <button onclick="RelationShipsPreviewZ('describeTextBoxes', 'showFrame') ;">About the five Text Boxes</button> <button onclick="RelationShipsPreviewZ('describeTripVisuals', 'showFrame') ;">About the six Trip Visuals</button> <a href="/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start" style="display: inline-block; height: 32px; padding: 1px 7px 2px; background-color: white;">Skip to Project</a></div>
+    <!--
+       <input type="text" id="lastname" onchange="actionOnCR(event)">
+            <p>This example demonstrates how to assign an "onchange" event to an input element.</p>
+            
+            Enter your name: <input type="text" id="fname" onchange="actionOnCR()">
+            
+            <p>When you leave the input field, a function is triggered which transforms the input text to upper case.</p>
+            
+            <script>
+            function actionOnCR() {
+                var x = document.getElementById("fname");
+                x.value = x.value.toUpperCase();
+            }
+            </script>       
+            
+            or     
+         --> <!--
+    <p>
+        <br><br>
+        The RelationShip and ArrivalMap products focus specifically on commemorating your "First Gens" 
+        - those who made thee oceanic crossings that planted your family in America. 
+        These products are personalized and specific. 
+        They will take a bit of effort for you to fully specify (and for jimaworks to prepare). 
+    </p>
+    --> <!-- .. previously continued with:
+        before your creation is ready to hang on a wall and do its good work. 
+        Some elements of the project are fairly information-intensive, 
+        but no matter what level of knowledge you have of the crossing you are commemorating, 
+        you will be able to make the project reflect the honor and appreciation you give this event.
+    --> <!--    most recent vvvvvv:
+    <h3>Your part of this project will require completing three steps:</h3>
+    <h4>Step 1: You provide some historical context for the commemoration 
+        <br />Step 2: You choose a look and feel that suits your needs and tastes 
+        <br />Step 3: You personalize the product.</h4>
+    <h5>When you are satisfied that you have specified your commemoration to your liking, you place the order. 
+        The first $25 of your order buys you a pdf of several variants of your specification. 
+        You can chose your final, physical delivery from these, or simply stop there and use your lower-resolution pdfs to print and display*.</h5>
+    <h6>*(But note that in addition to being at a lower image density than your final print would be, these are watermarked, do not have unique print IDs, and are without my final QA initials - though they will still look pretty great:)</h6>
+            ^^^^most recent --> <!--
+        <p>With the first $25 of the order, 
+        jimaworks prepares a proof with at least two variations of the product as you have specified it. 
+        These proofs include the historically accurate map corresponding to your commemorative event, 
+        the ship (if any*) that you have chosen for the display, 
+        and the custom text elements that individualize the product to your specific case.</p>
+    <p>Jimaworks will send .pdfs of the proofs to the email address you have provided. 
+        At that point you may simply accept one of the options we have provided, 
+        or, if you desire, request a round of modifications. 
+        You may also of course decline the options, 
+        at which point we will refund your order minus a $25 service charge for designing your options. 
+        (We will assume you have declined the options 
+        if you do not respond within two weeks of receiving your personalized proofs).</p>
+    <p>We are pleased that you are visiting this website 
+        and hope you find our products of value in preserving and honoring the specifics of your Armerican identity. 
+        We hope furthermore that you will make a RelationShips purchase 
+        to help us memorialize the great migrations 
+        which are such a fundamental component of our shared American heritage.</p>
+    <p style="font-size: 75%;">* A jimaworks "ArrivalMap" is the RelationShips product but for which the customer is not asking us to add an image of a ship to the display</p>
+    
+    <div style="float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;"><button id="myButton" class="float-left submit-button" onclick="GetStartedWithARelationShipsProject()"> All right, I'll try it out. </button></div>
+    initializeDefaults()
+    --> <!--    most recent vvvvvv:
+    <div style="float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;"><button id="myButton" class="float-left submit-button" onclick="startProject()"> Okay OKAY, let's go!</button></div>
+            ^^^^most recent -->
+    <div id="DisplayOverlays" style="float: left; position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+    <script>// <![CDATA[
+    //RelationShipsPreview("initialView", "noFrame") ;
+        //alert('Pre-RelationShipsPreviewZ("productAnatomy", "showFrame")') ;
+        RelationShipsPreviewZ("mockup", "showFrame") ;
+    // ]]></script>
+    </div>
+    <div style="float: left;">
+    <p>Each of these TextBoxes will already be filled in for you and updated as you add information. The more information you provide, the more "yours" the product will become. And at the end, you can make it *completely* yours by purchasing it of course, but before that, also by further modifying it in any way you chose.</p>
+    <p>(This is a lot of information to collect, and you may not be able to find it all. But we pre-fill each element of information with stand-in, general text that you can use, as well as a rich set of <a href="https://jimaworks.com/pages/resources">hints and tips</a> to guide you on how to show what you do know and what you don’t.)</p>
+    <p>(Moreover, you can always, at any time, use the SaveAndComeBackLater button, so you can go off and do some additional research before completing your project. When you do SaveAndComeBackLater, we save the state of your incomplete RelationShips project and send you a link which, when you click it, brings you back to the same place you left off, with your previous partially-complete information restored.)</p>
+    <h3>More Info</h3>
+    <ul>
+        <li>
+            <a
+                id="FeaturesLink"
+                class="float-left submit-button"
+                style="font-size: 110%;"
+                href="/pages/product-anatomy"
+            >Features</a>
+        </li>
+        <li>
+            <a
+                id="SizeLink"
+                class="float-left submit-button"
+                style="font-size: 110%;"
+                href="/pages/product-sizes"
+            >Sizes</a>
+        </li>
+        <li>
+            <a
+                id="PriceLink"
+                class="float-left submit-button"
+                style="font-size: 110%;"
+                href="/pages/prices"
+            >Price</a>
+        </li>
+    </ul>
+    <button onclick="actionOnDone()">Start building your story</button> <!--
+        <br /> 
+        <br /> 
+        <button onclick="actionOnSave()">Click here to save so you can come back later</button>
+        --></div>
+    <script>// <![CDATA[
+    function actionOnSave() {
+        var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+        window.location.assign(SaveForLaterPage);
+    }
+    // ]]></script>
