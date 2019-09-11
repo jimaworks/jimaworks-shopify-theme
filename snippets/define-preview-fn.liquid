@@ -89,23 +89,23 @@
     }
 
     function SaveCurrentState() {
-        window.location.href = "https://jimaworks.com/pages/saveandreturnlater";
+        window.location.href = "' + window.location.host + '/pages/saveandreturnlater";
     }
 
     function GoToBuyPage() {
-        window.location.href = "https://jimaworks.com/products/pogo-ship"; //"https://jimaworks.com/cart" ;
+        window.location.href = "' + window.location.host + '/products/pogo-ship"; //"' + window.location.host + '/cart" ;
     }
 
     function FeaturesPage() {
-        window.location.href = "https://jimaworks.com/pages/product-anatomy";
+        window.location.href = "' + window.location.host + '/pages/product-anatomy";
     }
 
     function SizePage() {
-        window.location.href = "https://jimaworks.com/pages/product-sizes";
+        window.location.href = "' + window.location.host + '/pages/product-sizes";
     }
 
     function PricePage() {
-        window.location.href = "https://jimaworks.com/pages/prices";
+        window.location.href = "' + window.location.host + '/pages/prices";
     }
 
     function EditPage() {
@@ -770,7 +770,7 @@
         numAvailPlaqueLines,
         numFilledPlaqueLines,
         maxLnOfFilledPlaqueLines,
-        shopifyFilePreFix,
+        shopifyFilePrefix,
         showTextBoxSVG
     ) {
         var plaqueHTML = '';
@@ -809,7 +809,7 @@
         }
         //### *arbitrarily* adjusting font size###
         maxLnOfFilledPlaqueLines = maxLnOfFilledPlaqueLines / 2;
-        webPlaqueImg = shopifyFilePreFix + webPlaque + 'Plaque.png';
+        webPlaqueImg = shopifyFilePrefix + webPlaque + 'Plaque.png';
 
         // plaqueTextBoxFontSize = webPlaqueHeight / (numFilledPlaqueLines + 1); //  *webFrameScale  ;   // 9*webFrameScale
         // console.log("plaqueTextBoxFontSize= webPlaqueHeight/(numFilledPlaqueLines+1))==" + plaqueTextBoxFontSize);
@@ -1012,7 +1012,9 @@
 
             See bottom of `RelationShipsPreviewZ` for implementation.
         */
-        window.Jimaworks = ( window.Jimaworks || {} ); // Singleton for namespacing; avoids global variable conflicts
+        window.Jimaworks = ( window.Jimaworks || {
+            "isDev": /^jimaworks-dev\.myshopify\.com/.test( window.location.host )
+        } ); // Singleton for namespacing; avoids global variable conflicts
         window.Jimaworks.overlaysRendered = (
             ( typeof window.overlaysRendered !== "undefined" )
             ? window.overlaysRendered
@@ -1084,8 +1086,16 @@
 
         /*document.referrer ;*/
         var OriginatingPage = window.location.href;
-        var shopifyFilePreFix = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
-        var shopifyFileSufFix = "?16338137725744926710";
+        var shopifyFilePrefix;
+        var shopifyFileSuffix;
+        
+        if ( window.Jimaworks.isDev ) {
+            shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
+            shopifyFileSuffix = "?922";
+        } else {
+            shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
+            shopifyFileSuffix = "?16338137725744926710";
+        }
 
         var headerText
         if (previewRole === "initialView") {
@@ -1102,7 +1112,7 @@
         }
         else if (previewRole === "mockup") {
             headerText = '<p><em>Mockup.';
-            headerText += '<br>See <a href="https://jimaworks.com/pages/galleries">Examples</a> to see what final orders look like</em></p>';
+            headerText += '<br>See <a href="' + window.location.host + '/pages/galleries">Examples</a> to see what final orders look like</em></p>';
             /* Control Button defn and placement */
             FeaturesButton = "yup";
             SizeButton = "yup";
@@ -1113,7 +1123,7 @@
         }
         else if (previewRole === "noMenus") {
             headerText = '<p><em>Mockup.';
-            headerText += '<br>See <a href="https://jimaworks.com/pages/galleries">Examples</a> to see what final orders look like</em></p>';
+            headerText += '<br>See <a href="' + window.location.host + '/pages/galleries">Examples</a> to see what final orders look like</em></p>';
             /* No Control Button defn and placement */
         }
         else if (previewRole === "showTextBoxes") {
@@ -1314,7 +1324,7 @@
         }
         else {
             headerText = '<p><em>Mockup.';
-            headerText += '<br>See <a href="https://jimaworks.com/pages/galleries">Examples</a> to see what final orders look like</em></p>';
+            headerText += '<br>See <a href="' + window.location.host + '/pages/galleries">Examples</a> to see what final orders look like</em></p>';
             /* Control Button defn and placement */
             FeaturesButton = "yup";
             SizeButton = "yup";
@@ -1649,7 +1659,7 @@
 
         var webMapStyle = localStorage.MapStyle;
         var webMapStyleAbbrev = localStorage.MapStyleAbbrev;
-        var webMapImg = shopifyFilePreFix + localStorage.webMapImg;
+        var webMapImg = shopifyFilePrefix + localStorage.webMapImg;
 
         var mapImg = webMapImg;
         img.src = mapImg;
@@ -1663,7 +1673,7 @@
         var shipPic = ( localStorage.getItem('shipPic') || '' );
 
         /* ship */
-        var webShipImg = shopifyFilePreFix + shipPic.replace("(", "_").replace(")", "_");
+        var webShipImg = shopifyFilePrefix + shipPic.replace("(", "_").replace(")", "_");
         // var webShipImgQuoted = '\"' + webShipImg + '\"'; // Not necessary
 
         /* frame */
@@ -1684,7 +1694,7 @@
             webFrameStyleName = localStorage.Frame;
             if (webFrameStyleName == 'NoFrame') {
                 webFrameAbbrv = 'NoFrame';
-                webFrameImg = '\"' + shopifyFilePreFix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';
+                webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';
                 webFrameWidth = 510;
                 webFrameWidth = webFrameWidth * webFrameScale;
                 webFrameHeight = webMapWidth / theGoldenRatio;
@@ -1716,7 +1726,7 @@
                 webFrameLeftOffset = -105 * webFrameScale;
             }
             else if (webFrameStyleName == 'BlackWalnut') {
-                webFrameAbbrv = 'Walnut';
+                webFrameAbbrv = 'Walnut-NoPlaque'; // TODO: Make NoPlaque universal
                 webFrameWidth = 630;
                 webFrameWidth = webFrameWidth * webFrameScale;
                 webFrameHeight = webMapWidth / theGoldenRatio;
@@ -1724,7 +1734,7 @@
                 webFrameLeftOffset = -120 * webFrameScale;
             }
             else {
-                webFrameAbbrv = 'Walnut';
+                webFrameAbbrv = 'Walnut-NoPlaque'; // TODO: Make NoPlaque universal
                 webFrameWidth = 600;
                 webFrameWidth = webFrameWidth * webFrameScale;
                 webFrameHeight = webMapWidth / theGoldenRatio;
@@ -1735,7 +1745,7 @@
         else {
             webFrameStyleName = 'NoFrame'
             webFrameAbbrv = 'NoFrame';
-            webFrameImg = '\"' + shopifyFilePreFix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';
+            webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';
             webFrameWidth = 510;
             webFrameWidth = webFrameWidth * webFrameScale;
             webFrameHeight = webMapWidth / theGoldenRatio;
@@ -1745,7 +1755,7 @@
 
         //webFrameTopOffset = -110;
 
-        webFrameImg = '\"' + shopifyFilePreFix + 'GoldRatio-Med-' + webFrameAbbrv + '-NoRuler-72ppi.png' + '\"';
+        webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-' + webFrameAbbrv + '-NoRuler-72ppi.png' + '\"';
         webFrameDivStyle = ' style=\"position: absolute; Top:' + webFrameTopOffset + 'px; left:' + webFrameLeftOffset + 'px; z-index: 10;\">';
         webFrameAttribs = ' class=\"frame\" width=' + webFrameWidth + 'px height=\"auto\"';
         webFrameStyle = ' style=\"width:' + webFrameWidth + 'px; maxwidth: 25%; height: auto\";';
@@ -1800,7 +1810,7 @@
                     }
                     //### *arbitrarily* adjusting font size###
                     maxLnOfFilledPlaqueLines = maxLnOfFilledPlaqueLines/2 ;
-                    webPlaqueImg = '\"' + shopifyFilePreFix + webPlaque + 'Plaque.png' + '\"';  
+                    webPlaqueImg = '\"' + shopifyFilePrefix + webPlaque + 'Plaque.png' + '\"';  
                     plaqueTextBoxFontSize = webPlaqueHeight/(numFilledPlaqueLines+1) ; //  *webFrameScale  ;   // 9*webFrameScale
                     console.log("plaqueTextBoxFontSize= webPlaqueHeight/(numFilledPlaqueLines+1))=="+plaqueTextBoxFontSize);
                     plaqueTextBoxFontSize = webPlaqueWidth/(maxLnOfFilledPlaqueLines+2) ;
@@ -1880,12 +1890,12 @@
 
             seaScapeImgName = "Ocean7CroppedSquashed500W.png";
             seaScapeImg = "\'"
-                + shopifyFilePreFix
+                + shopifyFilePrefix
                 + seaScapeImgName.replace("(", "_").replace(")", "_")  /* ### (need to formalize these image names) ### */
                 + "\'";
             seaScapeHorizonImgName = "Ocean7Horizon500W.png";
             seaScapeHorizonImg = "\'"
-                + shopifyFilePreFix
+                + shopifyFilePrefix
                 + seaScapeHorizonImgName.replace("(", "_").replace(")", "_")  /* ### (need to formalize these image names) ### */
                 + "\'";
             /* Seascape foreground */
@@ -2109,7 +2119,7 @@
             numAvailPlaqueLines, //isn't used below
             numFilledPlaqueLines,
             maxLnOfFilledPlaqueLines,
-            shopifyFilePreFix,
+            shopifyFilePrefix,
             showTextBoxSVG
         );
 

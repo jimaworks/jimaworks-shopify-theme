@@ -127,39 +127,39 @@ function ProductMockup() {
                 Is there a better way to do this in liquid so can just use the filename (e.g., "GoldRatio-Med-Black-NoRuler-640pxW.png")?
                 (BTW, the plan is to generate the filenames from the customer's choices, e.g., "GoldRatio+Med+Walnut" etc)
             */
-            var shopifyFilePreFix = "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-            var shopifyFileSufFix = "?16338137725744926710"
+            var shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/"
+            var shopifyFileSuffix = "?16338137725744926710"
     
             // var webFrame = "{{product.selected_or_first_available_variant.option2}}" ;
             var webFrame = localStorage.Frame ;
             if (webFrame == "BlackRoped") {
-                webFrameImg = shopifyFilePreFix + "GoldRatio-Med-Black-NoRuler-640pxW.png" + shopifyFileSufFix ;
+                webFrameImg = shopifyFilePrefix + "GoldRatio-Med-Black-NoRuler-640pxW.png" + shopifyFileSuffix ;
                 }
             else if (webFrame == "BlackWalnut") {
-                webFrameImg = shopifyFilePreFix + "GoldRatio-Med-Walnut-NoRuler-72ppi.png" + shopifyFileSufFix ;
+                webFrameImg = shopifyFilePrefix + "GoldRatio-Med-Walnut-NoRuler-72ppi.png" + shopifyFileSuffix ;
             }
             else if (webFrame == "LightCherry") {
-                webFrameImg = shopifyFilePreFix + "GoldRatio-Med-Cherry-NoRuler-72ppi.png" + shopifyFileSufFix ;
+                webFrameImg = shopifyFilePrefix + "GoldRatio-Med-Cherry-NoRuler-72ppi.png" + shopifyFileSuffix ;
                 }
             else if (webFrame == "GoldTrim") {
-                webFrameImg = shopifyFilePreFix + "GoldRatio-Med-Gold-NoRuler-72ppi.png" + shopifyFileSufFix ;
+                webFrameImg = shopifyFilePrefix + "GoldRatio-Med-Gold-NoRuler-72ppi.png" + shopifyFileSuffix ;
                 }
             else if (webFrame == "NoFrame") {
-                webFrameImg = shopifyFilePreFix + "GoldRatio-Med-NoFrame-NoRuler-72ppi.png" + shopifyFileSufFix ;
+                webFrameImg = shopifyFilePrefix + "GoldRatio-Med-NoFrame-NoRuler-72ppi.png" + shopifyFileSuffix ;
                 }
             else {
-                webFrameImg = shopifyFilePreFix + "GoldRatio-Med-Black-NoRuler-640pxW.png" + shopifyFileSufFix ;
+                webFrameImg = shopifyFilePrefix + "GoldRatio-Med-Black-NoRuler-640pxW.png" + shopifyFileSuffix ;
                 } ;
 
             /*
              alert("previousRegime webFrame=="+webFrame+" vs localStorage.Frame=="+localStorage.Frame+"; webFrameImg=="+webFrameImg+" vs localStorage.FrameImg=="+localStorage.FrameImg) ;
              */
             var webMapImgName = localStorage.webMapImg ;
-            var webMapImg =     "\'" + shopifyFilePreFix  + webMapImgName + "\'" ;
+            var webMapImg =     "\'" + shopifyFilePrefix  + webMapImgName + "\'" ;
     
             var webShipImgName = localStorage.shipPic ;      
             var webShipImg =    "\'"
-                                + shopifyFilePreFix
+                                + shopifyFilePrefix
                                 + webShipImgName.replace("(","_").replace(")","_")  /* ### (need to formalize these image names) ### */
                                 + "\'"
         option = "AddSeaScape" ;   
@@ -167,7 +167,7 @@ function ProductMockup() {
             /*seaScapeImg = "https://cdn.shopify.com/s/files/1/1336/0641/files/Ocean7Cropped640W.png?10959405084462869905" ;*/
             seaScapeImgName = "Ocean7Cropped640W.png" ;
             var seaScapeImg =    "\'"
-                                + shopifyFilePreFix
+                                + shopifyFilePrefix
                                 + seaScapeImgName.replace("(","_").replace(")","_")  /* ### (need to formalize these image names) ### */
                                 + "\'" ;
         }

@@ -245,6 +245,17 @@
         function RelationShipsPreviewZ(previewRole, showFrame) {
                 /* fancy parameter management... */
                 console.log("RelationShipsPreviewZ()...") ;
+
+                // From define-preview-fn
+                window.Jimaworks = ( window.Jimaworks || {
+                    "isDev": /^jimaworks-dev\.myshopify\.com/.test( window.location.host )
+                } ); // Singleton for namespacing; avoids global variable conflicts
+                window.Jimaworks.overlaysRendered = (
+                    ( typeof window.overlaysRendered !== "undefined" )
+                    ? window.overlaysRendered
+                    : false
+                );
+
                 var FeaturesButton = "nope";
                 var SizeButton = "nope";
                 var PriceButton = "nope";
@@ -289,8 +300,16 @@
                 
                  /*document.referrer ;*/
                 var OriginatingPage = window.location.href;
-                var shopifyFilePreFix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
-                var shopifyFileSufFix = "?16338137725744926710" ;
+                var shopifyFilePrefix;
+                var shopifyFileSuffix;
+                
+                if ( window.Jimaworks.isDev ) {
+                    shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
+                    shopifyFileSuffix = "?922";
+                } else {
+                    shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
+                    shopifyFileSuffix = "?16338137725744926710";
+                }
                 
                 var headerText
                 if (previewRole==="initialView") {
@@ -612,7 +631,7 @@
                                             
                 var webMapStyle = localStorage.MapStyle ;
                 var webMapStyleAbbrev = localStorage.MapStyleAbbrev ;
-                var webMapImg = shopifyFilePreFix + localStorage.webMapImg;
+                var webMapImg = shopifyFilePrefix + localStorage.webMapImg;
         
                             var mapImg = webMapImg;
                             img.src = mapImg;
@@ -626,11 +645,10 @@
                 var shipPic = ( localStorage.getItem('shipPic') || '' );
 
                 /* ship */
-                var webShipImg = shopifyFilePreFix + shipPic.replace("(", "_").replace(")", "_");
+                var webShipImg = shopifyFilePrefix + shipPic.replace("(", "_").replace(")", "_");
                 // var webShipImgQuoted = '\"' + webShipImg + '\"'; // Not necessary
 
                 /* frame */
-                var webFrameSrcStr ;
                 var webFrameStyleName ;
                 var webFrameImg, webFrameAbbrv, webFrameDivStyle, webFrameAttribs, webFrameStyle ;
                 var webFrameWidth, webFrameHeight ;
@@ -647,7 +665,7 @@
                     webFrameStyleName = localStorage.Frame ;
                     if (webFrameStyleName == 'NoFrame') {
                         webFrameAbbrv = 'NoFrame';
-                        webFrameImg = '\"' + shopifyFilePreFix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';  
+                        webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';  
                         webFrameWidth = 510 ;
                         webFrameWidth = webFrameWidth * webFrameScale ;
                         webFrameHeight = webMapWidth/theGoldenRatio ;
@@ -698,7 +716,7 @@
                 else {
                     webFrameStyleName = 'NoFrame'
                     webFrameAbbrv = 'NoFrame';
-                    webFrameImg = '\"' + shopifyFilePreFix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';  
+                    webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';  
                     webFrameWidth = 510;
                     webFrameWidth = webFrameWidth * webFrameScale ;
                     webFrameHeight = webMapWidth/theGoldenRatio ;
@@ -708,13 +726,10 @@
                    
         //webFrameTopOffset = -110;
                     
-                webFrameImg = '\"' + shopifyFilePreFix + 'GoldRatio-Med-' + webFrameAbbrv + '-NoRuler-72ppi.png' + '\"';  
+                webFrameImg = shopifyFilePrefix + 'GoldRatio-Med-' + webFrameAbbrv + '-NoRuler-72ppi.png';
                 webFrameDivStyle = ' style=\"position: absolute; Top:'+webFrameTopOffset+'px; left:'+webFrameLeftOffset+'px; z-index: 10;\">' ;
                 webFrameAttribs = ' class=\"frame\" width='+webFrameWidth+'px height=\"auto\"' ;
                 webFrameStyle = ' style=\"width:'+webFrameWidth+'px; maxwidth: 25%; height: auto\";' ;
-            
-                /* ### ?? unused? ## */
-                webFrameSrcStr += '<img src=' + webFrameImg + webFrameAttribs + webFrameStyle + '/>' ;
                                 
                 /* plaque */
         /*       
@@ -767,7 +782,7 @@
                     //webPlaqueLeftOffset = 125 * webFrameScale ; /* 100+400/2-140/2 = 220... nope */
                     webPlaqueLeftOffset = webMapWidth/2 - webPlaqueWidth/2 ; /* 100+400/2-140/2 = 220... nope */
                 }
-                webPlaqueImg = '\"' + shopifyFilePreFix + webPlaque + 'Plaque.png' + '\"';  
+                webPlaqueImg = '\"' + shopifyFilePrefix + webPlaque + 'Plaque.png' + '\"';  
                 var plaqueTextBoxFontSize, plaqueTextBoxLineHeight ;
                 plaqueTextBoxFontSize = (webPlaqueHeight/(numFilledPlaqueLines+1))*webFrameScale  ;   // 9*webFrameScale
                 plaqueTextBoxLineHeight = 1.0 * webFrameScale ;
@@ -854,12 +869,12 @@ webPlaqueLeftOffset = webMapWidth/2 - webPlaqueWidth/2 ; /* 100+400/2-140/2 = 22
                    
                     seaScapeImgName = "Ocean7CroppedSquashed500W.png" ;
                     seaScapeImg =    "\'"
-                                        + shopifyFilePreFix
+                                        + shopifyFilePrefix
                                         + seaScapeImgName.replace("(","_").replace(")","_")  /* ### (need to formalize these image names) ### */
                                         + "\'" ;
                     seaScapeHorizonImgName = "Ocean7Horizon500W.png" ;
                     seaScapeHorizonImg =    "\'"
-                                        + shopifyFilePreFix
+                                        + shopifyFilePrefix
                                         + seaScapeHorizonImgName.replace("(","_").replace(")","_")  /* ### (need to formalize these image names) ### */
                                         + "\'" ;
                     /* Seascape foreground */
@@ -971,7 +986,12 @@ webPlaqueLeftOffset = webMapWidth/2 - webPlaqueWidth/2 ; /* 100+400/2-140/2 = 22
                 /*                   <div style="position: absolute; bottom:-130; left:-105; zindex: 10;">
                 ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: -85px; left: -60px; z-index: 10;\">' ;
                  */
-                ImgOverlayHTML +=   '<img src=' + webFrameImg + webFrameAttribs + webFrameStyle + '/>' ;
+                ImgOverlayHTML +=
+                    '<img '
+                        + 'src="' + webFrameImg + '"'
+                        + webFrameAttribs
+                        + webFrameStyle
+                    + '/>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                  /* Under Construction icon */
