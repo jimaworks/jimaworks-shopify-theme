@@ -96,18 +96,6 @@
         window.location.href = "' + window.location.host + '/products/pogo-ship"; //"' + window.location.host + '/cart" ;
     }
 
-    function FeaturesPage() {
-        window.location.href = "' + window.location.host + '/pages/product-anatomy";
-    }
-
-    function SizePage() {
-        window.location.href = "' + window.location.host + '/pages/product-sizes";
-    }
-
-    function PricePage() {
-        window.location.href = "' + window.location.host + '/pages/prices";
-    }
-
     function EditPage() {
         // alert("(Edit page not implemented yet)") ;
         RelationShipsPreviewZ("edit", "showFrame", "BuyButton", "SaveButton", "ReturnButton");  // ### RetunButton? ###
@@ -1021,9 +1009,6 @@
             : false
         );
 
-        var FeaturesButton = "nope";
-        var SizeButton = "nope";
-        var PriceButton = "nope";
         var EditButton = "nope";
         var EditTitleButton = "nope";
         var EditOriginsButton = "nope";
@@ -1103,9 +1088,6 @@
             headerText += '<br>From here you switch, mix, match, and tailor any elements of this display';
             headerText += '<br>that need to change to show the story you want to tell</em></small></p>';
             /* Control Button defn and placement */
-            FeaturesButton = "yup";
-            SizeButton = "yup";
-            PriceButton = "yup";
             EditButton = "yup";
             BackButton = "yup";
             SaveButton = "yup";
@@ -1114,9 +1096,6 @@
             headerText = '<p><em>Mockup.';
             headerText += '<br>See <a href="' + window.location.host + '/pages/galleries">Examples</a> to see what final orders look like</em></p>';
             /* Control Button defn and placement */
-            FeaturesButton = "yup";
-            SizeButton = "yup";
-            PriceButton = "yup";
             EditButton = "yup";
             BackButton = "yup";
             SaveButton = "yup";
@@ -1326,9 +1305,6 @@
             headerText = '<p><em>Mockup.';
             headerText += '<br>See <a href="' + window.location.host + '/pages/galleries">Examples</a> to see what final orders look like</em></p>';
             /* Control Button defn and placement */
-            FeaturesButton = "yup";
-            SizeButton = "yup";
-            PriceButton = "yup";
             EditButton = "yup";
             BackButton = "yup";
             SaveButton = "yup";
@@ -1575,24 +1551,6 @@
         }
         if (AcceptEditsButton !== "nope") {
             controlButtons += '<button id="acceptEdits" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="acceptEdits()">AcceptEdits</button>';
-            if (controlButtonPlacement == "RightColumn") {
-                controlButtons += '<br>';
-            }
-        }
-        if (FeaturesButton !== "nope") {
-            controlButtons += '<button id="FeaturesButton" class="float-left submit-button" style="width: ' + buttonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="FeaturesPage()">Features</button>';
-            if (controlButtonPlacement == "RightColumn") {
-                controlButtons += '<br>';
-            }
-        }
-        if (SizeButton != "nope") {
-            controlButtons += '<button id="SizeButton" class="float-left submit-button" style="width: ' + buttonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="SizePage()">Size</button>';
-            if (controlButtonPlacement == "RightColumn") {
-                controlButtons += '<br>';
-            }
-        }
-        if (PriceButton !== "nope") {
-            controlButtons += '<button id="PriceButton" class="float-left submit-button" style="width: ' + buttonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="PricePage()">Price</button>';
             if (controlButtonPlacement == "RightColumn") {
                 controlButtons += '<br>';
             }
