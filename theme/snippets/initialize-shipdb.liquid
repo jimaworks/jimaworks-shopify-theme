@@ -125,8 +125,8 @@
                 originTextBoxEntry1 = document.getElementById("enterOriginLine1").value;
                 originTextBoxEntry2 = document.getElementById("enterOriginLine2").value;
                 
-                document.getElementById("originTextBoxL1").innerHTML = originTextBoxEntry1;
-                document.getElementById("originTextBoxL2").innerHTML = originTextBoxEntry2;
+                document.getElementById("OriginTextBoxL1").innerHTML = originTextBoxEntry1;
+                document.getElementById("OriginTextBoxL2").innerHTML = originTextBoxEntry2;
                 
                 localStorage.OriginsLine1 = originTextBoxEntry1 ;
                 localStorage.OriginsLine2 = originTextBoxEntry2 ;
@@ -245,6 +245,17 @@
         function RelationShipsPreviewZ(previewRole, showFrame) {
                 /* fancy parameter management... */
                 console.log("RelationShipsPreviewZ()...") ;
+
+                // From define-preview-fn
+                window.Jimaworks = ( window.Jimaworks || {
+                    "isDev": /^jimaworks-dev\.myshopify\.com/.test( window.location.host )
+                } ); // Singleton for namespacing; avoids global variable conflicts
+                window.Jimaworks.overlaysRendered = (
+                    ( typeof window.overlaysRendered !== "undefined" )
+                    ? window.overlaysRendered
+                    : false
+                );
+
                 var FeaturesButton = "nope";
                 var SizeButton = "nope";
                 var PriceButton = "nope";
@@ -289,8 +300,16 @@
                 
                  /*document.referrer ;*/
                 var OriginatingPage = window.location.href;
-                var shopifyFilePreFix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
-                var shopifyFileSufFix = "?16338137725744926710" ;
+                var shopifyFilePrefix;
+                var shopifyFileSuffix;
+                
+                if ( window.Jimaworks.isDev ) {
+                    shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
+                    shopifyFileSuffix = "?922";
+                } else {
+                    shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
+                    shopifyFileSuffix = "?16338137725744926710";
+                }
                 
                 var headerText
                 if (previewRole==="initialView") {
@@ -612,7 +631,7 @@
                                             
                 var webMapStyle = localStorage.MapStyle ;
                 var webMapStyleAbbrev = localStorage.MapStyleAbbrev ;
-                var webMapImg = '\"' + shopifyFilePreFix + localStorage.webMapImg + '\"';
+                var webMapImg = shopifyFilePrefix + localStorage.webMapImg;
         
                             var mapImg = webMapImg;
                             img.src = mapImg;
@@ -623,13 +642,13 @@
                 var theGoldenRatio = 1.618 ;
                 var webMapWidth = 400 * webFrameScale ;
                 var webMapHeight = (webMapWidth/theGoldenRatio) * webFrameScale ; /* get the actual height of the map */
-        
+                var shipPic = ( localStorage.getItem('shipPic') || '' );
+
                 /* ship */
-                var webShipImg = '\"' + shopifyFilePreFix + localStorage.shipPic.replace("(", "_").replace(")", "_") + '\"';  
-                var webShipImg2 = shopifyFilePreFix + localStorage.shipPic.replace("(", "_").replace(")", "_") ;  
+                var webShipImg = shopifyFilePrefix + shipPic.replace("(", "_").replace(")", "_");
+                // var webShipImgQuoted = '\"' + webShipImg + '\"'; // Not necessary
 
                 /* frame */
-                var webFrameSrcStr ;
                 var webFrameStyleName ;
                 var webFrameImg, webFrameAbbrv, webFrameDivStyle, webFrameAttribs, webFrameStyle ;
                 var webFrameWidth, webFrameHeight ;
@@ -646,7 +665,7 @@
                     webFrameStyleName = localStorage.Frame ;
                     if (webFrameStyleName == 'NoFrame') {
                         webFrameAbbrv = 'NoFrame';
-                        webFrameImg = '\"' + shopifyFilePreFix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';  
+                        webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';  
                         webFrameWidth = 510 ;
                         webFrameWidth = webFrameWidth * webFrameScale ;
                         webFrameHeight = webMapWidth/theGoldenRatio ;
@@ -697,7 +716,7 @@
                 else {
                     webFrameStyleName = 'NoFrame'
                     webFrameAbbrv = 'NoFrame';
-                    webFrameImg = '\"' + shopifyFilePreFix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';  
+                    webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';  
                     webFrameWidth = 510;
                     webFrameWidth = webFrameWidth * webFrameScale ;
                     webFrameHeight = webMapWidth/theGoldenRatio ;
@@ -707,13 +726,10 @@
                    
         //webFrameTopOffset = -110;
                     
-                webFrameImg = '\"' + shopifyFilePreFix + 'GoldRatio-Med-' + webFrameAbbrv + '-NoRuler-72ppi.png' + '\"';  
+                webFrameImg = shopifyFilePrefix + 'GoldRatio-Med-' + webFrameAbbrv + '-NoRuler-72ppi.png';
                 webFrameDivStyle = ' style=\"position: absolute; Top:'+webFrameTopOffset+'px; left:'+webFrameLeftOffset+'px; z-index: 10;\">' ;
                 webFrameAttribs = ' class=\"frame\" width='+webFrameWidth+'px height=\"auto\"' ;
                 webFrameStyle = ' style=\"width:'+webFrameWidth+'px; maxwidth: 25%; height: auto\";' ;
-            
-                /* ### ?? unused? ## */
-                webFrameSrcStr += '<img src=' + webFrameImg + webFrameAttribs + webFrameStyle + '/>' ;
                                 
                 /* plaque */
         /*       
@@ -766,7 +782,7 @@
                     //webPlaqueLeftOffset = 125 * webFrameScale ; /* 100+400/2-140/2 = 220... nope */
                     webPlaqueLeftOffset = webMapWidth/2 - webPlaqueWidth/2 ; /* 100+400/2-140/2 = 220... nope */
                 }
-                webPlaqueImg = '\"' + shopifyFilePreFix + webPlaque + 'Plaque.png' + '\"';  
+                webPlaqueImg = '\"' + shopifyFilePrefix + webPlaque + 'Plaque.png' + '\"';  
                 var plaqueTextBoxFontSize, plaqueTextBoxLineHeight ;
                 plaqueTextBoxFontSize = (webPlaqueHeight/(numFilledPlaqueLines+1))*webFrameScale  ;   // 9*webFrameScale
                 plaqueTextBoxLineHeight = 1.0 * webFrameScale ;
@@ -788,7 +804,22 @@ webPlaqueBottomOffset = -(webPlaqueHeight) + (4* webFrameScale) ; // + webPlaque
 
 webPlaqueLeftOffset = webMapWidth/2 - webPlaqueWidth/2 ; /* 100+400/2-140/2 = 220... nope */
 
-webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset+'px; left:'+webPlaqueLeftOffset+'px; text-align: center; line-height: '+plaqueTextBoxLineHeight+';  font-size: '+plaqueTextBoxFontSize+'px; z-index: 25;\">' ;
+                webPlaqueDivStyle = 
+                    ' style=\"position: absolute;'
+                    + ' bottom:' + webPlaqueBottomOffset + 'px;'
+                    + ' left:' + webPlaqueLeftOffset + 'px;'
+                    + ' text-align: center;'
+                    + ' line-height: '+ plaqueTextBoxLineHeight + ';'
+                    + ' font-size: ' + plaqueTextBoxFontSize + 'px;'
+                    + ' z-index: 25;\"'
+                    // EmptyPlaque as background-image:
+                    + 'background-image: url(' + webPlaqueImg + ');'
+                    + 'background-size: contain;'
+                    + 'background-repeat: no-repeat;'
+                    + 'width: 306px;'
+                    + 'padding: 9.5px 12.8px;'
+                    // End EmptyPlaque as background-image
+                    + '>';
 
                 webPlaqueAttribs = ' class=\"Plaque\" width='+webPlaqueWidth+'px height='+webPlaqueHeight+'px' ;
                 webPlaqueStyle = ' style=\"width:'+webPlaqueWidth+'px; maxwidth: 25%;'+webPlaqueHeight+'px;\";' ;
@@ -838,12 +869,12 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                    
                     seaScapeImgName = "Ocean7CroppedSquashed500W.png" ;
                     seaScapeImg =    "\'"
-                                        + shopifyFilePreFix
+                                        + shopifyFilePrefix
                                         + seaScapeImgName.replace("(","_").replace(")","_")  /* ### (need to formalize these image names) ### */
                                         + "\'" ;
                     seaScapeHorizonImgName = "Ocean7Horizon500W.png" ;
                     seaScapeHorizonImg =    "\'"
-                                        + shopifyFilePreFix
+                                        + shopifyFilePrefix
                                         + seaScapeHorizonImgName.replace("(","_").replace(")","_")  /* ### (need to formalize these image names) ### */
                                         + "\'" ;
                     /* Seascape foreground */
@@ -886,12 +917,12 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
         
                 var webMapImg = localStorage.MapStyleImg ;
                 var webFrameImg = localStorage.FrameIg ;
-                var webShipImg = localStorage.shipPicImg ;
+                var webShipImgQuoted = localStorage.shipPicImg ;
                 */
         
                 /* examples...
                 var webMapImg =   '\"https://cdn.shopify.com/s/files/1/1336/0641/files/2016-NAtlantic-MayanGlow-640pxW.png\" ' ;
-                var webShipImg =      '\"https://cdn.shopify.com/s/files/1/1336/0641/files/St_Paul-24-640pxW.jpg\" ' ;
+                var webShipImgQuoted =      '\"https://cdn.shopify.com/s/files/1/1336/0641/files/St_Paul-24-640pxW.jpg\" ' ;
                 var webFrameImg =     '\"https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-640pxW.png\" ' ; 
                 */
         
@@ -955,7 +986,12 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 /*                   <div style="position: absolute; bottom:-130; left:-105; zindex: 10;">
                 ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: -85px; left: -60px; z-index: 10;\">' ;
                  */
-                ImgOverlayHTML +=   '<img src=' + webFrameImg + webFrameAttribs + webFrameStyle + '/>' ;
+                ImgOverlayHTML +=
+                    '<img '
+                        + 'src="' + webFrameImg + '"'
+                        + webFrameAttribs
+                        + webFrameStyle
+                    + '/>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                  /* Under Construction icon */
@@ -983,9 +1019,9 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 titleTextBoxLeftOffset = 85 * webFrameScale;
                 
                 ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+titleTextBoxTopOffset+'px; left: '+titleTextBoxLeftOffset+'px; z-index: 25; line-height: '+titleTextBoxLineHeight+'; font-size: '+titleTextBoxFontSize+'px; text-align: center; \">' ;
-                ImgOverlayHTML +=   '<p><em><scan id="titleTextBoxL1">'+localStorage.TitleLine1+'</scan>' ;
-                ImgOverlayHTML +=   '<br><scan id="titleTextBoxL2">'+localStorage.TitleLine2+'</scan></em>' ;
-                ImgOverlayHTML +=   '<br><scan id="titleTextBoxL3">'+localStorage.TitleLine3+'</scan></em></p>' ;
+                ImgOverlayHTML +=   '<p><em><span id="titleTextBoxL1">'+localStorage.TitleLine1+'</span>' ;
+                ImgOverlayHTML +=   '<br><span id="titleTextBoxL2">'+localStorage.TitleLine2+'</span></em>' ;
+                ImgOverlayHTML +=   '<br><span id="titleTextBoxL3">'+localStorage.TitleLine3+'</span></em></p>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                 /* departure */
@@ -998,8 +1034,8 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 
                 ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+departureTextBoxTopOffset+'px; left: '+departureTextBoxLeftOffset+'px; z-index: 25; line-height: '+departureTextBoxLineHeight+'; font-size: '+departureTextBoxFontSize+'px; text-align: left; \">' ;
                 //ImgOverlayHTML +=   '<div style=\"position: absolute; top: 55px; left: 250px; z-index: 25; line-height: 0.8;  font-size: 8px; \">' ;
-                ImgOverlayHTML +=   '<br><scan id="originTextBoxL1">'+localStorage.OriginsLine1+'</scan></em>' ;
-                ImgOverlayHTML +=   '<br><scan id="originTextBoxL2">'+localStorage.OriginsLine2+'</scan></em></p>' ;
+                ImgOverlayHTML +=   '<br><span id="OriginTextBoxL1">'+localStorage.OriginsLine1+'</span></em>' ;
+                ImgOverlayHTML +=   '<br><span id="OriginTextBoxL2">'+localStorage.OriginsLine2+'</span></em></p>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                 /* arrival */
@@ -1012,8 +1048,8 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 
                 ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+arrivalTextBoxTopOffset+'px; left: '+arrivalTextBoxLeftOffset+'px; z-index: 25; line-height: '+arrivalTextBoxLineHeight+'; font-size: '+arrivalTextBoxFontSize+'px; text-align: right; \">' ;
                 //ImgOverlayHTML +=   '<div style=\"position: absolute; top: 60px; left: 25px; z-index: 25; line-height: 0.8;  font-size: 8px; \">' ;
-                ImgOverlayHTML +=   '<br><scan id="destinationTextBoxL1">'+localStorage.DestinyLine1+'</scan></em>' ;
-                ImgOverlayHTML +=   '<br><scan id="destinationTextBoxL2">'+localStorage.DestinyLine2+'</scan></em></p>' ;
+                ImgOverlayHTML +=   '<br><span id="destinationTextBoxL1">'+localStorage.DestinyLine1+'</span></em>' ;
+                ImgOverlayHTML +=   '<br><span id="destinationTextBoxL2">'+localStorage.DestinyLine2+'</span></em></p>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                 /* ship */
@@ -1023,7 +1059,7 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 var webShipImgWidth, webShipImgHeight, webShipImgXYRatio, webShipImgXYArea;
                 
                 getImgWidthAndHeight(
-                    webShipImg2,
+                    webShipImg,
                     function(width, height) {
                         localStorage.webShipImgWidth =width;
                         localStorage.webShipImgHeight =height;
@@ -1057,7 +1093,7 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
         /*        ImgOverlayHTML +=   '<div style=\"position: absolute; top: 120px; left: 120px; z-index: 3;\">' ;  */
                 //ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 45px; left: 115px; z-index: 3;\">' ;
                 ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: '+shipImageBottomOffset+'px; left: '+shipImageLeftOffset+'px; z-index: 3;\">' ;
-                ImgOverlayHTML +=     '<img src=' + webShipImg ;
+                ImgOverlayHTML +=     '<img src="' + webShipImg + '"';
                 //ImgOverlayHTML +=     ' class=\"ship\" width=\"160px\" height=\"auto\"' ;
                 //ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
                 ImgOverlayHTML +=     ' class=\"ship\" width=\"'+shipImageWidth+'px\" height=\"'+shipImageHeight+'\"' ;
@@ -1077,8 +1113,8 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 
                 ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: '+shipInfoTextBoxBottomOffset+'px; left: '+shipInfoTextBoxLeftOffset+'px; z-index: 25; line-height: '+shipInfoTextBoxLineHeight+'; font-size: '+shipInfoTextBoxFontSize+'px; text-align: center; \">' ;
                 //ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 20px; left: 115px; z-index: 25; line-height: 0.8;  font-size: 8px; text-align: center; \">' ;
-                ImgOverlayHTML +=   '<p><scan id="shipInfoTextBoxL1">'+localStorage.ShipInfoLine1+'</scan></em>' ;
-                ImgOverlayHTML +=   '<br><scan id="shipInfoTextBoxL2">'+localStorage.ShipInfoLine2+'</scan></em></p>' ;
+                ImgOverlayHTML +=   '<p><span id="shipInfoTextBoxL1">'+localStorage.ShipInfoLine1+'</span></em>' ;
+                ImgOverlayHTML +=   '<br><span id="shipInfoTextBoxL2">'+localStorage.ShipInfoLine2+'</span></em></p>' ;
                 ImgOverlayHTML +=   '</div>' ;
         
                 /* plaque */
@@ -1089,9 +1125,9 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
            ### */ 
         /*
         */ 
-                ImgOverlayHTML +=   '<div' + webPlaqueDivStyle ;
-                ImgOverlayHTML +=     '<img src=' + webPlaqueImg + webPlaqueAttribs + webPlaqueStyle + '/>' ;
-                ImgOverlayHTML +=   '</div>' ;
+                // ImgOverlayHTML +=   '<div' + webPlaqueDivStyle ;
+                // ImgOverlayHTML +=     '<img src=' + webPlaqueImg + webPlaqueAttribs + webPlaqueStyle + '/>' ;
+                // ImgOverlayHTML +=   '</div>' ;
                 ImgOverlayHTML +=   '<div' + webPlaqueDivStyle ;
 
 //                ImgOverlayHTML +=   '<p>In Appreciation Of' ; 
@@ -1103,73 +1139,73 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 var showExtraLine = true ;
                 ImgOverlayHTML +=   '<p>' ;
                 if ((localStorage.PlaqueLine1 !== undefined) & (localStorage.PlaqueLine1 !== "undefined")) {
-                   ImgOverlayHTML +=   '<scan id="plaqueTextBoxL1">'+localStorage.PlaqueLine1+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<span id="plaqueTextBoxL1">'+localStorage.PlaqueLine1+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 }
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<scan id="plaqueTextBoxL1">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<span id="plaqueTextBoxL1">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine2 !== undefined) & (localStorage.PlaqueLine2 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL2">'+localStorage.PlaqueLine2+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL2">'+localStorage.PlaqueLine2+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL2">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL2">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine3 !== undefined) & (localStorage.PlaqueLine3 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL3">'+localStorage.PlaqueLine3+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL3">'+localStorage.PlaqueLine3+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL3">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL3">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine4 !== undefined) & (localStorage.PlaqueLine4 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL4">'+localStorage.PlaqueLine4+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL4">'+localStorage.PlaqueLine4+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL4">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL4">'+' '+'</span></em>' ;
                    showExtraLine = false ;
                 }
                 if ((localStorage.PlaqueLine5 !== undefined) & (localStorage.PlaqueLine5 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL5">'+localStorage.PlaqueLine5+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL5">'+localStorage.PlaqueLine5+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL5">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL5">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine6 !== undefined) & (localStorage.PlaqueLine6 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL6">'+localStorage.PlaqueLine6+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL6">'+localStorage.PlaqueLine6+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL6">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL6">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine7 !== undefined) & (localStorage.PlaqueLine7 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL7">'+localStorage.PlaqueLine7+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL7">'+localStorage.PlaqueLine7+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 } 
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL7">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL7">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
                 if ((localStorage.PlaqueLine8 !== undefined) & (localStorage.PlaqueLine8 !== "undefined")) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL8">'+localStorage.PlaqueLine8+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL8">'+localStorage.PlaqueLine8+'</span></em>' ;
                    numFilledPlaqueLines++ ;               
                 }                
                 else if (showExtraLine) {
-                   ImgOverlayHTML +=   '<br><scan id="plaqueTextBoxL8">'+' '+'</scan></em>' ;
+                   ImgOverlayHTML +=   '<br><span id="plaqueTextBoxL8">'+' '+'</span></em>' ;
                    showExtraLine = false ;
          
                 }
@@ -1181,7 +1217,9 @@ webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset
                 ImgOverlayHTML += '</div>' ;
                 
             console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
-            document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
+            window.addEventListener('DOMContentLoaded', function () {
+                document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
+            });
         // ]]>
         
         

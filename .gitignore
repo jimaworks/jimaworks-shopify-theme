@@ -3,5 +3,7 @@
 Thumbs.db
 node_modules/
 .env
+Assets/
 variables
-Assets
+backup/
+*.backup.*

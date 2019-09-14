@@ -799,8 +799,7 @@ routes...
         } ;
 
     /* "shipImageTransparentBackground"  "shipImageTransparentBackgroundDefault"  "shipImageTransparentBackgroundDefaultAbbrev"  */
-// ### transparent... shouldn't the value here be "transparent" instead of "t"? ###
-        var shipImageTransparentBackgroundDefault = "t";
+        var shipImageTransparentBackgroundDefault = "transparent";
         localStorage.setItem("shipImageTransparentBackgroundDefault", shipImageTransparentBackgroundDefault) ;
         if (localStorage.shipImageTransparentBackground==undefined) {
             localStorage.setItem("shipImageTransparentBackground", shipImageTransparentBackgroundDefault) ;
@@ -1108,7 +1107,17 @@ https://jimaworks.com/products/genericrelationshipsproduct-framed
             localStorage.setItem("OptionsAbbrev", OptionsAbbrevDefault) ;
         } ;
 
- 
+    // Plaque Lines
+    var totalPlaqueLines = 8;
+    var currentPlaqueLine = '';
+
+    for (var lineNumber = 1; lineNumber <= totalPlaqueLines; lineNumber++) {
+        currentPlaqueLine = 'PlaqueLine' + lineNumber;
+
+        if ( localStorage.getItem( currentPlaqueLine ) === null ) {
+            localStorage.setItem( currentPlaqueLine, '' );
+        }
+    }
 }
 
 
