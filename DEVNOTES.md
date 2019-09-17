@@ -202,3 +202,39 @@
 - Changed “Describe the five Text Boxes” etc. to ”About the five Text Boxes”
 - Styled “Skip to Project” to look like a link and distinguish from description buttons
 - Changed “Click here to start building your story” to “Start building your story”
+
+## 9/16, 9/17
+
+### [Relocate/consolidate localStorage variables](https://trello.com/c/JttMoG5b)
+
+- Tried to find instances of localStorage variables being initialized outside of `initialize-defaults` but found none.
+  - Copied some missing defaults over from Jim’s local version of `initialize-defaults`:
+    - `DestinyLine1Default`
+    - `DestinyLine2Default`
+    - `ShipInfoLine1Default`
+    - `ShipInfoLine2Default`
+    - `PlaqueLine1` – `PlaqueLine3`
+  - Still missing defaults for the following:
+    - `TitleLine3Default`
+    - `PlaqueLine4` – `PlaqueLine7`
+- Thinking about better ways to deal with this data:
+  - `localStorage` vs. `sessionStorage`
+    - “Save & Continue Later” functionality benefits from `localStorage`; saving for later is in fact automatic as currently coded.
+      - Eliminates the need for an e-mail being sent with a unique link.
+        - E-mail may still be useful for marketing purposes.
+        - Unique link may still be useful for passing a configuration off to a relative to fill in details or complete the purchase.
+  - Many vars vs. serialized JSON string as single var
+    - Many vars - Pros:
+      - Don’t have to constantly convert to/from JSON strings
+      - Data is mostly (entirely?) strings so no need for boolean, number, etc. from JSON
+    - Many vars - Cons:
+      - Data is spread out and ad-hoc; not easy to get a sense of overall structure or package for use elsewhere.
+    - JSON string - Pros:
+      - Related data can be grouped and represented in a hierarchy
+    - JSON string - Cons:
+      - Have to constantly convert to/from
+  - Organize by page/functionality? E.g. `localStorage.Preview.DestinyLine1Default`, `localStorage.Cart`
+    - JSON hierarchy outweighs cons of converting to/from string; JSON wins
+  - Create “middleware” utility function for converting to/from JSON string
+  - `initialize-defaults` currently covers all the variables needed by every page. Should be modularized.
+  - 
