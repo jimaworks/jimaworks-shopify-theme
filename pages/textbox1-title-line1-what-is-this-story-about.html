@@ -1,0 +1,269 @@
+<!--  Who... no, *What* Is This Story About?
+      https://jimaworks.com/pages/textbox1-title-line1-what-is-this-story-about
+      template:  page.initialize-jimaworks
+      title: 1.a Get Started.  What is this story/Whose Story Is This?
+      subtitle: Whose crossing are you commemorating? 
+                (leave the generic default "Our Family" or add your specific family's or forebear's name)
+      Feb 08 2019:0940 Change prompt for name - add value="Our Family".  (But would like that to be overwritten on input)
+      Feb 22 2019:0806 New prompt leads to "Our Family Family Atlantic Crossing" so remove redundancy (when condition Atlantic/Pacific?)
+      Apr 15 2019:1230 Edit prompt to emphasize ability to edit or leave default "Our Family Family Atlantic Crossing"
+      Apr 23 2019:0800 Put in "nextPage" convention.  Change subtitle to "Whose story is this?"
+      Apr 25 2019:1430 Put in the correct "nextPage"'s to make it live.
+      May 20 2019:0730 Bring final choice button to the top - make it overlay all else
+      May 21 2019:0730 Word smithing the title prompt
+      Jun 07 2019:1515 Start to use TextBox organization of user interaction
+      Jun 10 2019:1715 Polish wording/add line breaks.
+      Jun 12 2019:1600 Dynamic title line(s)
+      Jun 14 2019:1900 Add Save and Come Back Later
+      Jun 15 2019:0700 Lightgrey-ize textbox echo w darkblue new text
+      Jun 18 2019:1530 Changeover to simpler version of "Who"
+      Jul 14 2019:1500 Change prompt to elicit FirstGen and fold into new OriginTextboxLine1
+      Jul 15 2019:0645 Change "Preview" presentation to suppress side buttons, highlight title entries.  Save&FinishLater to page top
+      Jul 31 2019:1045 Change to "*What* is this story about", and allow the visitor to specify the whole title.
+      Aug 07 2019:1100 Move initialize to earlier in the interaction, so remove here
+      Aug 11 2019:2:15 Align the various references to the TitleLine1 localStorage
+      
+  --> <!-- added comment to remove leading imagery
+<div class="row">
+<table width="100%">
+<tbody>
+<tr>
+<td style="text-align: left;"><a href="https://cdn.shopify.com/s/files/1/1336/0641/files/RelationShipsImage-Campania_1897-1918_-Walnut-ParisSage-72ppi.png?15266436432026494628" data-lightbox="jimaworks-gallery" data-title="&lt;a href='https://jimaworks.com/pages/0-1-origins'
+                    &gt;Click here&lt;/a&gt; to get started"> <img style="vertical-align: top;" src="https://cdn.shopify.com/s/files/1/1336/0641/files/RelationShipsImage-Campania_1897-1918_-Walnut-ParisSage-72ppi.png?15266436432026494628" alt="RelationShips example" /> </a>
+<p><a href="https://jimaworks.com/pages/examplesinarraywlargerpics" a=""> Click HERE for some examples </a></p>
+
+...had a comment start
+<p><a href="https://jimaworks.com/pages/0-1-origins" a="" onclick="GetStartedWithARelationShipsProject()"> Click HERE to skip the intro </a></p>
+... had a comment end
+
+</td>
+</tr>
+</table>
+</div>
+
+... had a comment start
+<h1>Putting Membership Requirement in place</h1>
+<button onclick="requireMembershipFunction()">Member?</button>
+<p id="textOut"></p>
+<script type="text/javascript">
+    if (localStorage.RelationShipMember===undefined) {
+        function requireMembershipFunction() {
+            var requireMembershipString=  
+                            "You must be a member of the jimaworks RelationShips community to enter this page\n"
+                            +"The benefits of membership include:\n"
+                            +"- Ability to initiate RelationShips Projects\n"
+                            +"- \"Hints and Tips\" pages\n"
+                            +"- the jimaworks Newsletter\n"
+                            +"- Downloadable \"Cheat Sheet\" for RelationShips questions"
+                            +"- Soon: a \"Save and Come Back Later\" button" ;
+            var txt;
+            if (confirm(requireMembershipString)) {
+                txt = "You pressed Sure!";
+                /* go to https://jimaworks.com/account/login */
+            } else {
+                txt = "You pressed NoThx!";
+                /* go to https://jimaworks.com */
+            }
+            document.getElementById("textOut").innerHTML = txt;
+        } ;
+    }
+    else {
+        document.write(  "localStorage.RelationShipMember=="+localStorage.RelationShipMember) ;
+    }
+</script>
+... had a comment end
+<h2>Buying a jimaworks RelationShips or ArrivalMaps product:</h2>
+--> <!--
+<h3>Whose crossing are you commemorating?  (leave the generic default "Our Family" or add your specific family's or forebear's name)</h3>
+
+Heading: Title TextBox: What Story Are We Looking At?
+
+
+<h3>Title (Line 1): You can use the default "Our Family's Crossing", 
+    but the title usually reflects the family name of the "First Generation" being commemorated. 
+    See the current Title below. 
+    <br />Add your specific family or a forebear's name if you like (e.g., "Smith Family's Crossing"), 
+    or use the generic default, 
+    or put in a title of your own design.</h3>
+
+<h3>Provide a title (e.g., "&lt;name&gt;'s Crossing", or make it more elaborate, or just leave as "Family Crossing".  (You'll be able to change it however you want later)
+</h3>
+-->
+<h3>Provide the first line of the Title of your commemoration.</h3>
+<h4>(For instance, you could use the last name of your First Generation American ancestor, or your own last name if you don't know it, and add " Crossing", or " Immigration", or " First Landfall In America". See Examples or additional ideas.</h4>
+<!-- title="(&lt;Enter&gt; to continue)" -->
+<div style="position: relative; width: 400px; z-index: 1000;"><input type="text" id="lastname" value="Our Crossing to America..." title="(&lt;Enter&gt; to register)" onkeypress="actionOnCR(event)" onchange="actionOnChange()" /></div>
+<!--
+   <input type="text" id="lastname" onchange="actionOnCR(event)">
+        <p>This example demonstrates how to assign an "onchange" event to an input element.</p>
+        
+        Enter your name: <input type="text" id="fname" onchange="actionOnCR()">
+        
+        <p>When you leave the input field, a function is triggered which transforms the input text to upper case.</p>
+        
+        <script>
+        function actionOnCR() {
+            var x = document.getElementById("fname");
+            x.value = x.value.toUpperCase();
+        }
+        </script>       
+        
+        or     
+--> <!--
+<p>
+    <br><br>
+    The RelationShip and ArrivalMap products focus specifically on commemorating your "First Gens" 
+    - those who made thee oceanic crossings that planted your family in America. 
+    These products are personalized and specific. 
+    They will take a bit of effort for you to fully specify (and for jimaworks to prepare). 
+</p>
+--> <!-- .. previously continued with:
+    before your creation is ready to hang on a wall and do its good work. 
+    Some elements of the project are fairly information-intensive, 
+    but no matter what level of knowledge you have of the crossing you are commemorating, 
+    you will be able to make the project reflect the honor and appreciation you give this event.
+--> <!--    most recent vvvvvv:
+<h3>Your part of this project will require completing three steps:</h3>
+<h4>Step 1: You provide some historical context for the commemoration 
+    <br />Step 2: You choose a look and feel that suits your needs and tastes 
+    <br />Step 3: You personalize the product.</h4>
+<h5>When you are satisfied that you have specified your commemoration to your liking, you place the order. 
+    The first $25 of your order buys you a pdf of several variants of your specification. 
+    You can chose your final, physical delivery from these, or simply stop there and use your lower-resolution pdfs to print and display*.</h5>
+<h6>*(But note that in addition to being at a lower image density than your final print would be, these are watermarked, do not have unique print IDs, and are without my final QA initials - though they will still look pretty great:)</h6>
+        ^^^^most recent --> <!--
+    <p>With the first $25 of the order, 
+    jimaworks prepares a proof with at least two variations of the product as you have specified it. 
+    These proofs include the historically accurate map corresponding to your commemorative event, 
+    the ship (if any*) that you have chosen for the display, 
+    and the custom text elements that individualize the product to your specific case.</p>
+<p>Jimaworks will send .pdfs of the proofs to the email address you have provided. 
+    At that point you may simply accept one of the options we have provided, 
+    or, if you desire, request a round of modifications. 
+    You may also of course decline the options, 
+    at which point we will refund your order minus a $25 service charge for designing your options. 
+    (We will assume you have declined the options 
+    if you do not respond within two weeks of receiving your personalized proofs).</p>
+<p>We are pleased that you are visiting this website 
+    and hope you find our products of value in preserving and honoring the specifics of your Armerican identity. 
+    We hope furthermore that you will make a RelationShips purchase 
+    to help us memorialize the great migrations 
+    which are such a fundamental component of our shared American heritage.</p>
+<p style="font-size: 75%;">* A jimaworks "ArrivalMap" is the RelationShips product but for which the customer is not asking us to add an image of a ship to the display</p>
+
+<div style="float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;">
+    <button id="myButton" class="float-left submit-button" onclick="GetStartedWithARelationShipsProject()"> All right, I'll try it out. </button></div>
+initializeDefaults()
+--> <!--    most recent vvvvvv:
+<div style="float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;"><button id="myButton" class="float-left submit-button" onclick="startProject()"> Okay OKAY, let's go!</button></div>
+        ^^^^most recent
+-->
+<div id="DisplayOverlays" style="float: left; position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');"></div>
+<script>// <![CDATA[
+//RelationShipsPreview("initialView", "noFrame") ;
+    //RelationShipsPreviewZ("mockup", "showFrame") ;
+    //RelationShipsPreviewZ("editTitle", "showFrame") ;
+    RelationShipsPreviewZ("highlightTitle", "showFrame") ;
+// ]]></script>
+<!--
+        <input type="text" id="lastname" value="Our Family" title="(&lt;Enter&gt; to continue)" onkeypress="actionOnCR(event)" />
+<button onclick='actionOnDone()'>Click here when done</button>
+
+<div id="ButtonDisplay" style="float: left; position: relative; z-index: 1000; ">
+    <input type="text" id="lastname" value="Our Family" title="Enter the name of the FirstGen you are commemorating, or just leave as 'Our Family Atlantic Crossing'" onkeypress="actionOnCR(event)" /> <button onclick="actionOnDone()">Click here when done</button>
+</div>
+--> <!-- LightGrey/Gainsboro/WhiteSmoke -->
+<div style="color: grey;">
+<h4>Your Title Text Box contents are currently: <br />     Line1: <span id="titleTextBoxL1" style="color: darkblue;"> "Our Family Atlantic Crossing" </span> <br />     Line2: <span id="titleTextBoxL2"> "" </span> <br />     Line3: <span id="titleTextBoxL3"> "" </span> <br />(You'll have opportunities to edit all later)</h4>
+</div>
+<script>// <![CDATA[
+//set, in particular, "titleTextBoxL1" and "lastname"
+if ((localStorage.TitleLine1===undefined)||(localStorage.TitleLine1==="undefined")||(localStorage.TitleLine1==="")) {
+        document.getElementById("lastname").value = "<Compose your title here>" ;
+        document.getElementById("titleTextBoxL1").innerHTML = "<Available if needed>" ;
+    }
+    else {
+        //alert('seting, in particular, "titleTextBoxL1" and "lastname"') ;
+        document.getElementById("lastname").value = localStorage.TitleLine1 ;
+        document.getElementById("titleTextBoxL1").innerHTML = localStorage.TitleLine1 ;
+    }
+    
+        document.getElementById("titleTextBoxL2").innerHTML = "&lt;Dates to be added next&gt;" ;
+    
+    if ((localStorage.TitleLine2===undefined)||(localStorage.TitleLine2==="undefined")||(localStorage.TitleLine2==="")) {
+        document.getElementById("titleTextBoxL2").innerHTML = "&lt;Dates to be added next&gt;" ;
+   }
+    else { // the current (8/19) TitleLine2 default is "A Thread in the Great Tapistry that is America"
+        //document.getElementById("titleTextBoxL2").innerHTML = localStorage.TitleLine2 ;
+        // make it refer to the upcoming page instead:
+        document.getElementById("titleTextBoxL2").innerHTML = "&lt;Dates to be added next&gt;" ;
+    }
+    if ((localStorage.TitleLine3===undefined)||(localStorage.TitleLine3==="undefined")||(localStorage.TitleLine3==="")) {
+        document.getElementById("titleTextBoxL3").innerHTML = "&lt;Additional line available if needed&gt;" ;
+    }
+    else {
+        document.getElementById("titleTextBoxL3").innerHTML = localStorage.TitleLine3 ;
+    }
+// ]]></script>
+<div id="ButtonDisplay" style="float: left; position: relative; z-index: 1000;"><!--
+        <input type="text" id="lastname" value="Our Family's Crossing" title="Enter a title with the name of your family, or the FirstGen you are commemorating, or just leave the current value" onkeypress="actionOnCR(event)" /> 
+    --> <button onclick="actionOnDone()">Continue to "When"</button> <!--    
+    <br>
+    <br>
+    <button onclick="actionOnSave()">(Click here to save and come back later)</button></div>
+    --></div>
+<script>// <![CDATA[
+/*
+    var TitleLine1Txt = localStorage.TitleLine1 ;
+    console.log('BEFORE: document.getElementById("lastname").value=='+document.getElementById("lastname").value)
+    document.getElementById("lastname").value = TitleLine1Txt ;
+    console.log('AFTER: document.getElementById("lastname").value=='+document.getElementById("lastname").value)
+*/
+
+//var nextPage = "https://jimaworks.com/pages/1-b-in-what-part-of-the-world-did-this-story-start" ; //"https://jimaworks.com/pages/000-test-set-the-stage-of-your-story" ; //"https://jimaworks.com/pages/x1-region" ;
+var nextPage = "https://jimaworks.com/pages/textbox1-title-line2-when-did-it-take-place-1" ; //"https://jimaworks.com/pages/000-test-set-the-stage-of-your-story" ; //"https://jimaworks.com/pages/x1-region" ;
+
+//### move initialize to earlier in the interaction
+// initializeDefaults() ; 
+
+function actionOnSave() {
+    var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+    window.location.assign(SaveForLaterPage);
+}
+    
+function actionOnChange() {
+    //document.getElementById("titleTextBoxL1").innerHTML = document.getElementById("lastname").value ;
+    registerNewTitleLine1() ;
+    RelationShipsPreviewZ("highlightTitle", "showFrame") ;  // ### added 7/31.  Some reason why different than actionOnCR?
+}
+    
+function actionOnCR(event){
+    var x = event.which || event.keyCode;
+    if (x==13) {
+        //alert("actionOnCR(event) w event==CR") ;
+        registerNewTitleLine1() ;
+        RelationShipsPreviewZ("highlightTitle", "showFrame") ;
+        // actionOnDone() ;
+    }
+}
+
+function actionOnDone(){
+        //if (confirm('Current TitleLine1 is "'+localStorage.TitleLine1+'".  Accept and continue?')) {
+        //    window.location.assign(nextPage);
+        //}
+        registerNewTitleLine1() ;
+        window.location.assign(nextPage);
+}
+
+function registerNewTitleLine1() {
+    //alert("registerNewTitleLine1()") ;
+    var lastnameString = document.getElementById("lastname").value ;
+    var newTitleLine1Str = lastnameString ; //+ " Family Crossing to America" ;
+    //localStorage.TitleLine1  = document.getElementById("lastname").value ;
+    //localStorage.TitleLine1 += " Family Crossing to America" ;
+    //localStorage.TitleLine1  = document.getElementById("lastname").value + " Family Crossing to America" ;
+    //document.getElementById("titleTextBoxL1").innerHTML = localStorage.TitleLine1 ;
+    localStorage.TitleLine1  = newTitleLine1Str ;
+    document.getElementById("titleTextBoxL1").innerHTML = newTitleLine1Str ;
+}
+// ]]></script>

@@ -1,0 +1,229 @@
+<!--  KnownShipOptions
+                  https://jimaworks.com/pages/000-known-ship-options
+                  template:  page
+                  Title: Options for "Known Ship"
+      Apr 24 2019:0700 Build the KnownShipOptions page from the Prices page... but too much text.
+      Apr 25 2019:0700 Define set of information-providing buttons to control all the text...
+      Jun 19 2019:0815 Define nextPage(s) to integrate into workflow: branch historic-ship-images vs jimaworks-ship-images
+-->
+<script>// <![CDATA[
+  localStorage.ShipSort = "alpha" ;
+  // ]]></script>
+  <!--
+      <button id="PreExistingImagery" 
+                  class="float-left submit-button" 
+                  title="Jimaworks has access to thousands of digitized ship images, 
+          including paintings, pictures, posters, postcard images, engravings, illustrations, drawings, and advertisements.
+          (Note that these are usually but not always of sufficient detail and resolution 
+          for high-quality, high-impact display in the RelationShips product.)"
+                  onclick="TellStuff()"><em>Tell stuff.</em>
+      </button>
+      <button id="CustomMadeShip" 
+                  class="float-left submit-button" 
+                  title="Jimaworks also produces its own ship renderings for the RelationShips product.
+          These are the outcome of research into the ship's appearance at the time of the time of crossing,
+          are reproduced in high-quality detail, and are created in original vector form.
+          (The jimaworks-made ship imagery is therefore not bound by resolution constraints
+          and is guaranteed to be of superior quality.)"
+                  onclick="TellMoreStuff()"><em>Tell more stuff</em>
+      </button>
+  -->
+  <div id="DisplayOverlays" style="position: relative; z-index: 1000; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+  <div style="position: absolute; top: 20px; left: 20px;"><button id="JimaworksResources" class="float-left submit-button" title="JimaworksResources" onclick="TellAboutJimaworksResources()"><em>Will we have your ship?</em> </button> <button id="WhatIfNoData" class="float-left submit-button" title="JimaworksFailSafeOptions" onclick="WhatIfNoData()"><em>What if we *don't* have your ship?</em> </button> <button id="WhatIfMultipleImages" class="float-left submit-button" title="We're All About Consumer Choice" onclick="WhatIfMultipleImages()"><em>What if we have multiple images of your ship?</em> </button></div>
+  <div id="KnownShipProcessDescrip" style="position: absolute; left: 50px; color: ivory; font-size: large; font-weight: bold; text-shadow: 1px 1px 0px Darkred;"></div>
+  <div id="shipDisplay"></div>
+  </div>
+  <script>// <![CDATA[
+  function displayCurrentShip(webShipImg) {
+          var shopifyFilePreFix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+          var shopifyFileSufFix = "?16338137725744926710" ;
+  
+          var ImgOverlayHTML = '<div style=\"position: relative; top: 60px; left: 100px; z-index: 0; text-shadow: 1px 1px 0px Ivory;\">' ;
+  
+          /* map */
+  /*         ImgOverlayHTML +=   '<img src=' + webMapImg ;
+             ImgOverlayHTML +=   'class=\"map\" style=\"width: 400px; height: auto;\" />' ;
+  
+  
+          /* ship */
+         if (!webShipImg) {
+              webShipImg = localStorage.shipPic;  
+             
+         }
+          var shopifiedShipImg = '\"' + shopifyFilePreFix + webShipImg.replace("(", "_").replace(")", "_") + '\"';  
+          var ImgOverlayHTML = '' ;
+  
+          /* map */
+  
+          /* ship display */
+  /*        ImgOverlayHTML +=   '<div style=\"position: absolute; top: 120px; left: 120px; z-index: 3;\">' ;  */
+          ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 45px; left: 115px; z-index: 3;\">' ;
+          ImgOverlayHTML +=     '<img src=' + shopifiedShipImg ;
+          ImgOverlayHTML +=     ' class=\"ship\" width=\"400px\" height=\"auto\"' ;
+          ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
+          /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
+          ImgOverlayHTML +=     '\" />' ;
+          ImgOverlayHTML +=   '</div>' ;
+  
+          /* ship info */
+          ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 20px; left: 115px; z-index: 25; line-height: 0.8;  font-size: 8px; text-align: center; \">' ;
+          ImgOverlayHTML +=   '<p>'+localStorage.ShipInfoLine1 ;
+          ImgOverlayHTML +=   '<br>'+localStorage.ShipInfoLine2+'</p>' ;
+          ImgOverlayHTML +=   '</div>' ;
+  
+          ImgOverlayHTML += '</div>' ;
+          
+      console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
+      /* 
+       alert("ImgOverlayHTML="+ImgOverlayHTML) ;
+       */
+      document.getElementById("shipDisplay").innerHTML = ImgOverlayHTML;
+  }
+  
+  
+  function TellAboutJimaworksResources() {
+  var KnownShipOptionsMsg;
+      //alert("Your current ship selection ("+localStorage.shipName+" of the "+shipEra+") is not of the same era you've specified (the "+localStorage.Era+").") ;
+      KnownShipOptionsMsg  = "<p>" ;
+      KnownShipOptionsMsg  = "Jimaworks will almost certainly have or be able to create " ;
+      KnownShipOptionsMsg += "imagery for the exact ship of the crossing you are commemorating " ;
+      KnownShipOptionsMsg += "if it was part of an organized shipping line (generally starting in ~1830). " ;
+      KnownShipOptionsMsg += "</p>" ;
+      KnownShipOptionsMsg += "<p>" ;
+      KnownShipOptionsMsg += "Before that, shipping was less organized and many individual craft operating under irregular schedules were used to transport people to America. " ;
+      KnownShipOptionsMsg += "But still, much imagery is available even for those ships. " ;
+      KnownShipOptionsMsg += "</p>" ;
+  
+      document.getElementById("KnownShipProcessDescrip").innerHTML = KnownShipOptionsMsg;
+  
+  }
+  
+  function WhatIfNoData() {
+  var KnownShipOptionsMsg = "";
+      //alert("Your current ship selection ("+localStorage.shipName+" of the "+shipEra+") is not of the same era you've specified (the "+localStorage.Era+").") ;
+      KnownShipOptionsMsg  = "<p>" ;
+      KnownShipOptionsMsg += "If research fails to find reliable indicators of the exact appearance of the ship, " ;
+      KnownShipOptionsMsg += "our research will nevertheless *always* indicate the ";
+      // ### not sure why the styling below isn't working ###
+      KnownShipOptionsMsg += " <span style=\"font-style=italic;\">*likely*</span>" ;
+      KnownShipOptionsMsg += " class, size, and appearance of that ship. " ;
+      KnownShipOptionsMsg += "You will then be given the opportunity to order our best-estimate rendering of the historical ship." ;
+      KnownShipOptionsMsg += "</p>" ;
+  
+      document.getElementById("KnownShipProcessDescrip").innerHTML = KnownShipOptionsMsg;
+  
+  }
+  
+  function WhatIfMultipleImages() {
+  var KnownShipOptionsMsg = "";
+      //alert("Your current ship selection ("+localStorage.shipName+" of the "+shipEra+") is not of the same era you've specified (the "+localStorage.Era+").") ;
+      KnownShipOptionsMsg  = "<p>" ;
+      KnownShipOptionsMsg += "If research finds multiple images of the ship, " ;
+      KnownShipOptionsMsg += "we will select our estimate of the best image to use. ";
+      KnownShipOptionsMsg += "But we are all about consumer choice, " ;
+      KnownShipOptionsMsg += "so if several of the available images are attractive, " ;
+      KnownShipOptionsMsg += "we will select several of the best. " ;
+      KnownShipOptionsMsg += "These will be presented to you as options for your final decision." ;
+      KnownShipOptionsMsg += "</p>" ;
+  
+      document.getElementById("KnownShipProcessDescrip").innerHTML = KnownShipOptionsMsg;
+  
+  }
+  // ]]></script>
+  <!--
+  --> <!--
+  <script>chooseTypicalShip() ;</script>
+  
+      <script>// <![CDATA[
+  RelationShipsPreview("mockup", "noFrame");
+  // ]]></script>
+  -->
+  <script>// <![CDATA[
+  // nextPage could be one of two:
+  // "https://jimaworks.com/pages/x1-c-ship" -- turn into "https://jimaworks.com/pages/1.g.b-historic-ship-images"
+  // "https://jimaworks.com/pages/1.g.b-jimaworks-ship-images"... 
+  var existingImageNextPage = "https://jimaworks.com/pages/textbox4-tripinfo-how-did-they-get-here" ;
+  var jimaworksImageNextPage = "https://jimaworks.com/pages/1-g-ii-jimaworks-madeshipimagery" ;
+  
+  displayCurrentShip(localStorage.shipPic) ;
+  // ]]></script>
+  <table>
+  <tbody>
+  <tr>
+  <td><button id="PreExistingImagery" class="float-left submit-button" title="Incorporate historical ship imagery into your RelationShips project" onclick="OrderPreExistingShip()"><em>Request Historic Ship Imagery.</em> </button></td>
+  <td><button id="CustomMadeShip" class="float-left submit-button" title="Incorporate a jimaworks-made ship rendering into your RelationShips project" onclick="OrderJimaworksShip()"><em>Order jimaworks-made!</em> </button></td>
+  </tr>
+  <tr>
+  <td valign="center">
+  <h5>Order a Previously-Existing Image of the Historical Ship.</h5>
+  </td>
+  <td valign="center">
+  <h5>Order a Jimaworks-Researched, Custom-Made Rendering of the Historical Ship.</h5>
+  </td>
+  </tr>
+  <tr>
+  <td valign="top">
+  <ul style="font-size: small;">
+  <li>Jimaworks has access to thousands of digitized ship images, including paintings, pictures, posters, postcard images, engravings, illustrations, drawings, and advertisements.</li>
+  <li>If you decide to use historical ship imagery:</li>
+  <li>Jimaworks will research your specific ship and identify available imagery for its display in your RelationShips project.</li>
+  <li>We will select one of more of these as of sufficiently high-impact and of sufficiently high quality to be used in your specific RelationShips product.</li>
+  <li>We will develop these options and prepare .pdf versions for your review.</li>
+  <ul>
+  <li>Each option will comprise of a .pdf of your custom-specified RelationShips display incorporating one of the selected images of your ship.</li>
+  </ul>
+  <li>At that point you may choose one and finalize, ask for revisions, revise your order (e.g., by requesting a specially-made jimaworks print of the ship), or cancel with a refund up to the standard price of the Pdf.</li>
+  <li>(BTW: Jimaworks provides royalties/donations to historical imagery sources for each pre-existing image used)</li>
+  </ul>
+  </td>
+  <td valign="top">
+  <ul style="font-size: small;">
+  <li>Jimaworks also produces its own ship renderings for the RelationShips product.</li>
+  <li>If you decide to use jimaworks-made ship imagery:</li>
+  <li>Jimaworks will research the appearance of the historical ship at the time of the crossing being commemorated.</li>
+  <li>We will generate high-quality vector imagery from the resulting research.</li>
+  <ul>
+  <li>This vector approach means that jimaworks-made ship imagery will not be bound by resolution constraints and is guaranteed to be of superior quality.</li>
+  </ul>
+  <li>The result will be a fine-detail, full-color, high-detail profile rendering of your specific ship for incorporation into your RelationShips project.</li>
+  <li>Jimaworks will prepare a .pdf version of your custom-specified RelationShips display incorporating this ship.</li>
+  <li>At that point you may finalize, ask for revisions, revise your order (e.g., by requesting a print of a typical ship of the time instead of your specific ship), or cancel with a refund up to the price of the Pdf.</li>
+  <li>(BTW: Jimaworks will soon be offering 3D-printed half-model versions of the historically-accurate ships that we research and draw. Your ship will then be available in a shadowbox version and will be offered to you at a discount.)</li>
+  </ul>
+  </td>
+  </tr>
+  <tr>
+  <td><button id="Option 1: Source A Previously-Existing Image of the Ship" class="float-left submit-button" onclick="OrderPreExistingShip()"><em>Request Historic Ship Imagery.</em> </button></td>
+  <td><button id="Option 2: Order a Custom-Made jimaworks Ship" class="float-left submit-button" onclick="OrderJimaworksShip()"><em>Order jimaworks-made!</em> </button></td>
+  </tr>
+  </tbody>
+  </table>
+  <script>// <![CDATA[
+  function OrderPreExistingShip() {
+  /*
+      alert(">>>ChooseAFormat PrintItPage()" ) ;
+  
+      localStorage.setItem("Frame", "NoFrame") ;
+      localStorage.setItem("FrameAbbrev", "NoFrame") ; // ### changed from mapStyleAbbrevs[styleIndex] ; ###
+      localStorage.setItem("FrameImg", 
+                               "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-NoFrame-NoRuler-72ppi.png") ; // ### FrameImg anywhere else? ###
+  */
+      //window.location.href=document.referrer ;
+      window.location.href=existingImageNextPage ;
+  }
+  // ]]></script>
+  <script>// <![CDATA[
+  function OrderJimaworksShip() {
+  /*
+      would like to use RecordFrameChoice(styleName, styleAbbrev, styleImageFileNm)
+      alert(">>>ChooseAFormat PrintItPage()" ) ;
+  
+      localStorage.setItem("Frame", "NoFrame") ;
+      localStorage.setItem("FrameAbbrev", "NoFrame") ; // ### changed from mapStyleAbbrevs[styleIndex] ; ###
+      localStorage.setItem("FrameImg", 
+                               "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-NoFrame-NoRuler-72ppi.png") ; // ### FrameImg anywhere else? ###
+  */
+      //window.location.href=document.referrer ;
+      window.location.href=jimaworksImageNextPage ;
+  }
+  // ]]></script>

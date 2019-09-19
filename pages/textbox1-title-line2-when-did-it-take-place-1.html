@@ -1,0 +1,1816 @@
+<!--  RelationShips Timeline
+      https://jimaworks.com/pages/textbox1-title-line2-when-did-it-take-place-1
+      template:  page
+      Title: 1. Title. Line2: When did it take place?
+      
+      Feb 22 2019:0950 Region-relative default immigration years
+      Mar 10 2019:0900 Word-smithings to cover for initial lack of clickable button that would just use the default year
+      Apr 15 2019:1240 Fix Firefox problem...  Redefine slider thumb/button as darkred.
+      Apr 16 2019:1800 Fix the "popping up" button prompt for the slider; Accomodate uncertainty... Intervals of years if desired...
+      Apr 25 2019:1430 Put in the correct "nextPage"'s to make it live.
+      Jun 08 2019:1700 Transition to TextBox oriented interaction
+      Jun 10 2019:0800 Replace slider antique map background with routemap background
+      Jun 10 2019:1200 Add in the dynamic menues from the "where" pages for handling date uncertainty
+      Jun 12 2019:1545 Add dynamic TextBox line
+      Jun 14 2019:1900 Add Save and Come Back Later button
+      Jun 15 2019:0700 Lightgrey-ize textbox echo w darkblue new text
+      Jun 18 2019:1700 Streamline text, label "Departure" vs "lower" and "Arrival" vs "higher" year
+      Jun 20 2019:0900 Parameterize earliest/latest possible NAmerica trip year.
+      Jul 15 2019:0725 Indents, note about future edit poss, airplane mode only if earliest and latest date both post-1945, Save&FinishLater to top of page
+      Jul 31 2019:0830 Fixed missing "August" and in-error call to generate downstream menu from "Day" (so "Day" not updating)
+      Aug 11 2019:1600 Rework conditional logic for TitleLine2 outputs
+      Sep 02 2019:1330 localStorage.TitleLine2 was not updating with correct "LatestPossible" date.  Fixed.
+     
+      
+      ...### Need to save individ season/mo/day values? ###
+      ...move to overlay map?
+      ...add levels of uncertainty a la places?  --> <!-- 
+<div id="backgroundImage" 
+     style="position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+</div>
+
+<div id="backgroundImage" 
+     style="position: relative; width: 420px; height: 300px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+</div>
+
+
+<h3>Title (Line 2): You can use the default "A Thread in the Great American Tapestry", but the title usually reflects when this First Generation came over. <br />Set that time by establishing two dates (explained below). <br />Then use the result in line 2 of the title, or use the generic default, or put in your own words.</h3>
+    -->
+    <h3>Title Line 2: Set the time of the crossing by establishing the Departure and Arrival dates (to whatever detail you know).</h3>
+    <!--
+        <div style="position: absolute; z-index: 100; top: 20px; left: 70px; width: 180px; height: 130px;">
+     -->
+    <div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+    <div style="position: absolute; z-index: 25; top: 20px; left: 70px; width: 180px; height: 130px;"><!--
+        <input type="range" name="Day" min="1" max="31">
+        <input type="text" name="Year" value="Starting/Earliest Year: 1600">
+        <span id="Year"></span> Starting/Earliest Year: 1600 </span>
+        --> <input type="text" id="Year" value="Earliest Departure: 1600" onchange="RegisterYearChange(this.value)" /></div>
+    <div style="position: absolute; z-index: 25; top: 20px; left: 270px; width: 180px; height: 130px;"><select id="Season" title="Select the season of the crossing if you know it" onchange="updateSeasonChoice(this.value)">
+    <option value="">Season (if known)</option>
+    <option value="Unk" title="Don't know more detail">Unknown</option>
+    <option value="Summer" title="Summer">Summer</option>
+    <option value="Fall" title="Fall">Fall</option>
+    <option value="Winter" title="Winter">Winter</option>
+    <option value="Spring" title="Spring">Spring</option>
+    </select></div>
+    <div style="position: absolute; z-index: 25; top: 20px; left: 470px; width: 180px; height: 130px;"><select id="Month" title="Select the month if you know it" onchange="updateMonthChoice(this.value)">
+    <option value="">Month (if known)</option>
+    <option value="Unk" title="Don't know more detail">Unknown</option>
+    <option value="January" title="January">January</option>
+    <option value="February" title="February">February</option>
+    <option value="March" title="March">March</option>
+    <option value="April" title="April">April</option>
+    <option value="May" title="May">May</option>
+    <option value="June" title="June">June</option>
+    <option value="July" title="July">July</option>
+    <option value="August" title="August">August</option>
+    <option value="September" title="September">September</option>
+    <option value="October" title="October">October</option>
+    <option value="November" title="November">November</option>
+    <option value="December" title="December">December</option>
+    </select></div>
+    <div style="position: absolute; z-index: 25; top: 20px; left: 670px; width: 180px; height: 130px;"><select id="Day" title="Select the day if you know it" onchange="RegisterDayChange(this.value)">
+    <option value="">Day (if known)</option>
+    <option value="Unk" title="Don't know more detail">Unknown</option>
+    <option value="1" title="1">1</option>
+    <option value="2" title="2">2</option>
+    <option value="3" title="3">3</option>
+    <option value="4" title="4">4</option>
+    <option value="5" title="5">5</option>
+    <option value="6" title="6">6</option>
+    <option value="7" title="7">7</option>
+    <option value="8" title="8">8</option>
+    <option value="9" title="9">9</option>
+    <option value="10" title="10">10</option>
+    <option value="11" title="11">11</option>
+    <option value="12" title="12">12</option>
+    <option value="13" title="13">13</option>
+    <option value="14" title="14">14</option>
+    <option value="15" title="15">15</option>
+    <option value="16" title="16">16</option>
+    <option value="17" title="17">17</option>
+    <option value="18" title="18">18</option>
+    <option value="19" title="19">19</option>
+    <option value="20" title="20">20</option>
+    <option value="21" title="21">21</option>
+    <option value="22" title="22">22</option>
+    <option value="23" title="23">23</option>
+    <option value="24" title="24">24</option>
+    <option value="25" title="25">25</option>
+    <option value="26" title="26">26</option>
+    <option value="27" title="27">27</option>
+    <option value="28" title="28">28</option>
+    <option value="29" title="29">29</option>
+    <option value="30" title="30">30</option>
+    <option value="31" title="31">31</option>
+    </select></div>
+    <!--
+        <div id="backgroundImage" style="position: absolute; z-index: 20; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+    </div>
+    
+    <div id="backgroundImage"></div>
+    <div id="lowEndOfRangeSlider"></div>   
+    <div id="highEndOfRangeSlider"></div>   
+    -->
+    <div id="backgroundImage"></div>
+    <div id="lowEndOfRangeSlider" style="position: absolute; z-index: 25; top: 320px; left: 70px; width: 800px; height: 40px;"></div>
+    <div id="highEndOfRangeSlider" style="position: absolute; z-index: 25; top: 360px; left: 70px; width: 800px; height: 40px;"></div>
+    </div>
+    <!-- set up the slider with the right default years...
+        <div class="slidecontainer"><input class="slider" id="lowRange" type="range" onload="getDefaultYear()" min="1600" max="2019" value="1907" style="background: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg');" />
+        ###Trying to put on background antique map: <div id="lowEndOfRangeSlider" style="position: absolute; z-index: 100;"></div>
+    <div id="lowEndOfRangeSlider"></div>
+        --> <!--
+        <p><span style="font-size: large; color: darkred;">Move the button</span> on the latest-possible-year slider below to capture the interval in which the crossing could have happened (with earliest- and latest- the same if you know the exact year), then...
+        </p>
+        ###Trying to put on background antique map: <div id="highEndOfRangeSlider" style="position: absolute; z-index: 100;"></div>   
+    <div id="highEndOfRangeSlider"></div>   
+        --> <!--
+        <p><span style="font-size: large; color: darkred;">Move the button</span> on the earliest-possible-year slider below to see history unfold above, then move to the ealiest possible year your crossing could have occured, and... 
+    -->
+    <h4>Explanation: Move the <span style="font-size: large; color: darkred;">Top Slider Button</span> to set the departure date (or, if you don't know, the earliest-possible date) of the crossing (currently <span id="currentYrOfXing" style="font-size: x-large;">1600</span>). Use the <span style="font-size: large; color: darkred;">Bottom Slider Button</span> to set the arrival date (or if you don't know, the latest-possible date) of the event (currently <span id="latestYrOfXing" style="font-size: x-large;">2019</span>). These two dates will be used to generate a candidate Line 2 for your Title TextBox.</h4>
+    <!--
+    <p>Currently selected/Earliest possible Year of Crossing: 
+        <span id="currentYrOfXing" style="font-size: x-large;">1907</span>
+        in the <span id="currentEra">EraOfTheSteamSailShip(1840-1915).</span>  
+        Latest possible Year of Crossing: 
+        <span id="latestYrOfXing" style="font-size: x-large;">1907</span>
+        in the <span id="latestEra">EraOfTheSteamSailShip(1840-1915).  </span>
+    </p>
+    <p>
+        <span id="doneButton2">
+                <button onclick="recordTimeOfCrossing(1911,1914,1910,1919,'EraOfThePassengerLiner(1895-1970)')">Click here to finalize your interval and move on</button>
+        </span>
+    </p>
+    --> <!--
+        <span id="doneButton">
+                <button onclick="recordTimeOfCrossing(1911,1914,1910,1919,'EraOfThePassengerLiner(1895-1970)')">Click here to select the year</button>
+        </span>
+    
+    <input  id="enterTitleLine2" 
+            type="text" 
+            value= "localStorage.TitleLine2" 
+            style="width: '+titleLineWidth+'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" 
+            oninput="enterTitleText()">' ;  
+    
+    <input  id="enterTitleLine2" 
+            type="text" 
+            value= "localStorage.TitleLine2"> ;  
+    
+    
+        <div style=\"position: absolute; top: -34px; left: '+controlButtonOffset+'px; width: 510px; height: 80px; z-index: 1000; font-size: 8px; line-height: 0.9; color red\">
+        </div>
+    --> <!--
+    <h4>TitleTextBox Line1: <span id="titleTextBoxL1"> "Our Family Atlantic Crossing" </span></h4>
+    <h4>TitleTextBox Line1: Stay with the current default or choose new "Dates" line (You will be able to change to anything you want later) .
+    </h4>
+        <select id="TitleLine2Selection">
+            <option id="titleTextBoxL2Option1">"A Thread in the Great American Tapestry"</option>
+            <option id="titleTextBoxL2Option2">"Crossing was between 1682 and 1911"</option>
+        </select>
+            <input id="titleTextBoxL2Option3" type="text" oninput="enterTitleLine2Text()" /> "ComposeYourOwn"
+                    <br />Option 1: 
+                <span id="titleTextBoxL2Option1"> "A Thread in the Great American Tapestry" </span>
+                <br />Option 2: 
+                <span id="titleTextBoxL2Option2"> "Crossing was between 1682 and 1911" </span>
+                <br />  Option 3:
+                <span id="titleTextBoxL2Option3"> "WriteUpYourOwn()" </span>
+    <h4>TitleTextBox Line3: <span id="titleTextBoxL3"> "Currently un-used" </span></h4>
+                
+            -->
+    <div style="color: grey;">
+    <h4>Your Title Text Box contents are currently: <br />     Line1: <span id="titleTextBoxL1"> " " </span> <br />     Line2: <span id="titleTextBoxL2" style="color: darkblue;"> "A Thread in the Great American Tapestry" </span> <br />     Line3: <span id="titleTextBoxL3"> " " </span> <br />(You'll have opportunities to edit later)</h4>
+    </div>
+    <script>// <![CDATA[
+    var titleLineWidth = 320 ;
+    var userInputOption  = '' ;
+        userInputOption  = '<input id="enterTitleLine2"' ;
+        userInputOption += ' type="text"' ;
+        userInputOption += ' value="______Option3:'+localStorage.TitleLine2+'"' ;
+        //userInputOption += ' style="width: '+titleLineWidth+'px; ' ;
+        //userInputOption += ' background-color: Ivory; border: 4px solid DarkGreen; ' ;
+        //userInputOption += ' padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" ' ;
+        userInputOption += ' oninput="acceptText()">' ;  
+    var earliestPossibleTripYear = 1600 ;
+    var latestPossibleTripYear = 2019 ;
+    
+    function enterTitleLine2Text() {
+       // document.getElementById("titleTextBoxL2").innerHTML = document.getElementById("titleTextBoxL2").innerHTML ; 
+       //alert("go to enterTitleLine2Text()") ;
+        document.getElementById("titleTextBoxL2Option3").innerHTML = userInputOption ;
+    }
+    
+    function acceptText() {
+       // no-op ; 
+       // document.getElementById("titleTextBoxL2Option3").innerHTML = userInputOption ;
+    }
+    
+    // ### hm.  Will TitleLine1 eer be undefined at this point?  If so, need to coordinate with TitleLine1 page. ###
+    if ((localStorage.TitleLine1===undefined)||(localStorage.TitleLine1==="undefined")||(localStorage.TitleLine1==="")) {
+            document.getElementById("titleTextBoxL1").innerHTML = "&lt;Available if needed&gt;" ;
+        }
+        else {
+            document.getElementById("titleTextBoxL1").innerHTML = localStorage.TitleLine1 ;
+        }
+        if ((localStorage.TitleLine2===undefined)||(localStorage.TitleLine2==="undefined")||(localStorage.TitleLine2==="")) {
+            document.getElementById("titleTextBoxL2").innerHTML = "&lt;Available if needed&gt;" ;
+        }
+        else {
+            document.getElementById("titleTextBoxL2").innerHTML = localStorage.TitleLine2 ;
+        }
+        if ((localStorage.TitleLine3===undefined)||(localStorage.TitleLine3==="undefined")||(localStorage.TitleLine3==="")) {
+            document.getElementById("titleTextBoxL3").innerHTML = "&lt;Available if needed&gt;" ;
+        }
+        else {
+            document.getElementById("titleTextBoxL3").innerHTML = localStorage.TitleLine3 ;
+        }
+    // ]]></script>
+    <span id="doneButton2"> <button onclick="recordTimeOfCrossing(1911,1914,1910,1919,'EraOfThePassengerLiner(1895-1970)')"> Continue to "Country of Origin" </button> </span> <!--
+    <br>
+    <br>
+    <button onclick="actionOnSave()">(Click here to save and come back later)</button>
+    -->
+    <script>// <![CDATA[
+    function actionOnSave() {
+        var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+        window.location.assign(SaveForLaterPage);
+    }
+    // ]]></script>
+    <!--
+                    style="background: #05537A;"
+      -->
+    <script>// <![CDATA[
+    //var nextPage = 'https://jimaworks.com/pages/textbox2-origins-from-what-region-did-this-firstgen-come' ;
+    var nextPage = 'https://jimaworks.com/pages/textbox2-origins-where-did-this-firstgen-come-from' ;
+    
+    var settingLowerDate = true ;
+    
+    function getDefaultYear() {
+            var regionAbbrev = localStorage.RegionOfOriginAbbrev;
+            var highestImmigrationYear ;
+            if (regionAbbrev=="EuM") {
+                highestImmigrationYear = 1907 ;
+            }
+            if (regionAbbrev=="Afr") {
+                highestImmigrationYear = 1760 ;
+            }
+            if (regionAbbrev=="Pac") {
+                highestImmigrationYear = 1880 ;
+            }
+            if (regionAbbrev=="SoA") {
+                highestImmigrationYear = 1970 ;
+            }
+            if (regionAbbrev=="SAm") {
+                highestImmigrationYear = 1940 ;
+            }
+    //        alert('getDefaultYear(regionAbbrev=='+regionAbbrev+'): Setting year of immigration to '+highestImmigrationYear) ;
+            return highestImmigrationYear ;
+    } ;
+    
+    // This is the slider with an imagery button...   
+    /* 
+    function setupDateSliders() {
+        alert("setupDateSliders()") ;   
+    
+    }
+    setupDateSliders() ;
+    */
+    /* page globals to track user entries of high and low dates 
+    var lowerYear = document.getElementById("Year").value;
+    var lowerSeason = document.getElementById("Season").value;
+    var lowerMonth = document.getElementById("Month").value;
+    var lowerDay = document.getElementById("Day").value;
+    var higherYear = document.getElementById("Year").value;
+    var higherSeason = document.getElementById("Season").value;
+    var higherMonth = document.getElementById("Month").value;
+    var higherDay = document.getElementById("Day").value;
+    */
+    var lowerYear = 'unk';
+    var lowerSeason = 'unk';
+    var lowerMonth = 'unk';
+    var lowerDay = 'unk';
+    var higherYear = 'unk';
+    var higherSeason = 'unk';
+    var higherMonth = 'unk';
+    var higherDay = 'unk';
+    
+    var currentLowerMapYear ;
+    var currentHigherMapYear ;
+    
+    var dateHierarchy = {};
+        dateHierarchy['Summer'] = ['June', 'July', 'August', 'September'] ;
+        dateHierarchy['Fall'] = ['September', 'October', 'November', 'December'] ;
+        dateHierarchy['Winter'] = ['December', 'January', 'February', 'March'] ;
+        dateHierarchy['Spring'] = ['March', 'April', 'May', 'June'] ;
+    
+    var daysInMonth = {} ;
+        daysInMonth['January'] = 31 ;
+        daysInMonth['February'] = 28 ; // ### leap years ###
+        daysInMonth['March'] = 31 ;
+        daysInMonth['April'] = 3 ;
+        daysInMonth['May'] = 31 ;
+        daysInMonth['June'] = 30 ;
+        daysInMonth['July'] = 31 ;
+        daysInMonth['August'] = 31 ;
+        daysInMonth['September'] = 30 ;
+        daysInMonth['October'] = 31 ;
+        daysInMonth['November'] = 30 ;
+        daysInMonth['December'] = 31 ;
+    
+    if(localStorage.EarliestPossibleYearOfCrossing) {
+        currentLowerMapYear=Math.max(1600, Number(localStorage.EarliestPossibleYearOfCrossing))
+        lowerYear=currentLowerMapYear ;
+    }
+    else {
+        currentLowerMapYear=1600 ;
+        localStorage.EarliestPossibleYearOfCrossing=currentLowerMapYear ;
+        lowerYear=currentLowerMapYear ;
+    }
+    
+    if(localStorage.LatestPossibleYearOfCrossing) {
+        currentHigherMapYear=Math.min(2019, Number(localStorage.LatestPossibleYearOfCrossing)) ;
+        higherYear=currentHigherMapYear ;
+    }
+    else {
+        currentHigherMapYear=2019
+        localStorage.LatestPossibleYearOfCrossing=currentHigherMapYear ;
+        higherYear=currentHigherMapYear ;
+    }
+    console.log("###### currentLowerMapYear=="+currentLowerMapYear+" currentHigherMapYear=="+currentHigherMapYear+"######") ;
+    
+    var currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+    // This doesn't work because (?) stepping on prev val? >>> var prevThisNextAvailMapYears = prevThisNextMapYears(getDefaultYear())
+    var availableMapYear = 2016 ; //getDefaultYear() ;
+    var shopifyPrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+    var shopifyImgSizePostfix = "_256x256" ;
+    var currMapFile = shopifyPrefix + availableMapYear+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+    // NOTE:  The style for this slider in timeline-slider.scss under Assets, and included in theme.liquid
+    //    var lowRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="lowRange" type="range" min="1600" max="2019" value="'+getDefaultYear()+'" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
+    var lowRangeSliderButtonHTML  = '<div class="slidecontainer">' ;
+        //lowRangeSliderButtonHTML += '<input class="slider" id="lowRange" name="foo" type="range" min="1600" max="2019" value="'+"1600" ;
+        lowRangeSliderButtonHTML   += '<input class="slider" id="lowRange" name="foo" type="range" min="1600" max="2019" value="'
+        lowRangeSliderButtonHTML += currentLowerMapYear ;
+        //lowRangeSliderButtonHTML += '" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
+    
+        lowRangeSliderButtonHTML += '" style="background: url(' ;
+        //shopifyPrefix + prevThisNextAvailMapYears[1]+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+        //lowRangeSliderButtonHTML += '\''+'  shopifyPrefix + prevThisNextAvailMapYears[1]+'-Routes-'+currRegionAbbrev+shopifyImgSizePostfix+'.png'+'\'' ;
+        //https://cdn.shopify.com/s/files/1/1336/0641/files/map_7.png?546
+    
+    
+    //        lowRangeSliderButtonHTML += '\'https://cdn.shopify.com/s/files/1/1336/0641/files/map_7.png?546\'' ;
+        lowRangeSliderButtonHTML += '\''+currMapFile+'\'' ;
+        lowRangeSliderButtonHTML += ');" />' ;
+    
+        lowRangeSliderButtonHTML += '<output for="foo" onforminput="value = foo.valueAsNumber;"></output>' ;
+    
+    //    lowRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="lowRange" type="range" min="1600" max="2019" value="'+getDefaultYear() ;
+    //    lowRangeSliderButtonHTML +='" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\'); ' ;
+        document.getElementById("lowEndOfRangeSlider").innerHTML = lowRangeSliderButtonHTML ;
+    // ]]></script>
+    <script>// <![CDATA[
+    //    var highRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="highRange" type="range" min="1600" max="2019" value="'+getDefaultYear()+'" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
+    //    var highRangeSliderButtonHTML += '<div class="slidecontainer"><input class="slider" id="highRange" type="range" min="1600" max="2019" value="'+"2019"+'" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
+        var highRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="highRange" type="range" min="' ;
+            highRangeSliderButtonHTML += earliestPossibleTripYear ;
+            highRangeSliderButtonHTML += '" max="2019" value="';
+            highRangeSliderButtonHTML += currentHigherMapYear ;
+            highRangeSliderButtonHTML += '" style="background: url(' ;
+            highRangeSliderButtonHTML += '\''+currMapFile+'\'' ;
+            highRangeSliderButtonHTML += ');" />' ;
+    
+    //    lowRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="lowRange" type="range" min="1600" max="2019" value="'+getDefaultYear() ;
+    //    lowRangeSliderButtonHTML +='" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\'); ' ;
+        document.getElementById("highEndOfRangeSlider").innerHTML = highRangeSliderButtonHTML ;
+    // ]]></script>
+    <!--
+            <datalist id="tickmarks">
+              <option value="1600">
+              <option value="1675">
+              <option value="1700">
+              <option value="1725">
+              <option value="1750">
+              <option value="1784">
+              <option value="1800" label="Age of Sail">
+              <option value="1815">
+              <option value="1825">
+              <option value="1835">
+              <option value="1840">
+              <option value="1845">
+              <option value="1850">
+              <option value="1855">
+              <option value="1860">
+              <option value="1865">
+              <option value="1870">
+              <option value="1875">
+              <option value="1880" label="Age of the Steam-Sail Ship">
+              <option value="1885">
+              <option value="1890">
+              <option value="1895">
+              <option value="1900">
+              <option value="1905">
+              <option value="1910">
+              <option value="1914" label="Age of the Passenger Liner">
+              <option value="1919">
+              <option value="1923">
+              <option value="1938">
+              <option value="1946">
+              <option value="1950">
+              <option value="1960">
+              <option value="1970">
+              <option value="1980" label="Age of Air Travel">
+              <option value="1990">
+              <option value="2000">
+              <option value="2010">
+              <option value="2016">
+              <option value="Present">
+            </datalist>
+    -->
+    <script>// <![CDATA[
+    var erasArray = [ "ColonialAndEarlyIndependenceEra(1607-1840)", "EraOfTheSteamSailShip(1840-1915)", "EraOfThePassengerLiner(1895-1970)", "EraOfAirTravel(1945-Present)"] ; 
+        var eraAbbrevs = [ "Early", "StmSl", "Liner", "AirTr"] ; 
+        var eraStartArray = [ 1607, 1840, 1895, 1945] ; 
+        var eraEndArray = [ 1840, 1915, 1970, 2100] ; /* "Present" - so make it large enough to always be larger than the eraStart */ 
+        var eraRepresentativeYearArray = [ 1720, 1870, 1910, 2016] ; 
+    
+        var currMapFile ;
+        var shopifyPrefix ;
+        var shopifyImgSizePostfix ;
+        var routeImageDisplayStr = "";
+        var routeImageStyleStr = "";
+        var routeImageTextStr = "";
+        var displayLabeledImageHTML ;
+        var placementTop ;
+        var placementLeft ;
+        var placementWidth ;
+        var placementHeight ;
+        var placementBorder ;
+        var placementLineStyle ;
+        var placementLineColor ;
+        var placementImgZIndex = 1 ;
+        var placementTxtZIndex = 2 ;
+        /*
+            localStorage.setItem("RegionOfOrigin", regionName) ;
+            localStorage.setItem("RegionOfOriginDefault", "UserProvided") ;
+            localStorage.setItem("RegionOfOriginAbbrev", regionAbbrev) ;
+            localStorage.setItem("RegionOfOriginImageFileName", regionImageFileNm) ;
+        */
+        var currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+        var eraMatchString = localStorage.Era ; 
+        
+        // track the user interaction...
+        var newYrOfXingOutput = document.getElementById("currentYrOfXing") ;
+        var newEraOutput = document.getElementById("currentEra");
+        var currEra ;
+        var currEraIndex ;
+        
+        var yearOfXingHTML ;
+        var yearOfXingString ;
+        var prevThisNextAvailMapYears ;
+        var earliestPosYearOfXingHTML ;
+        
+    // This part makes the slider go...
+        var currentSlider ;
+        var slider1 = document.getElementById("lowRange");
+        var slider1Iteration = 0 ;
+        newYrOfXingOutput.innerHTML = slider1.value; 
+        console.log("Before slider1.oninput fn >>this.value=="+this.value+" newYrOfXingOutput=="+newYrOfXingOutput+" newYrOfXingOutput.innerHTML=="+newYrOfXingOutput.innerHTML);
+        backgroundImage.innerHTML = "<div>"+moveDisplayEraRoutesOnAntiqueMap(newYrOfXingOutput.innerHTML, slider1Iteration, true)+"</div>";
+        slider1.oninput = function() { 
+            currentSlider = "slider1" ;
+            slider1Iteration+=1;
+            var prevEraMatch = 0; 
+            for (eraIndex=0; eraIndex<erasArray.length; eraIndex++) {
+                if (slider1.value>=eraStartArray[eraIndex] & slider1.value<=eraEndArray[eraIndex]) {
+                    currEraIndex = eraIndex; // ### note that will be working with the more recent of overlapping eras
+                    currEra = erasArray[currEraIndex];
+                    if (prevEraMatch==0) {
+                        prevEraMatch++ ;
+                        eraMatchString = erasArray[eraIndex] ;
+                    }
+                    else { 
+                        eraMatchString = eraMatchString+" and "+currEra ; 
+                    }
+                }
+            }
+    //        localStorage.setItem("EarliestPossibleYearOfCrossing", this.value) ;        
+    //        routeImageDisplayStr = moveDisplayEraRoutesOnAntiqueMap(this.value, slider1Iteration, true) ; 
+    if(false&&this.value!=slider1.value) {
+        alert("this.value=="+this.value+"!=slider1.value=="+slider1.value) ;
+    }
+            localStorage.setItem("EarliestPossibleYearOfCrossing", slider1.value) ;        
+            routeImageDisplayStr = moveDisplayEraRoutesOnAntiqueMap(slider1.value, slider1Iteration, true) ;    
+            //    backgroundImage.innerHTML = routeImageDisplayStr ;
+            backgroundImage.innerHTML = "<div>"+routeImageDisplayStr+"</div>";
+            newYrOfXingOutput.innerHTML = slider1.value ; 
+    //        newEraOutput.innerHTML = eraMatchString ; // +" region="+currRegionAbbrev;
+            console.log("After: >>this.value=="+this.value+" newYrOfXingOutput=="+newYrOfXingOutput+" newYrOfXingOutput.innerHTML=="+newYrOfXingOutput.innerHTML);
+        
+            // ### making this anew every time since otherwise slider1.value is just taken at the first pass and is always 1907...  no other way? ###
+            //<button onclick="specifyTimeInterval()">Click here if not sure of the year of crossing</button>
+            var yearOfXingHTML  =  document.getElementById("currentYrOfXing") ;
+            var yearOfXingString  =  document.getElementById("currentYrOfXing").innerText ;
+            var prevThisNextAvailMapYears = prevThisNextMapYears(Number(yearOfXingString)) ;
+                var selectIntervalPrompt  ;
+            console.log("Script: value of document.getElementById(\"currentYrOfXing\")==yearOfXingHTML is "+document.getElementById("currentYrOfXing")) ;
+            console.log("Script: value of yearOfXingHTML.innerText=yearOfXingString is "+yearOfXingString) ;
+            //<button onclick='recordTimeOfCrossing(1600,2016,"EraOfTheSteamSailShip(1840-1915)")'>Click here if done</button>
+            //var earliestPosYearOfXingHTML  =  "<span style=\"float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;\">" ;
+                if (true) {
+                    selectIntervalPrompt  = 'Continue to "Country of Origin" ' ;
+                }
+                else if (localStorage.EarliestPossibleYearOfCrossing==localStorage.LatestPossibleYearOfCrossing) {
+                    selectIntervalPrompt  = 'Click here to accept ' ;
+                    selectIntervalPrompt += localStorage.EarliestPossibleYearOfCrossing ;
+                    selectIntervalPrompt += ' as the known year of the crossing' ;
+                }
+                else {
+                    selectIntervalPrompt  = 'Click to accept [' ;
+                    selectIntervalPrompt += localStorage.EarliestPossibleYearOfCrossing ;
+                    selectIntervalPrompt += '-' ;
+                    selectIntervalPrompt += localStorage.LatestPossibleYearOfCrossing ;
+                    selectIntervalPrompt += ']' ;
+                    selectIntervalPrompt += ' as the earliest and latest possible years of the crossing' ;                                       
+                }
+            var earliestPosYearOfXingHTML  =  "<button " ;
+                earliestPosYearOfXingHTML +=  "onclick=\"recordTimeOfCrossing(" ; //YrOfXing, currRteMapYear, prevRteMapYear, nextRteMapYear, currRteMapFileNm, eraName
+                earliestPosYearOfXingHTML +=  eval(slider1.value) ;
+                earliestPosYearOfXingHTML +=  "," ;
+                earliestPosYearOfXingHTML +=  prevThisNextAvailMapYears[1] ;
+                earliestPosYearOfXingHTML +=  "," ;
+                earliestPosYearOfXingHTML +=  prevThisNextAvailMapYears[0] ; // prevAvailMapYr
+                earliestPosYearOfXingHTML +=  "," ;
+                earliestPosYearOfXingHTML +=  prevThisNextAvailMapYears[2] ; // nextAvailMapYr
+                earliestPosYearOfXingHTML +=  "," ;
+                earliestPosYearOfXingHTML +=  "\'" ; //"\'EraOfTheSteamSailShip(1840-1915)\'" ;
+                earliestPosYearOfXingHTML +=  currEra ;
+                earliestPosYearOfXingHTML +=  "\'" ;
+                earliestPosYearOfXingHTML +=  ")\"" ;
+                earliestPosYearOfXingHTML +=  ">" ;
+                earliestPosYearOfXingHTML +=  selectIntervalPrompt ; //"Click here to select your year" ;
+                earliestPosYearOfXingHTML +=  "</button>" ;
+                //earliestPosYearOfXingHTML +=  "</span>" ;
+            //document.write(earliestPosYearOfXingHTML) ;
+    //        doneButton.innerHTML = earliestPosYearOfXingHTML;
+            // ### might want to reorganize all the updates into one place ###
+            doneButton2.innerHTML = earliestPosYearOfXingHTML;
+            RegisterYearChange(this.value) ;
+        } ; // end "slider1.oninput = function()..."
+    
+        // track the user interaction...
+        var lastPosYrOfXingOutput = document.getElementById("latestYrOfXing") ;
+        var latestEraOutput = document.getElementById("latestEra");
+    /* ### check ###
+        
+        var currEra ;
+        var currEraIndex ;
+    
+        var yearOfXingHTML ;
+        var yearOfXingString ;
+        var prevThisNextAvailMapYears ;
+        var earliestPosYearOfXingHTML ;
+     * 
+     */
+        var slider2 = document.getElementById("highRange");
+    //    slider2.value = slider1.value ;
+    //    slider2.value = 2019 ;
+        if (slider2.value<slider1.value) {
+            slider2.value = slider1.value ;
+        }
+        var slider2Iteration = 0 ;
+        lastPosYrOfXingOutput.innerHTML = slider2.value; 
+        console.log("Before slider2.oninput fn >>this.value=="+this.value+" lastPosYrOfXingOutput=="+lastPosYrOfXingOutput+" lastPosYrOfXingOutput.innerHTML=="+lastPosYrOfXingOutput.innerHTML);
+        backgroundImage.innerHTML = "<div>"+moveDisplayEraRoutesOnAntiqueMap(lastPosYrOfXingOutput.innerHTML, slider2Iteration, true)+"</div>";
+        slider2.oninput = function() { 
+            currentSlider = "slider2" ;
+            slider2Iteration+=1;
+            var prevEraMatch = 0; 
+            for (eraIndex=0; eraIndex<erasArray.length; eraIndex++) {
+                if (slider2.value>=eraStartArray[eraIndex] & slider2.value<=eraEndArray[eraIndex]) {
+                    currEraIndex = eraIndex; // ### note that will be working with the more recent of overlapping eras
+                    currEra = erasArray[currEraIndex];
+                    if (prevEraMatch==0) {
+                        prevEraMatch++ ;
+                        eraMatchString = erasArray[eraIndex] ;
+                    }
+                    else { 
+                        eraMatchString = eraMatchString+" and "+currEra ; 
+                    }
+                }
+            }
+            if (this.value<slider1.value) {
+                this.value=slider1.value ;
+            }
+            else {
+    //            localStorage.setItem("LatestPossibleYearOfCrossing", this.value) ;        
+    //            routeImageDisplayStr = moveDisplayEraRoutesOnAntiqueMap(this.value, slider2Iteration, true) ;    
+    if(false&&this.value!=slider1.value) {
+        alert("this.value=="+this.value+"!=slider1.value=="+slider1.value) ;
+    }
+            localStorage.setItem("LatestPossibleYearOfCrossing", slider2.value) ;        
+            routeImageDisplayStr = moveDisplayEraRoutesOnAntiqueMap(slider2.value, slider2Iteration, true) ;    
+                //    backgroundImage.innerHTML = routeImageDisplayStr ;
+                backgroundImage.innerHTML = "<div>"+routeImageDisplayStr+"</div>";
+                lastPosYrOfXingOutput.innerHTML = this.value ; 
+    //            latestEraOutput.innerHTML = eraMatchString ; // +" region="+currRegionAbbrev;
+                console.log("After: >>this.value=="+this.value+" lastPosYrOfXingOutput=="+lastPosYrOfXingOutput+" lastPosYrOfXingOutput.innerHTML=="+lastPosYrOfXingOutput.innerHTML);
+            
+                // ### making this anew every time since otherwise slider2.value is just taken at the first pass and is always 1907...  no other way? ###
+                //<button onclick="specifyTimeInterval()">Click here if not sure of the year of crossing</button>
+                var yearOfXingHTML  =  document.getElementById("latestYrOfXing") ;
+                var yearOfXingString  =  document.getElementById("latestYrOfXing").innerText ;
+                var prevThisNextAvailMapYears = prevThisNextMapYears(Number(yearOfXingString)) ;
+                console.log("Script: value of document.getElementById(\"latestYrOfXing\")==yearOfXingHTML is "+document.getElementById("latestYrOfXing")) ;
+                console.log("Script: value of yearOfXingHTML.innerText=yearOfXingString is "+yearOfXingString) ;
+                //<button onclick='recordTimeOfCrossing(1600,2016,"EraOfTheSteamSailShip(1840-1915)")'>Click here if done</button>
+                //var earliestPosYearOfXingHTML  =  "<span style=\"float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;\">" ;
+                if (localStorage.EarliestPossibleYearOfCrossing==localStorage.LatestPossibleYearOfCrossing) {
+                    selectIntervalPrompt  = 'Click here to accept ' ;
+                    selectIntervalPrompt += localStorage.EarliestPossibleYearOfCrossing ;
+                    selectIntervalPrompt += ' as the known year of the crossing' ;
+                }
+                else if (false){
+                    selectIntervalPrompt  = 'Click to accept [' ;
+                    selectIntervalPrompt += localStorage.EarliestPossibleYearOfCrossing ;
+                    selectIntervalPrompt += '-' ;
+                    selectIntervalPrompt += localStorage.LatestPossibleYearOfCrossing ;
+                    selectIntervalPrompt += ']' ;
+                    selectIntervalPrompt += ' as the earliest and latest possible years of the crossing' ;                                       
+                }
+                else {
+                    selectIntervalPrompt  = 'Continue to "Country of Origin"' ;                                       
+                }
+                var latestPosYearOfXingHTML  =  "<button " ;
+                    latestPosYearOfXingHTML +=  "onclick=\"recordTimeOfCrossing(" ; //YrOfXing, currRteMapYear, prevRteMapYear, nextRteMapYear, currRteMapFileNm, eraName
+                    latestPosYearOfXingHTML +=  eval(slider2.value) ;
+                    latestPosYearOfXingHTML +=  "," ;
+                    latestPosYearOfXingHTML +=  prevThisNextAvailMapYears[1] ;
+                    latestPosYearOfXingHTML +=  "," ;
+                    latestPosYearOfXingHTML +=  prevThisNextAvailMapYears[0] ; // prevAvailMapYr
+                    latestPosYearOfXingHTML +=  "," ;
+                    latestPosYearOfXingHTML +=  prevThisNextAvailMapYears[2] ; // nextAvailMapYr
+                    latestPosYearOfXingHTML +=  "," ;
+                    latestPosYearOfXingHTML +=  "\'" ; //"\'EraOfTheSteamSailShip(1840-1915)\'" ;
+                    latestPosYearOfXingHTML +=  currEra ;
+                    latestPosYearOfXingHTML +=  "\'" ;
+                    latestPosYearOfXingHTML +=  ")\"" ;
+                    latestPosYearOfXingHTML +=  ">" ;
+                    latestPosYearOfXingHTML +=  selectIntervalPrompt ; //"Click here to select your year" ;
+                    latestPosYearOfXingHTML +=  "</button>" ;
+                    //latestPosYearOfXingHTML +=  "</span>" ;
+                //document.write(latestPosYearOfXingHTML) ;
+                doneButton2.innerHTML = latestPosYearOfXingHTML;
+            } ;
+            // ### might want to reorganize all the updates into one place ###
+            RegisterYearChange(this.value) ;
+         }  ;// end "slider2.oninput = function()..."
+    
+    function moveDisplayEraRoutesOnAntiqueMap(Yr, routeImageDisplayIteration, animate) {
+        if (Yr === undefined) {
+              Yr = 1907;
+        } 
+        if (routeImageDisplayIteration === undefined) {
+              routeImageDisplayIteration = 1;
+        } 
+        // if turning animation off, make it like the first iteration every time
+        // ### turn animation off for now ###
+        animate = false; 
+        if (!animate) {
+              routeImageDisplayIteration = 0;
+        } 
+        var routeImageStyleStr ;
+            // ### BEWARE: nice trick to keep text from appearing over-written, but downstream consequences?  ###
+            // ### but in any case, doesn't work :( ###
+            placementImgZIndex =  5 ; //placementImgZIndex+2 ;
+            placementTxtZIndex = 10 ; //placementImgZIndex+1 ;
+    
+        // This part makes the route maps line up on the right places on the background map
+        /* e.g., https://cdn.shopify.com/s/files/1/1336/0641/files/1840-Routes-EuM.png?10745133832325765683 
+         vs      https://cdn.shopify.com/s/files/1/1336/0641/files/1855-Routes-EuM.png
+         */
+    
+        currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+        var prevThisNextAvailMapYears = prevThisNextMapYears(Yr) ;  //### duplicate? ###
+        shopifyPrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+        shopifyImgSizePostfix = "_256x256" ;
+        currMapFile = shopifyPrefix + prevThisNextAvailMapYears[1]+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+        routeImageDisplayStr = "<img src="; 
+        routeImageDisplayStr += "\""+currMapFile+"\""; 
+        //routeImageDisplayStr += "\"https://cdn.shopify.com/s/files/1/1336/0641/files/1855-Routes-EuM.png\""; 
+        
+        routeImageDisplayStr += " alt=\"Timeline: Current Map ("+currMapFile+")\"";
+        if (routeImageDisplayIteration > 0) {
+            /*
+            ###Original:###
+            routeImageDisplayStr += " style=\"position: absolute; top: 30px; left: 510px; width: 165px; height 120px; border: 2px solid red;\""; 
+            ###Designed for antique background map:###
+            routeImageDisplayStr += " style=\"position: absolute; top: 30px; left: 275px; width: 375px; height 200px; border: 2px solid red;\""; 
+            ###TopLeft-aligned:###
+            routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 375px; height 200px; border: 2px solid red;\""; 
+             */
+            //re-jigger so that the final image is more like 600x600 vs 256x256
+            placementTop = 50;
+            placementLeft = 40;
+            placementWidth = 650; // 1.75*400
+            placementHeight = 350; // 1.75*400
+            placementBorder = 3;
+            placementLineStyle = "solid";
+            placementLineColor = "red";
+            placementImgOverwrite = placementImgZIndex+1 ;
+    
+            routeImageStyleStr = " style=\"position: absolute; ";
+            routeImageStyleStr += "top: "+ placementTop +"px; ";
+            routeImageStyleStr += "left: "+ placementLeft +"px; ";
+            routeImageStyleStr += "width: "+ placementWidth +"px; ";
+            routeImageStyleStr += "height: "+ placementHeight +"px; ";
+            routeImageStyleStr += "border: "+ placementBorder +"px; ";
+            routeImageStyleStr += placementLineStyle +" ";
+            routeImageStyleStr += placementLineColor +"; ";
+            routeImageStyleStr += "z-index: "+ placementImgOverwrite +"; ";
+        
+            routeImageStyleStr += "\""; 
+        
+            routeImageDisplayStr += routeImageStyleStr ;
+            routeImageDisplayStr += ">"; 
+    
+            console.log("moveDisplayEraImageOnAntiqueMap(Yr=="+Yr+",Iteration=="+routeImageDisplayIteration+")>> placementTop=="+placementTop+" placementLeft=="+placementLeft);
+            console.log("currMapFile=="+currMapFile+",placementImgOverwrite=="+placementImgOverwrite);
+        
+        }
+        else {
+            if (currRegionAbbrev=="EuM") {
+                /*
+                ###Original:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 30px; left: 510px; width: 165px; height 120px; border: 2px solid red;\""; 
+                ###Designed for antique background map:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 30px; left: 275px; width: 375px; height 200px; border: 2px solid red;\""; 
+                ###TopLeft-aligned:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 375px; height 200px; border: 2px solid red;\""; 
+                 */
+                placementTop = 30;
+                placementLeft = 275;
+                placementWidth = 375;
+                placementHeight = 200;
+                placementBorder = 3;
+                placementLineStyle = "solid";
+                placementLineColor = "red";
+            }
+            else if (currRegionAbbrev=="Afr") {
+                /*
+                ###Original:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 160px; left: 490px; width: 185px; height 170px; border: 3px solid green;\""; 
+                ###Designed for antique background map:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 100px; left: 300px; width: 400px; height 200px; border: 3px solid green;\""; 
+                ###TopLeft-aligned:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 400px; height 200px; border: 3px solid green;\""; 
+                */
+                placementTop = 100;
+                placementLeft = 300;
+                placementWidth = 400;
+                placementHeight = 200;
+                placementBorder = 3;
+                placementLineStyle = "solid";
+                placementLineColor = "green";
+            }
+            else if (currRegionAbbrev=="Pac") {
+                /*
+                ###Original:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 100px; left: 0px; width: 200px; height 200px; border: 2px solid orange;\""; 
+                ###Designed for antique background map:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 100px; left: 0px; width: 400px; height 200px; border: 2px solid orange;\""; 
+                ###TopLeft-aligned:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 400px; height 200px; border: 2px solid orange;\""; 
+                */
+                placementTop = 100;
+                placementLeft = 0;
+                placementWidth = 400;
+                placementHeight = 200;
+                placementBorder = 2;
+                placementLineStyle = "solid";
+                placementLineColor = "orange";
+            }
+            else if (currRegionAbbrev=="SoA") {
+                /*
+                ###Original:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 80px; left: 680px; width: 180px; height 160px; border: 2px solid blue;\""; 
+                ###Designed for antique background map:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 100px; left: 700px; width: 400px; height 200px; border: 2px solid blue;\""; 
+                ###TopLeft-aligned:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 400px; height 200px; border: 2px solid blue;\""; 
+                */
+                placementTop = 100;
+                placementLeft = 700;
+                placementWidth = 400;
+                placementHeight = 200;
+                placementBorder = 2;
+                placementLineStyle = "solid";
+                placementLineColor = "blue";
+            }
+            else if (currRegionAbbrev=="SAm") {
+                /*
+                ###Original:###
+                 routeImageDisplayStr += " style=\"position: absolute; top: 150px; left: 220px; width: 260px; height 230px; border: 3px solid purple;\""; 
+                ###Designed for antique background map:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 125px; left: 175px; width: 400px; height 200px; border: 3px solid purple;\""; 
+                ###TopLeft-aligned:###
+                routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 400px; height 200px; border: 3px solid purple;\""; 
+                */
+                placementTop = 125;
+                placementLeft = 175;
+                placementWidth = 400;
+                placementHeight = 200;
+                placementBorder = 3;
+                placementLineStyle = "solid";
+                placementLineColor = "purple";
+            }
+            else { // default = EuM
+                placementTop = 30;
+                placementLeft = 275;
+                placementWidth = 375;
+                placementHeight = 200;
+                placementBorder = 3;
+                placementLineStyle = "solid";
+                placementLineColor = "red";
+            }
+        
+            routeImageStyleStr = " style=\"position: absolute; ";
+            routeImageStyleStr += "top: "+ placementTop +"px; ";
+            routeImageStyleStr += "left: "+ placementLeft +"px; ";
+            routeImageStyleStr += "width: "+ placementWidth +"px; ";
+            routeImageStyleStr += "height: "+ placementHeight +"px; ";
+            routeImageStyleStr += "border: "+ placementBorder +"px; ";
+            routeImageStyleStr += placementLineStyle +" ";
+            routeImageStyleStr += placementLineColor +"; ";
+            routeImageStyleStr += "z-index: "+ placementImgZIndex +"; ";
+        
+            routeImageStyleStr += "-webkit-animation: mymove 4s; "; /* Safari 4.0 - 8.0 */
+            routeImageStyleStr += "-webkit-animation-fill-mode: forwards; "; /* Safari 4.0 - 8.0 */
+            routeImageStyleStr += "animation: mymove 4s; "; 
+            routeImageStyleStr += "animation-fill-mode: forwards; "; 
+        
+            routeImageStyleStr += "\""; 
+        
+            routeImageDisplayStr += routeImageStyleStr ;
+            routeImageDisplayStr += ">"; 
+        
+            var targetPlacementTop = 125;
+            var targetPlacementLeft = 175;
+            // var targetPlacementWidth = 400; not used
+            // var targetPlacementHeight = 200; not used
+            var targetScaleFactorX = 1.75 ;
+            var targetScaleFactorY = 1.75 ;
+            
+            /* ### taking the moving/growing map feature out for now... ### */
+            if (!animate) {
+                targetPlacementTop = placementTop;
+                targetPlacementLeft = placementLeft;
+                targetScaleFactorX = 1.0 ;
+                targetScaleFactorY = 1.0 ;            
+            }
+        
+            var animationStyleStr  = "<style>" ; /* Safari 4.0 - 8.0 */
+                animationStyleStr += "@-webkit-keyframes mymove {" ;
+    //            animationStyleStr += "from {top: "+placementTop+"px; left:"+placementLeft+"px; transfrom: rotate(0deg);} " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+    //            animationStyleStr += "to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px; transfrom: rotate(360deg);}" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                animationStyleStr += "from {top: "+placementTop+"px; left:"+placementLeft+"px; } " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+                animationStyleStr += "to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px; }" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                animationStyleStr += "from {transfrom: scale(1,1);} " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+                animationStyleStr += "to {transform: scale("+targetScaleFactorX+","+targetScaleFactorY+");}" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                //animationStyleStr += "-webkit-animation-duration: 4s;" ;
+                animationStyleStr += "-webkit-animation-timing-function: linear;" ;
+                animationStyleStr += "-webkit-animation-fill-mode: both;" ;
+                animationStyleStr += "}" ;
+     
+                animationStyleStr += "@keyframes mymove {" ;
+    //            animationStyleStr += "from {top: "+placementTop+"px; left:"+placementLeft+"px; transfrom: rotate(0deg);} " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+    //            animationStyleStr += "to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px; transfrom: rotate(360deg);}" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                animationStyleStr += "from {top: "+placementTop+"px; left:"+placementLeft+"px; } " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+                animationStyleStr += "to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px; }" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                animationStyleStr += "from {transfrom: scale(1,1);} " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+                animationStyleStr += "to {transform: scale("+targetScaleFactorX+","+targetScaleFactorY+");}" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                //animationStyleStr += "animation-duration: 4s;" ;
+                animationStyleStr += "animation-timing-function: linear;" ;
+                animationStyleStr += "animation-fill-mode: both;" ; 
+                animationStyleStr += "}" ;
+                animationStyleStr += "</style>" ;
+                
+            console.log("Initial moveDisplayEraImageOnAntiqueMap(Yr=="+Yr+",Iteration=="+routeImageDisplayIteration+")>> placementTop=="+placementTop+" placementLeft=="+placementLeft);
+            console.log("currMapFile=="+currMapFile+", placementImgZIndex=="+placementImgZIndex);
+        }
+    
+        var routeImageTextStr = "";
+        if(currentSlider=="slider1") {
+            routeImageTextStr = displayEraTextOnAntiqueMap(Yr) ;
+            document.getElementById("Year").value = 'Departure Year: '+Yr ;
+        }
+        else if(currentSlider=="slider2"){
+            routeImageTextStr = displayEraTextOnAntiqueMap(Yr) ;
+            document.getElementById("Year").value = 'Arrival Year: '+Yr ;
+        }
+        else if (Yr) {
+            routeImageTextStr = displayEraTextOnAntiqueMap(Yr) ;
+            document.getElementById("Year").value = 'Arrival Year: '+Yr ;
+        }
+        //document.getElementById("TitleTextBoxLine1").value = localStorage.TitleLine1 ;
+        //document.getElementById("TitleTextBoxLine2").value = localStorage.TitleLine2 ;
+        //document.getElementById("TitleTextBoxLine3").value = localStorage.TitleLine3 ;
+        return routeImageDisplayStr + animationStyleStr + routeImageTextStr ;    
+    }
+    
+    function displayEraTextOnAntiqueMap(newXingYrValue) {
+        var textOffsetFromTop = placementTop + 180 ; // ### would like this to align with map height
+        var routeImageTextStr = "" ;
+        var describeYearModeTxt = "" ; ;
+            if (settingLowerDate) {
+                //describeYearModeTxt = "Main Routes in Departure (or Earliest-Possible) Year: " ;
+                describeYearModeTxt = "Main Routes in Year " + newXingYrValue;
+            }
+            else {
+                //describeYearModeTxt = "Main Routes in Arrival (or Latest-Possible) Year: " ;
+                describeYearModeTxt = "Main Routes in Year "  + newXingYrValue;
+            }
+            routeImageTextStr += "<div ";
+            routeImageTextStr += "style=\"position: absolute; ";
+    //        routeImageTextStr += "top: "+ placementTop +"px; ";
+            routeImageTextStr += "top: "+ textOffsetFromTop +"px; ";
+            routeImageTextStr += "left: "+ placementLeft +"px; ";
+            routeImageTextStr += "width: "+ placementWidth +"px; ";
+            routeImageTextStr += "height: "+ placementHeight +"px; ";
+            routeImageTextStr += "font-size: large;";
+    //        routeImageTextStr += "background-color: Cornsilk;";
+            routeImageTextStr += "z-index: "+ placementTxtZIndex +"; ";
+            routeImageTextStr += "\""; 
+            routeImageTextStr += ">"; 
+            routeImageTextStr += "<mark style=\"background-color: Cornsilk;\">"; 
+            routeImageTextStr += describeYearModeTxt ; 
+            routeImageTextStr += "</mark>"; 
+            routeImageTextStr += "</div>"; 
+        console.log("displayEraTextOnAntiqueMap(newXingYrValue=="+newXingYrValue+")>> placementTop=="+placementTop+" placementLeft=="+placementLeft);
+        return routeImageTextStr ;
+    }
+    
+    
+    function specifyYearOfCrossing() {
+    
+    }
+    
+    function prevThisNextMapYears(currTimelineYear) {
+        var NextMapYear ;
+        if      (Number(currTimelineYear)<=1600) { return [1600,1600,1675] ; }
+        else if (Number(currTimelineYear)<=1675) { return [1600,1675,1700] ; }
+        else if (Number(currTimelineYear)<=1700) { return [1675,1700,1725] ; }
+        else if (Number(currTimelineYear)<=1725) { return [1700,1725,1750] ; }
+        else if (Number(currTimelineYear)<=1750) { return [1725,1750,1784] ; }
+        else if (Number(currTimelineYear)<=1784) { return [1750,1784,1800] ; }
+        else if (Number(currTimelineYear)<=1800) { return [1784,1800,1815] ; }
+        else if (Number(currTimelineYear)<=1815) { return [1800,1815,1825] ; }
+        else if (Number(currTimelineYear)<=1825) { return [1815,1825,1835] ; }
+        else if (Number(currTimelineYear)<=1835) { return [1825,1835,1840] ; }
+        else if (Number(currTimelineYear)<=1840) { return [1835,1840,1845] ; }
+        else if (Number(currTimelineYear)<=1845) { return [1840,1845,1850] ; }
+        else if (Number(currTimelineYear)<=1850) { return [1845,1850,1855] ; }
+        else if (Number(currTimelineYear)<=1855) { return [1850,1855,1860] ; }
+        else if (Number(currTimelineYear)<=1860) { return [1855,1860,1865] ; }
+        else if (Number(currTimelineYear)<=1865) { return [1860,1865,1870] ; }
+        else if (Number(currTimelineYear)<=1870) { return [1865,1870,1875] ; }
+        else if (Number(currTimelineYear)<=1875) { return [1870,1875,1880] ; }
+        else if (Number(currTimelineYear)<=1880) { return [1875,1880,1885] ; }
+        else if (Number(currTimelineYear)<=1885) { return [1880,1885,1890] ; }
+        else if (Number(currTimelineYear)<=1890) { return [1885,1890,1895] ; }
+        else if (Number(currTimelineYear)<=1895) { return [1890,1895,1900] ; }
+        else if (Number(currTimelineYear)<=1900) { return [1895,1900,1905] ; }
+        else if (Number(currTimelineYear)<=1905) { return [1900,1905,1910] ; }
+        else if (Number(currTimelineYear)<=1910) { return [1905,1910,1914] ; }
+        else if (Number(currTimelineYear)<=1914) { return [1910,1914,1919] ; }
+        else if (Number(currTimelineYear)<=1919) { return [1914,1919,1923] ; }
+        else if (Number(currTimelineYear)<=1923) { return [1919,1923,1938] ; }
+        else if (Number(currTimelineYear)<=1938) { return [1923,1938,1946] ; }
+        else if (Number(currTimelineYear)<=1946) { return [1938,1946,1950] ; }
+        else if (Number(currTimelineYear)<=1950) { return [1946,1950,1960] ; }
+        else if (Number(currTimelineYear)<=1960) { return [1950,1960,1960] ; }
+        else if (Number(currTimelineYear)<=1970) { return [1960,1970,1980] ; }
+        else if (Number(currTimelineYear)<=1980) { return [1970,1980,1990] ; }
+        else if (Number(currTimelineYear)<=1990) { return [1980,1990,2000] ; }
+        else if (Number(currTimelineYear)<=2000) { return [1990,2000,2010] ; }
+        else if (Number(currTimelineYear)<=2010) { return [2000,2010,2016] ; }
+        else if (Number(currTimelineYear)<=2016) { return [2010,2016,2016] ; }
+        else if (currTimelineYear=="Present") { return [2010,2016,2016] ; }
+        else { return [2010,2016,2016] ; }
+    }
+    
+    function specifyTimeInterval(startYear) {
+        /*
+        alert("4b:RecordEraOfCrossingChoice: " ) ;
+        alert("4b:RecordEraOfCrossingChoice: regionName=="+eraName ) ;
+        alert("4b:RecordEraOfCrossingChoice: regionIndex=="+eraIndex ) ;
+        alert("4b:RecordEraOfCrossingChoice: eraEndArray=="+eraEndArray[eraIndex] ) ;
+    // ###?###        alert("4b:RecordEraOfCrossingChoice: eraImageFileNm=="+eraImageFileNm ) ;
+    
+        localStorage.setItem("Era", eraName) ;
+        localStorage.setItem("EraAbbrev", eraAbbrevs[eraIndex]) ;
+        localStorage.setItem("CommemorationTimePeriodStart", startYear);
+        localStorage.setItem("CommemorationTimePeriodEnd", eraEndArray[eraIndex]) ;
+        localStorage.setItem("CommemorationTimePeriodReprYr", eraRepresentativeYearArray[eraIndex]) ;
+    // ###?###       localStorage.setItem("EraImageFileName", eraImageFileNm) ;
+         */
+        console.log("specifyTimeInterval(startYear=="+startYear+")" ) ;
+    }
+    // ]]></script>
+    <script>// <![CDATA[
+    function recordTimeOfCrossing(YearOfCrossing, currRteMapYear, prevRteMapYear, nextRteMapYear, currRteMapFileNm, eraName) {
+            /*
+            erasArray = [ "ColonialAndEarlyIndependenceEra(1607-1840)", "EraOfTheSteamSailShip(1840-1915)", "EraOfThePassengerLiner(1895-1970)", "EraOfAirTravel(1945-Present)"] ; 
+            eraAbbrevs = [ "Early", "StmSl", "Liner", "AirTr"] ; 
+            eraStartArray = [ 1607, 1840, 1895, 1945] ;
+            eraEndArray = [ 1840, 1915, 1970, 2100] ;
+            eraRepresentativeYearArray = [ 1720, 1870, 1910, 2016] ; 
+             */
+    
+            /* if YearOfCrossing is between start of Age of Air Travel and end of Age of the Passenger Liner... */
+            //alert("eraStartArray[3]=="+eraStartArray[3]+"<=?YearOfCrossing=="+YearOfCrossing+"<=?eraEndArray[2]=="+eraEndArray[2]+">>"+eval(eraStartArray[3]<=YearOfCrossing && YearOfCrossing<=eraEndArray[2])) ;
+            //if (eraStartArray[3]<=YearOfCrossing && YearOfCrossing<=eraEndArray[2]) {
+            /* if both the Earliest and Latets YearOfCrossing are after the start of the Age of Air Travel and end of Age of the Passenger Liner... */
+            //alert("eraStartArray[3]=="+eraStartArray[3]+"<=?YearOfCrossing=="+YearOfCrossing+"<=?eraEndArray[2]=="+eraEndArray[2]+">>"+eval(eraStartArray[3]<=YearOfCrossing && YearOfCrossing<=eraEndArray[2])) ;
+            if (eraStartArray[3]<=YearOfCrossing && YearOfCrossing<=eraEndArray[2]) {
+                if (confirm("Ship trip? (\"Cancel\" makes this a plane trip)")) {
+                    // ### need to find the related localStorage, update, and test for it here so don't repeat the question ###
+                    eraIndex=2 ;
+                }
+                else {
+                    eraIndex=3 ;
+                }
+            }
+            else if (YearOfCrossing<=eraEndArray[0]) {
+                eraIndex = 0;
+            }
+            else if (YearOfCrossing<=eraEndArray[1]) {
+                eraIndex = 1;
+            }
+            else if (YearOfCrossing<=eraEndArray[2]) {
+                eraIndex = 2;
+            }
+            else {
+                eraIndex = 3;
+            }
+    
+            //localStorage.TitleLine1 = document.getElementById("titleTextBoxL1").value ; //### this doesn't pick out the text value ###
+            //localStorage.TitleLine2 = document.getElementById("titleTextBoxL2").value  ;
+            //localStorage.TitleLine3 = document.getElementById("titleTextBoxL3").value ;
+    
+            // done: localStorage.setItem("LatestPossibleYearOfCrossing", YearOfCrossing) ;        
+            localStorage.setItem("YearOfCrossing", Math.round(.5+(Number(localStorage.EarliestPossibleYearOfCrossing)+Number(localStorage.LatestPossibleYearOfCrossing))/2)) ;
+    
+            localStorage.setItem("currRteMapFile", currRteMapFileNm) ;
+            localStorage.setItem("currRteMapYear", currRteMapYear) ;
+            localStorage.setItem("prevRteMapYear", prevRteMapYear) ;
+            localStorage.setItem("nextMapYear", nextRteMapYear) ;
+            
+            localStorage.setItem("Era", erasArray[eraIndex]) ;
+            localStorage.setItem("EraAbbrev", eraAbbrevs[eraIndex]) ;
+            localStorage.setItem("CommemorationTimePeriodStart", eraStartArray[eraIndex]) ;
+            localStorage.setItem("CommemorationTimePeriodEnd", eraEndArray[eraIndex]) ;
+            localStorage.setItem("CommemorationTimePeriodReprYr", eraRepresentativeYearArray[eraIndex]) ;
+    //  ###?###      localStorage.setItem("EraImageFileName", eraImageFileNm) ;
+        window.location.assign(nextPage) ;
+    }
+    // ]]></script>
+    <script>// <![CDATA[
+    function RegisterYearChange(Yr) {
+        if(currentSlider=="slider1") {
+            settingLowerDate = true ;
+            lowerYear = Yr;
+            localStorage.EarliestPossibleYearOfCrossing = lowerYear ;
+            document.getElementById("Year").value = 'Departure Year: '+lowerYear ;
+        }
+        else if(currentSlider=="slider2"){
+            settingLowerDate = false ;
+            higherYear = Yr;
+            localStorage.LatestPossibleYearOfCrossing = higherYear ;
+            document.getElementById("Year").value = 'Arrival Year: '+higherYear ;
+        }
+        updateTitleTextBoxLine2() ;
+    }
+    
+    function updateSeasonChoice(selectedSeason) {
+        // slider1 is the lowerDate, slider2 is the upperDate
+        if(settingLowerDate) {
+            lowerSeason = selectedSeason ;
+        }
+        else {
+            higherSeason = selectedSeason ;
+        }
+        document.getElementById("Season").value = selectedSeason ;
+        updateTitleTextBoxLine2() ;
+        ChangeSeasonMonthsList(settingLowerDate) ;
+    }
+    
+    function updateMonthChoice(selectedMonth) {
+        if(settingLowerDate) {
+            lowerMonth = selectedMonth;
+        }
+        else {
+            higherMonth = selectedMonth;
+        }
+        document.getElementById("Month").value = selectedMonth ;
+        updateTitleTextBoxLine2() ;
+        ChangeMonthDaysList(settingLowerDate) ;
+    }
+    
+    function RegisterDayChange(selectedDay) {
+        if(settingLowerDate) {
+            lowerDay = selectedDay;
+        }
+        else {
+            higherDay = selectedDay;
+        }
+        document.getElementById("Day").value = selectedDay ;
+        updateTitleTextBoxLine2() ;
+    }
+    
+    function updateTitleTextBoxLine2() {
+        // titleTextBoxL2
+        // the getElementByID.values are all strings
+        var TitleLine2Day = document.getElementById("Day").value ;
+        var TitleLine2Month = document.getElementById("Month").value ;
+        var TitleLine2Season = document.getElementById("Season").value ;
+        var TitleLine2Year = document.getElementById("Year").value ; // note: will be "Departure Year: <yr>" or "Arrival Year: <yr>"
+    
+        var TitleLine2DayStr = "" ;
+        var TitleLine2YearStr = "" ;
+        var TitleLine2MonthStr = "" ;
+        var TitleLine2SeasonStr = "" ;
+        
+        var earlierYear = lowerYear ; //localStorage.EarliestPossibleYearOfCrossing ;
+        var laterYear = higherYear ; //localStorage.LatestPossibleYearOfCrossing ;
+    
+        var newTitleTextBoxLine2 = "" ;
+    
+        if(!TitleLine2Day | (TitleLine2Day==='Unk') | (TitleLine2Day==='Unknown')) TitleLine2Day = "" ;
+        if(!TitleLine2Month | (TitleLine2Month==='Unk') | (TitleLine2Month==='Unknown')) TitleLine2Month = "" ;
+        if(!TitleLine2Season | (TitleLine2Season==='Unk') | (TitleLine2Season==='Unknown')) TitleLine2Season = "" ;
+        if(!TitleLine2Year | (TitleLine2Year==='Unk') | (TitleLine2Year==='Unknown')) TitleLine2Year = "" ;
+        // ### note inconsistency with 'Unk' vs 'unk' etc ###
+        if(!earlierYear | (earlierYear==='unk') | (earlierYear==='unknown')) earlierYear = "" ;
+        if(!laterYear | (laterYear==='unk') | (laterYear==='unknown')) laterYear = "" ;
+            
+        if(Number(TitleLine2Day)==1) TitleLine2DayStr=TitleLine2Day+"st" ;
+        else if(Number(TitleLine2Day)==2) TitleLine2DayStr=TitleLine2Day+"nd" ;
+        else if(Number(TitleLine2Day)==3) TitleLine2DayStr=TitleLine2Day+"rd" ;
+        else TitleLine2DayStr=TitleLine2Day+"th" ;
+    
+        console.log("TitleLine2Day=="+TitleLine2Day) ;  
+        console.log("TitleLine2Month=="+TitleLine2Month) ;  
+        console.log("TitleLine2Season=="+TitleLine2Season) ;  
+        console.log("TitleLine2Year=="+TitleLine2Year) ;  
+                    
+        if(TitleLine2Day) { // Day; 
+            if(TitleLine2Month) { // Day; Month; 
+                if(TitleLine2Season) { // Day; Month; Season; 
+                    if(TitleLine2Year) { // Day; Month; Season; LowerYear==Upper Year
+                        if (higherYear==lowerYear) { //dates likely to be known
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+", "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier
+                            newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day ;
+                            newTitleTextBoxLine2 += " in a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later
+                            newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day ;
+                            newTitleTextBoxLine2 += " in a year after "+laterYear ;
+                        }      
+                        else {  // both.  range of dates...
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" in either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" in a year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                    else { // ~[Year] ... so how can have lowerYear and higherYear? // Day; Month; Season; ~[LowerYear||Upper Year]
+                        if (higherYear==lowerYear) { // should be: neither date in this case
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" of the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day ;
+                            newTitleTextBoxLine2 += " in a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day ;
+                            newTitleTextBoxLine2 += " in a year after "+laterYear ;
+                        }      
+                        else {  // both.  range of dates...-- shouldn't happen
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" in either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" in a year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                }
+                else { // ~[Season]; 
+                    if(TitleLine2Year) { // Day; Month; Season; LowerYear==Upper Year
+                        if (higherYear==lowerYear) { //dates likely to be known
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" of the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier
+                            newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day ;
+                            newTitleTextBoxLine2 += " in a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later
+                            newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day ;
+                            newTitleTextBoxLine2 += " in a year after "+laterYear ;
+                        }      
+                        else {  // both.  range of dates...
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" in either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" in a year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                    else { // ~[Year] ... so how can have lowerYear and higherYear? // Day; Month; Season; ~[LowerYear||Upper Year]
+                        if (higherYear==lowerYear) { // should be: neither date in this case
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" of the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day ;
+                            newTitleTextBoxLine2 += " in a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day ;
+                            newTitleTextBoxLine2 += " in a year after "+laterYear ;
+                        }      
+                        else {  // both.  range of dates...-- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" in a year between "+earlierYear+" and "+laterYear ;
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" in either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived: "+TitleLine2Month+" "+TitleLine2Day+" in a year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                }
+            }
+    
+            else { // ~[Month]; 
+                if(TitleLine2Season) { // Day; ~[Month]; Season; 
+                    if(TitleLine2Year) { // Day; ~[Month]; Season; LowerYear==Upper Year
+                        if (higherYear==lowerYear) { //dates likely to be known
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier
+                            newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later
+                            newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year after "+laterYear ;
+                        }      
+                        else {  // both.  range of dates...
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                    else { // ~[Year] ... so how can have lowerYear and higherYear? // Day; Month; Season; ~[LowerYear||Upper Year]
+                        if (higherYear==lowerYear) { // should be: neither date in this case
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year after "+laterYear ;
+                        }      
+                        else {  // both.  range of dates...-- shouldn't happen
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                }
+                else { // ~[Season]; 
+                    if(TitleLine2Year) { // Day; Month; Season; LowerYear==Upper Year
+                        if (higherYear==lowerYear) { //dates likely to be known
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier
+                            newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later
+                            newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year after "+laterYear ;
+                        }      
+                        else {  // both.  range of dates...
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                    else { // ~[Year] ... so how can have lowerYear and higherYear? // Day; Month; Season; ~[LowerYear||Upper Year]
+                        if (higherYear==lowerYear) { // should be: neither date in this case
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year after "+laterYear ;
+                        }      
+                        else {  // both.  range of dates...-- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year between "+lowerYear+" and "+laterYear ;
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived on the "+TitleLine2DayStr+" day of an unknown month in a year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                }
+            }
+        }
+    
+        else { // ~[Day]; 
+            if(TitleLine2Month) { // Day; Month; 
+                if(TitleLine2Season) { // Day; Month; Season; 
+                    if(TitleLine2Year) { // Day; Month; Season; LowerYear==Upper Year
+                        if (higherYear==lowerYear) { //dates likely to be known
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier
+                            newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later
+                            newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of a year after "+earlierYear ;
+                        }      
+                        else {  // both.  range of dates...
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of some year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                    else { // ~[Year] ... so how can have lowerYear and higherYear? // Day; Month; Season; ~[LowerYear||Upper Year]
+                        if (higherYear==lowerYear) { // should be: neither date in this case
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of a year after "+earlierYear ;
+                        }      
+                        else {  // both.  range of dates...-- shouldn't happen
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of some year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                }
+                else { // ~[Season]; 
+                    if(TitleLine2Year) { // Day; Month; Season; LowerYear==Upper Year
+                        if (higherYear==lowerYear) { //dates likely to be known
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+"in the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier
+                            newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later
+                            newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of a year after "+earlierYear ;
+                        }      
+                        else {  // both.  range of dates...
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of some year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                    else { // ~[Year] ... so how can have lowerYear and higherYear? // Day; Month; Season; ~[LowerYear||Upper Year]
+                        if (higherYear==lowerYear) { // should be: neither date in this case
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+"of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+"in the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of a year before "+laterYear ;
+                        }
+                        else if (!laterYear) {  //earlier no later -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of a year after "+earlierYear ;
+                        }
+                        else {  // both.  range of dates...-- shouldn't happen
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in "+TitleLine2Month+" of some year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }
+                    }
+                }
+            }
+            else { // ~[Month]; 
+                if(TitleLine2Season) { // Day; ~[Month]; Season; 
+                    if(TitleLine2Year) { // Day; ~[Month]; Season; LowerYear==Upper Year
+                        if (higherYear==lowerYear) { //dates likely to be known
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier
+                            newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later
+                            newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of a year after "+earlierYear ;
+                        }      
+                        else {  // both.  range of dates...
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of a year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                    else { // ~[Year] ... so how can have lowerYear and higherYear? // Day; Month; Season; ~[LowerYear||Upper Year]
+                        if (higherYear==lowerYear) { // should be: neither date in this case
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of a year after "+earlierYear ;
+                        }      
+                        else {  // both.  range of dates...-- shouldn't happen
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in the "+TitleLine2Season+" of a year between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                }
+                else { // ~[Season]; 
+                    if(TitleLine2Year) { // Day; Month; Season; LowerYear==Upper Year
+                        if (higherYear==lowerYear) { //dates likely to be known
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived on an unknown date" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier
+                            newTitleTextBoxLine2 += "Arrived in a year before "+laterYear ;
+                        }      
+                        else if (!laterYear) {  //earlier no later
+                            newTitleTextBoxLine2 += "Arrived in a year after "+earlierYear ;
+                        }      
+                        else {  // both.  range of dates...
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived in either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in between "+earlierYear+" and "+laterYear ;
+                            }
+                        }      
+                    }
+                    else { // ~[Year] ... so how can have lowerYear and higherYear? // Day; Month; Season; ~[LowerYear||Upper Year]
+                        if (higherYear==lowerYear) { // should be: neither date in this case
+                            if (!earlierYear & !laterYear) {
+                                newTitleTextBoxLine2 += "Arrived in an unknown year" ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived in the year "+laterYear ;
+                            }
+                        }
+                        else if (!earlierYear) {  //later no earlier -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived in a year before "+laterYear ;
+                        }
+                        else if (!laterYear) {  //earlier no later -- shouldn't happen
+                            newTitleTextBoxLine2 += "Arrived in a year after "+earlierYear ;
+                        }
+                        else {  // both.  range of dates...-- shouldn't happen
+                            if ( Number(higherYear)==Number(lowerYear)+1 ) { // if just a one year interval
+                                newTitleTextBoxLine2 += "Arrived in either "+earlierYear+" or "+laterYear ;
+                            }
+                            else {
+                                newTitleTextBoxLine2 += "Arrived between "+earlierYear+" and "+laterYear ;
+                            }
+                        }
+                    }
+                }
+            }
+        }  //if(TitleLine2Day)
+        
+        if (!newTitleTextBoxLine2) {
+            newTitleTextBoxLine2 = "Arrived in an unknown year"
+        }
+        //document.getElementById("TitleTextBoxLine2").value = newTitleTextBoxLine2 ;
+        document.getElementById("titleTextBoxL2").innerHTML = newTitleTextBoxLine2 ;
+        localStorage.TitleLine2 = newTitleTextBoxLine2 ;
+        console.log("updateTitleTextBoxLine2(): newTitleTextBoxLine2=="+newTitleTextBoxLine2) ;
+    }
+    
+    function oldUpdateTitleTextBoxLine2() {
+        // titleTextBoxL2
+        var newTitleTextBoxLine2 = "Between " ;
+        if (higherYear==lowerYear) { //dates likely to be known
+            if (lowerYear==='unk') {
+                newTitleTextBoxLine2 = 'At an Unknown Time' ;
+            }
+            newTitleTextBoxLine2 = 'From '+earlierYear+' to '+laterYear ;
+        }
+        else {
+            // earliest
+            if (lowerYear==='unk') {
+                newTitleTextBoxLine2 += 'the earliest crossings ' ;
+                console.log("updateTitleTextBoxLine1: newTitleTextBoxLine2=="+newTitleTextBoxLine2) ;
+            }
+            else {
+                newTitleTextBoxLine2 += lowerYear+' ' ;
+                console.log("updateTitleTextBoxLine2: newTitleTextBoxLine2=="+newTitleTextBoxLine2) ;
+            }
+            // latest
+            newTitleTextBoxLine2 += 'and ' ;
+            if (higherYear==='unk') {
+                newTitleTextBoxLine2 += 'the Present' ;
+                console.log("updateTitleTextBoxLine3: newTitleTextBoxLine2=="+newTitleTextBoxLine2) ;
+            }
+            else {
+                newTitleTextBoxLine2 += higherYear ;
+                console.log("updateTitleTextBoxLine4: newTitleTextBoxLine2=="+newTitleTextBoxLine2) ;
+            }
+            //newTitleTextBoxLine2 = 'Somewhere between '+lowerYear+' and '+higherYear ;
+        }
+        //document.getElementById("TitleTextBoxLine2").value = newTitleTextBoxLine2 ;
+        document.getElementById("titleTextBoxL2").innerHTML = newTitleTextBoxLine2 ;
+        console.log("updateTitleTextBoxLine2(): newTitleTextBoxLine2=="+newTitleTextBoxLine2) ;
+    }
+    
+    function ChangeSeasonMonthsList(settingLowerDate) {
+      //alert("ChangeSeasonMonthsList(settingLowerDate)") ;
+      var seasonList = document.getElementById("Season");
+      console.log("seasonList = "+seasonList) ;
+      var selSeason = seasonList.options[seasonList.selectedIndex].value ;
+      //if change selection of a date element, all finer-detail date elements are unset
+      if (settingLowerDate) {
+          if (lowerSeason != selSeason) {
+              lowerSeason = selSeason ;
+              lowerMonth = '' ;
+              lowerDay = '' ;
+          }
+      }
+      else {
+          if (higherSeason != selSeason) {
+              higherSeason = selSeason ;
+              higherMonth = '' ;
+              higherDay = '' ;
+          }
+      } ;
+      console.log("selSeason == lower/higherSeason == "+selSeason) ;
+    
+      // get *current* monthList as defined by *previous* selSeason
+      var monthList = document.getElementById("Month");
+      var titleNoOpOption = monthList[0];
+      var unkOption = monthList[1];
+      console.log("monthList = "+monthList) ;
+    /*
+        if (selSeason=="") {
+            console.log("Empty actions (i.e. value) selected.  Noop") ;
+            //alert("Noop") ;
+        }
+        else if (selSeason=="Unk") {
+            AcceptCurrentOrigins() ;
+            //alert("Exit") ;
+        }
+        else {
+    */
+          // Keep the first two options
+          var i;
+          var origMonthListLength = monthList.options.length ;
+          for (i = 0; i<origMonthListLength; i++) {
+            console.log("removing "+monthList.options[0].value+".  monthList is now: "+monthList.options) ;
+            monthList.remove(0);
+          }
+          monthList.options.add(titleNoOpOption);
+          monthList.options.add(unkOption);
+          // Now, for each defined month of the season, add an option for that month
+          var monthsInSeason = dateHierarchy[selSeason];
+          if (monthsInSeason) {
+            for (i = 0; i < monthsInSeason.length; i++) {
+              var monthOption = new Option(monthsInSeason[i], monthsInSeason[i]);
+              //var monthOption = new Option(monthsInSeason[i], i+2);
+              monthList.options.add(monthOption);
+              console.log("added monthOption.value=="+monthOption.value+". monthList is now "+monthList.options) ;
+              // ### does this ever happen?
+              if (settingLowerDate) {
+                  if (monthOption[i]==lowerMonth) {
+                          // add two because have two addl options at the front of the list
+                          monthsInSeason.selectedIndex = i;      
+                          // no.  Try to set this to the category name.
+                          monthsInSeason.selectedIndex = 0;      
+                  }
+              }
+              else {
+                  if (monthOption[i]==higherMonth) {
+                          // add two because have two addl options at the front of the list
+                          monthsInSeason.selectedIndex = i;
+                          // no.  Try to set this to the category name.
+                          monthsInSeason.selectedIndex = 0;      
+                  }
+              } ;
+            //need to set this to the category descriptor
+            monthList.options.selectedIndex = 0;
+            }
+          }
+    /*    else clause {
+     *    }
+     */    
+    }
+    
+    function ChangeMonthDaysList(settingLowerDate) {
+      //alert("ChangeMonthDaysList(settingLowerDate)") ;
+      var monthList = document.getElementById("Month");
+      console.log("monthList = "+monthList) ;
+      var selMonth = monthList.options[monthList.selectedIndex].value ;
+      var leapYearDay = false ;
+      //if change selection of a date element, all finer-detail date elements are unset
+      if (settingLowerDate) {
+          if (lowerMonth != selMonth) {
+              lowerMonth = selMonth ;
+              lowerDay = '' ;
+          }
+      }
+      else {
+          if (higherMonth != selMonth) {
+              higherMonth = selMonth ;
+              higherDay = '' ;
+          }
+      } ;
+      console.log("selMonth == lower/higherMonth == "+selMonth) ;
+    
+      // get *current* dayList as defined by *previous* selMonth
+      var dayList = document.getElementById("Day");
+      var titleNoOpOption = dayList[0];
+      var unkOption = dayList[1];
+      console.log("dayList = "+dayList) ;
+    /*
+        if (selMonth=="") {
+            console.log("Empty actions (i.e. value) selected.  Noop") ;
+            //alert("Noop") ;
+        }
+        else if (selMonth=="Unk") {
+            AcceptCurrentOrigins() ;
+            //alert("Exit") ;
+        }
+        else {
+    */
+          // Keep the first two options
+          var i;
+          var origDayListLength = dayList.options.length ;
+          for (i = 0; i<origDayListLength; i++) {
+            console.log("removing "+dayList.options[0].value+".  dayList is now: "+dayList.options) ;
+            dayList.remove(0);
+          }
+          dayList.options.add(titleNoOpOption);
+          dayList.options.add(unkOption);
+          // Now, for each defined month of the season, add an option for that month
+          var daysInThisMonth = daysInMonth[selMonth];
+          //alert("selMonth=="+selMonth+" daysInThisMonth=="+daysInThisMonth);
+          if (settingLowerDate) {
+              if ((selMonth=='February') && (lowerYear%4==0)) {
+                  //alert("Leap Year.") ;
+                  leapYearDay = true ;
+              }
+          }
+          else {
+              if ((selMonth=='February') && (higherYear%4==0)) {
+                  //alert("Leap Year.") ;
+                  leapYearDay = true ;
+              }
+          } ;
+          if (leapYearDay) {
+              daysInThisMonth = 29 ;
+          }
+          if (daysInThisMonth) {
+            // for (i = 0; i < daysInThisMonth.length; i++) {
+            // days-in-month choices directly represented...
+            for (i = 1; i <= daysInThisMonth; i++) {
+                // have already added a couple of options...
+              var monthOption = new Option(i,i);
+              //var monthOption = new Option(daysInThisMonth[i], i+2);
+              dayList.options.add(monthOption);
+              console.log("added monthOption.value=="+monthOption.value+". dayList is now "+dayList.options) ;
+              // ### does this ever happen?  Not understanding - kill for now.  ###
+              if (settingLowerDate) {
+                  if (monthOption[i]==lowerMonth) {
+                          // add two because have two addl options at the front of the list
+                          daysInMonth.selectedIndex = i;      
+                          // no.  Try to set this to the category name.
+                          daysInMonth.selectedIndex = 0;      
+                  }
+              }
+              else {
+                  if (monthOption[i]==higherMonth) {
+                          // add two because have two addl options at the front of the list
+                          daysInMonth.selectedIndex = i;
+                          // no.  Try to set this to the category name.
+                          daysInMonth.selectedIndex = 0;      
+                  }
+              } ;
+            //need to set this to the category descriptor
+            dayList.options.selectedIndex = 0;      
+            }
+          }
+    /*    else clause { // test for daysInMonth.  ever no entry?
+     *    }
+     */    
+    }
+    // ]]></script>

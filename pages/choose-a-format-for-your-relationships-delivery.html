@@ -1,0 +1,113 @@
+<!-- 
+    Product Type
+    page.initialize-jimaworks
+    Feb 09 2019:14:30  Change button borders to green
+    Feb 27 2019:11:00 Update to RelationShipsPreviewZ
+    -->
+    <div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+      <script>// <![CDATA[
+      RelationShipsPreviewZ("mockup", "noFrame");
+      // ]]></script>
+      </div>
+      <table>
+      <tbody>
+      <tr>
+      <td><button id="PdfItButton1" class="float-left submit-button" style="background-color: white; border: 3px solid green; padding: 5px; margin: 0 3px;" onclick="PdfItPage()"><em>Pdf it! ($49.95)</em></button></td>
+      <td><button id="PrintItButton1" class="float-left submit-button" style="background-color: white; border: 3px solid green; padding: 5px; margin: 0 3px;" onclick="PrintItPage()"><em>Print it! ($69.95-$189.95)</em></button></td>
+      <td><button id="FrameItButton1" class="float-left submit-button" style="background-color: white; border: 3px solid green; padding: 5px; margin: 0 3px;" onclick="FrameItPage()"><em>Frame it! ($159.95-$319.95)</em></button></td>
+      </tr>
+      <tr>
+      <td valign="center">
+      <h5>A digital, printable copy of your RelationShips commemoration:</h5>
+      </td>
+      <td valign="center">
+      <h5>Everything from "Pdf it" plus:</h5>
+      </td>
+      <td valign="center">
+      <h5>Everything from "Print it" plus:</h5>
+      </td>
+      </tr>
+      <tr>
+      <td valign="top">
+      <ul style="font-size: small;">
+      <li>Your current choice plus at least two bonus variants</li>
+      <li>You may request up to two revisions for your variant</li>
+      <li>Make as many prints as you like</li>
+      <li>300ppi resolution for Gem-sized display</li>
+      <li>Includes mat printed borders with printed plaque</li>
+      <li>Includes jimaworks RelationShip emblem</li>
+      </ul>
+      </td>
+      <td valign="top">
+      <ul style="font-size: small;">
+      <li>A uniquely-identified, personalized print of your commemoration</li>
+      <li>Printed on acid-free museum-quality artist paper</li>
+      <li>Printed in vibrant, non-fading colored ink</li>
+      <li>Previewed by you through a .pdf proof (see "Pdf it")</li>
+      <li>From the proof set, you chose which variant you like best</li>
+      <li>Upon your approval we print and ship</li>
+      <li>The final will be printed at 300ppi resolution</li>
+      <li>It will include the printed mat borders and printed plaque</li>
+      <li>The Jimaworks RelationShip emblem of the proof will be replaced by:</li>
+      <ul>
+      <li>a unique identifier that states the number of this print</li>
+      <li>the unique identifier also states the number in the sequence of this ship</li>
+      <li>my initials that will be individually signed specifically for your print</li>
+      </ul>
+      <li>Guarantee: we refund up to the cost of the .pdf if you are not satisfied</li>
+      </ul>
+      </td>
+      <td valign="top">
+      <ul style="font-size: small;">
+      <li>We frame it in the frame you specify</li>
+      <ul>
+      <li>your print is double matted using a bevelled SandStone mat with Chinese Red trimming</li>
+      <li>The frame is natural wood</li>
+      <li>the glazing is UV-protective acrylic plexiglass</li>
+      <li>the plaque inset into the mat. It is gold-colored metal etched to your specifications</li>
+      </ul>
+      <li>Guarantee: we refund up to the cost of the .pdf if you are not satisfied</li>
+      </ul>
+      </td>
+      </tr>
+      <tr>
+      <td><button id="PdfItButton" class="float-left submit-button" style="background-color: white; border: 3px solid green; padding: 5px; margin: 0 3px;" onclick="PdfItPage()">Pdf it!</button></td>
+      <td><button id="PrintItButton" class="float-left submit-button" style="background-color: white; border: 3px solid green; padding: 5px; margin: 0 3px;" onclick="PrintItPage()">Print it!</button></td>
+      <td><button id="FrameItButton" class="float-left submit-button" style="background-color: white; border: 3px solid green; padding: 5px; margin: 0 3px;" onclick="FrameItPage()">Frame it!</button></td>
+      </tr>
+      </tbody>
+      </table>
+      <script>// <![CDATA[
+      function PdfItPage() {
+      /*
+          alert(">>>ChooseAFormat PrintItPage()" ) ;
+      */
+          localStorage.setItem("Frame", "NoFrame") ;
+          localStorage.setItem("FrameAbbrev", "NoFrame") ; // ### changed from mapStyleAbbrevs[styleIndex] ; ###
+          localStorage.setItem("FrameImg", 
+                                   "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-NoFrame-NoRuler-72ppi.png") ; // ### FrameImg anywhere else? ###
+          window.location.href="https://jimaworks.com/products/genericrelationshipspdf" ;
+      }
+      // ]]></script>
+      <script>// <![CDATA[
+      function PrintItPage() {
+      /*
+          would like to use RecordFrameChoice(styleName, styleAbbrev, styleImageFileNm)
+          alert(">>>ChooseAFormat PrintItPage()" ) ;
+      */
+          localStorage.setItem("Frame", "NoFrame") ;
+          localStorage.setItem("FrameAbbrev", "NoFrame") ; // ### changed from mapStyleAbbrevs[styleIndex] ; ###
+          localStorage.setItem("FrameImg", 
+                                   "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-NoFrame-NoRuler-72ppi.png") ; // ### FrameImg anywhere else? ###
+          window.location.href="https://jimaworks.com/products/copy-of-genericrelationshipsproduct" ;
+      }
+      // ]]></script>
+      <script>// <![CDATA[
+      function FrameItPage() {
+      /*
+          window.location.href="https://jimaworks.com/products/genericrelationshipsproduct-framed" ;
+          alert(">>>ChooseAFormat FrameItPage()" ) ;
+      */
+          window.location.href="https://jimaworks.com/pages/2-the-frame" ;
+      }
+      // ]]></script>
