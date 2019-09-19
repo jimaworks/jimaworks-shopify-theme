@@ -203,7 +203,7 @@
 - Styled “Skip to Project” to look like a link and distinguish from description buttons
 - Changed “Click here to start building your story” to “Start building your story”
 
-## 9/16, 9/17
+## 9/16, 9/17, 9/18
 
 ### [Relocate/consolidate localStorage variables](https://trello.com/c/JttMoG5b)
 
@@ -237,4 +237,13 @@
     - JSON hierarchy outweighs cons of converting to/from string; JSON wins
   - Create “middleware” utility function for converting to/from JSON string
   - `initialize-defaults` currently covers all the variables needed by every page. Should be modularized.
-  - 
+  - Directory organization not possible. From theme CLI: `Theme files may not be stored in subfolders`.
+- Every step of the wizard is a Page except the checkout page, which comes from `/theme/snippets/product-ancestor-info--pogodan.liquid`.
+  - This means `theme/templates/page.initialize-jimaworks.liquid` is not called when displaying it, so we can’t handle it in the `case` statement.
+  - `product-ancestor-info--pogodan` is included by `/theme/sections/product-customizable-2018.liquid`
+    - The checkout page (“Accordion Page”) is stored as various products with different theme templates, e.g. “RelationShips commemoration - Framed” (product ID 1872758145089) has Product template `product.customizable-2018`.
+    - This means the Accordion-specific localStorage variables in `initialize-defaults` were being set on every Page but never being used.
+    - There should be some mechanism added to the Accordion to retrieve `localStorage` variables previously set.
+- URLs being auto-generated based on the initial titles of Pages, which may include testing titles, produces some odd results, e.g. `000-knownshipoptions` and `1-g-ii-jimaworks-madeshipimagery`. Should we rename these pages?
+- The numbers denoting which step of the wizard you’re on don’t align with how many steps there actually are. The number presented to the user only goes up to 2, but there are actually 14 steps. While conceptually some steps are related, seems misleading from a user perspective and confusing from a developer perspective.
+- There’s no rhyme or reason for whether a Page gets the `page` template or the `page.initialize-jimaworks` template.

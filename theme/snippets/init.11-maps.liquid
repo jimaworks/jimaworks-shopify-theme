@@ -1,0 +1,57 @@
+<script id="init-11-maps">
+  "use strict";
+  window.Jimaworks.Pages = ( window.Jimaworks.Pages || {} );
+  window.Jimaworks.Pages.Maps = {
+    initializeDefaults: function Maps_initializeDefaults() {
+      /*
+        Eleventh page (8/02/2019) == maps. 
+
+        2: Define the Look and Feel of your Commemoration. a: Your Map.
+
+        https://jimaworks.com/pages/1-c-map-background
+        ###
+
+          Issues with this file:
+        > 
+        
+        Uses:
+        localStorage.RegionOfOrigin
+        localStorage.Era
+          var currTransportCraft = localStorage.TransportCraft;
+          var currShipName = localStorage.shipName;
+          var currShipImg = localStorage.shipPic;
+        localStorage.shipImageTransparentBackground
+
+        defines; 
+            localStorage.setItem("MapStyle", styleName) ;
+          
+        ###
+      */
+
+      /* "MapStyle"  "MapStyleDefault"  "MapStyleDefaultAbbrev"  */
+
+      var MapStyleDefault = "ParisSage";
+      var MapStyleAbbrevDefault = "Pari";
+      /* var MapStyleImgFileName = "..."; */
+      localStorage.setItem("MapStyleDefault", MapStyleDefault);
+      if (localStorage.MapStyle == undefined) {
+        localStorage.setItem("MapStyle", MapStyleDefault);
+        localStorage.setItem("MapStyleAbbrev", MapStyleAbbrevDefault);
+        /* localStorage.setItem("MapStyleImageFileName", MapStyleImgFileName) ; */
+      }
+    }, // initializeDefaults
+    clearLocalStorageVars: function Maps_clearLocalStorageVars() {
+      /*
+        Eleventh page (8/02/2019) == maps. 
+
+        2: Define the Look and Feel of your Commemoration. a: Your Map.
+
+        https://jimaworks.com/pages/1-c-map-background
+      */
+
+      /* "MapStyle"  "MapStyleDefault"  "MapStyleDefaultAbbrev"  */
+      localStorage.removeItem("MapStyleDefault");
+      localStorage.removeItem("MapStyle");
+    } // clearLocalStorageVars
+  };
+</script>

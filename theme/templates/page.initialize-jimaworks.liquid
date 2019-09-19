@@ -7,7 +7,86 @@
     </div>
 
     <div class="rte">
-      {% include 'initialize-defaults'%} 
+      <script id="liquid">
+        window.Jimaworks = ( window.Jimaworks || {} );
+        window.Jimaworks.Liquid = ( window.Jimaworks.Liquid || {} );
+        window.Jimaworks.Liquid.page = {
+          "id": "{{ page.id }}",
+          "handle": "{{ page.handle }}"
+        };
+        console.warn( 'window.Jimaworks.Liquid.page', window.Jimaworks.Liquid.page );
+      </script>
+      {% include 'init.00-preview' %}
+      {%- comment -%}
+        {% include 'init.01-home.liquid' %}
+      {%- endcomment -%}
+      {% include 'init.02-region-of-origin' %}
+      {% include 'init.03-title-what' %}
+      {% include 'init.04-title-when' %}
+      {% include 'init.05-origins-line1' %}
+      {% include 'init.06-origins-line2' %}
+      {% include 'init.07-destination-line1' %}
+      {% include 'init.08-destination-line2' %}
+      {% include 'init.09-ship-image-type' %}
+      {% include 'init.10-ship-image' %}
+      {% include 'init.11-maps' %}
+      {% include 'init.12-format' %}
+      {% include 'init.13-frame' %}
+      {% include 'init.14-accordion' %}
+      {% include 'initialize-defaults' %}
+      
+      {%- comment -%}
+      <!-- Page-specific includes for each step of the wizard -->
+      {% case page.handle %}
+        <!-- Your Relationships Project -->
+        {% when 'your-relationships-project' %}
+
+        <!-- Set the Stage. In What Part of the World did this Story Start? -->
+        {% when 'textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start' %}
+
+        <!-- 1. Title. What Is This Story About? -->
+        {% when 'textbox1-title-line1-what-is-this-story-about' %}
+
+        <!-- 1. Title. When did it take place? -->
+        {% when 'textbox1-title-line2-when-did-it-take-place-1' %}
+
+        <!-- 2. Origins. Where did this FirstGen come from? -->
+        {% when 'textbox2-origins-where-did-this-firstgen-come-from' %}
+
+        <!-- 2. Origins. From where did they depart? -->
+        {% when 'textbox2-origins-from-where-did-they-depart' %}
+
+        <!-- 3. American Destiny. Where did they land? -->
+        {% when 'textbox3-destination-where-did-they-land' %}
+
+        <!-- 3: Destination: Where did they end up? -->
+        {% when 'textbox3-destination-where-did-they-end-up' %}
+
+        <!-- Ship Image - Options -->
+        {% when '000-knownshipoptions' %}
+
+        <!-- 4. How did they get here? The Ship. -->
+        {% when 'textbox4-tripinfo-how-did-they-get-here' %}
+        {% when '1-g-ii-jimaworks-madeshipimagery' %}
+
+        <!-- 2: Define the Look and Feel of your Commemoration. a: Your Map. -->
+        {% when '1-c-map-background' %}          
+      
+        <!-- Choose a format for your RelationShips delivery -->
+        {% when 'choose-a-format-for-your-relationships-delivery' %}
+
+        <!-- 2. b: Pick your Frame. -->
+        {% when '2-the-frame' %}
+
+        <!-- Accordion page does not actually read from this file. -->
+        <!-- RelationShips commemoration - Framed -->
+        {% when 'genericrelationshipsproduct-framed' %}
+        <!-- GenericRelationShipsProduct -->
+        {% when 'genericrelationshipsproduct' %}
+
+        {% else %}
+      {% endcase %}
+      {%- endcomment -%}
       {% include 'initialize-shipdb'%}
       {% include 'define-preview-fn'%}
        {{ page.content }}

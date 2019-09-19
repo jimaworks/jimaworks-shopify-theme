@@ -1,0 +1,27 @@
+<script id="init-00-preview">
+  "use strict";
+  window.Jimaworks.Pages = ( window.Jimaworks.Pages || {} );
+  window.Jimaworks.Pages.Preview = {
+    initializeDefaults: function Preview_initializeDefaults() {
+      // Plaque Lines
+      var totalPlaqueLines = 8;
+      var currentPlaqueLine = "";
+      var plaqueLineDefaults = {
+        1: "In Appreciation of",
+        2: "the Initiative and Courage of",
+        3: "Our Forebears Who First Crossed to America"
+      };
+
+      for (var lineNumber = 1; lineNumber <= totalPlaqueLines; lineNumber++) {
+        currentPlaqueLine = "PlaqueLine" + lineNumber;
+
+        if (localStorage.getItem(currentPlaqueLine) === null) {
+          localStorage.setItem(
+            currentPlaqueLine,
+            plaqueLineDefaults[lineNumber] || ""
+          );
+        }
+      }
+    } // initializeDefaults
+  };
+</script>

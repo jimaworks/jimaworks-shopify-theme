@@ -1,0 +1,82 @@
+<script id="init-09-ship-image-type">
+  "use strict";
+  window.Jimaworks.Pages = ( window.Jimaworks.Pages || {} );
+  window.Jimaworks.Pages.ShipImageType = {
+    initializeDefaults: function ShipImageType_initializeDefaults() {
+      /*
+        Ninth page (8/02/2019) == Type of Ship Image. 
+
+        Ship Image - Options
+
+        https://jimaworks.com/pages/000-knownshipoptions
+
+        DestinyLine1&2 are already defined
+
+        ###
+
+          Issues with this file:
+
+          localStorage.ShipName in comments - add a bunch of shipinfo elements?
+          frame variables in comments
+          
+          Should not be defining ship info when just figuring out what kind of rendering is desired...
+
+        ###
+      */
+      /* "ShipInfoLine1"  "ShipInfoLine1Default"  "ShipInfoLine1DefaultAbbrev"  */
+      var ShipInfoLine1Default = "Typical Ship of this Era: 1200 Passengers";
+      localStorage.setItem("ShipInfoLine1Default", ShipInfoLine1Default);
+      if (localStorage.ShipInfoLine1 == undefined) {
+        localStorage.setItem("ShipInfoLine1", ShipInfoLine1Default);
+      }
+
+      /* "ShipInfoLine2"  "ShipInfoLine2Default"  "ShipInfoLine2DefaultAbbrev"  */
+      var ShipInfoLine2Default = "Typical Duration of Crossing: Two Weeks";
+      localStorage.setItem("ShipInfoLine2Default", ShipInfoLine2Default);
+      if (localStorage.ShipInfoLine2 == undefined) {
+        localStorage.setItem("ShipInfoLine2", ShipInfoLine2Default);
+      }
+
+      /* "ShipSort"  "ShipSortDefault"  "ShipSortDefaultAbbrev"  */
+      var ShipSortDefault = "";
+      localStorage.setItem("ShipSortDefault", ShipSortDefault);
+      if (localStorage.ShipSort == undefined) {
+        localStorage.setItem("ShipSort", ShipSortDefault);
+      }
+
+      //### okay - going for the StPaul as the initial try here...  Have to collect all the relevant info for it ###
+      /* "shipPic"  "shipPicDefault"  "shipPicDefaultAbbrev"  */
+      var shipPicDefault = "jimaworksStPaul640.png";
+      localStorage.setItem("shipPicDefault", shipPicDefault);
+      if (localStorage.shipPic == undefined) {
+        localStorage.setItem("shipPic", shipPicDefault);
+      }
+    }, // initializeDefaults
+    clearLocalStorageVars: function ShipImageType_clearLocalStorageVars() {
+      /*
+        Ninth page (8/02/2019) == Type of Ship Image. 
+
+        Ship Image - Options
+
+        https://jimaworks.com/pages/000-knownshipoptions
+
+        DestinyLine1&2 are already defined
+      */
+      /* "ShipInfoLine1"  "ShipInfoLine1Default"  "ShipInfoLine1DefaultAbbrev"  */
+      localStorage.removeItem("ShipInfoLine1Default");
+      localStorage.removeItem("ShipInfoLine1");
+
+      /* "ShipInfoLine2"  "ShipInfoLine2Default"  "ShipInfoLine2DefaultAbbrev"  */
+      localStorage.removeItem("ShipInfoLine2Default");
+      localStorage.removeItem("ShipInfoLine2");
+
+      /* "ShipSort"  "ShipSortDefault"  "ShipSortDefaultAbbrev"  */
+      localStorage.removeItem("ShipSortDefault");
+      localStorage.removeItem("ShipSort");
+
+      /* "shipPic"  "shipPicDefault"  "shipPicDefaultAbbrev"  */
+      localStorage.removeItem("shipPicDefault");
+      localStorage.removeItem("shipPic");
+    } // clearLocalStorageVars
+  };
+</script>

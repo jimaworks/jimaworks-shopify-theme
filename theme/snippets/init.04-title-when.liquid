@@ -1,0 +1,180 @@
+<script id="init-04-title-when">
+  "use strict";
+  window.Jimaworks.Pages = ( window.Jimaworks.Pages || {} );
+  window.Jimaworks.Pages.TitleWhen = {
+    initializeDefaults: function TitleWhen_initializeDefaults() {
+      /*
+        Fourth page (7/31/2019) == Title Text Box Line 2. 
+        "1. Title. Line2: When did it take place?"
+        ### EraImageFileName ? ###
+      */
+
+      /* "Era"  "EraDefault"  "EraDefaultAbbrev"  */
+      var EraDefault = "EraOfThePassengerLiner(1895-1970)";
+      var EraAbbrevDefault = "Liner";
+      /* var EraImgFileName = "..."; */
+      localStorage.setItem("EraDefault", EraDefault);
+      if (localStorage.Era == undefined) {
+        localStorage.setItem("Era", EraDefault);
+        localStorage.setItem("EraAbbrev", EraAbbrevDefault);
+        /* localStorage.setItem("EraImageFileName", EraImgFileName) ; */
+      }
+
+      /* "CommemorationTimePeriodStart"  "CommemorationTimePeriodStartDefault"  "CommemorationTimePeriodStartDefaultAbbrev"  */
+      // ### this should always be calculated from Era.  Deprecate? ###
+      var CommemorationTimePeriodStartDefault = "1895";
+      localStorage.setItem(
+        "CommemorationTimePeriodStartDefault",
+        CommemorationTimePeriodStartDefault
+      );
+      if (localStorage.CommemorationTimePeriodStart == undefined) {
+        localStorage.setItem(
+          "CommemorationTimePeriodStart",
+          CommemorationTimePeriodStartDefault
+        );
+      }
+
+      /* "CommemorationTimePeriodEnd"  "CommemorationTimePeriodEndDefault"  "CommemorationTimePeriodEndDefaultAbbrev"  */
+      // ### this should always be calculated from Era.  Deprecate? ###
+      var CommemorationTimePeriodEndDefault = "1970";
+      localStorage.setItem(
+        "CommemorationTimePeriodEndDefault",
+        CommemorationTimePeriodEndDefault
+      );
+      if (localStorage.CommemorationTimePeriodEnd == undefined) {
+        localStorage.setItem(
+          "CommemorationTimePeriodEnd",
+          CommemorationTimePeriodEndDefault
+        );
+      }
+
+      /* "CommemorationTimePeriodReprYr"  "CommemorationTimePeriodReprYrDefault"  "CommemorationTimePeriodReprYrDefaultAbbrev"  */
+      // ### this should always be calculated from Era.  Deprecate? ###
+      var CommemorationTimePeriodReprYrDefault = "1907";
+      localStorage.setItem(
+        "CommemorationTimePeriodReprYrDefault",
+        CommemorationTimePeriodReprYrDefault
+      );
+      if (localStorage.CommemorationTimePeriodReprYr == undefined) {
+        localStorage.setItem(
+          "CommemorationTimePeriodReprYr",
+          CommemorationTimePeriodReprYrDefault
+        );
+      }
+
+      /* "EarliestPossibleYearOfCrossing"  "EarliestPossibleYearOfCrossingDefault"  "EarliestPossibleYearOfCrossingDefaultAbbrev"  */
+      var EarliestPossibleYearOfCrossingDefault = "1607";
+      localStorage.setItem(
+        "EarliestPossibleYearOfCrossingDefault",
+        EarliestPossibleYearOfCrossingDefault
+      );
+      if (localStorage.EarliestPossibleYearOfCrossing == undefined) {
+        localStorage.setItem(
+          "EarliestPossibleYearOfCrossing",
+          EarliestPossibleYearOfCrossingDefault
+        );
+      }
+
+      /* "LatestPossibleYearOfCrossing"  "LatestPossibleYearOfCrossingDefault"  "LatestPossibleYearOfCrossingDefaultAbbrev"  */
+      var LatestPossibleYearOfCrossingDefault = "2019";
+      localStorage.setItem(
+        "LatestPossibleYearOfCrossingDefault",
+        LatestPossibleYearOfCrossingDefault
+      );
+      if (localStorage.LatestPossibleYearOfCrossing == undefined) {
+        localStorage.setItem(
+          "LatestPossibleYearOfCrossing",
+          LatestPossibleYearOfCrossingDefault
+        );
+      }
+
+      /* "YearOfCrossing"  "YearOfCrossingDefault"  "YearOfCrossingDefaultAbbrev"  */
+      var YearOfCrossingDefault = "1907";
+      localStorage.setItem("YearOfCrossingDefault", YearOfCrossingDefault);
+      if (localStorage.YearOfCrossing == undefined) {
+        localStorage.setItem("YearOfCrossing", YearOfCrossingDefault);
+      }
+
+      /* "currRteMapFile"  "currRteMapFileDefault"  "currRteMapFileDefaultAbbrev"  */
+      var currRteMapFileDefault = "1910-Routes-EuM_256x256.png";
+      localStorage.setItem("currRteMapFileDefault", currRteMapFileDefault);
+      if (localStorage.currRteMapFile == undefined) {
+        localStorage.setItem("currRteMapFile", currRteMapFileDefault);
+      }
+
+      /* "currRteMapYear"  "currRteMapYearDefault"  "currRteMapYearDefaultAbbrev"  */
+      var currRteMapYearDefault = "1910";
+      localStorage.setItem("currRteMapYearDefault", currRteMapYearDefault);
+      if (localStorage.currRteMapYear == undefined) {
+        localStorage.setItem("currRteMapYear", currRteMapYearDefault);
+      }
+
+      /* "prevRteMapYear"  "prevRteMapYearDefault"  "prevRteMapYearDefaultAbbrev"  */
+      // ### Shouldn't the previous to 1910 be 1905?. ###
+      var prevRteMapYearDefault = "1900";
+      localStorage.setItem("prevRteMapYearDefault", prevRteMapYearDefault);
+      if (localStorage.prevRteMapYear == undefined) {
+        localStorage.setItem("prevRteMapYear", prevRteMapYearDefault);
+      }
+
+      /* "nextRteMapYear"  "nextRteMapYearDefault"  "nextRteMapYearDefaultAbbrev"  */
+      // ### seems this is not getting set on the "When" page. ###
+      var nextRteMapYearDefault = "1914";
+      localStorage.setItem("nextRteMapYearDefault", nextRteMapYearDefault);
+      if (localStorage.nextRteMapYear == undefined) {
+        console.log("Setting nextRteMapYear to " + nextRteMapYearDefault);
+        localStorage.setItem("nextRteMapYear", nextRteMapYearDefault);
+      }
+    }, // initializeDefaults
+    clearLocalStorageVars: function TitleWhen_clearLocalStorageVars() {
+      /*
+        Fourth page (7/31/2019) == Title Text Box Line 2. 
+        "1. Title. Line2: When did it take place?"
+        ### EraImageFileName ? ### 
+      */
+      /* "Era"  "EraDefault"  "EraDefaultAbbrev"  */
+      localStorage.removeItem("EraDefault");
+      localStorage.removeItem("EraAbbrev");
+
+      // "CommemorationTimePeriodStart"  "CommemorationTimePeriodStartDefault"  "CommemorationTimePeriodStartDefaultAbbrev"
+      localStorage.removeItem("CommemorationTimePeriodStartDefault");
+      localStorage.removeItem("CommemorationTimePeriodStart");
+
+      // "CommemorationTimePeriodEnd"  "CommemorationTimePeriodEndDefault"  "CommemorationTimePeriodEndDefaultAbbrev"
+      localStorage.removeItem("CommemorationTimePeriodEndDefault");
+      localStorage.removeItem("CommemorationTimePeriodEnd");
+
+      // "CommemorationTimePeriodReprYr"  "CommemorationTimePeriodReprYrDefault"  "CommemorationTimePeriodReprYrDefaultAbbrev"
+      localStorage.removeItem("CommemorationTimePeriodReprYrDefault");
+      localStorage.removeItem("CommemorationTimePeriodReprYr");
+
+      /* "EarliestPossibleYearOfCrossing"  "EarliestPossibleYearOfCrossingDefault"  "EarliestPossibleYearOfCrossingDefaultAbbrev"  */
+      localStorage.removeItem("EarliestPossibleYearOfCrossingDefault");
+      localStorage.removeItem("EarliestPossibleYearOfCrossing");
+
+      /* "LatestPossibleYearOfCrossing"  "LatestPossibleYearOfCrossingDefault"  "LatestPossibleYearOfCrossingDefaultAbbrev"  */
+      localStorage.removeItem("LatestPossibleYearOfCrossingDefault");
+      localStorage.removeItem("LatestPossibleYearOfCrossing");
+
+      /* "YearOfCrossing"  "YearOfCrossingDefault"  "YearOfCrossingDefaultAbbrev"  */
+      localStorage.removeItem("YearOfCrossingDefault");
+      localStorage.removeItem("YearOfCrossing");
+
+      /* "currRteMapFile"  "currRteMapFileDefault"  "currRteMapFileDefaultAbbrev"  */
+      localStorage.removeItem("currRteMapFileDefault");
+      localStorage.removeItem("currRteMapFile");
+
+      /* "currRteMapYear"  "currRteMapYearDefault"  "currRteMapYearDefaultAbbrev"  */
+      localStorage.removeItem("currRteMapYearDefault");
+      localStorage.removeItem("currRteMapYear");
+
+      /* "prevRteMapYear"  "prevRteMapYearDefault"  "prevRteMapYearDefaultAbbrev"  */
+      localStorage.removeItem("prevRteMapYearDefault");
+      localStorage.removeItem("prevRteMapYear");
+
+      /* "nextRteMapYear"  "nextRteMapYearDefault"  "nextRteMapYearDefaultAbbrev"  */
+      localStorage.removeItem("nextRteMapYearDefault");
+      localStorage.removeItem("nextRteMapYear");
+    } // clearLocalStorageVars
+  };
+</script>

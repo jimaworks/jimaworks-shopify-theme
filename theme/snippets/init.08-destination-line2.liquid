@@ -1,0 +1,87 @@
+<script id="init-08-destination-line2">
+  "use strict";
+  window.Jimaworks.Pages = ( window.Jimaworks.Pages || {} );
+  window.Jimaworks.Pages.DestinationLine2 = {
+    initializeDefaults: function DestinationLine2_initializeDefaults() {
+      /*
+        Eighth page (8/02/2019) == Destination Text Box Line 2. 
+
+        3: Destination: Where did they end up?
+
+        https://jimaworks.com/pages/textbox3-destination-where-did-they-end-up
+
+        DestinyLine1&2 are already defined
+
+        ###
+
+          Issues with the titling of this file:
+
+          RegionOfOrigin; Arrival/Departure Port/struct/Sort/Filter options; webMapImg
+
+        ###
+            localStorage.DestinationSection = selSection ;
+            localStorage.DestinationState = 'Unk' ;
+            localStorage.DestinationCounty = 'Unk' ;
+            localStorage.DestinationCity = 'Unk' ;
+      */
+
+      /* "DestinationSection"  "DestinationSectionDefault"  "DestinationSectionDefaultAbbrev"  */
+      var DestinationSectionDefault = "";
+      localStorage.setItem(
+        "DestinationSectionDefault",
+        DestinationSectionDefault
+      );
+      if (localStorage.DestinationSection == undefined) {
+        localStorage.setItem("DestinationSection", DestinationSectionDefault);
+      }
+
+      /* "DestinationState"  "DestinationStateDefault"  "DestinationStateDefaultAbbrev"  */
+      var DestinationStateDefault = "";
+      localStorage.setItem("DestinationStateDefault", DestinationStateDefault);
+      if (localStorage.DestinationState == undefined) {
+        localStorage.setItem("DestinationState", DestinationStateDefault);
+      }
+
+      /* "DestinationCounty"  "DestinationCountyDefault"  "DestinationCountyDefaultAbbrev"  */
+      var DestinationCountyDefault = "";
+      localStorage.setItem("DestinationCountyDefault", DestinationCountyDefault);
+      if (localStorage.DestinationCounty == undefined) {
+        localStorage.setItem("DestinationCounty", DestinationCountyDefault);
+      }
+
+      /* "DestinationCity"  "DestinationCityDefault"  "DestinationCityDefaultAbbrev"  */
+      var DestinationCityDefault = "";
+      localStorage.setItem("DestinationCityDefault", DestinationCityDefault);
+      if (localStorage.DestinationCity == undefined) {
+        localStorage.setItem("DestinationCity", DestinationCityDefault);
+      }
+    }, // initializeDefaults
+    clearLocalStorageVars: function DestinationLine2_clearLocalStorageVars() {
+      /*
+        Eighth page (8/02/2019) == Destination Text Box Line 2. 
+
+        3: Destination: Where did they end up?
+
+        https://jimaworks.com/pages/textbox3-destination-where-did-they-end-up
+
+        DestinyLine1&2 are already defined
+      */
+
+      /* "DestinationSection"  "DestinationSectionDefault"  "DestinationSectionDefaultAbbrev"  */
+      localStorage.removeItem("DestinationSectionDefault");
+      localStorage.removeItem("DestinationSection");
+
+      /* "DestinationState"  "DestinationStateDefault"  "DestinationStateDefaultAbbrev"  */
+      localStorage.removeItem("DestinationStateDefault");
+      localStorage.removeItem("DestinationState");
+
+      /* "DestinationCounty"  "DestinationCountyDefault"  "DestinationCountyDefaultAbbrev"  */
+      localStorage.removeItem("DestinationCountyDefault");
+      localStorage.removeItem("DestinationCounty");
+
+      /* "DestinationCity"  "DestinationCityDefault"  "DestinationCityDefaultAbbrev"  */
+      localStorage.removeItem("DestinationCityDefault");
+      localStorage.removeItem("DestinationCity");
+    } // clearLocalSorageVars
+  };
+</script>
