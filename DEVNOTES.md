@@ -203,7 +203,7 @@
 - Styled “Skip to Project” to look like a link and distinguish from description buttons
 - Changed “Click here to start building your story” to “Start building your story”
 
-## 9/16, 9/17, 9/18
+## 9/16, 9/17, 9/18, 9/19
 
 ### [Relocate/consolidate localStorage variables](https://trello.com/c/JttMoG5b)
 
@@ -247,3 +247,14 @@
 - URLs being auto-generated based on the initial titles of Pages, which may include testing titles, produces some odd results, e.g. `000-knownshipoptions` and `1-g-ii-jimaworks-madeshipimagery`. Should we rename these pages?
 - The numbers denoting which step of the wizard you’re on don’t align with how many steps there actually are. The number presented to the user only goes up to 2, but there are actually 14 steps. While conceptually some steps are related, seems misleading from a user perspective and confusing from a developer perspective.
 - There’s no rhyme or reason for whether a Page gets the `page` template or the `page.initialize-jimaworks` template.
+- Setting initial localStorage variables on Preview: if user clears their browsing data and jumps straight to a step of the Wizard, missing required data.
+  - Drawback of `case`/`when`?
+  - Have every Page call `initializeDefaults()` first.
+  - Deceiving: if the ship pic doesn’t render but `localStorage.shipPic` is set, this likely means that the image is rendering but its absolute/relative positioning is screwed up because of the Origin Text (Line 2) is missing, which pushes it into the correct spot.
+
+## 9/19
+
+### De-duplicate functions between define-preview-fn & initialize-shipdb
+
+### define-preview-fn
+- `numAvailTitleLines = 2` → `numAvailTitleLines = 3`
