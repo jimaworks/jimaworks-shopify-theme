@@ -160,7 +160,9 @@ initializeDefaults()
 -->
 <div id="DisplayOverlays" style="float: left; position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');"></div>
 <script>// <![CDATA[
-//RelationShipsPreview("initialView", "noFrame") ;
+    initializeDefaults();
+
+    //RelationShipsPreview("initialView", "noFrame") ;
     //RelationShipsPreviewZ("mockup", "showFrame") ;
     //RelationShipsPreviewZ("editTitle", "showFrame") ;
     RelationShipsPreviewZ("highlightTitle", "showFrame") ;
@@ -222,9 +224,6 @@ if ((localStorage.TitleLine1===undefined)||(localStorage.TitleLine1==="undefined
 
 //var nextPage = "https://jimaworks.com/pages/1-b-in-what-part-of-the-world-did-this-story-start" ; //"https://jimaworks.com/pages/000-test-set-the-stage-of-your-story" ; //"https://jimaworks.com/pages/x1-region" ;
 var nextPage = "https://jimaworks.com/pages/textbox1-title-line2-when-did-it-take-place-1" ; //"https://jimaworks.com/pages/000-test-set-the-stage-of-your-story" ; //"https://jimaworks.com/pages/x1-region" ;
-
-//### move initialize to earlier in the interaction
-// initializeDefaults() ; 
 
 function actionOnSave() {
     var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
