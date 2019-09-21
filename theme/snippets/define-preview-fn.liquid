@@ -115,9 +115,9 @@
         titleTextBoxEntry3 = document.getElementById("enterTitleLine3").value;
 
         // ### How does this work.  Is a div/spann with this id supposed to lie in the environment?
-        document.getElementById("titleTextBoxL1").innerHTML = titleTextBoxEntry1;
-        document.getElementById("titleTextBoxL2").innerHTML = titleTextBoxEntry2;
-        document.getElementById("titleTextBoxL3").innerHTML = titleTextBoxEntry3;
+        document.getElementById("TitleTextBoxL1").innerHTML = titleTextBoxEntry1;
+        document.getElementById("TitleTextBoxL2").innerHTML = titleTextBoxEntry2;
+        document.getElementById("TitleTextBoxL3").innerHTML = titleTextBoxEntry3;
 
         localStorage.TitleLine1 = titleTextBoxEntry1;
         localStorage.TitleLine2 = titleTextBoxEntry2;
@@ -462,7 +462,7 @@
         webTitleTextBoxDivStyle = ' style=\"position: absolute; top: ' + titleTextBoxTopOffset + 'px; left: ' + titleTextBoxLeftOffset + 'px; z-index: 25; line-height: ' + titleTextBoxLineHeight + '; font-size: ' + titleTextBoxFontSize + 'px; text-align: center; \"';
         webTitleText += '<p>';
         numFilledTitleLines = 0;
-        numAvailTitleLines = 2; // ### draw this from some other place... ###
+        numAvailTitleLines = 3; // ### draw this from some other place... ###
         showExtraLine = true;
         for (i = 1; i < numAvailTitleLines + 1; i++) {
             currentTitleLine = localStorage['TitleLine' + i];
