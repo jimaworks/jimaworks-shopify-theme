@@ -1,4 +1,4 @@
-<!-- https://jimaworks.com/pages/1.g.ii.jimaworks-ship-images
+<!-- /pages/1.g.ii.jimaworks-ship-images
     1.g: Ship choices
     1.g.i historic pre-existing ship imagery
     1.g.ii jimaworks-made ship magery
@@ -35,8 +35,12 @@
              //  ### then ask if want to keep or change (One? Both? )  List as warnings? ###
              
              if (!webShipImg) {
-                  webShipImg = localStorage.shipPic;
-                 
+               webShipImg = (
+                 // TODO: See comment for webMapImg in `define-preview-fn.liquid`
+                 localStorage.getItem( "shipPic" )
+                 || localStorage.getItem( "shipPicDefault" )
+                 || 'jimaworksStPaul640.png'
+               );
              }
               var shopifiedShipImg = '\"' + shopifyFilePreFix + webShipImg.replace("(", "_").replace(")", "_") + '\"';  
               var ImgOverlayHTML = '' ;
@@ -145,7 +149,7 @@
           scroll(0,0) ;
           displayCurrentShip(localStorage.shipPic) ;
       /*    
-          window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
+          window.location.href="/pages/1-c-map-background" ;
        */
       }
       // ]]></script>
@@ -312,8 +316,22 @@
           */
           var shipStartYr = Number(shipInfo[careerStartIndex]) ;
           var shipEndYr = Number(shipInfo[careerEndIndex]) ;
-          var EarliestPossYr = Number(localStorage.EarliestPossibleYearOfCrossing) ;
-          var LatestPossYr = Number(localStorage.LatestPossibleYearOfCrossing) ;
+
+          // if localStorage hasn’t been set, Number(undefined) = NaN
+          var EarliestPossibleYearOfCrossing = (
+            localStorage.getItem("EarliestPossibleYearOfCrossing")
+            || localStorage.getItem("EarliestPossibleYearOfCrossingDefault")
+            || 1607
+          );
+          var EarliestPossYr = Number(EarliestPossibleYearOfCrossing) ;
+
+          var LatestPossibleYearOfCrossing = (
+            localStorage.getItem("LatestPossibleYearOfCrossing")
+            || localStorage.getItem("LatestPossibleYearOfCrossingDefault")
+            || (new Date()).getFullYear()
+          );
+          var LatestPossYr = Number(LatestPossibleYearOfCrossing) ;
+
           //return ((shipEndYr >= eraStartYr) && (shipEndYr <= eraEndYr)) ;  <<< ### error ###
           return ((shipEndYr >= EarliestPossYr) && (shipStartYr <= LatestPossYr)) ;
       }
@@ -774,7 +792,7 @@
       <script>// <![CDATA[
       function stickWithCurrentShip(){
           console.log("stickWithCurrentShip()") ;
-          var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          var nextPage = "/pages/1-c-map-background" ;
           window.location.assign(nextPage);
       }
       
@@ -815,14 +833,14 @@
           thisShipsAltString = erasArray[thisMapChoiceIndex]
                                        + " is not currently available" ;
           */
-          /* product page example: https://jimaworks.com/products/noship-palacerosamap */
-          nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          /* product page example: /products/noship-palacerosamap */
+          nextPage = "/pages/1-c-map-background" ;
           console.log("2b. nextPage = " + nextPage) ;
       
       
       /*
       <input type="text" id="ShipName" value="&lt;enter your ship's name&gt;" /> 
-          <a href="https://jimaworks.com/pages/1-c-map-background" 
+          <a href="/pages/1-c-map-background" 
           a="" onclick="###RecordNewShipChoice()###"> [Click Here to Submit your Shipname] </a>
       <p> </p>
       <h2>Or... find and image for your ship in the list below</h2>
@@ -1029,7 +1047,7 @@
           localStorage.userProvidedShipName = userProvidedShipNameStr ;
           document.getElementById("knownShip").innerHTML = "A New Specific Ship Please" ;
       /*
-              var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+              var nextPage = "/pages/1-c-map-background" ;
               window.location.assign(nextPage);
       */
       
@@ -1090,7 +1108,7 @@
       function noShip (){
           console.log("noShip()") ;
           localStorage.setItem("userProvidedShipName", "noShip") ;
-          var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          var nextPage = "/pages/1-c-map-background" ;
           window.location.assign(nextPage);
       }
       // ]]></script>
@@ -1120,7 +1138,7 @@
       }
       // ]]></script>
       <script>// <![CDATA[
-      function getMostLikelyShipForTimeAndPlace() {
+      function getMostLikelyShipForTimeAndPlace(jimaworksMadeImagery) {
           console.log("###getMostLikelyShipForTimeAndPlace()###") ;
           var thisShipInfo ; 
           var thisShipInfoStr ; 
@@ -1206,5 +1224,5 @@
               }
           }
       }
-      getMostLikelyShipForTimeAndPlace() ;
+      getMostLikelyShipForTimeAndPlace(jimaworksMadeImagery) ; // Since `getMostLikelyShipForTimeAndPlace` is defined at runtime, it can’t know about `jimaworksMadeImagery`, which is defined at compile time.
       // ]]></script>

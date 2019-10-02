@@ -1,7 +1,7 @@
 <!--
     No UserProvided() options
 --> <!--  RelationShips CountryOfOrigin:  TextBox2: Origins: Where did this FirstGen come from?
-            Page: https://jimaworks.com/pages/1-d-from-where-did-this-first-generation-come
+            Page: /pages/1-d-from-where-did-this-first-generation-come
             Template:  page
             Title: 1.d From Where did this First Generation come?
       Apr 16 2019:1600 Start to construct CountryOforigin and StateDestination pages
@@ -71,6 +71,8 @@
 <h4>Your Origins Text Box contents are currently: <br />     Line1: <span id="originsTextBoxL1" style="color: darkblue;"> " " </span> <br />     Line2: <span id="originsTextBoxL2"> " " </span> <br />(You'll have opportunities to edit later)</h4>
 </div>
 <script>// <![CDATA[
+initializeDefaults();
+
 if ((localStorage.OriginsLine1===undefined)||(localStorage.OriginsLine1==="undefined")||(localStorage.OriginsLine1==="")) {
       document.getElementById("originsTextBoxL1").innerHTML = "&lt;Country of Origin&gt;" ;
   }
@@ -91,15 +93,15 @@ if ((localStorage.OriginsLine1===undefined)||(localStorage.OriginsLine1==="undef
 -->
 <script>// <![CDATA[
 function actionOnSave() {
-  var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+  var SaveForLaterPage = "/pages/saveandreturnlater" ;
   window.location.assign(SaveForLaterPage);
 }
 // ]]></script>
 <script>// <![CDATA[
 //originAreasRegionsArray.push()[["Europe","NorthernEurope"]]
 
-//var nextPage = "https://jimaworks.com/pages/1-e-where-did-they-end-up" ; //"https://jimaworks.com/pages/where-did-thy-end-up";
-var nextPage = "https://jimaworks.com/pages/textbox2-origins-from-where-did-they-depart" ;
+//var nextPage = "/pages/1-e-where-did-they-end-up" ; //"/pages/where-did-thy-end-up";
+var nextPage = "/pages/textbox2-origins-from-where-did-they-depart" ;
 
 // ### VVV shouldn't this all be guaranteed in the way the defaults are defined and handled? ###
 if ((localStorage.AreaOfOrigin==undefined)||(localStorage.AreaOfOrigin=='')) {
@@ -561,19 +563,19 @@ function AcceptCurrentOrigins() {
       //if (confirm('Origins Text Box: Current Line 1 reads:"'+localStorage.OriginsLine1+'". Accept and Continue?')) {
       if (true) {
           localStorage.OriginsLine1 = ProposedOriginsText ;
-          //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          //var nextPage = "/pages/1-c-map-background" ;
           // ### window.location.assign(nextPage) ;
       }
   }
   //else if (ProposedOriginsText && confirm('Current Line 1 of Origins text box reads:"'+localStorage.OriginsLine1+'". Change it to:"'+ProposedOriginsText+'" and Continue?')) {
   else if (ProposedOriginsText) {
       localStorage.OriginsLine1 = ProposedOriginsText ;
-      //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+      //var nextPage = "/pages/1-c-map-background" ;
       // ### window.location.assign(nextPage) ;
   }
   //else if (confirm('Continuing with Line 1 of Origins Text Box as:"'+localStorage.OriginsLine1+'"')) {
   else {
-          //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          //var nextPage = "/pages/1-c-map-background" ;
           // ### window.location.assign(nextPage) ;
       //else just continue
   }
@@ -628,19 +630,19 @@ function AcceptCurrentOriginsAndExit() {
       //if (confirm('Origins Text Box: Current Line 1 reads:"'+localStorage.OriginsLine1+'". Accept and Continue?')) {
       if (true) {
           localStorage.OriginsLine1 = ProposedOriginsText ;
-          //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          //var nextPage = "/pages/1-c-map-background" ;
           window.location.assign(nextPage) ;
       }
   }
   //else if (ProposedOriginsText && confirm('Current Line 1 of Origins text box reads:"'+localStorage.OriginsLine1+'". Change it to:"'+ProposedOriginsText+'" and Continue?')) {
   else if (ProposedOriginsText) {
       localStorage.OriginsLine1 = ProposedOriginsText ;
-      //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+      //var nextPage = "/pages/1-c-map-background" ;
       window.location.assign(nextPage) ;
   }
   //else if (confirm('Continuing with Line 1 of Origins Text Box as:"'+localStorage.OriginsLine1+'"')) {
   else {
-          //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          //var nextPage = "/pages/1-c-map-background" ;
           window.location.assign(nextPage) ;
       //else just continue
   }

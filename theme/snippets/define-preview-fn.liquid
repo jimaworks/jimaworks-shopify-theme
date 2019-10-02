@@ -980,7 +980,8 @@
 <script>
     function RelationShipsPreviewZ(previewRole, showFrame) {
         /* fancy parameter management... */
-        console.log("RelationShipsPreviewZ()...");
+        console.warn("RelationShipsPreviewZ()...");
+        console.trace();
 
         /*
             Generally speaking we should avoid global variables & side-effects,
@@ -1006,6 +1007,10 @@
             ? window.overlaysRendered
             : false
         );
+        // if ( !window.Jimaworks.defaultsHaveBeenInitialized ) {
+        //     console.warn('RelationShipsPreviewZ() called before initializeDefaults(); returning');
+        //     return false;
+        // }
 
         var EditButton = "nope";
         var EditTitleButton = "nope";
@@ -1615,18 +1620,38 @@
 
         var webMapStyle = localStorage.MapStyle;
         var webMapStyleAbbrev = localStorage.MapStyleAbbrev;
-        var webMapImg = shopifyFilePrefix + localStorage.webMapImg;
+        
+        // 
+        var webMapImg = shopifyFilePrefix + (
+            /*
+                Whether or not these localStorage vars will be defined
+                depends on when RelationShipsPreviewZ (RPZ) is called.
+                If called before initializeDefaults, `webMapImg` & `webMapImgDefault`
+                will be undefined, so we have to put another default.
+                This is to avoid a 404 in the console from the image src being e.g.
+                "https://cdn.shopify.com/s/files/1/1336/0641/files/undefined".
+
+                TODO: RPZ should be broken up into smaller parts so that
+                code that depends on initializeDefaults can run separately.
+                Preventing RPZ from running at all if defaults are not initialized
+                breaks other functionality.
+            */
+            localStorage.getItem( "webMapImg" )
+            || localStorage.getItem( "webMapImgDefault" )
+            || 'EuM-Liner-Pari.png'
+        );
 
         var mapImg = webMapImg;
-        img.src = mapImg;
-        mapX = img.width;  // 1850
-        mapY = img.height; // 1151
-        console.log("mapImg==" + mapImg + " mapX==" + mapX + " mapY==" + mapY); / *  ### not working ### */
 
         var theGoldenRatio = 1.618;
         var webMapWidth = 400 * webFrameScale;
         var webMapHeight = (webMapWidth / theGoldenRatio) * webFrameScale; /* get the actual height of the map */
-        var shipPic = ( localStorage.getItem('shipPic') || '' );
+        var shipPic = (
+            // TODO: See comment for webMapImg
+            localStorage.getItem( "shipPic" )
+            || localStorage.getItem( "shipPicDefault" )
+            || 'jimaworksStPaul640.png'
+        );
 
         /* ship */
         var webShipImg = shopifyFilePrefix + shipPic.replace("(", "_").replace(")", "_");
@@ -1873,7 +1898,12 @@
             seaScapeHTML = "";
         };
 
-        var shipImgTransparentBackground = localStorage.shipImageTransparentBackground;
+        var shipImgTransparentBackground = (
+            // TODO: See comment for webMapImg
+            localStorage.getItem( "shipImageTransparentBackground" )
+            || localStorage.getItem( "shipImageTransparentBackgroundDefault" )
+            || "transparent"
+        );
         var noBackgroundShipDrawing;
         var shipBorder;
         if (shipImgTransparentBackground === "transparent") {
@@ -2085,6 +2115,7 @@
 
         if ( !window.overlaysRendered ) {
             window.addEventListener('DOMContentLoaded', function () {
+                console.warn( 'Images:', Array.from( ImgOverlayHTML.matchAll( /<img[^>]+>/g ), m => m[0].replace( /.*src="?([^"\s]+)"?.*/, '$1' ) ) );
                 document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
                 window.overlaysRendered = true;
             });

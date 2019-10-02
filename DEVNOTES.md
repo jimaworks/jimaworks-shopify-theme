@@ -23,7 +23,12 @@
 - `initialize-shipdb.liquid` is a red herring. Has a lot of the same code as `define-preview-fn.liquid` but is not used by `/pages/your-relationships-project`.
 - `localStorage.OriginsLine1` & `localStorage.OriginsLine2` are the cause of the `undefined`s:
   ```js
-  controlButtons += '<input id="enterOriginLine1" type="text" value="' + localStorage.OriginsLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterOriginText()">';
+  controlButtons +=
+    '<input id="enterOriginLine1" type="text" value="' +
+    localStorage.OriginsLine1 +
+    '" style="width: ' +
+    titleLineWidth +
+    'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterOriginText()">';
   ```
   (`initialize-shipdb.liquid` Line 1276)
 - Different:
@@ -34,8 +39,8 @@
 - Too confusingly named: `span#OriginTextBoxL1`. Not a text box; shows the output of what is entered into `input#enterOriginLine1`.
 - ```js
   if (previewRole == "editPlaque") {
-      localStoreNamePrefix = "PlaqueLine";
-      numTxtBoxLines = 8;
+    localStoreNamePrefix = "PlaqueLine";
+    numTxtBoxLines = 8;
   }
   ```
   — `localStoreNamePrefix` set but not used. (`define-preview-fn.liquid` Line 380)
@@ -74,7 +79,7 @@
 - Metafields are supported as shop data but there is no way to modify in the Admin UI, so no native way to export to dev site.
 - Have to manually recreate using Metafields Guru.
 - Existing Metafields have JSON-like data but the value type for all is "String" (options are: String, Integer, JSON String)
-- 
+-
 
 ## 9/3
 
@@ -83,29 +88,29 @@
 - Race condition. Was attempting to set `innerHTML` before the `DisplayOverlays` element was loaded into the DOM.
 
   Added:
+
   ```js
   /*
     Generally speaking we should avoid global variables & side-effects,
     but in this case we need to make sure the variable is not being reset
     each time the function is called.
-
+  
     On first invocation, the overlay rendering will occur inside the
     `DOMContentLoaded` event listener, so we can be sure
     `document.getElementById("DisplayOverlays")` will be non-null, and
     can therefore set `innerHTML` without issue.
-
+  
     The `DOMContentLoaded` event only occurs once though, so we need
     to flip `overlaysRendered` to `true` after the first render, and then
     subsequent renders will call `innerHTML` outside of the event.
-
+  
     See bottom of `RelationShipsPreviewZ` for implementation.
   */
-    window.Jimaworks = ( window.Jimaworks || {} ); // Singleton for namespacing; avoids global variable conflicts
-    window.Jimaworks.overlaysRendered = (
-      ( typeof window.overlaysRendered !== "undefined" )
+  window.Jimaworks = window.Jimaworks || {}; // Singleton for namespacing; avoids global variable conflicts
+  window.Jimaworks.overlaysRendered =
+    typeof window.overlaysRendered !== "undefined"
       ? window.overlaysRendered
-      : false
-    );
+      : false;
   ```
 
 ### Fix DeleteLast Functionality
@@ -140,12 +145,12 @@
 - The answer is already in the code:
   ```js
   // ### transparent... shouldn't the value here be "transparent" instead of "t"? ###
-    var shipImageTransparentBackgroundDefault = "t";
+  var shipImageTransparentBackgroundDefault = "t";
   ```
 
 ### Missing “ShipInfo” Text on Map
 
-- 
+-
 
 ### Fix webShipImg / localStorage.shipPic undefined error
 
@@ -157,7 +162,11 @@
   ```
   ↓
   ```js
-  var webShipImg = '\"' + shopifyFilePrefix + localStorage.shipPic.replace("(", "_").replace(")", "_") + '\"';
+  var webShipImg =
+    '"' +
+    shopifyFilePrefix +
+    localStorage.shipPic.replace("(", "_").replace(")", "_") +
+    '"';
   ```
   - On a fresh page load, runs twice. First pass `localStorage.shipPic` is `undefined`; second pass it’s `jimaworksStPaul640.png`. Might be enough just to ternary guard it?
   - Made edits in `define-preview-fn` but identical code in `initialize-shipdb` is generating the errors.
@@ -241,7 +250,7 @@
 - Every step of the wizard is a Page except the checkout page, which comes from `/theme/snippets/product-ancestor-info--pogodan.liquid`.
   - This means `theme/templates/page.initialize-jimaworks.liquid` is not called when displaying it, so we can’t handle it in the `case` statement.
   - `product-ancestor-info--pogodan` is included by `/theme/sections/product-customizable-2018.liquid`
-    - The checkout page (“Accordion Page”) is stored as various products with different theme templates, e.g. “RelationShips commemoration - Framed” (product ID 1872758145089) has Product template `product.customizable-2018`.
+    - The checkout page (“Accordion Page”) is stored as various products with different theme templates/sections, e.g. “RelationShips commemoration - Framed” (product ID 1872758145089) has Product template/section `product.customizable-2018`.
     - This means the Accordion-specific localStorage variables in `initialize-defaults` were being set on every Page but never being used.
     - There should be some mechanism added to the Accordion to retrieve `localStorage` variables previously set.
 - URLs being auto-generated based on the initial titles of Pages, which may include testing titles, produces some odd results, e.g. `000-knownshipoptions` and `1-g-ii-jimaworks-madeshipimagery`. Should we rename these pages?
@@ -257,4 +266,173 @@
 ### De-duplicate functions between define-preview-fn & initialize-shipdb
 
 ### define-preview-fn
+
 - `numAvailTitleLines = 2` → `numAvailTitleLines = 3`
+
+## 9/24
+
+### [Double-check that Accordion localStorage vars are being initialized in initialize-defaults](https://trello.com/c/AlpHWqR1)
+
+- localStorage variables _are_ being set in `page.save_and_come_back_later.liquid` and `page.ships.liquid` under `theme/templates/`, but not any of the product\* templates/sections like `product.customizable-2018.liquid`.
+
+### Fix image 404s from undefined in URL
+
+- `RelationShipsPreviewZ` (“RPZ”) relies on localStorage variables, which means `initializeDefaults()` needs to be called first. When RPZ was called first, `localStorage.webMapImg` was not set, which affects:
+
+  ```js
+  // 1:
+  var webMapImg = shopifyFilePrefix + localStorage.webMapImg; // shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/undefined`
+
+  // 2:
+  var mapImg = webMapImg;
+  img.src = mapImg; // Async operation, 404s
+  ```
+
+  But! It turns out this is a rogue image that isn’t used anywhere. Deleting…
+
+- Another 404 on `/pages/textbox1-title-line2-when-did-it-take-place-1`:
+  ```js
+  // 1:
+  var currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+
+  // 2:
+  // https://cdn.shopify.com/s/files/1/1336/0641/files/1600-Routes-undefined_256x256.png
+  var currMapFile = shopifyPrefix + availableMapYear + "-Routes-" + currRegionAbbrev + shopifyImgSizePostfix + ".png";
+  ```x`
+
+## 9/24, 9/27, ..., 10/02
+
+### Find minimum required localStorage variables required for proper functionality of Preview/Wizard
+
+- Dev/Prod Wizard URLs are out of sync (“UI mix-up”)
+  1. Dev:<br>
+     **URL:** `/pages/your-relationships-project`<br>
+     **Title:** Your Relationships Project<br>
+     **Content:** Preview<br>
+     Prod: Same
+  2. Dev:<br>
+     **URL:** `/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start`<br>
+     **Title:** Set the Stage. In What Part of the World did this Story Start?<br>
+     **Content:** Region Picker<br>
+     Prod:<br>
+  3. Same
+  4. URL & Title: Same<br>
+     Content: Different. Dev: Region Picker. Prod: Preview editor. Not sure which is correct.
+  5. 
+- UI mix-up solved by removing the early return from `RelationShipsPreviewZ` if `initializeDefaults` hasn’t been called yet.
+
+#### `textbox3-destination-where-did-they-land`
+Title: 3. American Destiny. Where did they land?
+- `Uncaught ReferenceError: regionList is not defined`
+  - Attempts to set `regionList.selectedIndex = i;` (inside of `ChangeAreasRegionsList()`) but `regionList` is defined in a different function (`UpdateAreaRegionsList()`) and is thus out of scope. Has nothing to do with localStorage.
+- `Uncaught ReferenceError: AcceptCurrentDeparture is not defined`
+  - `AcceptCurrentDeparture()` is defined in `textbox2-origins-from-where-did-they-depart.html`.
+  - May be from UI mix-up?
+    - Yes, ReferenceErrors go away after solving UI mix-up
+- 
+
+#### `textbox3-destination-where-did-they-end-up`
+Title: 3: Destination: Where did they end up?
+- Clicking on “Unknown” for County or City/Town in the dropdown menus cause a redirect. This is likely an unexpected behavior that will confuse or frustrate the user as they might think they’ve just lost their place in the Wizard.
+
+#### `000-knownshipoptions`
+- Tawk is throwing errors: `Cannot read property 'appendChild' of null`, `this.getBrowserData is not a function`. Not under our direct control; skipping.
+- `TypeError: Cannot read property 'replace' of undefined`
+  ```js
+  var shopifiedShipImg = '\"' + shopifyFilePreFix + webShipImg.replace("(", "_").replace(")", "_") + '\"';
+  ```
+- `Uncaught ReferenceError: initializeDefaults is not defined`
+  - Template: `page` → `page.initialize-jimaworks`. Technically doesn’t need any localStorage vars? But trying to get rid of all errors.
+    - Fixed errors but ended up replacing the UI with the standard Preview editor when this is supposed to be a ship-specific editor.
+    - Does need some localStorage vars; just expects them to already be set by previous pages.
+  - Reverted to regular `page` template; initializeDefaults() doesn’t get defined so init includes won’t work here. Have to set “backup default” for localStorage.shipPic[Default]
+
+### `textbox4-tripinfo-how-did-they-get-here`
+- Also uses `page` template.
+  - Should we add `initializeDefaults` to regular `page` template?
+- With all localStorage vars from previous steps:
+  - `Uncaught TypeError: Cannot read property '0' of undefined at textbox4-tripinfo-how-did-they-get-here:1361`:
+    ```js
+    console.log('Added: '+newShipArray[4][0]+' with '+newShipArray[0][1]+'= '+newShipArray[4][1]) ;
+    ```
+  - `Uncaught TypeError: Cannot read property '0' of undefined at textbox4-tripinfo-how-did-they-get-here:1413`
+    ```js
+    console.log('Added: '+newShipArray[15][0]+' with '+newShipArray[0][1]+'= '+newShipArray[15][1]) ;
+    ```
+- Without localStorage vars (hard refresh):
+  - `Uncaught TypeError: Cannot read property 'replace' of undefined at displayCurrentShip (textbox4-tripinfo-how-did-they-get-here:688)`
+    ```js
+    var shopifiedShipImg = '\"' + shopifyFilePreFix + webShipImg.replace("(", "_").replace(")", "_") + '\"'; 
+    ```
+    - This is the same issue as in `000-knownshipoptions`.
+  - `Uncaught TypeError: Cannot read property '1' of undefined at getMostLikelyShipForTimeAndPlace (textbox4-tripinfo-how-did-they-get-here:1897)`
+    ```js
+    thisShipsName = thisShipInfo[nameIndex]; 
+    ```
+    - Since `getMostLikelyShipForTimeAndPlace` is defined at runtime, it can’t know about `newShipArray`, which is defined at compile time.
+      - Before: `getMostLikelyShipForTimeAndPlace() ;`
+      - After: `getMostLikelyShipForTimeAndPlace(newShipArray) ;`
+      - This sets off a chain reaction of things being undefined:
+        - `getMostLikelyShipForTimeAndPlace()`
+           1. `var processedShipsArray = newShipArray.slice(1) ;`
+           2. `processedShipsArray=processedShipsArray.filter(filterByYearInterval) ;`
+    - When localStorage is not set, `filterByYearInterval()` did not return correctly.
+      - Before:
+        ```js
+        var EarliestPossYr = Number(localStorage.EarliestPossibleYearOfCrossing) ;
+        var LatestPossYr = Number(localStorage.LatestPossibleYearOfCrossing) ;
+        ```
+      - After:
+        ```js
+        var EarliestPossibleYearOfCrossing = (
+          localStorage.getItem("EarliestPossibleYearOfCrossing")
+          || localStorage.getItem("EarliestPossibleYearOfCrossingDefault")
+          || 1607
+        );
+        var EarliestPossYr = Number(EarliestPossibleYearOfCrossing) ;
+        ```
+
+### `1-g-ii-jimaworks-madeshipimagery`
+- Duplicates code from `textbox4-tripinfo-how-did-they-get-here`. Implementing same fixes.
+
+### `1-c-map-background`
+- `Uncaught TypeError: Cannot read property 'replace' of undefined at 1-c-map-background:739`
+  ```js
+  var currShipImgFile =  "https://cdn.shopify.com/s/files/1/1336/0641/files/"
+                         + currShipImg.replace(" ","_").replace("(","_").replace(")","_") ;
+  ```
+  - Comes from `var currShipImg = localStorage.shipPic;`
+- `matchArrayString` can not know about `matchTarget` yet, which makes var `findIndex()` return -1.
+  - Before:
+    ```js
+    /* define "matchTarget" in the local environment... */
+    function matchArrayString(element) {
+      return element == matchTarget;
+    }
+    // ...
+    var matchTarget = currOrigChoice ;  /* Creating a "local global" for matchArrayString...*/
+    var origsIndex = origsArray.findIndex(matchArrayString);
+    ```
+  - After:
+    ```js
+    var matchTarget = currOrigChoice ;  /* Creating a "local global" for matchArrayString...*/
+    var matchArrayString = function (element) {
+      return element == matchTarget;
+    }
+    var origsIndex = origsArray.findIndex(matchArrayString);
+    ```
+
+### `choose-a-format-for-your-relationships-delivery`
+- Frame border not showing up
+  - `RelationShipsPreviewZ("mockup", "noFrame");` – duh!
+- Duplicate rendering of shipInfoTextBoxL1-2
+  - Turns out this is on every invocation of the Preview; not unique to this page.
+
+### `2-the-frame`
+- `Uncaught TypeError: Cannot read property 'replace' of undefined at 2-the-frame:601`
+  ```js
+  var currShipImgFile =  "https://cdn.shopify.com/s/files/1/1336/0641/files/"
+                         + currShipImg.replace(" ","_").replace("(","_").replace(")","_") ;
+  ```
+  - Same as `1-c-map-background`. Duplicates code; implementing same fixes.
+ 

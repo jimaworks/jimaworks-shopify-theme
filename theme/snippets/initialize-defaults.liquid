@@ -76,16 +76,23 @@
   "use strict";
   // ###  Aug 06 2019:1515 Start selecting the variables that need to be restored... send initializeDefaults() to page.initialize-jimaworks.liquid
 
-  function initializeDefaults() {
-        /*
+  function initializeDefaults(callback) {
+    /*
       console.log("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
       alert("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
     */
-
-    var pages = Object.keys(window.Jimaworks.Pages);
-    for (var index = 0; index < pages.length; index++) {
-      var page = pages[index];
-      window.Jimaworks.Pages[page].initializeDefaults();
+    if ( !window.Jimaworks.defaultsHaveBeenInitialized ) {
+      var pages = Object.keys(window.Jimaworks.Pages);
+      for (var index = 0; index < pages.length; index++) {
+        var page = pages[index];
+        console.warn(page + '_initializeDefaults()');
+        // console.warn(Object.assign({}, localStorage));
+        window.Jimaworks.Pages[page].initializeDefaults();
+      }
+      window.Jimaworks.defaultsHaveBeenInitialized = true;
+    }
+    if ( callback ) {
+      callback();
     }
   } // initializeDefaults
 
@@ -98,8 +105,10 @@
     var pages = Object.keys(window.Jimaworks.Pages);
     for (var index = 0; index < pages.length; index++) {
       var page = pages[index];
+      console.warn(page + '_clearLocalStorageVars()');
       window.Jimaworks.Pages[page].clearLocalStorageVars();
     }
+    window.Jimaworks.defaultsHaveBeenInitialized = false;
   }
 
   function WriteOutContextVars(

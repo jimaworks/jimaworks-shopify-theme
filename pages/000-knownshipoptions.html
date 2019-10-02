@@ -1,5 +1,5 @@
 <!--  KnownShipOptions
-                  https://jimaworks.com/pages/000-known-ship-options
+                  /pages/000-known-ship-options
                   template:  page
                   Title: Options for "Known Ship"
       Apr 24 2019:0700 Build the KnownShipOptions page from the Prices page... but too much text.
@@ -47,8 +47,12 @@
   
           /* ship */
          if (!webShipImg) {
-              webShipImg = localStorage.shipPic;  
-             
+            webShipImg = (
+                // TODO: See comment for webMapImg in `define-preview-fn.liquid`
+                localStorage.getItem( "shipPic" )
+                || localStorage.getItem( "shipPicDefault" )
+                || 'jimaworksStPaul640.png'
+            );
          }
           var shopifiedShipImg = '\"' + shopifyFilePreFix + webShipImg.replace("(", "_").replace(")", "_") + '\"';  
           var ImgOverlayHTML = '' ;
@@ -140,10 +144,10 @@
   -->
   <script>// <![CDATA[
   // nextPage could be one of two:
-  // "https://jimaworks.com/pages/x1-c-ship" -- turn into "https://jimaworks.com/pages/1.g.b-historic-ship-images"
-  // "https://jimaworks.com/pages/1.g.b-jimaworks-ship-images"... 
-  var existingImageNextPage = "https://jimaworks.com/pages/textbox4-tripinfo-how-did-they-get-here" ;
-  var jimaworksImageNextPage = "https://jimaworks.com/pages/1-g-ii-jimaworks-madeshipimagery" ;
+  // "/pages/x1-c-ship" -- turn into "/pages/1.g.b-historic-ship-images"
+  // "/pages/1.g.b-jimaworks-ship-images"... 
+  var existingImageNextPage = "/pages/textbox4-tripinfo-how-did-they-get-here" ;
+  var jimaworksImageNextPage = "/pages/1-g-ii-jimaworks-madeshipimagery" ;
   
   displayCurrentShip(localStorage.shipPic) ;
   // ]]></script>

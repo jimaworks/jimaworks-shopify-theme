@@ -1,4 +1,4 @@
-<!--    https://jimaworks.com/pages/textbox4-tripinfo-how-did-they-get-here
+<!--    /pages/textbox4-tripinfo-how-did-they-get-here
     1.d.TripInfo TextBox4: TripInfo. How did they get here?
     new ship datastructures...
     
@@ -27,7 +27,7 @@
   <!-- from Origin and Destination pages: 
       <div style="position: absolute; z-index: 25; top: 20px; left: 70px; width: 180px; height: 130px;">
   -->
-  <div id="shipChoiceMenu" style="position: absolute; z-index: 25; top: 20px; left: 70px; width: 1000px; height: 130px;"><button id="knownShip" class="float-left submit-button" onclick="userProvidedShip()"> <em>I have a specific ship in mind*.</em> </button> <button id="typicalShip-Choice" class="float-left submit-button" onclick="chooseTypicalShip()"> <em>Let's look at some other typical ships.</em> </button> <button id="typicalShip-Given" class="float-left submit-button" onclick="stickWithCurrentShip()"> <em>This ship looks good. Use it.</em> </button>
+  <div id="shipChoiceMenu" style="position: absolute; z-index: 25; top: 20px; left: 70px; width: 1000px; height: 130px;"><button id="knownShip" class="float-left submit-button" onclick="userProvidedShip()"> <em>I have a specific ship in mind*.</em> </button> <button id="typicalShip-Choice" class="float-left submit-button" onclick="chooseTypicalShip(newShipArray)"> <em>Let's look at some other typical ships.</em> </button> <button id="typicalShip-Given" class="float-left submit-button" onclick="stickWithCurrentShip()"> <em>This ship looks good. Use it.</em> </button>
   <div style="color: ivory; font-size: large; font-weight: bold; text-shadow: 1px 1px 0px black;">
   <p>*If you want a specific ship, we'll find or make an image of that ship for you.</p>
   </div>
@@ -53,8 +53,12 @@
          //  ### then ask if want to keep or change (One? Both? )  List as warnings? ###
          
          if (!webShipImg) {
-              webShipImg = localStorage.shipPic;
-             
+            webShipImg = (
+                // TODO: See comment for webMapImg in `define-preview-fn.liquid`
+                localStorage.getItem( "shipPic" )
+                || localStorage.getItem( "shipPicDefault" )
+                || 'jimaworksStPaul640.png'
+            );
          }
           var shopifiedShipImg = '\"' + shopifyFilePreFix + webShipImg.replace("(", "_").replace(")", "_") + '\"';  
           var ImgOverlayHTML = '' ;
@@ -98,7 +102,7 @@
           shipEraInconsistencyMsg += "Do you want to make another selection (if you cancel we will select a ship for you)" ;
           if (confirm(shipEraInconsistencyMsg)) {
             localStorage.shipName= getDefaultShip(crossingYear) ;
-            chooseTypicalShip () ;
+            chooseTypicalShip(newShipArray) ;
           }
           else {
             localStorage.shipName= getDefaultShip(crossingYear) ;
@@ -163,7 +167,7 @@
       scroll(0,0) ;
       displayCurrentShip(localStorage.shipPic) ;
   /*    
-      window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
+      window.location.href="/pages/1-c-map-background" ;
    */
   }
   // ]]></script>
@@ -194,7 +198,7 @@
   /*    
       location.reload();
   */    
-      chooseTypicalShip () ;
+      chooseTypicalShip(newShipArray) ;
   }
   // ]]></script>
   <script>// <![CDATA[
@@ -330,8 +334,22 @@
       */
       var shipStartYr = Number(shipInfo[careerStartIndex]) ;
       var shipEndYr = Number(shipInfo[careerEndIndex]) ;
-      var EarliestPossYr = Number(localStorage.EarliestPossibleYearOfCrossing) ;
-      var LatestPossYr = Number(localStorage.LatestPossibleYearOfCrossing) ;
+
+      // if localStorage hasn’t been set, Number(undefined) = NaN
+      var EarliestPossibleYearOfCrossing = (
+        localStorage.getItem("EarliestPossibleYearOfCrossing")
+        || localStorage.getItem("EarliestPossibleYearOfCrossingDefault")
+        || 1607
+      );
+      var EarliestPossYr = Number(EarliestPossibleYearOfCrossing) ;
+
+      var LatestPossibleYearOfCrossing = (
+        localStorage.getItem("LatestPossibleYearOfCrossing")
+        || localStorage.getItem("LatestPossibleYearOfCrossingDefault")
+        || (new Date()).getFullYear()
+      );
+      var LatestPossYr = Number(LatestPossibleYearOfCrossing) ;
+
       //return ((shipEndYr >= eraStartYr) && (shipEndYr <= eraEndYr)) ;  <<< ### error ###
       return ((shipEndYr >= EarliestPossYr) && (shipStartYr <= LatestPossYr)) ;
   }
@@ -754,7 +772,8 @@
   <script>// <![CDATA[
   console.log('Added: '+newShipArray[2][0]+' with '+newShipArray[0][1]+'= '+newShipArray[2][1]) ;
   console.log('Added: '+newShipArray[3][0]+' with '+newShipArray[0][1]+'= '+newShipArray[3][1]) ;
-  console.log('Added: '+newShipArray[4][0]+' with '+newShipArray[0][1]+'= '+newShipArray[4][1]) ;
+  // newShipArray[4] doesn’t exist at this point; commenting out to reduce console errors - Hugh
+  // console.log('Added: '+newShipArray[4][0]+' with '+newShipArray[0][1]+'= '+newShipArray[4][1]) ;
   // ]]></script>
   <script>// <![CDATA[
   //newShipArray.push(["Typical Snow(1700-1850)", "Typical Snow", "ColonialAndEarlyIndependenceEra(1607-1840)", "Unk", "Snow", 1700, 1840, 67.2, "TypicalSnow-illust.png|Typical_Snow-519x640-illustr.png|A_naval_snow-640x529-painting.jpg", "jimaworksMadeImage|historicImage|historicImage"]);
@@ -816,7 +835,8 @@
   newShipArray.push(["Europa","Europa", "EraOfTheSteamSailShip(1840-1915)", "Polish", "3MastedMerchant", 1760, 1830, 134.4, "Europa-painting.jpg", "historicImage"]);
   
   console.log('Added: '+newShipArray[9][0]+' with '+newShipArray[0][1]+'= '+newShipArray[9][1]) ;
-  console.log('Added: '+newShipArray[15][0]+' with '+newShipArray[0][1]+'= '+newShipArray[15][1]) ;
+  // newShipArray[15] doesn’t exist at this point; commenting out to reduce console errors - Hugh
+  // console.log('Added: '+newShipArray[15][0]+' with '+newShipArray[0][1]+'= '+newShipArray[15][1]) ;
   // ]]></script>
   <script>// <![CDATA[
   newShipArray.push(["Brittania", "Brittania", "EraOfTheSteamSailShip(1840-1915)", "Brit", "PaddleSteamer", 1840, 1880, 154.6, "Britannia-painting.jpg", "historicImage"]);
@@ -993,11 +1013,11 @@
   <script>// <![CDATA[
   function stickWithCurrentShip(){
       console.log("stickWithCurrentShip()") ;
-      var nextPage = "https://jimaworks.com/pages/textbox5-plaque-who-came-over" ;
+      var nextPage = "/pages/textbox5-plaque-who-came-over" ;
       window.location.assign(nextPage);
   }
   
-  function chooseTypicalShip (){
+  function chooseTypicalShip(newShipArray){
       console.log("chooseTypicalShip()") ;
       console.log("entering chooseTypicalShip() with localStorage.ShipSort=="+localStorage.ShipSort) ;
       var pagePrologue= "<div class=\'row\'>" ;
@@ -1034,14 +1054,14 @@
       thisShipsAltString = erasArray[thisMapChoiceIndex]
                                    + " is not currently available" ;
       */
-      /* product page example: https://jimaworks.com/products/noship-palacerosamap */
-      nextPage = "https://jimaworks.com/pages/1-c-map-historicImage" ;
+      /* product page example: /products/noship-palacerosamap */
+      nextPage = "/pages/1-c-map-historicImage" ;
       console.log("2b. nextPage = " + nextPage) ;
   
   
   /*
   <input type="text" id="ShipName" value="&lt;enter your ship's name&gt;" /> 
-      <a href="https://jimaworks.com/pages/1-c-map-historicImage" 
+      <a href="/pages/1-c-map-historicImage" 
       a="" onclick="###RecordNewShipChoice()###"> [Click Here to Submit your Shipname] </a>
   <p> </p>
   <h2>Or... find and image for your ship in the list below</h2>
@@ -1248,7 +1268,7 @@
       localStorage.userProvidedShipName = userProvidedShipNameStr ;
       document.getElementById("knownShip").innerHTML = "A New Specific Ship Please" ;
   /*
-          var nextPage = "https://jimaworks.com/pages/1-c-map-historicImage" ;
+          var nextPage = "/pages/1-c-map-historicImage" ;
           window.location.assign(nextPage);
   */
   
@@ -1309,7 +1329,7 @@
   function noShip (){
       console.log("noShip()") ;
       localStorage.setItem("userProvidedShipName", "noShip") ;
-      var nextPage = "https://jimaworks.com/pages/textbox5-plaque-who-came-over" ;
+      var nextPage = "/pages/textbox5-plaque-who-came-over" ;
       window.location.assign(nextPage);
   }
   // ]]></script>
@@ -1339,7 +1359,7 @@
   }
   // ]]></script>
   <script>// <![CDATA[
-  function getMostLikelyShipForTimeAndPlace() {
+  function getMostLikelyShipForTimeAndPlace(newShipArray) {
       console.log("###getMostLikelyShipForTimeAndPlace()###")
       var thisShipInfo ; 
       var thisShipInfoStr ; 
@@ -1398,6 +1418,7 @@
           /* ### subtract 1 from sorting results for javascript zero-start indices ### */
           thisShipInfo = processedShipsArray[thisShipIndex] ;
           thisShipInfoStr="\"" + thisShipInfo + "\"" ;
+
           thisShipsName = thisShipInfo[nameIndex]; 
           thisShipsImages = thisShipInfo[imageryIndex].split("|");
           shipImageTypeArray = thisShipInfo[imageTypeIndex] ; /* .split("|"); */
@@ -1425,5 +1446,5 @@
           }
       }
   }
-  getMostLikelyShipForTimeAndPlace() ;
+  getMostLikelyShipForTimeAndPlace(newShipArray) ; // Since `getMostLikelyShipForTimeAndPlace` is defined at runtime, it can’t know about `newShipArray`, which is defined at compile time.
   // ]]></script>

@@ -1,5 +1,5 @@
 <!--  Who... no, *What* Is This Story About?
-      https://jimaworks.com/pages/textbox1-title-line1-what-is-this-story-about
+      /pages/textbox1-title-line1-what-is-this-story-about
       template:  page.initialize-jimaworks
       title: 1.a Get Started.  What is this story/Whose Story Is This?
       subtitle: Whose crossing are you commemorating? 
@@ -28,12 +28,12 @@
 <table width="100%">
 <tbody>
 <tr>
-<td style="text-align: left;"><a href="https://cdn.shopify.com/s/files/1/1336/0641/files/RelationShipsImage-Campania_1897-1918_-Walnut-ParisSage-72ppi.png?15266436432026494628" data-lightbox="jimaworks-gallery" data-title="&lt;a href='https://jimaworks.com/pages/0-1-origins'
+<td style="text-align: left;"><a href="https://cdn.shopify.com/s/files/1/1336/0641/files/RelationShipsImage-Campania_1897-1918_-Walnut-ParisSage-72ppi.png?15266436432026494628" data-lightbox="jimaworks-gallery" data-title="&lt;a href='/pages/0-1-origins'
                     &gt;Click here&lt;/a&gt; to get started"> <img style="vertical-align: top;" src="https://cdn.shopify.com/s/files/1/1336/0641/files/RelationShipsImage-Campania_1897-1918_-Walnut-ParisSage-72ppi.png?15266436432026494628" alt="RelationShips example" /> </a>
-<p><a href="https://jimaworks.com/pages/examplesinarraywlargerpics" a=""> Click HERE for some examples </a></p>
+<p><a href="/pages/examplesinarraywlargerpics" a=""> Click HERE for some examples </a></p>
 
 ...had a comment start
-<p><a href="https://jimaworks.com/pages/0-1-origins" a="" onclick="GetStartedWithARelationShipsProject()"> Click HERE to skip the intro </a></p>
+<p><a href="/pages/0-1-origins" a="" onclick="GetStartedWithARelationShipsProject()"> Click HERE to skip the intro </a></p>
 ... had a comment end
 
 </td>
@@ -59,7 +59,7 @@
             var txt;
             if (confirm(requireMembershipString)) {
                 txt = "You pressed Sure!";
-                /* go to https://jimaworks.com/account/login */
+                /* go to /account/login */
             } else {
                 txt = "You pressed NoThx!";
                 /* go to https://jimaworks.com */
@@ -222,11 +222,11 @@ if ((localStorage.TitleLine1===undefined)||(localStorage.TitleLine1==="undefined
     console.log('AFTER: document.getElementById("lastname").value=='+document.getElementById("lastname").value)
 */
 
-//var nextPage = "https://jimaworks.com/pages/1-b-in-what-part-of-the-world-did-this-story-start" ; //"https://jimaworks.com/pages/000-test-set-the-stage-of-your-story" ; //"https://jimaworks.com/pages/x1-region" ;
-var nextPage = "https://jimaworks.com/pages/textbox1-title-line2-when-did-it-take-place-1" ; //"https://jimaworks.com/pages/000-test-set-the-stage-of-your-story" ; //"https://jimaworks.com/pages/x1-region" ;
+//var nextPage = "/pages/1-b-in-what-part-of-the-world-did-this-story-start" ; //"/pages/000-test-set-the-stage-of-your-story" ; //"/pages/x1-region" ;
+var nextPage = "/pages/textbox1-title-line2-when-did-it-take-place-1" ; //"/pages/000-test-set-the-stage-of-your-story" ; //"/pages/x1-region" ;
 
 function actionOnSave() {
-    var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+    var SaveForLaterPage = "/pages/saveandreturnlater" ;
     window.location.assign(SaveForLaterPage);
 }
     

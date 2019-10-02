@@ -1,5 +1,5 @@
 <!--  RelationShips Timeline
-      https://jimaworks.com/pages/textbox1-title-line2-when-did-it-take-place-1
+      /pages/textbox1-title-line2-when-did-it-take-place-1
       template:  page
       Title: 1. Title. Line2: When did it take place?
       
@@ -183,6 +183,8 @@
     <h4>Your Title Text Box contents are currently: <br />     Line1: <span id="titleTextBoxL1"> " " </span> <br />     Line2: <span id="titleTextBoxL2" style="color: darkblue;"> "A Thread in the Great American Tapestry" </span> <br />     Line3: <span id="titleTextBoxL3"> " " </span> <br />(You'll have opportunities to edit later)</h4>
     </div>
     <script>// <![CDATA[
+    initializeDefaults();
+
     var titleLineWidth = 320 ;
     var userInputOption  = '' ;
         userInputOption  = '<input id="enterTitleLine2"' ;
@@ -233,7 +235,7 @@
     -->
     <script>// <![CDATA[
     function actionOnSave() {
-        var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+        var SaveForLaterPage = "/pages/saveandreturnlater" ;
         window.location.assign(SaveForLaterPage);
     }
     // ]]></script>
@@ -241,8 +243,8 @@
                     style="background: #05537A;"
       -->
     <script>// <![CDATA[
-    //var nextPage = 'https://jimaworks.com/pages/textbox2-origins-from-what-region-did-this-firstgen-come' ;
-    var nextPage = 'https://jimaworks.com/pages/textbox2-origins-where-did-this-firstgen-come-from' ;
+    //var nextPage = '/pages/textbox2-origins-from-what-region-did-this-firstgen-come' ;
+    var nextPage = '/pages/textbox2-origins-where-did-this-firstgen-come-from' ;
     
     var settingLowerDate = true ;
     

@@ -76,7 +76,7 @@
       }
 
       /* "LatestPossibleYearOfCrossing"  "LatestPossibleYearOfCrossingDefault"  "LatestPossibleYearOfCrossingDefaultAbbrev"  */
-      var LatestPossibleYearOfCrossingDefault = "2019";
+      var LatestPossibleYearOfCrossingDefault = (new Date()).getFullYear().toString();
       localStorage.setItem(
         "LatestPossibleYearOfCrossingDefault",
         LatestPossibleYearOfCrossingDefault

@@ -1,5 +1,5 @@
 <!--  RelationShips CountryOfOrigin:  TextBox3:Destnation: Where did this FirstGen land?
-            Page: https://jimaworks.com/pages/1-d-from-where-did-this-first-generation-come
+            Page: /pages/1-d-from-where-did-this-first-generation-come
             Template:  page
             Title: 1.d From Where did this First Generation come?
       Apr 16 2019:1600 Start to construct CountryOforigin and StateDestination pages
@@ -75,6 +75,8 @@
 <h4>Your Destination Text Box contents are currently: <br />Line1: <span id="destinationTextBoxL1" style="color: darkblue;"> " " </span> <br />Line2: <span id="destinationTextBoxL2"> " " </span> <br />(You'll have opportunities to edit later)</h4>
 </div>
 <script>// <![CDATA[
+initializeDefaults();
+
 if ((localStorage.DestinyLine1===undefined)||(localStorage.DestinyLine1==="undefined")||(localStorage.DestinyLine1==="")) {
       document.getElementById("destinationTextBoxL1").innerHTML = "&lt;Destination&gt;" ;
   }
@@ -95,7 +97,7 @@ if ((localStorage.DestinyLine1===undefined)||(localStorage.DestinyLine1==="undef
 -->
 <script>// <![CDATA[
 function actionOnSave() {
-  var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+  var SaveForLaterPage = "/pages/saveandreturnlater" ;
   window.location.assign(SaveForLaterPage);
 }
 // ]]></script>
@@ -103,9 +105,9 @@ function actionOnSave() {
 //originAreasRegionsArray.push()[["Europe","NorthernEurope"]]
 
 // ### rip out as much of localStorage as possible, starting with these page-local intermediate (?) results ###
-//var nextPage = "https://jimaworks.com/pages/1-e-where-did-they-end-up" ; //"https://jimaworks.com/pages/where-did-thy-end-up";
-//var nextPage = "https://jimaworks.com/pages/textbox3-destination-where-did-they-land" ;
-var nextPage = "https://jimaworks.com/pages/textbox3-destination-where-did-they-end-up" ;
+//var nextPage = "/pages/1-e-where-did-they-end-up" ; //"/pages/where-did-thy-end-up";
+//var nextPage = "/pages/textbox3-destination-where-did-they-land" ;
+var nextPage = "/pages/textbox3-destination-where-did-they-end-up" ;
 if ((localStorage.RegionOfArrival==undefined)||(localStorage.RegionOfArrival=='')) {
   localStorage.RegionOfArrival = "Unk" ;    
 }
@@ -790,19 +792,19 @@ function AcceptCurrentArrival() {
       //if (confirm('Destination Text Box: Current Line 1 reads:"'+localStorage.DestinyLine1+'". Accept and Continue?')) {
       if (true) {
           localStorage.DestinyLine1 = ProposedDestinationText ;
-          //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          //var nextPage = "/pages/1-c-map-background" ;
           window.location.assign(nextPage) ;
       }
   }
   //else if (ProposedDestinationText && confirm('Current Line 1 of Destination text box reads:"'+localStorage.DestinyLine1+'". Change it to:"'+ProposedDestinationText+'" and Continue?')) {
   else if (ProposedDestinationText) {
       localStorage.DestinyLine1 = ProposedDestinationText ;
-      //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+      //var nextPage = "/pages/1-c-map-background" ;
       window.location.assign(nextPage) ;
   }
   //else if (confirm('Continuing with Line 1 of Destination Text Box as:"'+localStorage.DestinyLine1+'"')) {
   else {
-          //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          //var nextPage = "/pages/1-c-map-background" ;
           window.location.assign(nextPage) ;
       //else just continue
   }
@@ -2723,8 +2725,8 @@ function RecordNewPortChoice(newPortName, portInfoStr, portRole) {
       displayCurrentRoutes(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeGrfx") ; // ###yes?###
       chooseTypicalPort(leftOrRightMenu, "routeGrfx") ;
       /*    
-          window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
-          -- or -- https://jimaworks.com/pages/x1-c-ship
+          window.location.href="/pages/1-c-map-background" ;
+          -- or -- /pages/x1-c-ship
        */
       // updating the departure port TextBox echo...
       document.getElementById("destinationTextBoxL1").innerHTML = "Port of Entry: "+newPortName ;
@@ -2740,8 +2742,8 @@ function RecordNewPortChoice(newPortName, portInfoStr, portRole) {
       displayCurrentRoutes(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeGrfx") ; // ###yes?###
       chooseTypicalPort(leftOrRightMenu, "routeGrfx") ;
       /*    
-          window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
-          -- or -- https://jimaworks.com/pages/x1-c-ship
+          window.location.href="/pages/1-c-map-background" ;
+          -- or -- /pages/x1-c-ship
        */
       // updating the departure port TextBox echo...
 // just Departure text box here:
@@ -2783,8 +2785,8 @@ function RecordNewPortListChoice(newPortName, portInfoStr, portRole) {
       displayCurrentRoutes(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeGrfx") ; // ###yes?###
       chooseTypicalPort(leftOrRightMenu, "routeGrfx") ;
       /*    
-          window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
-          -- or -- https://jimaworks.com/pages/x1-c-ship
+          window.location.href="/pages/1-c-map-background" ;
+          -- or -- /pages/x1-c-ship
        */
   }
   else if (portRole=="departurePort") {
@@ -2811,8 +2813,8 @@ function RecordNewPortListChoice(newPortName, portInfoStr, portRole) {
 //        displayCurrentRoutes(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeGrfx") ; // ###yes?###
       chooseTypicalPort(leftOrRightMenu, "routeGrfx") ;
       /*    
-          window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
-          -- or -- https://jimaworks.com/pages/x1-c-ship
+          window.location.href="/pages/1-c-map-background" ;
+          -- or -- /pages/x1-c-ship
        */
   }
   else {

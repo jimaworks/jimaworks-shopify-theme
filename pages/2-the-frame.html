@@ -1,11 +1,11 @@
-<!-- https://jimaworks.com/pages/1.c.MapStylePerRegionPerEra 
+<!-- /pages/1.c.MapStylePerRegionPerEra 
     2.b: Frame choice
     -->
     <script type="text/javascript">// <![CDATA[
       function ProductMockup() {
           alert("in ProductMockup") ;
-          var previewPage = 'https://jimaworks.com/pages/testpage' ;
-          alert("this worked: https://jimaworks.com/pages/testpage") ;
+          var previewPage = '/pages/testpage' ;
+          alert("this worked: /pages/testpage") ;
           alert("previewPage == "+previewPage) ;
           /*location.replace(previewPage) ;*/
           window.location.assign(previewPage) ;
@@ -25,12 +25,7 @@
             return element == arrayString;
           }
       */
-          
-          /* define "matchTarget" in the local environment... */
-          function matchArrayString(element) {
-            return element == matchTarget;
-          }
-          
+
           function RecordFrameChoice(styleName, styleAbbrev, styleImageFileNm) {
       /*
               alert(">>>RecordFrameChoice():  styleName=="+styleName+" styleAbbrev=="+styleAbbrev+" styleImageFileNm=="+styleImageFileNm ) ;
@@ -51,8 +46,16 @@
                               "Pac",
                               "SAm",
                               "SoA"] ;
-          var currOrigChoice = localStorage.RegionOfOrigin;
+          var currOrigChoice = (
+            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
+            localStorage.getItem("RegionOfOrigin")
+            || localStorage.getItem("RegionOfOriginDefault")
+            || "EuropeAndTheMediterranean"
+          );
           var matchTarget = currOrigChoice ;  /* Creating a "local global" for matchArrayString...*/
+          var matchArrayString = function (element) {
+            return element == matchTarget;
+          }
           var origsIndex = origsArray.findIndex(matchArrayString);
           var currOrigChoiceAbbrev = origAbbrevs[origsIndex];
       
@@ -89,15 +92,34 @@
                               1910,
                               2016] ;
       
-          var currEraChoice = localStorage.Era; /* localStorage.EraOfCrossing; */
+          var currEraChoice = (
+            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
+            localStorage.getItem("Era")
+            || localStorage.getItem("EraDefault")
+            || "EraOfThePassengerLiner(1895-1970)"
+          ); /* localStorage.EraOfCrossing; */
           var matchTarget = currEraChoice ;  /* Creating a "local global" for matchArrayString...*/
+          /* define "matchTarget" in the local environment... */
+          /*
+            Normally we would not want to override the existing variable
+            (with the same function definition, no less) but we have to in order to accomodate
+            each `matchTarget`. TODO: Combine back into single function.
+          */
+          var matchArrayString = function (element) {
+            return element == matchTarget;
+          }
           var eraIndex = erasArray.findIndex(matchArrayString);
           var currEraChoiceAbbrev = eraAbbrevs[eraIndex];
       
           /* read the current values for the ship/airplane/etc... */
           var currTransportCraft = localStorage.TransportCraft;
           var currShipName = localStorage.shipName;
-          var currShipImg = localStorage.shipPic;
+          var currShipImg = (
+            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
+            localStorage.getItem( "shipPic" )
+            || localStorage.getItem( "shipPicDefault" )
+            || 'jimaworksStPaul640.png'
+          );
       /* ### 
          need to fix this...
          ### */
@@ -213,8 +235,17 @@
               we shouldn't really have to set up the findIndex routine, right? ###
       */
       
-          var currMapChoice = localStorage.MapStyle;
+          var currMapChoice = (
+            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
+            localStorage.getItem("MapStyle")
+            || localStorage.getItem("MapStyleDefault")
+            || "ParisSage"
+          );
           var matchTarget = currMapChoice ;  /* Creating a "local global" for matchArrayString...*/
+          /* 3rd matchArrayString redefinition */
+          var matchArrayString = function (element) {
+            return element == matchTarget;
+          }
           var mapIndex = mapStylesArray.findIndex(matchArrayString);
           var currmapChoiceAbbrev = mapStyleAbbrevs[mapIndex];
       
@@ -309,18 +340,18 @@
                                        + " is not available" 
                                        + " in the " + currOrigChoice + " region"
                                        + " for the " + currEraChoice + " years." ;
-                  /* product page example: https://jimaworks.com/products/noship-palacerosamap */
+                  /* product page example: /products/noship-palacerosamap */
                   /* 
-                  nextPage = "https://jimaworks.com/products/"
+                  nextPage = "/products/"
                                           + shipImageInProduct
                                           + mapStylesArray[thisMapChoiceIndex]
                                           + "map" ;
                                           
-                  https://jimaworks.com/pages/choose-a-format-for-your-relationships-delivery
+                  /pages/choose-a-format-for-your-relationships-delivery
       
-                  nextPage = "https://jimaworks.com/pages/choose-a-format-for-your-relationships-delivery" ;
+                  nextPage = "/pages/choose-a-format-for-your-relationships-delivery" ;
                   */
-                  nextPage = "https://jimaworks.com/products/genericrelationshipsproduct-framed" ;
+                  nextPage = "/products/genericrelationshipsproduct-framed" ;
       
                   console.log("2b. nextPage = " + nextPage) ;
       

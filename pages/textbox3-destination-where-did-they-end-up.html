@@ -1,5 +1,5 @@
 <!--  RelationShips DestinationState
-                  https://jimaworks.com/pages/1-e-where-did-they-end-up
+                  /pages/1-e-where-did-they-end-up
                   template:  page
                   Title: TextBox3: Destination: Where did they end up?
       Apr 16 2019:1600 Start to construct CountryOforigin and StateDestination pages
@@ -80,17 +80,17 @@ document.getElementById("destinationTextBoxL2").innerHTML = localStorage.Destiny
 -->
 <script>// <![CDATA[
 function actionOnSave() {
-var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+var SaveForLaterPage = "/pages/saveandreturnlater" ;
 window.location.assign(SaveForLaterPage);
 }
 // ]]></script>
 <script>// <![CDATA[
 //originAreasRegionsArray.push()[["Europe","NorthernEurope"]]
 
-//var nextPage = "https://jimaworks.com/pages/1-f-what-route-did-they-take" ; //'https://jimaworks.com/pages/000-test-what-route-was-taken' ; //'https://jimaworks.com/pages/1-d-what-route-was-taken' ; //"https://jimaworks.com/pages/x1b-time-period-europe-and-the-mediterranean";
-//var nextPage = "https://jimaworks.com/pages/1-f-what-route-did-they-take" ;
-//var nextPage = "https://jimaworks.com/pages/textbox4-tripinfo-how-did-they-get-here" ;
-var nextPage = "https://jimaworks.com/pages/000-knownshipoptions" ;
+//var nextPage = "/pages/1-f-what-route-did-they-take" ; //'/pages/000-test-what-route-was-taken' ; //'/pages/1-d-what-route-was-taken' ; //"/pages/x1b-time-period-europe-and-the-mediterranean";
+//var nextPage = "/pages/1-f-what-route-did-they-take" ;
+//var nextPage = "/pages/textbox4-tripinfo-how-did-they-get-here" ;
+var nextPage = "/pages/000-knownshipoptions" ;
 
 if ((localStorage.DestinationSection==undefined)||(localStorage.DestinationSection=='')) {
 localStorage.DestinationSection = "Unk" ;    
@@ -636,17 +636,17 @@ ProposedDestinationText = 'Destination: '+localStorage.DestinationCity+' in '+lo
 if (ProposedDestinationText==localStorage.DestinyLine2) {
 if (confirm('Previous Line 2 of the Destination text box reads:"'+localStorage.DestinyLine2+'". Accept and Continue?')) {
 localStorage.DestinyLine2 = ProposedDestinationText ;
-//var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+//var nextPage = "/pages/1-c-map-background" ;
 window.location.assign(nextPage) ;
 }
 }
 else if (ProposedDestinationText && confirm('Previous Line 2 of the Destination text box reads:"'+localStorage.DestinyLine2+'". Change it to:"'+ProposedDestinationText+'" and Continue?')) {
 localStorage.DestinyLine2 = ProposedDestinationText ;
-//var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+//var nextPage = "/pages/1-c-map-background" ;
 window.location.assign(nextPage) ;
 }
 else if (confirm('Continuing with Line 2 of the Destination text box as:"'+localStorage.DestinyLine2+'"')) {
-//var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+//var nextPage = "/pages/1-c-map-background" ;
 window.location.assign(nextPage) ;
 //else just continue
 }
