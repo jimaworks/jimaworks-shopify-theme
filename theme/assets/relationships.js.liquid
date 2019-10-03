@@ -136,4 +136,6 @@ var ImgOverlayHTML = '<div style=\"position: relative; top: 60px; left: -300px; 
 
     ImgOverlayHTML += '</div>' ;
 
-document.getElementById("ProductPhoto").innerHTML = ImgOverlayPrelude+ImgOverlayHTML;
+    window.addEventListener('DOMContentLoaded', function () {
+        document.getElementById("ProductPhoto").innerHTML = ImgOverlayPrelude+ImgOverlayHTML;
+    });

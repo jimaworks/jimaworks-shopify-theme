@@ -1,0 +1,168 @@
+<!--
+  RelationShips Preview Redux
+  Original Author: Hugh Guiney <hugh@hughguiney.com>
+-->
+<style>
+  /*
+    Maintian aspect ratio for map
+    Source: https://css-tricks.com/aspect-ratio-boxes/#article-header-id-6
+  */
+  .aspect-ratio:before {
+    content: "";
+    width: 1px;
+    margin-left: -1px;
+    float: left;
+    height: 0;
+  }
+  .aspect-ratio:after { /* to clear float */
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .jw-relationships-preview-container {
+    margin: 0;
+  }
+
+  .jw-relationships-preview,
+  [class$="__text"] {
+    font-size: 10px;
+  }
+
+  .jw-relationships-preview {
+    box-sizing: border-box;    
+    background-color: #fff8d2;
+    line-height: 1.25;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em;
+  }
+    .jw-relationships-preview.aspect-ratio:before {
+      padding-top: calc(3561/4407 * 100%);
+    }
+    .jw-relationships-preview.jw-relationships-preview--frame {
+      border-image-slice: 433 444 433 466;
+      border-image-width: 30px;
+      padding: 40px;
+      border-image-outset: 0;
+      border-image-repeat: stretch stretch;
+      border-style: solid;
+      border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png);
+    }
+
+  [class$="__text"] {
+    color: #555;
+    color: #111;
+    text-shadow: 1px 1px 0px ivory;    
+    text-shadow: 0 0 0.125em ivory;
+    margin: 0;
+  }
+
+  .jw-title {
+    text-align: center;
+  }
+    .jw-title__text {
+      font-family: inherit;
+      border: none;
+      padding: 0;
+    }
+
+  .jw-route {
+    position: relative;
+    height: 4.6em;
+  }
+    .jw-route__origin,
+    .jw-route__destination {
+      position: absolute;
+      display: inline-block;
+      vertical-align: top;
+      top: 12.5%;
+    }
+    .jw-route__origin {
+      text-align: right;
+      right: 0;
+    }
+    .jw-route__destination {
+      left: 0;
+    }
+
+  .jw-map {
+    background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 3px solid #ad4448;
+    padding: 1em;
+    height: 20.2em;
+    position: relative;
+  }
+    .jw-map.aspect-ratio:before {
+      padding-top: calc(1151/1850 * 100%);
+    }
+    .jw-map__row + .jw-map__row {
+      margin-top: 1em;
+    }
+  
+  .jw-ship {
+    text-align: center;
+    position: absolute;
+    bottom: 1em;
+  }
+    .jw-ship__image {
+      margin: 0 auto !important;
+      max-width: 50% !important;
+    }
+
+  .jw-plaque {
+    border: 3px solid #ad4448;
+    background-color: #ecc37e;
+    text-align: center;
+    max-width: 50%;
+    max-height: 7em;
+    overflow: auto;
+    margin: 10px auto 0;
+    padding: .25em;
+  }
+    .jw-plaque.aspect-ratio:before {
+      padding-top: calc(298/640 * 100%);
+    }
+</style>
+<figure class="jw-relationships-preview-container">
+  <article class="jw-relationships-preview jw-relationships-preview--frame aspect-ratio">
+    <div class="jw-map">
+      <hgroup class="jw-title jw-map__row">
+        <h3 class="jw-title__text">The Family Crossing: First Generation</h3>
+        <h3 class="jw-title__text" role="presentation">A Thread in the Great Tapistry that is America</h3>
+        <h3 class="jw-title__text" role="presentation"></h3>
+      </hgroup>
+      <div class="jw-route jw-map__row">
+        <div class="jw-route__destination">
+          <p class="jw-route__text">Arrival: A New World Port</p>
+          <p class="jw-route__text">Destiny: An American Lineage</p>
+        </div>
+        <div class="jw-route__origin">
+          <p class="jw-route__text">Origin: The Old World</p>
+          <p class="jw-route__text">Crossing: The North Atlantic</p>
+        </div>
+      </div>
+      <div class="jw-ship jw-map__row">
+        <img class="jw-ship__image" src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" alt="Ship" />
+        <p class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
+        <p class="jw-ship__text">Typical Duration of Crossing: Two Weeks</p>
+      </div>
+    </div>
+    <div class="jw-plaque">
+      <p class="jw-plaque__text">In Appreciation of</p>
+      <p class="jw-plaque__text">the Initiative and Courage of</p>
+      <p class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
+      <p class="jw-plaque__text">#4</p>
+      <p class="jw-plaque__text">#5</p>
+      <p class="jw-plaque__text">#6</p>
+      <p class="jw-plaque__text">#7</p>
+      <p class="jw-plaque__text">#8</p>
+    </div>
+  </article>
+  <figcaption>Mockup only. Final product may differ in appearance.</figcaption>
+</figure>
+<script>
+  console.warn('RelationShips Preview Redux initialized');
+</script>

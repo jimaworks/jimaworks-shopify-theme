@@ -435,4 +435,24 @@ Title: 3: Destination: Where did they end up?
                          + currShipImg.replace(" ","_").replace("(","_").replace(")","_") ;
   ```
   - Same as `1-c-map-background`. Duplicates code; implementing same fixes.
- 
+
+## [Fix RelationShipsPreviewZ Departure UI clobbering](https://trello.com/c/oXUWJ6sC)
+
+## [Narrow down localStorage usage to only essential data](https://trello.com/c/JdAidCgb)
+- Looking at what vars the Accordion page needs as a reference
+- Accordion functionality comes from jQuery UI
+  - Disabling because we don’t really have a limited amount of space. Hiding all but one section at a time prevents scannability.
+
+## [Prototype new Accordion w/live preview builder](https://trello.com/c/y0s2vPUz)
+- Forking existing templates:
+  - `sections/product-customizable-2018.liquid` → `sections/product-customizable-2019.liquid`
+    - Did not automatically show up in the relevant dropdown menu in the Product editor
+      - Needed `theme/templates/product.customizable-2019.liquid` to include it
+  - `snippets/product-ancestor-info--pogodan.liquid` → `snippets/product-ancestor-info--hugh.liquid`
+- Starting with `genericrelationshipsproduct-framed`, but needs to be done for every variant.
+- Including init.* scripts and `RelationShipsPreviewZ` generates preview in relevant div but page alignment is off.
+  - 14 Errors
+  - Placing `DisplayOverlays` in the right-hand column “fixes” but alignment is still screwy because of absolute/relative positioning.
+    - Should just remake `RelationShipsPreviewZ`?
+      - Not yet. First, use existing preview and make it follow the user down the page.
+      - How hard would it be to at least do a skeleton HTML?
