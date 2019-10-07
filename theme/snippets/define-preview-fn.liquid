@@ -89,11 +89,11 @@
     }
 
     function SaveCurrentState() {
-        window.location.href = "' + window.location.host + '/pages/saveandreturnlater";
+        window.location.href = '/pages/saveandreturnlater';
     }
 
     function GoToBuyPage() {
-        window.location.href = "' + window.location.host + '/products/pogo-ship"; //"' + window.location.host + '/cart" ;
+        window.location.href = '/products/pogo-ship'; // '/cart" ;
     }
 
     function EditPage() {
@@ -1135,7 +1135,7 @@
         }
         else if (previewRole === "mockup") {
             headerText = '<p><em>Mockup.';
-            headerText += '<br>See <a href="' + window.location.host + '/pages/galleries">Examples</a> to see what final orders look like</em></p>';
+            headerText += '<br>See <a href="/pages/galleries">Examples</a> to see what final orders look like</em></p>';
             /* Control Button defn and placement */
             EditButton = "yup";
             BackButton = "yup";
@@ -1143,7 +1143,7 @@
         }
         else if (previewRole === "noMenus") {
             headerText = '<p><em>Mockup.';
-            headerText += '<br>See <a href="' + window.location.host + '/pages/galleries">Examples</a> to see what final orders look like</em></p>';
+            headerText += '<br>See <a href="/pages/galleries">Examples</a> to see what final orders look like</em></p>';
             /* No Control Button defn and placement */
         }
         else if (previewRole === "showTextBoxes") {
@@ -1344,7 +1344,7 @@
         }
         else {
             headerText = '<p><em>Mockup.';
-            headerText += '<br>See <a href="' + window.location.host + '/pages/galleries">Examples</a> to see what final orders look like</em></p>';
+            headerText += '<br>See <a href="/pages/galleries">Examples</a> to see what final orders look like</em></p>';
             /* Control Button defn and placement */
             EditButton = "yup";
             BackButton = "yup";
