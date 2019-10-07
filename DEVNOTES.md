@@ -456,3 +456,17 @@ Title: 3: Destination: Where did they end up?
     - Should just remake `RelationShipsPreviewZ`?
       - Not yet. First, use existing preview and make it follow the user down the page.
       - How hard would it be to at least do a skeleton HTML?
+
+## [Fix UI crowding caused by 8 PlaqueLine inputs](https://trello.com/c/nNr5XN85)
+- Reverted calculation of `font-size` to previous version (Math based on the number of filled in lines and the dimensions of the plaque)
+- `webPlaqueTextBoxDiv`
+  - Made line height permanently 1.5
+- `webPlaqueTextBoxDivContent`
+  - Made flexbox with dual-axis centering
+  - Increased padding to `5px 10px 7.5px` @ 0.8 zoom level
+- `span#plaqueTextBoxL1 + br` et al.
+  - Made TextBoxes over #3 (and their corresponding line breaks) `hidden` by default
+    - When lines are added, the corresponding elements are un-`hidden`
+    - When lines are deleted, the corresponding elements are re-`hidden`
+    - This makes it so the text is always vertically centered regardless of how many lines there are.
+- <del>Added `onchange` to relevant `inputs` that duplicates the existing `oninput` handlers. This is to cover e.g. copy & paste.</del> onChange only fires after losing focus so this did nothing.

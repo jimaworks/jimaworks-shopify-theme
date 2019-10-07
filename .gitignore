@@ -6,4 +6,5 @@ node_modules/
 Assets/
 variables
 backup/
+backup.*/
 *.backup.*
