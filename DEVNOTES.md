@@ -347,7 +347,7 @@ Title: 3: Destination: Where did they end up?
     - Does need some localStorage vars; just expects them to already be set by previous pages.
   - Reverted to regular `page` template; initializeDefaults() doesn’t get defined so init includes won’t work here. Have to set “backup default” for localStorage.shipPic[Default]
 
-### `textbox4-tripinfo-how-did-they-get-here`
+#### `textbox4-tripinfo-how-did-they-get-here`
 - Also uses `page` template.
   - Should we add `initializeDefaults` to regular `page` template?
 - With all localStorage vars from previous steps:
@@ -392,10 +392,10 @@ Title: 3: Destination: Where did they end up?
         var EarliestPossYr = Number(EarliestPossibleYearOfCrossing) ;
         ```
 
-### `1-g-ii-jimaworks-madeshipimagery`
+#### `1-g-ii-jimaworks-madeshipimagery`
 - Duplicates code from `textbox4-tripinfo-how-did-they-get-here`. Implementing same fixes.
 
-### `1-c-map-background`
+#### `1-c-map-background`
 - `Uncaught TypeError: Cannot read property 'replace' of undefined at 1-c-map-background:739`
   ```js
   var currShipImgFile =  "https://cdn.shopify.com/s/files/1/1336/0641/files/"
@@ -422,13 +422,13 @@ Title: 3: Destination: Where did they end up?
     var origsIndex = origsArray.findIndex(matchArrayString);
     ```
 
-### `choose-a-format-for-your-relationships-delivery`
+#### `choose-a-format-for-your-relationships-delivery`
 - Frame border not showing up
   - `RelationShipsPreviewZ("mockup", "noFrame");` – duh!
 - Duplicate rendering of shipInfoTextBoxL1-2
   - Turns out this is on every invocation of the Preview; not unique to this page.
 
-### `2-the-frame`
+#### `2-the-frame`
 - `Uncaught TypeError: Cannot read property 'replace' of undefined at 2-the-frame:601`
   ```js
   var currShipImgFile =  "https://cdn.shopify.com/s/files/1/1336/0641/files/"
@@ -436,14 +436,14 @@ Title: 3: Destination: Where did they end up?
   ```
   - Same as `1-c-map-background`. Duplicates code; implementing same fixes.
 
-## [Fix RelationShipsPreviewZ Departure UI clobbering](https://trello.com/c/oXUWJ6sC)
+### [Fix RelationShipsPreviewZ Departure UI clobbering](https://trello.com/c/oXUWJ6sC)
 
-## [Narrow down localStorage usage to only essential data](https://trello.com/c/JdAidCgb)
+### [Narrow down localStorage usage to only essential data](https://trello.com/c/JdAidCgb)
 - Looking at what vars the Accordion page needs as a reference
 - Accordion functionality comes from jQuery UI
   - Disabling because we don’t really have a limited amount of space. Hiding all but one section at a time prevents scannability.
 
-## [Prototype new Accordion w/live preview builder](https://trello.com/c/y0s2vPUz)
+### [Prototype new Accordion w/live preview builder](https://trello.com/c/y0s2vPUz)
 - Forking existing templates:
   - `sections/product-customizable-2018.liquid` → `sections/product-customizable-2019.liquid`
     - Did not automatically show up in the relevant dropdown menu in the Product editor
@@ -457,7 +457,7 @@ Title: 3: Destination: Where did they end up?
       - Not yet. First, use existing preview and make it follow the user down the page.
       - How hard would it be to at least do a skeleton HTML?
 
-## [Fix UI crowding caused by 8 PlaqueLine inputs](https://trello.com/c/nNr5XN85)
+### [Fix UI crowding caused by 8 PlaqueLine inputs](https://trello.com/c/nNr5XN85)
 - Reverted calculation of `font-size` to previous version (Math based on the number of filled in lines and the dimensions of the plaque)
 - `webPlaqueTextBoxDiv`
   - Made line height permanently 1.5
@@ -470,3 +470,26 @@ Title: 3: Destination: Where did they end up?
     - When lines are deleted, the corresponding elements are re-`hidden`
     - This makes it so the text is always vertically centered regardless of how many lines there are.
 - <del>Added `onchange` to relevant `inputs` that duplicates the existing `oninput` handlers. This is to cover e.g. copy & paste.</del> onChange only fires after losing focus so this did nothing.
+
+## 10/04
+
+### Deploy dev changes to production
+
+#### `/pages/textbox3-destination-where-did-they-land`
+```
+Uncaught ReferenceError: chooseTypicalPort is not defined
+    at RecordNewPortChoice (textbox3-destination-where-did-they-land:3358)
+    at ChangeCountryPortsList (textbox3-destination-where-did-they-land:1306)
+    at HTMLSelectElement.onchange (textbox3-destination-where-did-they-land:689)
+```
+
+#### `/products/genericrelationshipsproduct-framed`
+```
+Uncaught TypeError: Cannot set property 'value' of null
+    at genericrelationshipsproduct-framed:1050
+```
+↓
+```js
+document.getElementById("seascape").value = localStorage.seascape ;
+```
+**Reason**: `localStorage.seascape` is never set anywhere.

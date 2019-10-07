@@ -188,33 +188,44 @@
     function enterPlaqueText(lineNumber, newText) {
         //alert('enterPlaqueText(): lineNumber='+lineNumber+' newText='+newText)                
         var numAvailPlaqueLines = 8;
-        var localStoragePlaqueLineStr;
+        var currentPlaqueLine;
         var plaqueTextBoxEntryStr;
         var getElementByIdStr;
         var PlaqueLineStr;
+        var currentPlaqueTextBox;
         for (i = 1; i <= numAvailPlaqueLines; i++) {
-            localStoragePlaqueLineStr = 'localStorage.PlaqueLine' + i;
+            currentPlaqueLine = localStorage.getItem('PlaqueLine' + i);
             plaqueTextBoxEntryStr = 'enterPlaqueLine' + i;
             getElementByIdStr = 'plaqueTextBoxL' + i;
             PlaqueLineStr = 'PlaqueLine' + i;
+            currentPlaqueTextBox = document.getElementById(getElementByIdStr);
+            currentPlaqueLinebreak = currentPlaqueTextBox.nextElementSibling;
             //alert('enterPlaqueText(): localStoragePlaqueLineStr ='+localStoragePlaqueLineStr+' plaqueTextBoxEntryStr ='+ plaqueTextBoxEntryStr+'PlaqueLineStr='+PlaqueLineStr) ;
             //alert("eval(localStoragePlaqueLineStr+' !== undefined')"+eval(localStoragePlaqueLineStr+' !== undefined'));
             //alert("eval(localStoragePlaqueLineStr+' !== \"undefined\"')"+eval(localStoragePlaqueLineStr+' !== "undefined"'));
-            if (
-                (localStoragePlaqueLineStr !== undefined)
-                & (localStoragePlaqueLineStr !== "undefined")
-            ) {
+            if ( currentPlaqueLine !== null ) {
                 plaqueTextBoxEntry = document.getElementById(plaqueTextBoxEntryStr).value;
                 //alert('enterPlaqueText(): plaqueTextBoxEntry='+plaqueTextBoxEntry) ;
-                document.getElementById('plaqueTextBoxL' + i).innerHTML = plaqueTextBoxEntry;
+                
+                if ( currentPlaqueLine.trim() === '' ) {
+                    currentPlaqueTextBox.setAttribute('hidden', 'hidden');
+                    currentPlaqueLinebreak && currentPlaqueLinebreak.setAttribute('hidden', '');
+                } else {
+                    currentPlaqueTextBox.removeAttribute('hidden');
+                    currentPlaqueLinebreak && currentPlaqueLinebreak.removeAttribute('hidden');
+                }
+
+                currentPlaqueTextBox.innerHTML = plaqueTextBoxEntry;
                 localStorage['PlaqueLine' + i] = plaqueTextBoxEntry;
             }
             // add new line if there is one
             /*
             */
             else if (newText) {
+                currentPlaqueTextBox.removeAttribute('hidden');
+                currentPlaqueLinebreak.removeAttribute('hidden');
                 plaqueTextBoxEntry = document.getElementById(plaqueTextBoxEntryStr).value;
-                document.getElementById(plaqueTextBoxL + i).innerHTML = plaqueTextBoxEntry;
+                currentPlaqueTextBox.innerHTML = plaqueTextBoxEntry;
                 localStorage['PlaqueLine' + i] = plaqueTextBoxEntry;
                 //alert("enterPlaqueText(): plaqueTextBoxEntry ="+plaqueTextBoxEntry)
             }
@@ -803,13 +814,14 @@
         // console.log("plaqueTextBoxFontSize= webPlaqueHeight/(numFilledPlaqueLines+1))==" + plaqueTextBoxFontSize);
         // plaqueTextBoxFontSize = webPlaqueWidth / (maxLnOfFilledPlaqueLines + 2);
         // console.log("plaqueTextBoxFontSize= webPlaqueWidth/(maxLnOfFilledPlaqueLines+2))==" + plaqueTextBoxFontSize);
-        // plaqueTextBoxFontSize = Math.min(webPlaqueHeight / (numFilledPlaqueLines + 1), webPlaqueWidth / (maxLnOfFilledPlaqueLines + 2)); //  *webFrameScale  ;   // 9*webFrameScale
+        plaqueTextBoxFontSize = Math.min(webPlaqueHeight / (numFilledPlaqueLines + 1), webPlaqueWidth / (maxLnOfFilledPlaqueLines + 2)); //  *webFrameScale  ;   // 9*webFrameScale
         // console.log("plaqueTextBoxFontSize = Math.min((webPlaqueHeight/(numFilledPlaqueLines+1)),webPlaqueWidth/(maxLnOfFilledPlaqueLines+2)))==" + plaqueTextBoxFontSize);
         //### plaqueTextBoxLineHeight = webPlaqueHeight / numFilledPlaqueLines ;
-        plaqueTextBoxFontSize = ( 9.25 * webFrameScale ) // 7.4, pair with px unit later
+        // plaqueTextBoxFontSize = ( 9.25 * webFrameScale ) // 7.4, pair with px unit later
 
-        plaqueTextBoxLineHeight = (webPlaqueHeight / numFilledPlaqueLines) * webFrameScale;
-        plaqueTextBoxLineHeight = 1.0 * webFrameScale;
+        // plaqueTextBoxLineHeight = (webPlaqueHeight / numFilledPlaqueLines) * webFrameScale;
+        // plaqueTextBoxLineHeight = 1.0 * webFrameScale;
+        plaqueTextBoxLineHeight = 1.5;
 
         /*
             webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset+'px; left:'+webPlaqueLeftOffset+'px; z-index: 10;\">' ;
@@ -889,7 +901,7 @@
         webPlaqueText +=
             '<p style="'
             + ' margin-bottom: 0;'
-            + ' height: 100%;'
+            + ' max-height: 100%;'
             // Clip text if plaque can’t accomodate all 8 lines.
             + ' text-overflow: ellipsis;' // Just to be thorough. Won’t work along vertical axis.
             + ' overflow: hidden;'
@@ -898,20 +910,25 @@
             + '">'
         ;
 
+        var currentPlaqueLine;
+        var currentPlaqueLineIsBlank;
         for (i = 1; i < numAvailPlaqueLines + 1; i++) {
-            if (i > 1) webPlaqueText += '<br>';
-            if (
-                (localStorage['PlaqueLine' + i] !== undefined)
-                & (localStorage['PlaqueLine' + i] !== "undefined")
-            ) {
-                webPlaqueText += '<span id="plaqueTextBoxL' + i + '">' + localStorage['PlaqueLine' + i] + '</span></em>';
+            currentPlaqueLine = localStorage.getItem('PlaqueLine' + i);
+            currentPlaqueLineIsBlank = ( !currentPlaqueLine || ( currentPlaqueLine.trim() === '' ) );
+            if ( currentPlaqueLine !== null ) {
+                webPlaqueText += '<span id="plaqueTextBoxL' + i + '"' + ( currentPlaqueLineIsBlank ? ' hidden' : '' ) + '>' + currentPlaqueLine + '</span></em>';
                 numFilledPlaqueLines++;
             }
             else if (showExtraLine) {
                 webPlaqueText += '<span id="plaqueTextBoxL' + i + '">' + ' ' + '</span></em>';
                 showExtraLine = false;
             }
+            if (i > 0) webPlaqueText += '<br' + ( currentPlaqueLineIsBlank ? ' hidden' : '' ) + '>';
         }
+        // Prevent bugs from variable name reuse
+        currentPlaqueLine = undefined;
+        currentPlaqueLineIsBlank = undefined;
+
         webPlaqueText += '</p>';
 
         var webPlaqueTextBoxAspectRatioStyle =
@@ -937,7 +954,28 @@
             + ' top: 0;'
             + ' width: 100%;'
             + ' height: 100%;'
-            + ' padding: ' + ( 4 * webFrameScale ) + 'px;' // 3.2px @ 0.8
+            // + ' padding: ' + ( 4 * webFrameScale ) + 'px;' // 3.2px @ 0.8
+            + ' padding:'
+                + ' ' + ( 6.25 * webFrameScale ) + 'px' // top: 5px @ 0.8
+                + ' ' + ( 12.5 * webFrameScale ) + 'px' // right/left: 10px @ 0.8
+                + ' ' + ( 9.375 * webFrameScale ) + 'px' // bottom: 7.5px @ 0.8
+            + ';'
+            // Backwards-compatible vertical/horizontal centering:
+            + ' display: -webkit-box;'
+            + ' display: -moz-box;'
+            + ' display: -webkit-flex;'
+            + ' display: -ms-flexbox;'
+            + ' display: flex;'
+                + ' -webkit-box-pack: center;'
+                + ' -moz-box-pack: center;'
+                + ' -ms-flex-pack: center;'
+                + ' -webkit-justify-content: center;'
+                + ' justify-content: center;'
+                // ---
+                + ' -webkit-box-align: center;'
+                + ' -moz-box-align: center;'
+                + ' -ms-flex-align: center;'
+                + ' align-items: center;'
         ;
 
         // plaqueHTML += '<div' + webPlaqueDivStyle;
@@ -1496,49 +1534,49 @@
             if (numFilledPlaqueLines >= thisLineNum) {
                 controlButtons += '<br><input id="enterPlaqueLine1" type="text" value="' + localStorage.PlaqueLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine2" type="text" value="...add text (one line at a time) " style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine2" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==2
             if (numFilledPlaqueLines >= thisLineNum) {
                 controlButtons += '<br><input id="enterPlaqueLine2" type="text" value="' + localStorage.PlaqueLine2 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine3" type="text" value="...add text (one line at a time) " style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine3" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==3
             if (numFilledPlaqueLines >= thisLineNum) {
                 controlButtons += '<br><input id="enterPlaqueLine3" type="text" value="' + localStorage.PlaqueLine3 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine4" type="text" value="...add text (one line at a time) " style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine4" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==4
             if (numFilledPlaqueLines >= thisLineNum) {
                 controlButtons += '<br><input id="enterPlaqueLine4" type="text" value="' + localStorage.PlaqueLine4 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine5" type="text" value="...add text (one line at a time) " style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine5" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==5
             if (numFilledPlaqueLines >= thisLineNum) {
                 controlButtons += '<br><input id="enterPlaqueLine5" type="text" value="' + localStorage.PlaqueLine5 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine6" type="text" value="...add text (one line at a time) " style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine6" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==6
             if (numFilledPlaqueLines >= thisLineNum) {
                 controlButtons += '<br><input id="enterPlaqueLine6" type="text" value="' + localStorage.PlaqueLine6 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine7" type="text" value="...add text (one line at a time) " style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine7" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==7
             if (numFilledPlaqueLines >= thisLineNum) {
                 controlButtons += '<br><input id="enterPlaqueLine7" type="text" value="' + localStorage.PlaqueLine7 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine8" type="text" value="...add text (one line at a time) " style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine8" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==8
@@ -1673,9 +1711,12 @@
         var webFrameRightThickness = webFrameTopThickness;
         if (showFrame === "showFrame") {
             webFrameStyleName = localStorage.Frame;
-            if (webFrameStyleName == 'NoFrame') {
-                webFrameAbbrv = 'NoFrame';
-                webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';
+            if (
+                ( webFrameStyleName === 'NoFrame' )
+                || ( webFrameStyleName === 'NoFrame-NoPlaque' )
+            ) {
+                webFrameAbbrv = 'NoFrame-NoPlaque';
+                webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoPlaque-NoRuler-72ppi.png' + '\"';
                 webFrameWidth = 510;
                 webFrameWidth = webFrameWidth * webFrameScale;
                 webFrameHeight = webMapWidth / theGoldenRatio;
@@ -1724,9 +1765,9 @@
             }
         }
         else {
-            webFrameStyleName = 'NoFrame'
-            webFrameAbbrv = 'NoFrame';
-            webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoRuler-72ppi.png' + '\"';
+            webFrameStyleName = 'NoFrame-NoPlaque'
+            webFrameAbbrv = 'NoFrame-NoPlaque';
+            webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoPlaque-NoRuler-72ppi.png' + '\"';
             webFrameWidth = 510;
             webFrameWidth = webFrameWidth * webFrameScale;
             webFrameHeight = webMapWidth / theGoldenRatio;

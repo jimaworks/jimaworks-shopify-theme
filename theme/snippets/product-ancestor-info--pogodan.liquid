@@ -447,18 +447,23 @@ function ProductMockup() {
                              >
                             <p class="help-text">Start typing to see a list of suggested ports or write in your own. If you completed the date section we will only suggest ports that match those dates.</p>
                             <script>
-                                if(localStorage.originsTextBoxL1==undefined) {
-                                    document.getElementById("trailer-line-1").value="" ;
-                                }
-                                else {
-                                    document.getElementById("trailer-line-1").value=localStorage.originsTextBoxL1;
-                                }
-                                if(localStorage.OriginsLine2==undefined) {
-                                    document.getElementById("trailer-line-2").value="" ;
-                                }
-                                else {
-                                    document.getElementById("trailer-line-2").value=localStorage.originsTextBoxL2 ;
-                                } ;
+                                window.addEventListener('DOMContentLoaded', function () {
+                                    var originsTextBoxL1 = localStorage.getItem('originsTextBoxL1');
+                                    // var originsTextBoxL2 = localStorage.getItem('originsTextBoxL2');
+                                    var originsTextBoxL2 = localStorage.getItem('OriginsLine2');
+
+                                    if ( originsTextBoxL1 === null ) {
+                                        document.getElementById("trailer-line-1").value = "";
+                                    } else {
+                                        document.getElementById("trailer-line-1").value = originsTextBoxL1;
+                                    }
+
+                                    if ( originsTextBoxL2 === null ) {
+                                        document.getElementById("trailer-line-2").value = "";
+                                    } else {
+                                        document.getElementById("trailer-line-2").value = originsTextBoxL2;
+                                    } ;
+                                });
                             </script>
                         </div>
                     </div>
