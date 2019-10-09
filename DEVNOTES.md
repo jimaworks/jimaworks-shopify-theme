@@ -493,3 +493,22 @@ Uncaught TypeError: Cannot set property 'value' of null
 document.getElementById("seascape").value = localStorage.seascape ;
 ```
 **Reason**: `localStorage.seascape` is never set anywhere.
+
+## 10/08
+
+### Transition to Accordion-based builder
+
+From Jim:
+> Here is (what I believe to be) the complete set of variables:
+- [ ] Title Textbox (3 lines)
+- [ ] Origins Textbox (2 lines)
+- [ ] Destination Textbox (2 lines)
+- [ ] Ship Info Textbox (3 lines)
+- [ ] Plaque Textbox (8 lines)
+- [ ] Addl Origin info (3 geo elements)
+- [ ] Addl Destination info (3 geo elements)
+- [ ] Ship Choice (just the name and tart-of-service date)
+- [ ] Date info (3 date elements)
+- [ ] Map style (Shopify?)
+- [ ] Size (Shopify)
+- [ ] Frame (Shopify)
