@@ -53,6 +53,30 @@
   {% include 'google-fonts' %}
 
   <script>
+    /*
+      Generally speaking we should avoid global variables & side-effects,
+      but in this case we need to make sure the variable is not being reset
+      each time the function is called.
+      
+      On first invocation, the overlay rendering will occur inside the
+      `DOMContentLoaded` event listener, so we can be sure
+      `document.getElementById("DisplayOverlays")` will be non-null, and
+      can therefore set `innerHTML` without issue.
+
+      The `DOMContentLoaded` event only occurs once though, so we need
+      to flip `overlaysRendered` to `true` after the first render, and then
+      subsequent renders will call `innerHTML` outside of the event.
+
+      See bottom of `RelationShipsPreviewZ` for implementation.
+    */
+    window.Jimaworks = ( window.Jimaworks || {
+        "isDev": /^jimaworks-dev\.myshopify\.com/.test( window.location.host )
+    } ); // Singleton for namespacing; avoids global variable conflicts
+    window.Jimaworks.overlaysRendered = (
+        ( typeof window.overlaysRendered !== "undefined" )
+        ? window.overlaysRendered
+        : false
+    );
     window.theme = window.theme || {};
 
     var theme = {
@@ -314,9 +338,12 @@ s0.parentNode.insertBefore(s1,s0);
 	</script>
   <script>
 	  $( function() {
-	    $( ".accordion" ).accordion({
-	      heightStyle: "content"
-	    });
+      // TODO: Make the same across both environments
+      if ( !window.Jimaworks || !window.Jimaworks.isDev ) {
+        $( ".accordion" ).accordion({
+          heightStyle: "content"
+        });
+      }
 	  } );
   </script>
 
