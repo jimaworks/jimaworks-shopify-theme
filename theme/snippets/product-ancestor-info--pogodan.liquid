@@ -338,7 +338,7 @@ function ProductMockup() {
                 document.getElementById("ship-name").value = localStorage.shipName ;
                document.getElementById("departure-port").value = localStorage.departurePort ;
                document.getElementById("arrival-port").value = localStorage.arrivalPort ;
-               document.getElementById("seascape").value = localStorage.seascape ;
+            //    document.getElementById("seascape").value = localStorage.seascape ;
                document.getElementById("frame").value = localStorage.Frame ;
                document.getElementById("size").value = localStorage.Size ;
                    document.getElementById("year").value = localStorage.YearOfCrossing ;
@@ -451,18 +451,24 @@ function ProductMockup() {
                                     var originsTextBoxL1 = localStorage.getItem('originsTextBoxL1');
                                     // var originsTextBoxL2 = localStorage.getItem('originsTextBoxL2');
                                     var originsTextBoxL2 = localStorage.getItem('OriginsLine2');
+                                    var trailerLine1 = document.getElementById("trailer-line-1");
+                                    var trailerLine2 = document.getElementById("trailer-line-2");
 
-                                    if ( originsTextBoxL1 === null ) {
-                                        document.getElementById("trailer-line-1").value = "";
-                                    } else {
-                                        document.getElementById("trailer-line-1").value = originsTextBoxL1;
+                                    if ( trailerLine1 ) {
+                                        if ( originsTextBoxL1 === null ) {
+                                            trailerLine1.value = "";
+                                        } else {
+                                            trailerLine1.value = originsTextBoxL1;
+                                        }
                                     }
 
-                                    if ( originsTextBoxL2 === null ) {
-                                        document.getElementById("trailer-line-2").value = "";
-                                    } else {
-                                        document.getElementById("trailer-line-2").value = originsTextBoxL2;
-                                    } ;
+                                    if ( trailerLine2 ) {
+                                        if ( originsTextBoxL2 === null ) {
+                                            trailerLine2.value = "";
+                                        } else {
+                                            trailerLine2.value = originsTextBoxL2;
+                                        } ;
+                                    }
                                 });
                             </script>
                         </div>
@@ -926,17 +932,25 @@ function ProductMockup() {
         document.write( /* shipping-line-5... */
             '<input type=\"hidden\" id=\"'
                 + 'shipping-line-5' + '\" class=\"member\" name=\"properties['
-                + 'CommemorationTimePeriodStart]\" value=' + CommemorationTimePeriodStart + '>' ) ;
+                + 'CommemorationTimePeriodStart]\" value=' + (
+                    localStorage.getItem("CommemorationTimePeriodStart")
+                    || localStorage.getItem("CommemorationTimePeriodStartDefault")
+                    || ''
+                ) + '>' ) ;
     
         document.write( /* shipping-line-5... */
             '<input type=\"hidden\" id=\"'
                 + 'shipping-line-5' + '\" class=\"member\" name=\"properties['
-                + 'CommemorationTimePeriodEnd]\" value=' + CommemorationTimePeriodEnd + '>' ) ;
+                + 'CommemorationTimePeriodEnd]\" value=' + (
+                    localStorage.getItem("CommemorationTimePeriodEnd")
+                    || localStorage.getItem("CommemorationTimePeriodEndDefault")
+                    || ''
+                ) + '>' ) ;
     
-        document.write( /* shipping-line-5... */
-            '<input type=\"hidden\" id=\"'
-                + 'shipping-line-5' + '\" class=\"member\" name=\"properties['
-                + 'Passage]\" value=' + Passage + '>' ) ;
+        // document.write( /* shipping-line-5... */
+        //     '<input type=\"hidden\" id=\"'
+        //         + 'shipping-line-5' + '\" class=\"member\" name=\"properties['
+        //         + 'Passage]\" value=' + Passage + '>' ) ;
     
         document.write(
             '<input type=\"hidden\"'
@@ -944,7 +958,7 @@ function ProductMockup() {
                 + ' class=\"member\"'
                 + ' name=\"properties[TransportCraft]\"'
                 + ' value='
-                + TransportCraft
+                + ( localStorage.getItem("TransportCraft") || localStorage.getItem("TransportCraftDefault") || '' )
                 + '>' 
         ) ;
     /*          
@@ -954,27 +968,47 @@ function ProductMockup() {
         document.write( /* shipping-line-5... */
             '<input type=\"hidden\" id='
                 + '\"shipping-line-5\"' + ' class=\"member\" name=\"properties['
-                + 'shipPic]\" value=' + shipPic + '>' ) ;
+                + 'shipPic]\" value=' + (
+                    localStorage.getItem("shipPic")
+                    || localStorage.getItem("shipPicDefault")
+                    || ''
+                ) + '>' ) ;
     
         document.write( /* shipping-line-5... */
             '<input type=\"hidden\" id=\"'
                 + 'shipping-line-5' + '\" class=\"member\" name=\"properties['
-                + 'shippingLine]\" value=' + shippingLine + '>' ) ;
+                + 'shippingLine]\" value=' + (
+                    localStorage.getItem("shippingLine")
+                    || localStorage.getItem("shippingLineDefault")
+                    || ''
+                ) + '>' ) ;
     
         document.write( /* shipping-line-5... */
             '<input type=\"hidden\" id=\"'
                 + 'shipping-line-5' + '\" class=\"member\" name=\"properties['
-                + 'shipCareerStart]\" value=' + shipCareerStart + '>' ) ;
+                + 'shipCareerStart]\" value=' + (
+                    localStorage.getItem("shipCareerStart")
+                    || localStorage.getItem("shipCareerStartDefault")
+                    || ''
+                ) + '>' ) ;
     
         document.write( /* shipping-line-5... */
             '<input type=\"hidden\" id=\"'
                 + 'shipping-line-5' + '\" class=\"member\" name=\"properties['
-                + 'shipCareerEnd]\" value=' + shipCareerEnd + '>' ) ;
+                + 'shipCareerEnd]\" value=' + (
+                    localStorage.getItem("shipCareerEnd")
+                    || localStorage.getItem("shipCareerEndDefault")
+                    || ''
+                ) + '>' ) ;
     
         document.write( /* shipping-line-5... */
             '<input type=\"hidden\" id=\"'
                 + 'shipping-line-5' + '\" class=\"member\" name=\"properties['
-                + 'shipTotPsgrVolume]\" value=' + shipTotPsgrVolume + '>' ) ;
+                + 'shipTotPsgrVolume]\" value=' + (
+                    localStorage.getItem("shipTotPsgrVolume")
+                    || localStorage.getItem("shipTotPsgrVolumeDefault")
+                    || ''
+                ) + '>' ) ;
     </script>
     
     
