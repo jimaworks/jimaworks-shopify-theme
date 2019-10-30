@@ -337,9 +337,20 @@ s0.parentNode.insertBefore(s1,s0);
   	});
 	</script>
   <script>
-	  $( function() {
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith#Polyfill
+    if (!String.prototype.endsWith) {
+      String.prototype.endsWith = function(search, this_len) {
+        if (this_len === undefined || this_len > this.length) {
+          this_len = this.length;
+        }
+        return this.substring(this_len - search.length, this_len) === search;
+      };
+    }
+
+    $( function() {
       // TODO: Make the same across both environments
-      if ( !window.Jimaworks || !window.Jimaworks.isDev ) {
+      // if ( !window.Jimaworks || !window.Jimaworks.isDev ) {
+      if ( !window.Jimaworks || !window.location.pathname.endsWith('follow-preview') ) {
         $( ".accordion" ).accordion({
           heightStyle: "content"
         });
