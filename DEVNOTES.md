@@ -577,3 +577,15 @@ From Jim:
       - Wrapping in if statement.
   - All errors solved. Submit button still not available.
     - There was never a problem. You have to select from the “Size and Extras” section.
+  
+## 10/30
+
+### [Transition Accordion page to read from localStorage](https://trello.com/c/0UYb0ARf)
+
+- Some input values are in fact being read from localStorage (script blocks after each set of inputs), but not all.
+- `document.getElementById('trailer-line-1') === null`; `trailer-line-2` works though.
+- Rewrote script blocks
+  1. Wrapped in `DOMContentLoaded`
+  2. `localStorage.foo == undefined` → `localStorage.getItem('foo') === null`
+  3. Removed redundancies
+  4. Turned Plaque Line checking into a loop because I’m lazy

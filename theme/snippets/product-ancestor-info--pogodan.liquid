@@ -439,7 +439,7 @@ function ProductMockup() {
                                     with        value="Crossing: The North Atlantic"
                               -->
                             <input  class="typeahead"
-                                    id="trailer-line-2"
+                                    id="origins-line-2"
                                     type="text" 
                                     name="properties[OriginsLine2]" 
                                     title="You can put in anything as the second line, but we suggest it be the Port of Departure or just select: 'Crossing: The North Atlantic'" 
@@ -451,22 +451,22 @@ function ProductMockup() {
                                     var originsTextBoxL1 = localStorage.getItem('originsTextBoxL1');
                                     // var originsTextBoxL2 = localStorage.getItem('originsTextBoxL2');
                                     var originsTextBoxL2 = localStorage.getItem('OriginsLine2');
-                                    var trailerLine1 = document.getElementById("trailer-line-1");
-                                    var trailerLine2 = document.getElementById("trailer-line-2");
+                                    var originsLine1 = document.getElementById("origins-line-1");
+                                    var originsLine2 = document.getElementById("origins-line-2");
 
-                                    if ( trailerLine1 ) {
+                                    if ( originsLine1 ) {
                                         if ( originsTextBoxL1 === null ) {
-                                            trailerLine1.value = "";
+                                            originsLine1.value = "";
                                         } else {
-                                            trailerLine1.value = originsTextBoxL1;
+                                            originsLine1.value = originsTextBoxL1;
                                         }
                                     }
 
-                                    if ( trailerLine2 ) {
+                                    if ( originsLine2 ) {
                                         if ( originsTextBoxL2 === null ) {
-                                            trailerLine2.value = "";
+                                            originsLine2.value = "";
                                         } else {
-                                            trailerLine2.value = originsTextBoxL2;
+                                            originsLine2.value = originsTextBoxL2;
                                         } ;
                                     }
                                 });
@@ -725,24 +725,32 @@ function ProductMockup() {
                                     title="The second line could then be the name of the shipping line, or just leave the default'">
                             <input type="text" id="shipping-line-3" class="member" name="properties[ShipInfoLine3]" title="Optional third line" placeholder="Optional extra field">
                             <script>
-                                if(localStorage.DestinyLine1==undefined) {
-                                    document.getElementById("shipping-line-1").value="" ;
-                                }
-                                else {
-                                    document.getElementById("shipping-line-1").value=localStorage.ShipInfoLine1 ;
-                                }
-                                if(localStorage.DestinyLine2==undefined) {
-                                    document.getElementById("shipping-line-2").value="" ;
-                                }
-                                else {
-                                    document.getElementById("shipping-line-2").value=localStorage.ShipInfoLine2 ;
-                                } ;
-                                if(localStorage.DestinyLine2==undefined) {
-                                    document.getElementById("shipping-line-3").value="" ;
-                                }
-                                else {
-                                    document.getElementById("shipping-line-3").value=localStorage.ShipInfoLine3 ;
-                                } ;
+                                window.addEventListener('DOMContentLoaded', function fillShippingLineInputs() {
+                                    var shippingLine1 = document.getElementById('shipping-line-1');
+                                    var shippingLine2 = document.getElementById('shipping-line-2');
+                                    var shippingLine3 = document.getElementById('shipping-line-3');
+
+                                    if ( localStorage.getItem('DestinyLine1') === null ) {
+                                        shippingLine1.value = '';
+                                    }
+                                    else {
+                                        shippingLine1.value = ( localStorage.getItem('ShipInfoLine1') || '' );
+                                    }
+
+                                    if ( localStorage.getItem('DestinyLine2') === null ) {
+                                        shippingLine2.value = '';
+                                    }
+                                    else {
+                                        shippingLine2.value = ( localStorage.getItem('ShipInfoLine2') || '' );
+                                    }
+
+                                    if ( localStorage.getItem('DestinyLine2') === null ) {
+                                        shippingLine3.value = '';
+                                    }
+                                    else {
+                                        shippingLine3.value = ( localStorage.getItem('ShipInfoLine3') || '' );
+                                    }
+                                });
                             </script>
                      </div> 
                     </div>
@@ -788,54 +796,28 @@ function ProductMockup() {
                             <input type="text" id="plaque-line-7" class="member" name="properties[PlaqueLine7]" title="Optional" placeholder="Optional Extra Line">
                             <input type="text" id="plaque-line-8" class="member" name="properties[PlaqueLine8]" title="Optional" placeholder="Optional Extra Line">
                             <script>
-                                if((localStorage.DestinyLine1==undefined)||(localStorage.DestinyLine1==undefined)) {
-                                    document.getElementById("plaque-line-1").value="" ;
-                                }
-                                else {
-                                    document.getElementById("plaque-line-1").value=localStorage.PlaqueLine1 ;
-                                }
-                                if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined")) {
-                                    document.getElementById("plaque-line-2").value="" ;
-                                }
-                                else {
-                                    document.getElementById("plaque-line-2").value=localStorage.PlaqueLine2 ;
-                                } ;
-                                if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined")) {
-                                    document.getElementById("plaque-line-3").value="" ;
-                                }
-                                else {
-                                    document.getElementById("plaque-line-3").value=localStorage.PlaqueLine3 ;
-                                } ;
-                                if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined")) {
-                                    document.getElementById("plaque-line-4").value="" ;
-                                }
-                                else {
-                                    document.getElementById("plaque-line-4").value=localStorage.PlaqueLine4 ;
-                                } ;
-                                if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined")) {
-                                    document.getElementById("plaque-line-5").value="" ;
-                                }
-                                else {
-                                    document.getElementById("plaque-line-5").value=localStorage.PlaqueLine5 ;
-                                } ;
-                                if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined")) {
-                                    document.getElementById("plaque-line-6").value="" ;
-                                }
-                                else {
-                                    document.getElementById("plaque-line-6").value=localStorage.PlaqueLine6 ;
-                                } ;
-                                if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined")) {
-                                    document.getElementById("plaque-line-7").value="" ;
-                                }
-                                else {
-                                    document.getElementById("plaque-line-7").value=localStorage.PlaqueLine7 ;
-                                } ;
-                                if((localStorage.DestinyLine2==undefined)||(localStorage.DestinyLine1=="undefined")) {
-                                    document.getElementById("plaque-line-8").value="" ;
-                                }
-                                else {
-                                    document.getElementById("plaque-line-8").value=localStorage.PlaqueLine8 ;
-                                } ;
+                                window.addEventListener('DOMContentLoaded', function fillPlaqueLineInputs() {
+                                    for ( var index = 1; index < 9; index++ ) {
+                                        var input = document.getElementById("plaque-line-" + index);
+                                        var plaqueLine = localStorage.getItem('PlaqueLine' + index);
+                                        var doesntHaveDestinyInfo;
+
+                                        if ( index === 1 ) {
+                                            doesntHaveDestinyInfo = ( localStorage.getItem('DestinyLine1') === null );
+                                        } else {
+                                            doesntHaveDestinyInfo = (
+                                                ( localStorage.getItem('DestinyLine2') === null )
+                                                || ( localStorage.getItem('DestinyLine1') === null )
+                                            );
+                                        }
+
+                                        if ( doesntHaveDestinyInfo ) {
+                                            input.value = '';
+                                        } else {
+                                            input.value = ( plaqueLine || '' );
+                                        }
+                                    }
+                                } );
                             </script>
                         </div>
                     </div>
