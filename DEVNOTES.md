@@ -589,3 +589,11 @@ From Jim:
   2. `localStorage.foo == undefined` → `localStorage.getItem('foo') === null`
   3. Removed redundancies
   4. Turned Plaque Line checking into a loop because I’m lazy
+
+## 11/05
+
+### [Investigate blue frame around profile ship drawings](https://trello.com/c/HpxLoL9f)
+
+- Culprit is `1-g-ii-jimaworks-madeshipimagery` page: `localStorage.setItem("shipImageTransparentBackground", shipImageBackground) ;`. 
+  - Comes from `getMostLikelyShipForTimeAndPlace`: `shipImageBackground = shipImageBackgroundArray[shipImageIndex] ;`. `shipImageBackgroundArray` is in fact not an array at all, but a string. With `shipImageIndex` at 0, this simply sets `shipImageBackground` to the character at the first index, “t”.
+  - Fixed this for the initial load, but when selecting another ship (St. Paul at the bottom), `localStorage.shipImageTransparentBackground` gets re-set to “t”. Had to replace more instances of `shipImageBackgroundArray[shipImageIndex]` with `shipImageBackground`, including onclick.
