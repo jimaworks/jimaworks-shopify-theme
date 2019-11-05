@@ -1698,6 +1698,7 @@
                 webFrameHeight = webMapWidth / theGoldenRatio;
                 webFrameTopOffset = -(0.5 * webFrameTopThickness);  // need to offset top of just the mat...
                 webFrameLeftOffset = -60 * webFrameScale;
+                // console.warn('NoFrame')
             }
             else if (webFrameStyleName == 'BlackRoped') {
                 webFrameAbbrv = 'Black';
@@ -1728,8 +1729,9 @@
                 webFrameWidth = 630;
                 webFrameWidth = webFrameWidth * webFrameScale;
                 webFrameHeight = webMapWidth / theGoldenRatio;
-                webFrameTopOffset = -webFrameTopThickness;
+                webFrameTopOffset = -(1.15 * webFrameTopThickness);
                 webFrameLeftOffset = -120 * webFrameScale;
+                // console.warn('BlackWalnut')
             }
             else {
                 webFrameAbbrv = 'Walnut-NoPlaque'; // TODO: Make NoPlaque universal
@@ -1738,6 +1740,7 @@
                 webFrameHeight = webMapWidth / theGoldenRatio;
                 webFrameTopOffset = -webFrameTopThickness;
                 webFrameLeftOffset = -105 * webFrameScale;
+                // console.warn('Walnut')
             }
         }
         else {
@@ -1749,6 +1752,7 @@
             webFrameHeight = webMapWidth / theGoldenRatio;
             webFrameTopOffset = -(0.5 * webFrameTopThickness);   // need to offset top of just the mat...
             webFrameLeftOffset = -60 * webFrameScale;
+            // console.warn('NoFrame-NoPlaque')
         }
 
         //webFrameTopOffset = -110;
@@ -1975,9 +1979,21 @@
         webMapTopOffset = topMargin;
         webMapLeftOffset = leftMargin + webFrameLeftThickness;
 
-        ImgOverlayHTML += '<div style=\"position: relative; top: ' + webMapTopOffset + 'px; left: ' + webMapLeftOffset + 'px; z-index: 0; text-shadow: 1px 1px 0px Ivory;\">';
-        ImgOverlayHTML += '<img src=' + webMapImg;
-        ImgOverlayHTML += ' class=\"map\" style=\"width: ' + webMapWidth + 'px; height: ' + webMapHeight + ';\" />';
+        ImgOverlayHTML += '<div id="preview" style="'
+            + 'position: relative;'
+            + ' top: ' + webMapTopOffset + 'px;'
+            + ' left: ' + webMapLeftOffset + 'px;'
+            + ' z-index: 0;'
+            + ' text-shadow: 1px 1px 0px Ivory;'
+        + '">';
+        ImgOverlayHTML += '<img'
+            + ' src=' + webMapImg
+            + ' class="map"'
+            + ' style="'
+                + ' width: ' + webMapWidth + 'px;'
+                + ' height: ' + webMapHeight
+            + ';"'
+        + ' />';
 
         /* header text */
         ImgOverlayHTML += '<div style=\"position: absolute; top: -34px; left: -0px; width: 510px; height: 80px; z-index: 25; line-height: 0.9; color red\">';
