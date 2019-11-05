@@ -1,0 +1,32 @@
+Addl Destination info (3 geo elements)
+Addl Origin info (3 geo elements)
+ArrivalPort
+Date
+Date info (3 date elements)
+DeparturePort
+DestinationLine1 - Destination Textbo(2 lines)
+DestinationLine2
+Frame - Frame (Shopify)
+MapStyle - Map style (Shopify?)
+OriginsLine1 - Origins Textbo(2 lines)
+OriginsLine2
+PlaqueLine1 - Plaque Textbo(8 lines)
+PlaqueLine2
+PlaqueLine3
+PlaqueLine4
+PlaqueLine5
+PlaqueLine6
+PlaqueLine7
+PlaqueLine8
+Region
+Routes
+SeaScape
+ShipInfoLine1 - Ship Info Textbo(3 lines)
+ShipInfoLine2
+ShipName - Ship Choice (just the name and start-of-service date) - not sure about the date there.
+Size - Size (Shopify)
+TimePeriod
+TitleLine1 - Title Textbo(3 lines)
+TitleLine2
+TitleLine3
+Year

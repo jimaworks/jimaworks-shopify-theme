@@ -8,3 +8,4 @@ variables
 backup/
 backup.*/
 *.backup.*
+variable-audit.html
