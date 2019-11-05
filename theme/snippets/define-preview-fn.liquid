@@ -203,11 +203,11 @@
             //alert('enterPlaqueText(): localStoragePlaqueLineStr ='+localStoragePlaqueLineStr+' plaqueTextBoxEntryStr ='+ plaqueTextBoxEntryStr+'PlaqueLineStr='+PlaqueLineStr) ;
             //alert("eval(localStoragePlaqueLineStr+' !== undefined')"+eval(localStoragePlaqueLineStr+' !== undefined'));
             //alert("eval(localStoragePlaqueLineStr+' !== \"undefined\"')"+eval(localStoragePlaqueLineStr+' !== "undefined"'));
-            if ( currentPlaqueLine !== null ) {
+            if (currentPlaqueLine !== null) {
                 plaqueTextBoxEntry = document.getElementById(plaqueTextBoxEntryStr).value;
                 //alert('enterPlaqueText(): plaqueTextBoxEntry='+plaqueTextBoxEntry) ;
-                
-                if ( currentPlaqueLine.trim() === '' ) {
+
+                if (currentPlaqueLine.trim() === '') {
                     currentPlaqueTextBox.setAttribute('hidden', 'hidden');
                     currentPlaqueLinebreak && currentPlaqueLinebreak.setAttribute('hidden', '');
                 } else {
@@ -435,7 +435,7 @@
 
         // To remove the key/value pair entirely:
         // localStorage.removeItem( localStoreNamePrefix + lastFilledLine );
-        localStorage.setItem( localStoreNamePrefix + lastFilledLine, '' );
+        localStorage.setItem(localStoreNamePrefix + lastFilledLine, '');
 
         RelationShipsPreviewZ("mockup", "showFrame", "BuyButton", "SaveButton", "ReturnButton");
     }
@@ -554,8 +554,8 @@
             if (i > 1) webOriginText += '<br>';
             // use current value of text box lines if there is a value
             if (
-                ( currentOriginLine !== undefined )
-                & ( currentOriginLine !== "undefined" )
+                (currentOriginLine !== undefined)
+                & (currentOriginLine !== "undefined")
             ) {
                 webOriginText += '<span id="OriginTextBoxL' + i + '">' + currentOriginLine + '</span></em>';  // ### </em> ? ###
                 numFilledOriginLines++;
@@ -882,9 +882,9 @@
         webPlaqueTextBoxDivStyle =
             ' style=\"position: absolute;'
             // + ' bottom:' + webPlaqueTextBottomOffset + 'px;'
-            + ' bottom: ' + ( -47.5 * webFrameScale ) + 'px;' // -53px @ 0.8
+            + ' bottom: ' + (-47.5 * webFrameScale) + 'px;' // -53px @ 0.8
             // + ' left:' + plaqueTextBoxLeftOffset + 'px;'
-            + ' left: ' + ( 125.75 * webFrameScale ) + 'px;' // 100.6px @ 0.8
+            + ' left: ' + (125.75 * webFrameScale) + 'px;' // 100.6px @ 0.8
             + ' text-align: center;'
             + ' line-height: ' + plaqueTextBoxLineHeight + ';'
             + ' font-size: ' + plaqueTextBoxFontSize + 'px;'
@@ -897,7 +897,7 @@
         var webPlaqueText = "";
         numFilledPlaqueLines = 0;
         var showExtraLine = true;
-        
+
         webPlaqueText +=
             '<p style="'
             + ' margin-bottom: 0;'
@@ -908,22 +908,22 @@
             + ' white-space: nowrap;'
             // End clip text
             + '">'
-        ;
+            ;
 
         var currentPlaqueLine;
         var currentPlaqueLineIsBlank;
         for (i = 1; i < numAvailPlaqueLines + 1; i++) {
             currentPlaqueLine = localStorage.getItem('PlaqueLine' + i);
-            currentPlaqueLineIsBlank = ( !currentPlaqueLine || ( currentPlaqueLine.trim() === '' ) );
-            if ( currentPlaqueLine !== null ) {
-                webPlaqueText += '<span id="plaqueTextBoxL' + i + '"' + ( currentPlaqueLineIsBlank ? ' hidden' : '' ) + '>' + currentPlaqueLine + '</span></em>';
+            currentPlaqueLineIsBlank = (!currentPlaqueLine || (currentPlaqueLine.trim() === ''));
+            if (currentPlaqueLine !== null) {
+                webPlaqueText += '<span id="plaqueTextBoxL' + i + '"' + (currentPlaqueLineIsBlank ? ' hidden' : '') + '>' + currentPlaqueLine + '</span></em>';
                 numFilledPlaqueLines++;
             }
             else if (showExtraLine) {
                 webPlaqueText += '<span id="plaqueTextBoxL' + i + '">' + ' ' + '</span></em>';
                 showExtraLine = false;
             }
-            if (i > 0) webPlaqueText += '<br' + ( currentPlaqueLineIsBlank ? ' hidden' : '' ) + '>';
+            if (i > 0) webPlaqueText += '<br' + (currentPlaqueLineIsBlank ? ' hidden' : '') + '>';
         }
         // Prevent bugs from variable name reuse
         currentPlaqueLine = undefined;
@@ -938,7 +938,7 @@
             + ' background-position: top center;'
             + ' background-size: cover;'
             + ' background-repeat: no-repeat;'
-            + ' width: ' + ( 138.75 * webFrameScale ) + 'px;' // 111px @ 0.8
+            + ' width: ' + (138.75 * webFrameScale) + 'px;' // 111px @ 0.8
             // + ' height: ' + ( 65 * webFrameScale ) + 'px;'
             + ' height: 0;'
             // Keep text inside of red plaque border:
@@ -946,7 +946,7 @@
             // + ' opacity: 0.5' // testing alignment
             // + ' border: 3px solid black'
             // End EmptyPlaque as background-image
-        ;
+            ;
 
         var webPlaqueTextBoxDivContentStyle =
             'position: absolute;'
@@ -956,9 +956,9 @@
             + ' height: 100%;'
             // + ' padding: ' + ( 4 * webFrameScale ) + 'px;' // 3.2px @ 0.8
             + ' padding:'
-                + ' ' + ( 6.25 * webFrameScale ) + 'px' // top: 5px @ 0.8
-                + ' ' + ( 12.5 * webFrameScale ) + 'px' // right/left: 10px @ 0.8
-                + ' ' + ( 9.375 * webFrameScale ) + 'px' // bottom: 7.5px @ 0.8
+            + ' ' + (6.25 * webFrameScale) + 'px' // top: 5px @ 0.8
+            + ' ' + (12.5 * webFrameScale) + 'px' // right/left: 10px @ 0.8
+            + ' ' + (9.375 * webFrameScale) + 'px' // bottom: 7.5px @ 0.8
             + ';'
             // Backwards-compatible vertical/horizontal centering:
             + ' display: -webkit-box;'
@@ -966,17 +966,17 @@
             + ' display: -webkit-flex;'
             + ' display: -ms-flexbox;'
             + ' display: flex;'
-                + ' -webkit-box-pack: center;'
-                + ' -moz-box-pack: center;'
-                + ' -ms-flex-pack: center;'
-                + ' -webkit-justify-content: center;'
-                + ' justify-content: center;'
-                // ---
-                + ' -webkit-box-align: center;'
-                + ' -moz-box-align: center;'
-                + ' -ms-flex-align: center;'
-                + ' align-items: center;'
-        ;
+            + ' -webkit-box-pack: center;'
+            + ' -moz-box-pack: center;'
+            + ' -ms-flex-pack: center;'
+            + ' -webkit-justify-content: center;'
+            + ' justify-content: center;'
+            // ---
+            + ' -webkit-box-align: center;'
+            + ' -moz-box-align: center;'
+            + ' -ms-flex-align: center;'
+            + ' align-items: center;'
+            ;
 
         // plaqueHTML += '<div' + webPlaqueDivStyle;
         // plaqueHTML += '<img src=' + webPlaqueImg + webPlaqueAttribs + webPlaqueStyle + '/>';
@@ -1090,8 +1090,8 @@
         var OriginatingPage = window.location.href;
         var shopifyFilePrefix;
         var shopifyFileSuffix;
-        
-        if ( window.Jimaworks.isDev ) {
+
+        if (window.Jimaworks.isDev) {
             shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
             shopifyFileSuffix = "?922";
         } else {
@@ -1634,7 +1634,7 @@
 
         var webMapStyle = localStorage.MapStyle;
         var webMapStyleAbbrev = localStorage.MapStyleAbbrev;
-        
+
         // 
         var webMapImg = shopifyFilePrefix + (
             /*
@@ -1650,8 +1650,8 @@
                 Preventing RPZ from running at all if defaults are not initialized
                 breaks other functionality.
             */
-            localStorage.getItem( "webMapImg" )
-            || localStorage.getItem( "webMapImgDefault" )
+            localStorage.getItem("webMapImg")
+            || localStorage.getItem("webMapImgDefault")
             || 'EuM-Liner-Pari.png'
         );
 
@@ -1662,8 +1662,8 @@
         var webMapHeight = (webMapWidth / theGoldenRatio) * webFrameScale; /* get the actual height of the map */
         var shipPic = (
             // TODO: See comment for webMapImg
-            localStorage.getItem( "shipPic" )
-            || localStorage.getItem( "shipPicDefault" )
+            localStorage.getItem("shipPic")
+            || localStorage.getItem("shipPicDefault")
             || 'jimaworksStPaul640.png'
         );
 
@@ -1688,9 +1688,10 @@
         if (showFrame === "showFrame") {
             webFrameStyleName = localStorage.Frame;
             if (
-                ( webFrameStyleName === 'NoFrame' )
-                || ( webFrameStyleName === 'NoFrame-NoPlaque' )
+                (webFrameStyleName === 'NoFrame')
+                || (webFrameStyleName === 'NoFrame-NoPlaque')
             ) {
+                // TODO: Plaque misaligned!
                 webFrameAbbrv = 'NoFrame-NoPlaque';
                 webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoPlaque-NoRuler-72ppi.png' + '\"';
                 webFrameWidth = 510;
@@ -1921,8 +1922,8 @@
 
         var shipImgTransparentBackground = (
             // TODO: See comment for webMapImg
-            localStorage.getItem( "shipImageTransparentBackground" )
-            || localStorage.getItem( "shipImageTransparentBackgroundDefault" )
+            localStorage.getItem("shipImageTransparentBackground")
+            || localStorage.getItem("shipImageTransparentBackgroundDefault")
             || "transparent"
         );
         var noBackgroundShipDrawing;
@@ -2146,9 +2147,9 @@
         ImgOverlayHTML += '</div>';
         // console.log("ImgOverlayHTML=" + ImgOverlayHTML);
 
-        if ( !window.overlaysRendered ) {
+        if (!window.overlaysRendered) {
             window.addEventListener('DOMContentLoaded', function () {
-                console.warn( 'Images:', Array.from( ImgOverlayHTML.matchAll( /<img[^>]+>/g ), m => m[0].replace( /.*src="?([^"\s]+)"?.*/, '$1' ) ) );
+                console.warn('Images:', Array.from(ImgOverlayHTML.matchAll(/<img[^>]+>/g), m => m[0].replace(/.*src="?([^"\s]+)"?.*/, '$1')));
                 document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
                 window.overlaysRendered = true;
             });
