@@ -1,6 +1,8 @@
-# DeleteLast
+# Development Notes
 
 ## 9/1
+
+### DeleteLast
 
 - Line 405: single ampersand might not be what is desired
 
@@ -588,7 +590,7 @@ From Jim:
   1. Wrapped in `DOMContentLoaded`
   2. `localStorage.foo == undefined` → `localStorage.getItem('foo') === null`
   3. Removed redundancies
-  4. Turned Plaque Line checking into a loop because I’m lazy
+  4. Turned Plaque Line checking into a loop
 
 ## 11/05
 
