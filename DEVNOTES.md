@@ -599,3 +599,11 @@ From Jim:
 - Culprit is `1-g-ii-jimaworks-madeshipimagery` page: `localStorage.setItem("shipImageTransparentBackground", shipImageBackground) ;`. 
   - Comes from `getMostLikelyShipForTimeAndPlace`: `shipImageBackground = shipImageBackgroundArray[shipImageIndex] ;`. `shipImageBackgroundArray` is in fact not an array at all, but a string. With `shipImageIndex` at 0, this simply sets `shipImageBackground` to the character at the first index, “t”.
   - Fixed this for the initial load, but when selecting another ship (St. Paul at the bottom), `localStorage.shipImageTransparentBackground` gets re-set to “t”. Had to replace more instances of `shipImageBackgroundArray[shipImageIndex]` with `shipImageBackground`, including onclick.
+
+## 11/09
+
+### Add highlight to text box being discussed in alerts
+
+- These terms seem to be used interchangeably: Trip Info and Ship Info. Which is correct? Going with ShipInfo for now.
+- The ship info is being duplicated: span with ID `ShipInfoTextBoxL1` vs. `shipInfoTextBoxL1`.
+- Most are added, but not sure what to highlight for the six trip visuals.

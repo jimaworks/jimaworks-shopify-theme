@@ -34,6 +34,41 @@
     // start small...
     currentPreviewScale /= previewScaleMultiple;
 
+    function highlight($element, addPadding) {
+        $element.style.backgroundColor = 'rgba(255,255,255,0.75)';
+        if ( addPadding !== false ) {
+            $element.style.padding = '1em';
+        }
+        $element.style.boxShadow = '0 0 1em #05537a';
+        $element.style.border = '1px solid #05537a';
+        $element.style.transform = 'scale(1.5)';
+        $element.style.transition = 'all .25s linear'; // fast highlight
+        $element.setAttribute('data-original-line-height', $element.style.lineHeight);
+        $element.style.lineHeight = '1.25';
+        $element.setAttribute('data-original-z-index', $element.style.zIndex);
+        $element.style.zIndex = '999999';
+    }
+
+    function unhighlight($element, keepPad) {
+        $element.style.backgroundColor = 'transparent';
+        if ( keepPad !== true ) {
+            $element.style.padding = '0';
+        }
+        $element.style.boxShadow = '0 0 1em transparent';
+        $element.style.border = '1px solid transparent';
+        $element.style.transform = 'scale(1)';
+        $element.style.transition = 'all .5s linear'; // slow unhighlight
+        $element.style.lineHeight = $element.getAttribute('data-original-line-height');
+        $element.style.zIndex = $element.getAttribute('data-original-z-index');
+    }
+
+    function unhighlightAllPreviewTextBoxes() {
+        for (var index = 0; index < $previewTextBoxKeys.length; index++) {
+            var key = $previewTextBoxKeys[index];
+            unhighlight($previewTextBoxes[key]);
+        }
+    }
+
     function getImgWidthAndHeight(url, callback) {
         var img = new Image();
         img.src = url;
@@ -304,6 +339,8 @@
     }
 
     function describeShip() {
+        var $ship = document.getElementById('ship');
+        highlight($ship);
         var tripVisualsText = '';
         tripVisualsText += 'Your RelationShips® product includes a depiction ';
         tripVisualsText += 'of exactly the ship of your relation\'s crossing, if you know it.  ';
@@ -312,10 +349,14 @@
         tripVisualsText += 'a beautiful facsimile from research.';
         tripVisualsText += 'If we cannot determine the ship,';
         tripVisualsText += 'jimaworks will research and present options of the most likely ship or kind of ship taken.';
-        alert(tripVisualsText);
+        setTimeout(function () {
+            alert(tripVisualsText);
+            unhighlight($ship);
+        }, 500);
     }
 
     function describeSeaScape() {
+        // TODO: highlight(). Element does not exist in preview.
         var tripVisualsText = '';
         tripVisualsText += 'jimaworks offers to set the ship image in a seascape. ';
         tripVisualsText += 'The seascape was experimentally discovered ';
@@ -325,16 +366,24 @@
     }
 
     function describeTitleTextBox() {
+        var $titleTextBox = document.getElementById('title-text-box');
+        highlight($titleTextBox);
         var tripVisualsText = '';
         tripVisualsText += 'The Title TextBox of your RelationShips® project ';
         tripVisualsText += 'tells the viewer what this is - e.g., your family name\'s establishment in America. ';
         tripVisualsText += 'We generate the first two lines automatically from your entries - a "What" line and a "When" line.  ';
         tripVisualsText += 'You will be able change the entries to anything you want before completing your order, ';
         tripVisualsText += 'and we provide a third line if you need it.'
-        alert(tripVisualsText);
+        setTimeout(function () {
+            alert(tripVisualsText);
+            unhighlight($titleTextBox);
+        }, 500);
+        // confirm(tripVisualsText) ?  : unhighlight($titleTextBox);
     }
 
     function describeOriginsTextBox() {
+        var $originsTextBox = document.getElementById('origins-text-box');
+        highlight($originsTextBox);
         var tripVisualsText = '';
         tripVisualsText += 'The "Origins Text Box" provides two lines ';
         tripVisualsText += 'for you to commemorate your relation\'s crossing.  ';
@@ -342,10 +391,15 @@
         tripVisualsText += 'The first line is generated from your entries to the Country of Origin page.  ';
         tripVisualsText += 'The second is generated from your entries to the Port of Departure page.  ';
         tripVisualsText += 'You may of course change to anything you want before you complete your order.';
-        alert(tripVisualsText);
+        setTimeout(function () {
+            alert(tripVisualsText);
+            unhighlight($originsTextBox);
+        }, 500);
     }
 
     function describeDestinationTextBox() {
+        var $destinationTextBox = document.getElementById('destination-text-box');
+        highlight($destinationTextBox);
         var tripVisualsText = '';
         tripVisualsText += 'The "Destination Text Box" provides two lines ';
         tripVisualsText += 'for you to commemorate your relation\'s landfall in America.  ';
@@ -353,11 +407,16 @@
         tripVisualsText += 'The first line is generated from your entries to the Port of Entry page.  ';
         tripVisualsText += 'The second is generated from your entries to the Destination page.  ';
         tripVisualsText += 'You may of course change to anything you want before you complete your order.';
-        alert(tripVisualsText);
+        setTimeout(function () {
+            alert(tripVisualsText);
+            unhighlight($destinationTextBox);
+        }, 500);
     }
 
 
     function describeShipInfoTextBox() {
+        var $shipInfoTextBox = document.getElementById('ship-info-text-box');
+        highlight($shipInfoTextBox);
         var tripVisualsText = '';
         tripVisualsText += 'Your RelationShips® product focuses on a specific crossing to America ';
         tripVisualsText += 'of one of the branches of your family.  ';
@@ -365,16 +424,24 @@
         tripVisualsText += 'The first line is usually generated from information about the physical size of the ship used in the voyage.  ';
         tripVisualsText += 'The second is generated from information about the passengers it carried.  ';
         tripVisualsText += 'You may of course change to anything you want before you complete your order.';
-        alert(tripVisualsText);
+        setTimeout(function () {
+            alert(tripVisualsText);
+            unhighlight($shipInfoTextBox);
+        }, 500);
     }
 
     function describePlaqueTextBox() {
+        var $plaqueTextBox = document.getElementById('webPlaqueTextBoxDiv');
+        highlight($plaqueTextBox, false);
         var tripVisualsText = '';
         tripVisualsText += 'Your RelationShips® product includes an inset plaque on which you may list those who cross in this voyage.';
         tripVisualsText += 'of exactly the ship of your relation\'s crossing, if you know it.  ';
         tripVisualsText += 'We provide eight lines for listing those of your relations making this voyage.  ';
         tripVisualsText += 'You may of use the plaque in many ways (of which the examples provide an incomplete sampling).';
-        alert(tripVisualsText);
+        setTimeout(function () {
+            alert(tripVisualsText);
+            unhighlight($plaqueTextBox, false);
+        }, 500);
     }
 
     function removeLastLine(previewRole) {
@@ -470,8 +537,23 @@
         var minTitleTextLn = minTextBoxWidth;
 
         //ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+titleTextBoxTopOffset+'px; left: '+titleTextBoxLeftOffset+'px; z-index: 25; line-height: '+titleTextBoxLineHeight+'; font-size: '+titleTextBoxFontSize+'px; text-align: center; \">' ;
-        webTitleTextBoxDivStyle = ' style=\"position: absolute; top: ' + titleTextBoxTopOffset + 'px; left: ' + titleTextBoxLeftOffset + 'px; z-index: 25; line-height: ' + titleTextBoxLineHeight + '; font-size: ' + titleTextBoxFontSize + 'px; text-align: center; \"';
-        webTitleText += '<p>';
+        webTitleTextBoxDivStyle =
+            ' style=\"position: absolute;'
+            + ' top: ' + titleTextBoxTopOffset + 'px;'
+            + ' left: ' + titleTextBoxLeftOffset + 'px;'
+            + ' z-index: 25;'
+            + ' line-height: ' + titleTextBoxLineHeight + ';'
+            + ' font-size: ' + titleTextBoxFontSize + 'px;'
+            + ' text-align: center;'
+            // --- Set up for highlight animation: ---
+            + ' z-index: 26;'
+            + ' padding: 0;'
+            + ' box-shadow: 0 0 1em transparent;'
+            + ' border: 1px solid transparent;'
+            + ' transition: all .25s linear;'
+            + ' border-radius: .3em'
+        + '"';
+        webTitleText += '<p style="margin-bottom: 0;">';
         numFilledTitleLines = 0;
         numAvailTitleLines = 3; // ### draw this from some other place... ###
         showExtraLine = true;
@@ -509,7 +591,7 @@
             textBoxSVG += '</svg>';
             //textBoxSVG +=   '</div>' ;
         };
-        titleHTML += '<div' + webTitleTextBoxDivStyle + '/>';
+        titleHTML += '<div id="title-text-box"' + webTitleTextBoxDivStyle + '/>';
         titleHTML += webTitleText;
         titleHTML += textBoxSVG;
         titleHTML += '</div>';
@@ -541,9 +623,16 @@
         originTextBoxHeight = 0;
 
         //ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+departureTextBoxTopOffset+'px; left: '+departureTextBoxLeftOffset+'px; z-index: 25; line-height: '+departureTextBoxLineHeight+'; font-size: '+departureTextBoxFontSize+'px; text-align: left; \">' ;
-        webOriginTextBoxDivStyle = ' style=\"position: absolute; top: ' + originTextBoxTopOffset + 'px; left: ' + originTextBoxLeftOffset + 'px; ';
-        webOriginTextBoxDivStyle += ' z-index: 25; line-height: ' + originTextBoxLineHeight + '; font-size: ' + originTextBoxFontSize + 'px; text-align: left; \"';
-        webOriginText += '<p>';
+        webOriginTextBoxDivStyle = ' style="'
+            + ' position: absolute;'
+            + ' top: ' + originTextBoxTopOffset + 'px;'
+            + ' left: ' + originTextBoxLeftOffset + 'px;'
+            + ' z-index: 25;'
+            + ' line-height: ' + originTextBoxLineHeight + ';'
+            + ' font-size: ' + originTextBoxFontSize + 'px;'
+            + ' text-align: left;'
+        + '"';
+        webOriginText += '<p style="margin-bottom: 0;">';
         numFilledOriginLines = 0;
         numAvailOriginLines = 2; // ### draw this from some other place... ###
         showExtraLine = true;
@@ -581,7 +670,7 @@
             textBoxSVG += '</svg>';
             //textBoxSVG +=   '</div>' ;
         }
-        originHTML += '<div' + webOriginTextBoxDivStyle + '/>';
+        originHTML += '<div id="origins-text-box"' + webOriginTextBoxDivStyle + '>';
         originHTML += webOriginText;
         originHTML += textBoxSVG;
         originHTML += '</div>';
@@ -616,7 +705,7 @@
         //ImgOverlayHTML +=   '<div style=\"position: absolute; top: 60px; left: 25px; z-index: 25; line-height: 0.8;  font-size: 8px; \">' ;
         // ### note difference with ShiInfo - this is oriented to specify top and to text-align right ###
         webDestinationTextBoxDivStyle = ' style=\"position: absolute; top: ' + destinationTextBoxBottomOffset + 'px; left: ' + destinationTextBoxLeftOffset + 'px; z-index: 25; line-height: ' + destinationTextBoxLineHeight + '; font-size: ' + destinationTextBoxFontSize + 'px; text-align: right; \"';
-        webDestinationText += '<p>';
+        webDestinationText += '<p style="margin-bottom: 0;">';
         numFilledDestinationLines = 0;
         numAvailDestinationLines = 2; // ### draw this from some other place... ###
         showExtraLine = true;
@@ -652,7 +741,7 @@
             textBoxSVG += '</svg>';
             //textBoxSVG +=   '</div>' ;
         }
-        destinationHTML += '<div' + webDestinationTextBoxDivStyle + '/>';
+        destinationHTML += '<div id="destination-text-box"' + webDestinationTextBoxDivStyle + '/>';
         destinationHTML += webDestinationText;
         destinationHTML += textBoxSVG;
         destinationHTML += '</div>';
@@ -678,21 +767,29 @@
 
         shipInfoTextBoxFontSize = 8 * webFrameScale;
         shipInfoTextBoxLineHeight = 0.8 * webFrameScale;
-        shipInfoTextBoxBottomOffset = 20 * webFrameScale;
+        shipInfoTextBoxBottomOffset = 40 * webFrameScale;
         shipInfoTextBoxLeftOffset = 115 * webFrameScale;
         //webShipInfoTextBoxWidth = ;
         //webShipInfoTextBoxHeight = ;
 
-        shipInfoHTML += '<div style=\"position: absolute; bottom: ' + shipInfoTextBoxBottomOffset + 'px; left: ' + shipInfoTextBoxLeftOffset + 'px; z-index: 25; line-height: ' + shipInfoTextBoxLineHeight + '; font-size: ' + shipInfoTextBoxFontSize + 'px; text-align: center; \">';
-        //shipInfoHTML +=   '<div style=\"position: absolute; bottom: 20px; left: 115px; z-index: 25; line-height: 0.8;  font-size: 8px; text-align: center; \">' ;
-        shipInfoHTML += '<p><span id="shipInfoTextBoxL1">' + localStorage.ShipInfoLine1 + '</span></em>';
-        shipInfoHTML += '<br><span id="shipInfoTextBoxL2">' + localStorage.ShipInfoLine2 + '</span></em></p>';
-        shipInfoHTML += '</div>';
+        // shipInfoHTML += '<div style=\"position: absolute; bottom: ' + shipInfoTextBoxBottomOffset + 'px; left: ' + shipInfoTextBoxLeftOffset + 'px; z-index: 25; line-height: ' + shipInfoTextBoxLineHeight + '; font-size: ' + shipInfoTextBoxFontSize + 'px; text-align: center; \">';
+        // //shipInfoHTML +=   '<div style=\"position: absolute; bottom: 20px; left: 115px; z-index: 25; line-height: 0.8;  font-size: 8px; text-align: center; \">' ;
+        // shipInfoHTML += '<p><span id="shipInfoTextBoxL1">' + localStorage.ShipInfoLine1 + '</span></em>';
+        // shipInfoHTML += '<br><span id="shipInfoTextBoxL2">' + localStorage.ShipInfoLine2 + '</span></em></p>';
+        // shipInfoHTML += '</div>';
 
         // webShipInfoAttribs = ' class=\"Plaque\" width='+webShipInfoTextBoxWidth+'px height='+webShipInfoTextBoxHeight+'px' ;
         // webShipInfoTextBoxDivStyle = ' style=\"width:'+webShipInfoTextBoxWidth+'px; maxwidth: 25%;'+webShipInfoTextBoxHeight+'px;\";' ;
-        webShipInfoTextBoxDivStyle = ' style=\"position: absolute; bottom: ' + shipInfoTextBoxBottomOffset + 'px; left: ' + shipInfoTextBoxLeftOffset + 'px; z-index: 25; line-height: ' + shipInfoTextBoxLineHeight + '; font-size: ' + shipInfoTextBoxFontSize + 'px; text-align: center; \"';
-        webShipInfoText += '<p>';
+        webShipInfoTextBoxDivStyle = ' style="'
+            + ' position: absolute;'
+            + ' bottom: ' + shipInfoTextBoxBottomOffset + 'px;'
+            + ' left: ' + shipInfoTextBoxLeftOffset + 'px;'
+            + ' z-index: 27;'
+            + ' line-height: ' + shipInfoTextBoxLineHeight + ';'
+            + ' font-size: ' + shipInfoTextBoxFontSize + 'px;'
+            + ' text-align: center;'
+        + '"';
+        webShipInfoText += '<p style="margin-bottom: 0;">';
         numFilledShipInfoLines = 0;
         numAvailShipInfoLines = 2; // ### draw this from some other place... ###
         showExtraLine = true;
@@ -740,7 +837,7 @@
             }
         */
 
-        shipInfoHTML += '<div' + webShipInfoTextBoxDivStyle + '/>';
+        shipInfoHTML += '<div id="ship-info-text-box"' + webShipInfoTextBoxDivStyle + '>';
         shipInfoHTML += webShipInfoText;
         shipInfoHTML += textBoxSVG;
         shipInfoHTML += '</div>';
@@ -888,7 +985,7 @@
             + ' text-align: center;'
             + ' line-height: ' + plaqueTextBoxLineHeight + ';'
             + ' font-size: ' + plaqueTextBoxFontSize + 'px;'
-            + ' z-index: 25;'
+            + ' z-index: 27;'
             + '"';
 
         webPlaqueAttribs = ' class=\"Plaque\" width=' + webPlaqueWidth + 'px height=' + webPlaqueHeight + 'px';
@@ -2104,7 +2201,12 @@
 
         /*        ImgOverlayHTML +=   '<div style=\"position: absolute; top: 120px; left: 120px; z-index: 3;\">' ;  */
         //ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 45px; left: 115px; z-index: 3;\">' ;
-        ImgOverlayHTML += '<div style=\"position: absolute; bottom: ' + shipImageBottomOffset + 'px; left: ' + shipImageLeftOffset + 'px; z-index: 3;\">';
+        ImgOverlayHTML += '<div id="ship" style="'
+            + ' position: absolute;'
+            + ' bottom: ' + shipImageBottomOffset + 'px;'
+            + ' left: ' + shipImageLeftOffset + 'px;'
+            + ' z-index: 27;'
+        + '">';
         ImgOverlayHTML += '<img src="' + webShipImg + '"';
         //ImgOverlayHTML +=     ' class=\"ship\" width=\"160px\" height=\"auto\"' ;
         //ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
