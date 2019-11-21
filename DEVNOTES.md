@@ -602,8 +602,12 @@ From Jim:
 
 ## 11/09
 
-### Add highlight to text box being discussed in alerts
+### [Add highlight to text box being discussed in alerts]
 
 - These terms seem to be used interchangeably: Trip Info and Ship Info. Which is correct? Going with ShipInfo for now.
 - The ship info is being duplicated: span with ID `ShipInfoTextBoxL1` vs. `shipInfoTextBoxL1`.
 - Most are added, but not sure what to highlight for the six trip visuals.
+
+### [Change view so preview is larger and background is dimmed](https://trello.com/c/pSfFO0Ih)
+
+- 
