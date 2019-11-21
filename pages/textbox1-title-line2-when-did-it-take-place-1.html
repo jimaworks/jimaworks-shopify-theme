@@ -114,8 +114,8 @@
     <div id="highEndOfRangeSlider"></div>   
     -->
     <div id="backgroundImage"></div>
-    <div id="lowEndOfRangeSlider" style="position: absolute; z-index: 25; top: 320px; left: 70px; width: 800px; height: 40px;"></div>
-    <div id="highEndOfRangeSlider" style="position: absolute; z-index: 25; top: 360px; left: 70px; width: 800px; height: 40px;"></div>
+    <div id="lowEndOfRangeSlider" style="position: absolute; z-index: 25; top: 270px; left: 70px; width: 800px; height: 40px;"></div>
+    <div id="highEndOfRangeSlider" style="position: absolute; z-index: 25; top: 330px; left: 70px; width: 800px; height: 40px;"></div>
     </div>
     <!-- set up the slider with the right default years...
         <div class="slidecontainer"><input class="slider" id="lowRange" type="range" onload="getDefaultYear()" min="1600" max="2019" value="1907" style="background: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg');" />
@@ -351,19 +351,18 @@
     //    var lowRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="lowRange" type="range" min="1600" max="2019" value="'+getDefaultYear()+'" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
     var lowRangeSliderButtonHTML  = '<div class="slidecontainer">' ;
         //lowRangeSliderButtonHTML += '<input class="slider" id="lowRange" name="foo" type="range" min="1600" max="2019" value="'+"1600" ;
+        lowRangeSliderButtonHTML += '<label class="slider-label" for="lowRange">Earliest Possible Year of Departure</label>';
         lowRangeSliderButtonHTML   += '<input class="slider" id="lowRange" name="foo" type="range" min="1600" max="2019" value="'
         lowRangeSliderButtonHTML += currentLowerMapYear ;
         //lowRangeSliderButtonHTML += '" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
     
-        lowRangeSliderButtonHTML += '" style="background: url(' ;
         //shopifyPrefix + prevThisNextAvailMapYears[1]+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
         //lowRangeSliderButtonHTML += '\''+'  shopifyPrefix + prevThisNextAvailMapYears[1]+'-Routes-'+currRegionAbbrev+shopifyImgSizePostfix+'.png'+'\'' ;
         //https://cdn.shopify.com/s/files/1/1336/0641/files/map_7.png?546
     
     
     //        lowRangeSliderButtonHTML += '\'https://cdn.shopify.com/s/files/1/1336/0641/files/map_7.png?546\'' ;
-        lowRangeSliderButtonHTML += '\''+currMapFile+'\'' ;
-        lowRangeSliderButtonHTML += ');" />' ;
+        lowRangeSliderButtonHTML += '" />' ;
     
         lowRangeSliderButtonHTML += '<output for="foo" onforminput="value = foo.valueAsNumber;"></output>' ;
     
@@ -374,13 +373,16 @@
     <script>// <![CDATA[
     //    var highRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="highRange" type="range" min="1600" max="2019" value="'+getDefaultYear()+'" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
     //    var highRangeSliderButtonHTML += '<div class="slidecontainer"><input class="slider" id="highRange" type="range" min="1600" max="2019" value="'+"2019"+'" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
-        var highRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="highRange" type="range" min="' ;
-            highRangeSliderButtonHTML += earliestPossibleTripYear ;
-            highRangeSliderButtonHTML += '" max="2019" value="';
-            highRangeSliderButtonHTML += currentHigherMapYear ;
-            highRangeSliderButtonHTML += '" style="background: url(' ;
-            highRangeSliderButtonHTML += '\''+currMapFile+'\'' ;
-            highRangeSliderButtonHTML += ');" />' ;
+        var highRangeSliderButtonHTML = '<div class="slidecontainer">'
+            + '<label class="slider-label" for="highRange">Latest Possible Year of Arrival</label>'
+            + '<input class="slider"'
+                + ' id="highRange"'
+                + ' type="range"'
+                + ' min="' + earliestPossibleTripYear + '"'
+                + ' max="2019"'
+                + ' value="' + currentHigherMapYear + '"'
+            + ' />'
+        + '</div>';
     
     //    lowRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="lowRange" type="range" min="1600" max="2019" value="'+getDefaultYear() ;
     //    lowRangeSliderButtonHTML +='" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\'); ' ;
