@@ -1,6 +1,7 @@
 <!--
   RelationShips Preview Redux
   Original Author: Hugh Guiney <hugh@hughguiney.com>
+  Body font size for rem calculations: 16px
 -->
 <style>
   /*
@@ -27,36 +28,55 @@
   .jw-relationships-preview,
   [class$="__text"] {
     font-size: 10px;
+    font-size: .625rem;
   }
 
   .jw-relationships-preview {
     box-sizing: border-box;    
+    max-width: 100%;
     background-color: #fff8d2;
     line-height: 1.25;
-    margin-left: auto;
     margin-right: auto;
-    padding: 1em;
+    /* padding: 10px; */
+    padding: .625rem;
+    display: flex;
+    flex-direction: row;
+    min-width: 500px;
+    min-width: 31.25rem;
+    margin-bottom: 0;
   }
     .jw-relationships-preview.aspect-ratio:before {
       padding-top: calc(3561/4407 * 100%);
     }
     .jw-relationships-preview.jw-relationships-preview--frame {
       border-image-slice: 433 444 433 466;
-      border-image-width: 30px;
-      padding: 40px;
+      /* border-image-width: 60px; */
+      border-image-width: 3.75rem;
+      /* padding: 90px 90px 66.666px; */
+      padding: 5.625rem 5.625rem 4.166625rem;
       border-image-outset: 0;
       border-image-repeat: stretch stretch;
       border-style: solid;
       border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png);
     }
 
-  [class$="__text"] {
-    color: #555;
-    color: #111;
-    text-shadow: 1px 1px 0px ivory;    
-    text-shadow: 0 0 0.125em ivory;
-    margin: 0;
+  .jw-relationships-preview__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
+
+  [class$="__text"] {
+    color: #111;
+    /* text-shadow: 1px 1px 0 ivory; */
+    text-shadow: .0625rem .0625rem 0 ivory;
+    margin: 0 !important;
+  }
+    @media only screen and (min-width: 940px) {
+      [class$="__text"] {
+        font-size: .8rem;
+      }
+    }
 
   .jw-title {
     text-align: center;
@@ -69,14 +89,16 @@
 
   .jw-route {
     position: relative;
-    height: 4.6em;
+    /* height: 46px; */
+    height: 2.875rem;
   }
     .jw-route__origin,
     .jw-route__destination {
       position: absolute;
       display: inline-block;
       vertical-align: top;
-      top: 12.5%;
+      top: 62.5%;
+      transition: .125s linear top, .125s linear left, .125s linear right;
     }
     .jw-route__origin {
       text-align: right;
@@ -85,27 +107,55 @@
     .jw-route__destination {
       left: 0;
     }
+    @media only screen and (min-width: 940px) {
+      .jw-route__origin,
+      .jw-route__destination {
+        top: 125%;
+      }
+    }
+    @media only screen and (min-width: 1200px) {
+      .jw-route__origin,
+      .jw-route__destination {
+        top: 250%;
+      }
+      .jw-route__origin {
+        right: 16%;
+      }
+      .jw-route__destination {
+        left: 16%;
+      }
+    }
 
   .jw-map {
     background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png);
     background-repeat: no-repeat;
     background-size: cover;
-    border: 3px solid #ad4448;
-    padding: 1em;
-    height: 20.2em;
+    /* background-size: contain; */
+    /* border: 3px solid #ad4448; */
+    border: .1875rem solid #ad4448;
+    /* padding: 10px; */
+    padding: .625rem;
+    /* min-height: 202px; */
+    min-height: 12.625rem;
+    width: 100%;
     position: relative;
+    flex: 1;
   }
     .jw-map.aspect-ratio:before {
       padding-top: calc(1151/1850 * 100%);
     }
     .jw-map__row + .jw-map__row {
-      margin-top: 1em;
+      /* margin-top: 10px; */
+      margin-top: .625rem;
     }
   
   .jw-ship {
     text-align: center;
     position: absolute;
-    bottom: 1em;
+    /* bottom: 10px; */
+    bottom: .625rem;
+    width: 98%;
+    width: calc(100% - (0.625rem * 2));
   }
     .jw-ship__image {
       margin: 0 auto !important;
@@ -113,56 +163,114 @@
     }
 
   .jw-plaque {
-    border: 3px solid #ad4448;
+    /* border: 3px solid #ad4448; */
+    border: .1875rem solid #ad4448;
     background-color: #ecc37e;
     text-align: center;
     max-width: 50%;
-    max-height: 7em;
+    /* max-height: 70px; */
+    max-height: 4.375rem;
     overflow: auto;
-    margin: 10px auto 0;
-    padding: .25em;
+    /* margin: 10px auto 0; */
+    margin: .625rem auto 0;
+    /* padding: 2.5px; */
+    padding: .15625rem;
   }
     .jw-plaque.aspect-ratio:before {
       padding-top: calc(298/640 * 100%);
     }
+    @media only screen and (min-width: 940px) {
+      .jw-plaque {
+        max-height: 5.8333rem;
+      }
+    }
+
+  .jw-relationships-preview-container [id] {
+    transition: all .5s linear; /* slow unhighlight */
+  }
+
+  .jw-title,
+  .jw-route__destination,
+  .jw-route__origin,
+  .jw-ship__image-container,
+  .jw-plaque {
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .jw-info {
+    /* box-shadow: 0 0 10px #05537a; */
+    box-shadow: 0 0 .625rem #05537a;
+    cursor: default;
+  }
+
+  .jw-highlighted {
+    /* box-shadow: 0 0 10px #05537a; */
+    box-shadow: 0 0 .625rem #05537a;
+    transform: scale(1.5);
+    transition: all .25s linear; /* fast highlight */
+    line-height: 1.25;
+    z-index: 999999;
+  }
+    .jw-highlighted.jw-highlighted--alter-box-style {
+      /* padding: 10px; */
+      padding: .625rem;
+      background-color: rgba(255,255,255,0.75);
+      /* border: 1px solid #05537a; */
+      border: .0625rem solid #05537a;
+    }
+    .jw-highlighted.jw-highlighted--retain-size {
+      transform: none;
+    }
+
+  .jw-relationships-preview-disclaimer {
+    font-style: italic;
+  }
 </style>
-<figure class="jw-relationships-preview-container">
+<div class="jw-relationships-preview-container">
   <article class="jw-relationships-preview jw-relationships-preview--frame aspect-ratio">
-    <div class="jw-map">
-      <hgroup class="jw-title jw-map__row">
-        <h3 class="jw-title__text">The Family Crossing: First Generation</h3>
-        <h3 class="jw-title__text" role="presentation">A Thread in the Great Tapistry that is America</h3>
-        <h3 class="jw-title__text" role="presentation"></h3>
-      </hgroup>
-      <div class="jw-route jw-map__row">
-        <div class="jw-route__destination">
-          <p class="jw-route__text">Arrival: A New World Port</p>
-          <p class="jw-route__text">Destiny: An American Lineage</p>
+    <div class="jw-relationships-preview__content">
+      <div id="map-background" class="jw-map">
+        <hgroup id="title-text-box" class="jw-title jw-map__row">
+          <h3 class="jw-title__text">The Family Crossing: First Generation</h3>
+          <h3 class="jw-title__text" role="presentation">A Thread in the Great Tapistry that is America</h3>
+          <h3 class="jw-title__text" role="presentation"></h3>
+        </hgroup>
+        <div class="jw-route jw-map__row">
+          <div id="destination-text-box" class="jw-route__destination">
+            <p class="jw-route__text">Arrival: A New World Port</p>
+            <p class="jw-route__text">Destiny: An American Lineage</p>
+          </div>
+          <div id="origins-text-box" class="jw-route__origin">
+            <p class="jw-route__text">Origin: The Old World</p>
+            <p class="jw-route__text">Crossing: The North Atlantic</p>
+          </div>
         </div>
-        <div class="jw-route__origin">
-          <p class="jw-route__text">Origin: The Old World</p>
-          <p class="jw-route__text">Crossing: The North Atlantic</p>
+        <div class="jw-ship jw-map__row">
+          <div id="ship" class="jw-ship__image-container">
+            <img class="jw-ship__image" src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" alt="Ship" />
+          </div>
+          <div id="ship-info-text-box" class="jw-ship__info">
+            <p class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
+            <p class="jw-ship__text">Typical Duration of Crossing: Two Weeks</p>
+          </div>
         </div>
       </div>
-      <div class="jw-ship jw-map__row">
-        <img class="jw-ship__image" src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" alt="Ship" />
-        <p class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
-        <p class="jw-ship__text">Typical Duration of Crossing: Two Weeks</p>
+      <div id="webPlaqueTextBoxDiv" class="jw-plaque">
+        <p class="jw-plaque__text">In Appreciation of</p>
+        <p class="jw-plaque__text">the Initiative and Courage of</p>
+        <p class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
+        <p class="jw-plaque__text">#4</p>
+        <p class="jw-plaque__text">#5</p>
+        <p class="jw-plaque__text">#6</p>
+        <p class="jw-plaque__text">#7</p>
+        <p class="jw-plaque__text">#8</p>
       </div>
-    </div>
-    <div class="jw-plaque">
-      <p class="jw-plaque__text">In Appreciation of</p>
-      <p class="jw-plaque__text">the Initiative and Courage of</p>
-      <p class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
-      <p class="jw-plaque__text">#4</p>
-      <p class="jw-plaque__text">#5</p>
-      <p class="jw-plaque__text">#6</p>
-      <p class="jw-plaque__text">#7</p>
-      <p class="jw-plaque__text">#8</p>
     </div>
   </article>
-  <figcaption>Mockup only. Final product may differ in appearance.</figcaption>
-</figure>
+  <p class="jw-relationships-preview-disclaimer">Mockup only. Final product may differ in appearance.</p>
+</div>
 <script>
   console.warn('RelationShips Preview Redux initialized');
 </script>

@@ -178,11 +178,16 @@ s0.parentNode.insertBefore(s1,s0);
   {% section 'header' %}
 
   <main class="wrapper main-content" role="main">
-    <div class="grid">
-        <div class="grid__item">
-          {{ content_for_layout }}
+    {% case page.handle %}
+      {% when 'your-relationships-project-redux' %}
+        {{ content_for_layout }}
+      {% else %}
+        <div class="grid">
+          <div class="grid__item">
+           {{ content_for_layout }}
+          </div>
         </div>
-    </div>
+    {% endcase %}
   </main>
 
   {% section 'footer' %}

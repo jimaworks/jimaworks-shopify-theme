@@ -81,7 +81,7 @@
       console.log("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
       alert("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
     */
-    if ( !window.Jimaworks.defaultsHaveBeenInitialized ) {
+    if ( window.Jimaworks.Pages && !window.Jimaworks.defaultsHaveBeenInitialized ) {
       var pages = Object.keys(window.Jimaworks.Pages);
       for (var index = 0; index < pages.length; index++) {
         var page = pages[index];

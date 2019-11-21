@@ -34,32 +34,20 @@
     // start small...
     currentPreviewScale /= previewScaleMultiple;
 
-    function highlight($element, addPadding) {
-        $element.style.backgroundColor = 'rgba(255,255,255,0.75)';
-        if ( addPadding !== false ) {
-            $element.style.padding = '1em';
+    function highlight($element, preserveBoxStyle, retainSize) {
+        $element.classList.add('jw-highlighted');
+        if ( preserveBoxStyle !== true ) {
+            $element.classList.add('jw-highlighted--alter-box-style');
         }
-        $element.style.boxShadow = '0 0 1em #05537a';
-        $element.style.border = '1px solid #05537a';
-        $element.style.transform = 'scale(1.5)';
-        $element.style.transition = 'all .25s linear'; // fast highlight
-        $element.setAttribute('data-original-line-height', $element.style.lineHeight);
-        $element.style.lineHeight = '1.25';
-        $element.setAttribute('data-original-z-index', $element.style.zIndex);
-        $element.style.zIndex = '999999';
+        if ( retainSize === true ) {
+            $element.classList.add('jw-highlighted--retain-size');
+        }
     }
 
-    function unhighlight($element, keepPad) {
-        $element.style.backgroundColor = 'transparent';
-        if ( keepPad !== true ) {
-            $element.style.padding = '0';
-        }
-        $element.style.boxShadow = '0 0 1em transparent';
-        $element.style.border = '1px solid transparent';
-        $element.style.transform = 'scale(1)';
-        $element.style.transition = 'all .5s linear'; // slow unhighlight
-        $element.style.lineHeight = $element.getAttribute('data-original-line-height');
-        $element.style.zIndex = $element.getAttribute('data-original-z-index');
+    function unhighlight($element) {
+        $element.classList.remove('jw-highlighted');
+        $element.classList.remove('jw-highlighted--alter-box-style');
+        $element.classList.remove('jw-highlighted--retain-size');
     }
 
     function unhighlightAllPreviewTextBoxes() {
@@ -432,7 +420,7 @@
 
     function describePlaqueTextBox() {
         var $plaqueTextBox = document.getElementById('webPlaqueTextBoxDiv');
-        highlight($plaqueTextBox, false);
+        highlight($plaqueTextBox, true);
         var tripVisualsText = '';
         tripVisualsText += 'Your RelationShips® product includes an inset plaque on which you may list those who cross in this voyage.';
         tripVisualsText += 'of exactly the ship of your relation\'s crossing, if you know it.  ';
@@ -440,7 +428,7 @@
         tripVisualsText += 'You may of use the plaque in many ways (of which the examples provide an incomplete sampling).';
         setTimeout(function () {
             alert(tripVisualsText);
-            unhighlight($plaqueTextBox, false);
+            unhighlight($plaqueTextBox);
         }, 500);
     }
 
@@ -546,7 +534,6 @@
             + ' font-size: ' + titleTextBoxFontSize + 'px;'
             + ' text-align: center;'
             // --- Set up for highlight animation: ---
-            + ' z-index: 26;'
             + ' padding: 0;'
             + ' box-shadow: 0 0 1em transparent;'
             + ' border: 1px solid transparent;'
@@ -627,7 +614,7 @@
             + ' position: absolute;'
             + ' top: ' + originTextBoxTopOffset + 'px;'
             + ' left: ' + originTextBoxLeftOffset + 'px;'
-            + ' z-index: 25;'
+            // + ' z-index: 25;'
             + ' line-height: ' + originTextBoxLineHeight + ';'
             + ' font-size: ' + originTextBoxFontSize + 'px;'
             + ' text-align: left;'
@@ -2252,11 +2239,17 @@
         if (!window.overlaysRendered) {
             window.addEventListener('DOMContentLoaded', function () {
                 console.warn('Images:', Array.from(ImgOverlayHTML.matchAll(/<img[^>]+>/g), m => m[0].replace(/.*src="?([^"\s]+)"?.*/, '$1')));
-                document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
-                window.overlaysRendered = true;
+                var displayOverlays = document.getElementById("DisplayOverlays");
+                if (displayOverlays) {
+                    displayOverlays.innerHTML = ImgOverlayHTML;
+                    window.overlaysRendered = true;
+                }
             });
         } else {
-            document.getElementById("DisplayOverlays").innerHTML = ImgOverlayHTML;
+            var displayOverlays = document.getElementById("DisplayOverlays");
+            if (displayOverlays) {
+                displayOverlays.innerHTML = ImgOverlayHTML;
+            }
         }
         // ]]>
 
