@@ -233,7 +233,6 @@
 
 ## Ship Info Textbox (3 lines)
 
-
 ## localStorage
 
 | Variable Name | Default Value                             |
