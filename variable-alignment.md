@@ -1,21 +1,6 @@
-# Variable Issues
+# Variable Alignment
 
-## For Jim:
-
-1. What is meant by “Date info”? All 3 variables are missing on both the localStorage and Illustrator sides.
-2. What is meant by “Additional Destination info (3 geo elements)”?
-3. What is meant by “Additional Origin info (3 geo elements)”?
-4. Anything you know for certain is outdated/deprecated?
-
-## For Jim or Vasily:
-
-1. What is meant by “Date” and “Seascape”? There were no localStorage variables found for those.
-2. What is the difference between Commemoration Time Period Start/End and Repr Year? What does Repr stand for?
-3. What is the difference between Origins and Region? Using defaults, both read “EuropeAndTheMediterranean” at checkout.
-
-----
-
-## 1:1 Variable matches between localStorage and Illustrator:
+## 1:1 matches between localStorage and Illustrator:
 
 ### ArrivalPort
 - arrivalPort → ArrivalPort
