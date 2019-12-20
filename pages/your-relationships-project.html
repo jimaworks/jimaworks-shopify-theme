@@ -1,242 +1,501 @@
-<!--  RelationShips Get Started test new 
-      https://jimaworks.com/pages/your-relationships-project
-      template:  page.initialize-jimaworks
-      title: Your Relationships Project
-      subtitle: A RelationShips project tells a story. 
-                Each consists of five Text Boxes for you to fill out. 
-                Six Trip Visuals beautifully stage this bit of your history.
-      Feb 08 2019:0940 Change prompt for name - add value="Our Family".  (But would like that to be overwritten on input)
-      Feb 22 2019:0806 New prompt leads to "Our Family Family Atlantic Crossing" so remove redundancy (when condition Atlantic/Pacific?)
-      Apr 15 2019:1230 Edit prompt to emphasize ability to edit or leave default "Our Family Family Atlantic Crossing"
-      Apr 23 2019:0800 Put in "nextPage" convention.  Change subtitle to "Whose story is this?"
-      Apr 25 2019:1430 Put in the correct "nextPage"'s to make it live.
-      May 20 2019:0730 Bring final choice button to the top - make it overlay all else
-      
-      Changeover.  Insert at RelationShips introduction.
-      https://jimaworks.com/pages/1-RelationShips Introduction
-      template:  page.initialize-jimaworks
-      title: Your RelationShips Project
-      subtitle: 
-      Jun 07 2019:1430 Incorporate localStorage.viewingTextBoxes to lead user into "5 TextBoxes" view of product
-      Jun 08 2019:1200 Add the "View 5 TextBoxs" button, remove "register last name", and follow nextPage to start the project
-      Jun 09 2019:1845 Insert the "Region" textbox0 to set the part of the world
-      Jun 10 2019:1715 Polish wording/add line breaks.
-      Jun 14 2019:1800 Add the describeTextBoxes and describeTripVisuals buttons, add the SaveAndReturnLater button
-      Jun 18 2019:0700 Link to Resources/Hints and Tips page
-      Aug 11 2019:0745 Add "Skip to Project" button, rename to "your-relationships-project" vs "1-your-relationships-project-test"
-  --> <!-- added comment to remove leading imagery
-<div class="row">
-<table width="100%">
-<tbody>
-<tr>
-<td style="text-align: left;"><a href="https://cdn.shopify.com/s/files/1/1336/0641/files/RelationShipsImage-Campania_1897-1918_-Walnut-ParisSage-72ppi.png?15266436432026494628" data-lightbox="jimaworks-gallery" data-title="&lt;a href='https://jimaworks.com/pages/0-1-origins'
-                    &gt;Click here&lt;/a&gt; to get started"> <img style="vertical-align: top;" src="https://cdn.shopify.com/s/files/1/1336/0641/files/RelationShipsImage-Campania_1897-1918_-Walnut-ParisSage-72ppi.png?15266436432026494628" alt="RelationShips example" /> </a>
-<p><a href="https://jimaworks.com/pages/examplesinarraywlargerpics" a=""> Click HERE for some examples </a></p>
+<style>
+  .jw-skip-to-project {
+    display: inline-block;
+    height: 32px;
+    padding: 1px 7px 2px;
+    /* background-color: white; */
+  }
 
-...had a comment start
-<p><a href="https://jimaworks.com/pages/0-1-origins" a="" onclick="GetStartedWithARelationShipsProject()"> Click HERE to skip the intro </a></p>
-... had a comment nd
+  .jw-link-button {
+    color: white;
+    background-color: #0081a3;
+    padding: 1rem;
+    border-radius: 0.3rem;
+    position: relative;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.25);
+  }
+    .jw-link-button:hover,
+    .jw-link-button:focus,
+    .jw-link-button:active {
+      color: white;
+      background-color: #006d8a;
+    }
+    .jw-link-button:active {
+      top: 2px;
+      left: 2px;
+      box-shadow: 0 0 2px rgba(0,0,0,0.25);
+    }
 
-</td>
-</tr>
-</table>
+  .jw-more-info-link {
+    font-size: 110%;
+  }
+
+  .jw-modal {
+
+  }
+</style>
+
+<header>
+  <h2>A RelationShips project tells a story.</h2>
+  <p>Each consists of five Text Boxes for you to fill out.<br />
+  Six Trip Visuals beautifully stage this bit of your history.</p>
+</header>
+
+<style>
+  .jw-relationships-tour {
+    margin-bottom: 0;
+  }
+  
+  .jw-relationships-tour__actions {
+    margin-bottom: .75rem;
+  }
+
+  .jw-relationships-tour__content {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 3rem;
+    margin: 0;
+    transition: .125s linear width, .125s linear margin;
+    width: 100%;
+    max-width: 100%;
+  }
+    /* .jw-relationships-tour__content.jw-relationships-tour__content--active {} */
+    @media only screen and (min-width: 940px) {
+      .jw-relationships-tour__content.jw-relationships-tour__content--active {
+        flex-direction: row;
+        margin: 0 -25%;
+        min-width: 90vw;
+      }
+    }
+
+  .jw-relationships-tour__map {
+    flex: 1;
+  }
+
+  .jw-relationships-tour__sidebar {
+    flex: .5;
+    transition: .125s ease height;
+    height: 0;
+    display: none;
+  }
+    @media only screen and (min-width: 940px) {
+      .jw-relationships-tour__sidebar {
+        padding-left: 1rem;
+      }
+    }
+
+  .jw-relationships-tour__navigation {
+    margin-bottom: .75rem;
+  }
+
+  .jw-tour {
+    height: 0;
+    transition: .125s ease height;
+    overflow: hidden;
+  }
+    @media only screen and (min-width: 940px) {
+      .jw-tour {
+        transition: none;
+      }
+    }
+
+  .jw-tour__descriptions {
+    transition: .125s linear height;
+    position: relative;
+  }
+    .jw-tour__description {
+      opacity: 0;
+      transition: .125s ease opacity;
+      position: absolute;
+      top: 0;
+    }
+    .jw-tour__description.jw-tour__description--active {
+      opacity: 1;
+    }
+
+  .--expanded {
+    height: 100%;
+  }
+
+  .jw-tour__actions {
+    position: relative;
+    z-index: 9999;
+  }
+  /* .jw-tour__action {} */
+  .--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .jw-relationships-tour__enter-exit {
+    transition: .125s ease width;
+  }
+</style>
+<article class="jw-relationships-tour">
+  <nav class="jw-relationships-tour__actions">
+    <button
+      id="enter-exit-tour"
+      class="jw-relationships-tour__enter-exit"
+      data-enter-tour-text="Tour the Customizations"
+      data-exit-tour-text="Exit the Tour"
+      data-expansion-target="#tour"
+      aria-expanded="false"
+    >Tour the Customizations</button>
+    <a
+      href="/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start"
+      class="jw-skip-to-project"
+    >Skip to Project</a>
+  </nav>
+  <div id="relationships-tour-content" class="jw-relationships-tour__content">
+    <div id="map" class="jw-relationships-tour__map"></div>
+    <aside id="sidebar" class="jw-relationships-tour__sidebar">
+      <nav class="jw-relationships-tour__navigation">
+        <span id="tour-actions" class="jw-tour__actions" hidden>
+          <a id="previous" class="jw-tour__action --disabled" href="javascript:void(0);">Previous</a>
+          <a id="next" class="jw-tour__action" href="javascript:void(0);">Next</a>
+        </span><!--/.jw-modal__actions-->
+      </nav>
+      <div id="tour" class="jw-tour">
+        <div class="jw-tour__descriptions">
+          <div id="title-text-box-description" class="jw-tour__description">
+            <h3 class="jw-tour-spot__heading">Title Text Box</h3>
+            <div class="jw-tour-spot__body">
+              <p>The Title TextBox of your RelationShips® project tells the viewer what this is—e.g., your family name’s establishment in America. We generate the first two lines automatically from your entries—a “What” line and a “When” line. You will be able change the entries to anything you want before completing your order, and we provide a third line if you need it.</p>
+            </div>
+          </div><!--/.jw-tour__description-->
+          <div id="origins-text-box-description" class="jw-tour__description">
+            <h3 class="jw-tour-spot__heading">Origins Text Box</h3>
+            <div class="jw-tour-spot__body">
+              <p>The “Origins Text Box” provides two lines for you to commemorate your relation’s crossing. These are generated automatically from your entries. The first line is generated from your entries to the Country of Origin page. The second is generated from your entries to the Port of Departure page. You may of course change to anything you want before you complete your order.</p>
+            </div>
+          </div><!--/.jw-tour__description-->
+          <div id="destination-text-box-description" class="jw-tour__description">
+            <h3 class="jw-tour-spot__heading">Destination Text Box</h3>
+            <div class="jw-tour-spot__body">
+              <p>The “Destination Text Box” provides two lines for you to commemorate your relation’s landfall in America. These are generated automatically from your entries. The first line is generated from your entries to the Port of Entry page. The second is generated from your entries to the Destination page. You may of course change to anything you want before you complete your order.</p>
+            </div>
+          </div><!--/.jw-tour__description-->
+          <div id="ship-description" class="jw-tour__description">
+            <h3 class="jw-tour-spot__heading">Ship</h3>
+            <div class="jw-tour-spot__body">
+              <p>Your RelationShips® product includes a depiction of exactly the ship of your relation’s crossing, if you know it. If you don’t know it, jimaworks may be able to help you find it, and if there is no image of it jimaworks will render a beautiful facsimile from research. If we cannot determine the ship, jimaworks will research and present options of the most likely ship or kind of ship taken.</p>
+            </div>
+          </div><!--/.jw-tour__description-->
+          <div id="ship-info-text-box-description" class="jw-tour__description">
+            <h3 class="jw-tour-spot__heading">Ship Info</h3>
+            <div class="jw-tour-spot__body">
+              <p>Your RelationShips® product focuses on a specific crossing to America of one of the branches of your family. The TripInfo Text Box presents information that conveys something about the nature of the voyage. The first line is usually generated from information about the physical size of the ship used in the voyage. The second is generated from information about the passengers it carried. You may of course change to anything you want before you complete your order.</p>
+            </div>
+          </div><!--/.jw-tour__description-->
+          <div id="webPlaqueTextBoxDiv-description" class="jw-tour__description">
+            <h3 class="jw-tour-spot__heading">Plaque</h3>
+            <div class="jw-tour-spot__body">
+              <p>Your RelationShips® product includes an inset plaque on which you may list those who cross in this voyage. of exactly the ship of your relation’s crossing, if you know it. We provide eight lines for listing those of your relations making this voyage. You may of use the plaque in many ways (of which the examples provide an incomplete sampling).</p>
+            </div>
+          </div><!--/.jw-tour__description-->
+          <div id="map-background-description" class="jw-tour__description">
+            <h3 class="jw-tour-spot__heading">Map Background</h3>
+            <div class="jw-tour-spot__body">
+              <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+            </div>
+          </div><!--/.jw-tour__description-->
+        </div><!--/.jw-tour__descriptions-->
+      </div><!--/.jw-modal.jw-tour-->
+    </aside><!--/#sidebar-->
+  </div><!--/.jw-relationships-tour__content-->
+</article>
+
+<div>
+  <p>Each of these TextBoxes will already be filled in for you and updated as you add information. The more information you provide, the more "yours" the product will become. And at the end, you can make it *completely* yours by purchasing it of course, but before that, also by further modifying it in any way you chose.</p>
+  <p>(This is a lot of information to collect, and you may not be able to find it all. But we pre-fill each element of information with stand-in, general text that you can use, as well as a rich set of
+    <a href="https://jimaworks.com/pages/resources">hints and tips</a>
+    to guide you on how to show what you do know and what you don’t.)</p>
+  <p>(Moreover, your customizations are automatically saved to your web browser, so you can go off and do some additional research before completing your project.)</p>
+
+  <h3>More Info</h3>
+  <ul>
+    <li>
+      <a class="float-left submit-button jw-more-info-link" href="/pages/product-anatomy" id="FeaturesLink">Features</a>
+    </li>
+    <li>
+      <a class="float-left submit-button jw-more-info-link" href="/pages/product-sizes" id="SizeLink">Sizes</a>
+    </li>
+    <li>
+      <a class="float-left submit-button jw-more-info-link" href="/pages/prices" id="PriceLink">Price</a>
+    </li>
+  </ul>
+  <!-- <button onclick="actionOnDone()">Start building your story</button> -->
+  <p>
+    <a class="jw-link-button" href="/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start">Start building your story</a>
+  </p>
 </div>
 
-... had a comment start
-<h1>Putting Membership Requirement in place</h1>
-<button onclick="requireMembershipFunction()">Member?</button>
-<p id="textOut"></p>
-<script type="text/javascript">
-    if (localStorage.RelationShipMember===undefined) {
-        function requireMembershipFunction() {
-            var requireMembershipString=  
-                            "You must be a member of the jimaworks RelationShips community to enter this page\n"
-                            +"The benefits of membership include:\n"
-                            +"- Ability to initiate RelationShips Projects\n"
-                            +"- \"Hints and Tips\" pages\n"
-                            +"- the jimaworks Newsletter\n"
-                            +"- Downloadable \"Cheat Sheet\" for RelationShips questions"
-                            +"- Soon: a \"Save and Come Back Later\" button" ;
-            var txt;
-            if (confirm(requireMembershipString)) {
-                txt = "You pressed Sure!";
-                /* go to https://jimaworks.com/account/login */
-            } else {
-                txt = "You pressed NoThx!";
-                /* go to https://jimaworks.com */
-            }
-            document.getElementById("textOut").innerHTML = txt;
-        } ;
+<script>
+  var currentTourSpotIndex = 0;
+  var $tourSpotsCache;
+
+  function getTourSpots() {
+    if ( $tourSpotsCache ) {
+      return $tourSpotsCache;
     }
-    else {
-        document.write(  "localStorage.RelationShipMember=="+localStorage.RelationShipMember) ;
+
+    $tourSpotsCache = document.querySelectorAll('#map [id]');
+    return $tourSpotsCache;
+  }
+
+  function registerFirstGenLastName() {
+    localStorage.setItem('FirstGenLastName', document.getElementById("lastname").value);
+    var TitleLine1 = localStorage.getItem('FirstGenLastName') + ' Atlantic Crossing';
+    localStorage.setItem("TitleLine1", TitleLine1);
+    document.getElementById("lastname").innerHTML = "FirstGen Name provided = " + localStorage.getItem('FirstGenLastName');
+  }
+
+  function enterTour() {
+    var $tourSpots = getTourSpots();
+    var $expansionTarget = document.querySelector( $enterExitTourButton.getAttribute('data-expansion-target') );
+    var $prevNext = document.getElementById('tour-actions');
+    var $sidebar = document.getElementById('sidebar');
+
+    // for (var i = 0; i < $tourSpots.length; i++) {
+    //   var $tourSpot = $tourSpots[i];
+    //   var tourSpotOriginalClass = ( $tourSpot.getAttribute('class') || '' );
+
+    //   tourSpotOriginalClasses[$tourSpot.id] = tourSpotOriginalClass;
+    //   // $tourSpot.setAttribute('class', tourSpotOriginalClass + ' jw-info');
+    // }
+    if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
+      highlight($tourSpots[currentTourSpotIndex], false, true);
+    } else {
+      highlight($tourSpots[currentTourSpotIndex]);
     }
+    $sidebar.style.display = 'block';
+    $prevNext.hidden = false;
+    $previewTarget.addEventListener('click', tourActive__onPreviewClick, false);
+    $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-exit-tour-text');
+    $enterExitTourButton.setAttribute('aria-expanded', 'true');
+    $expansionTarget.classList.add('--expanded');
+    activateTourSpotDescription();
+  };
+
+  function exitTour() {
+    var $tourSpots = getTourSpots();
+    var $expansionTarget = document.querySelector( $enterExitTourButton.getAttribute('data-expansion-target') );
+    var $prevNext = document.getElementById('tour-actions');
+    var $tourContent = document.getElementById('relationships-tour-content');
+    var $sidebar = document.getElementById('sidebar');
+
+    $tourContent.style.maxHeight = $tourContent.height + 'px';
+    setTimeout(function () {
+      $tourContent.style.maxHeight = '';
+    }, 1000);
+
+    // for (var i = 0; i < $tourSpots.length; i++) {
+    //   var $tourSpot = $tourSpots[i];
+    //   $tourSpot.setAttribute('class', tourSpotOriginalClasses[$tourSpot.id]);
+    // }
+    unhighlight($tourSpots[currentTourSpotIndex]);
+    currentTourSpotIndex = 0;
+    $prevNext.hidden = true;
+    $previewTarget.removeEventListener('click', tourActive__onPreviewClick, false);
+    $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-enter-tour-text');
+    $enterExitTourButton.setAttribute('aria-expanded', 'false');
+    $expansionTarget.classList.remove('--expanded');
+    $sidebar.style.height = '0';
+    
+    if ( matchMedia('only screen and (min-width: 940px)').matches ) {
+      $sidebar.style.display = '';
+    } else {
+      setTimeout(function () {
+        $sidebar.style.display = '';
+      }, 125);
+    }
+    deactivateTourSpotDescriptions();
+  };
+
+  function tourActive__onPreviewClick(event) {
+    var $clicked = event.target;
+    var id = $clicked.id;
+
+    while ( id === '' ) {
+      $clicked = $clicked.parentNode;
+      id = $clicked.id;
+    }
+
+    switch ( id ) {
+      case 'title-text-box':
+        describeTitleTextBox();
+        break;
+
+      case 'destination-text-box':
+        describeDestinationTextBox();
+        break;
+
+      case 'origins-text-box':
+        describeOriginsTextBox();
+        break;
+
+      case 'ship':
+        describeShip();
+        break;
+
+      case 'ship-info-text-box':
+        describeShipInfoTextBox();
+        break;
+      
+      case 'webPlaqueTextBoxDiv':
+        describePlaqueTextBox();
+        break;
+    }
+  }
+
+  function deactivateTourSpotDescriptions() {
+    var $tourContent = document.getElementById('relationships-tour-content');
+    var $tourSpotDescriptions = document.querySelectorAll( '.jw-tour__description' );
+    var $next = document.getElementById('next');
+    var $previous = document.getElementById('previous');
+    var $sidebar = document.getElementById('sidebar');
+
+    for (var index = 0; index < $tourSpotDescriptions.length; index++) {
+      var $tourSpotDescription = $tourSpotDescriptions[index];
+
+      $tourSpotDescription.classList.remove('jw-tour__description--active');
+    }
+
+    $next.classList.remove('--disabled');
+    $previous.classList.add('--disabled');
+    $tourContent.classList.remove('jw-relationships-tour__content--active');
+    $sidebar.style.height = '';
+  }
+
+  function activateTourSpotDescription() {
+    // var $tourSpotDescriptions = getTourSpotDescriptions();
+    var $tourContent = document.getElementById('relationships-tour-content');
+    var $tourSpotDescriptions = document.querySelectorAll( '.jw-tour__description' );
+    var $currentHighlight = document.querySelector('.jw-highlighted');
+    var $sidebar = document.getElementById('sidebar');
+    var $tourActions = document.getElementById('tour-actions');
+
+    for (var index = 0; index < $tourSpotDescriptions.length; index++) {
+      var $tourSpotDescription = $tourSpotDescriptions[index];
+
+      $tourSpotDescription.classList.remove('jw-tour__description--active');
+
+      if ( $tourSpotDescription.id.indexOf( $currentHighlight.id + '-description' ) !== -1 ) {
+        $tourSpotDescription.classList.add('jw-tour__description--active');
+        $sidebar.style.height = ( $tourSpotDescription.offsetHeight + $tourActions.offsetHeight + 'px' );
+      }
+    }
+
+    $tourContent.classList.add('jw-relationships-tour__content--active');
+  }
+
+  function isPlaque( $element ) {
+    var className = $element.getAttribute('class');
+    
+    return ( className && ( className.indexOf('jw-plaque') !== -1 ) );
+  }
+
+  function isMapBackground( $element ) {
+    var className = $element.getAttribute('class');
+
+    return ( className && ( className.indexOf('jw-map') !== -1 ) );
+  }
+
+  // function tour(descriptions) {}
+
+  var tourSpotOriginalClasses = {};
+  var $previewTemplate = document.getElementById('preview-template');
+  var $previewTarget = document.getElementById('map');
+  var $enterExitTourButton = document.getElementById('enter-exit-tour');
+  var $tourActions = document.getElementById('tour-actions');
+
+  initializeDefaults();
+
+  localStorage.setItem('viewingTextBoxes', 'yup');
+  localStorage.setItem('viewingTripVisuals', 'yup');
+
+  window.onbeforeunload = function(){
+    localStorage.removeItem("viewingTextBoxes");
+    localStorage.removeItem("viewingTripVisuals");
+  };
+
+  $previewTarget.innerHTML = $previewTemplate.innerHTML;
+
+  $enterExitTourButton.addEventListener('click', function enterExitTourButton__onClick() {
+    var enterTourText = $enterExitTourButton.getAttribute('data-enter-tour-text');
+    var exitTourText = $enterExitTourButton.getAttribute('data-exit-tour-text');
+    var currentTourText = $enterExitTourButton.textContent;
+
+    if ( currentTourText === enterTourText ) {
+      enterTour();
+    } else if ( currentTourText === exitTourText ) {
+      exitTour();
+    }
+  });
+
+  $tourActions.addEventListener('click', function tourActions__onClick(event) {
+    var $clicked = event.target;
+    var $tourSpots = getTourSpots();
+    var $previous = document.getElementById('previous');
+    var $next = document.getElementById('next');
+    var lastTourSpotIndex = ( $tourSpots.length - 1 );
+    var desiredIndex;
+    var proceed = false;
+
+    if ( $clicked.id === 'previous' ) {
+      desiredIndex = ( currentTourSpotIndex - 1 );
+
+      if ( desiredIndex < 0 ) {
+        return false;
+      }
+
+      if ( desiredIndex < lastTourSpotIndex ) {
+        $next.classList.remove('--disabled');
+      }
+
+      if ( desiredIndex === 0 ) {
+        $previous.classList.add('--disabled');
+      }
+
+      unhighlight($tourSpots[currentTourSpotIndex]);
+      currentTourSpotIndex--;
+
+      if ( isPlaque($tourSpots[currentTourSpotIndex]) ) {
+        highlight($tourSpots[currentTourSpotIndex], true);
+      } else if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
+        highlight($tourSpots[currentTourSpotIndex], false, true);
+      } else {
+        highlight($tourSpots[currentTourSpotIndex]);
+      }
+      
+      activateTourSpotDescription();
+    } else if ( $clicked.id === 'next' ) {
+      desiredIndex = ( currentTourSpotIndex + 1 );
+
+      if ( desiredIndex > lastTourSpotIndex ) {
+        return false;
+      }
+
+      if ( desiredIndex > 0 ) {
+        $previous.classList.remove('--disabled');
+      }
+
+      if ( desiredIndex === lastTourSpotIndex ) {
+        $next.classList.add('--disabled');
+      }
+
+      unhighlight($tourSpots[currentTourSpotIndex]);
+      currentTourSpotIndex++;
+
+      if ( isPlaque($tourSpots[currentTourSpotIndex]) ) {
+        highlight($tourSpots[currentTourSpotIndex], true);
+      } else if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
+        highlight($tourSpots[currentTourSpotIndex], false, true);
+      } else {
+        highlight($tourSpots[currentTourSpotIndex]);
+      }
+
+      activateTourSpotDescription();
+    }
+  });
 </script>
-... had a comment end
-<h2>Buying a jimaworks RelationShips or ArrivalMaps product:</h2>
--->
-<script>// <![CDATA[
-    //var nextPage = "https://jimaworks.com/pages/1-b-in-what-part-of-the-world-did-this-story-start" ; //"https://jimaworks.com/pages/000-test-set-the-stage-of-your-story" ; //"https://jimaworks.com/pages/x1-region" ;
-    //var nextPage = "https://jimaworks.com/pages/my-relationships-project" ;   // this is now the introduction page for RelationShips projects
-    //var nextPage = "https://jimaworks.com/pages/1-a-whose-story-is-this" ;
-    var nextPage = "/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start" ;
-    
-    initializeDefaults(); 
-    
-    function actionOnCR(event){
-        var x = event.which || event.keyCode;
-        if (x==13) {
-            registerFirstGenLastName() ;
-            startProject() ;
-        }
-    }
-    
-    function actionOnDone(){
-            //registerFirstGenLastName() ;
-            startProject() ;
-    }
-    
-    function registerFirstGenLastName() {
-        localStorage.FirstGenLastName = document.getElementById("lastname").value ;
-        var TitleLine1 = localStorage.FirstGenLastName+" Atlantic Crossing";
-        /* var TitleLine1ImgFileName = "..."; */
-        localStorage.setItem("TitleLine1", TitleLine1) ;
-        document.getElementById("lastname").innerHTML="FirstGen Name provided = "+localStorage.FirstGenLastName ;
-    }
-    
-    function startProject() {
-        var GetStartedPage = nextPage ; //"https://jimaworks.com/pages/x1-region";
-        window.location.assign(GetStartedPage);
-    }
-    /*
-    window.onbeforeunload = function(){
-        alert("onbeforeunload fn") ;
-      return 'Are you sure you want to leave?';
-    };
-    */
-    
-    localStorage.viewingTextBoxes = "yup" ;
-    localStorage.viewingTripVisuals = "yup" ;
-    
-    window.onbeforeunload = function(){
-        localStorage.removeItem("viewingTextBoxes");
-        localStorage.removeItem("viewingTripVisuals");
-    };
-    // ]]></script>
-    <h2>A RelationShips project tells a story. <br />Each consists of five Text Boxes for you to fill out. <br />Six Trip Visuals beautifully stage this bit of your history.</h2>
-    <div id="ButtonDisplay" style="float: left; position: relative; z-index: 1000; margin-bottom: 36px;"><!--
-            <input type="text" id="lastname" value="Our Family" title="Enter the name of the FirstGen you are commemorating, or just leave as 'Our Family Atlantic Crossing'" onkeypress="actionOnCR(event)" /> 
-        Jun 14 2019:1100 replace "showTripVisuals" and "showTextBoxes" functions with "describeTripVisuals" and "describeTextBoxes"
-        --> <button onclick="RelationShipsPreviewZ('describeTextBoxes', 'showFrame') ;">About the five Text Boxes</button> <button onclick="RelationShipsPreviewZ('describeTripVisuals', 'showFrame') ;">About the six Trip Visuals</button> <a href="/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start" style="display: inline-block; height: 32px; padding: 1px 7px 2px; background-color: white;">Skip to Project</a></div>
-    <!--
-       <input type="text" id="lastname" onchange="actionOnCR(event)">
-            <p>This example demonstrates how to assign an "onchange" event to an input element.</p>
-            
-            Enter your name: <input type="text" id="fname" onchange="actionOnCR()">
-            
-            <p>When you leave the input field, a function is triggered which transforms the input text to upper case.</p>
-            
-            <script>
-            function actionOnCR() {
-                var x = document.getElementById("fname");
-                x.value = x.value.toUpperCase();
-            }
-            </script>       
-            
-            or     
-         --> <!--
-    <p>
-        <br><br>
-        The RelationShip and ArrivalMap products focus specifically on commemorating your "First Gens" 
-        - those who made thee oceanic crossings that planted your family in America. 
-        These products are personalized and specific. 
-        They will take a bit of effort for you to fully specify (and for jimaworks to prepare). 
-    </p>
-    --> <!-- .. previously continued with:
-        before your creation is ready to hang on a wall and do its good work. 
-        Some elements of the project are fairly information-intensive, 
-        but no matter what level of knowledge you have of the crossing you are commemorating, 
-        you will be able to make the project reflect the honor and appreciation you give this event.
-    --> <!--    most recent vvvvvv:
-    <h3>Your part of this project will require completing three steps:</h3>
-    <h4>Step 1: You provide some historical context for the commemoration 
-        <br />Step 2: You choose a look and feel that suits your needs and tastes 
-        <br />Step 3: You personalize the product.</h4>
-    <h5>When you are satisfied that you have specified your commemoration to your liking, you place the order. 
-        The first $25 of your order buys you a pdf of several variants of your specification. 
-        You can chose your final, physical delivery from these, or simply stop there and use your lower-resolution pdfs to print and display*.</h5>
-    <h6>*(But note that in addition to being at a lower image density than your final print would be, these are watermarked, do not have unique print IDs, and are without my final QA initials - though they will still look pretty great:)</h6>
-            ^^^^most recent --> <!--
-        <p>With the first $25 of the order, 
-        jimaworks prepares a proof with at least two variations of the product as you have specified it. 
-        These proofs include the historically accurate map corresponding to your commemorative event, 
-        the ship (if any*) that you have chosen for the display, 
-        and the custom text elements that individualize the product to your specific case.</p>
-    <p>Jimaworks will send .pdfs of the proofs to the email address you have provided. 
-        At that point you may simply accept one of the options we have provided, 
-        or, if you desire, request a round of modifications. 
-        You may also of course decline the options, 
-        at which point we will refund your order minus a $25 service charge for designing your options. 
-        (We will assume you have declined the options 
-        if you do not respond within two weeks of receiving your personalized proofs).</p>
-    <p>We are pleased that you are visiting this website 
-        and hope you find our products of value in preserving and honoring the specifics of your Armerican identity. 
-        We hope furthermore that you will make a RelationShips purchase 
-        to help us memorialize the great migrations 
-        which are such a fundamental component of our shared American heritage.</p>
-    <p style="font-size: 75%;">* A jimaworks "ArrivalMap" is the RelationShips product but for which the customer is not asking us to add an image of a ship to the display</p>
-    
-    <div style="float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;"><button id="myButton" class="float-left submit-button" onclick="GetStartedWithARelationShipsProject()"> All right, I'll try it out. </button></div>
-    initializeDefaults()
-    --> <!--    most recent vvvvvv:
-    <div style="float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;"><button id="myButton" class="float-left submit-button" onclick="startProject()"> Okay OKAY, let's go!</button></div>
-            ^^^^most recent -->
-    <div id="DisplayOverlays" style="float: left; position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
-    <script>// <![CDATA[
-    //RelationShipsPreview("initialView", "noFrame") ;
-        //alert('Pre-RelationShipsPreviewZ("productAnatomy", "showFrame")') ;
-        RelationShipsPreviewZ("mockup", "showFrame") ;
-    // ]]></script>
-    </div>
-    <div style="float: left;">
-    <p>Each of these TextBoxes will already be filled in for you and updated as you add information. The more information you provide, the more "yours" the product will become. And at the end, you can make it *completely* yours by purchasing it of course, but before that, also by further modifying it in any way you chose.</p>
-    <p>(This is a lot of information to collect, and you may not be able to find it all. But we pre-fill each element of information with stand-in, general text that you can use, as well as a rich set of <a href="https://jimaworks.com/pages/resources">hints and tips</a> to guide you on how to show what you do know and what you don’t.)</p>
-    <p>(Moreover, you can always, at any time, use the SaveAndComeBackLater button, so you can go off and do some additional research before completing your project. When you do SaveAndComeBackLater, we save the state of your incomplete RelationShips project and send you a link which, when you click it, brings you back to the same place you left off, with your previous partially-complete information restored.)</p>
-    <h3>More Info</h3>
-    <ul>
-        <li>
-            <a
-                id="FeaturesLink"
-                class="float-left submit-button"
-                style="font-size: 110%;"
-                href="/pages/product-anatomy"
-            >Features</a>
-        </li>
-        <li>
-            <a
-                id="SizeLink"
-                class="float-left submit-button"
-                style="font-size: 110%;"
-                href="/pages/product-sizes"
-            >Sizes</a>
-        </li>
-        <li>
-            <a
-                id="PriceLink"
-                class="float-left submit-button"
-                style="font-size: 110%;"
-                href="/pages/prices"
-            >Price</a>
-        </li>
-    </ul>
-    <button onclick="actionOnDone()">Start building your story</button> <!--
-        <br /> 
-        <br /> 
-        <button onclick="actionOnSave()">Click here to save so you can come back later</button>
-        --></div>
-    <script>// <![CDATA[
-    function actionOnSave() {
-        var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
-        window.location.assign(SaveForLaterPage);
-    }
-    // ]]></script>

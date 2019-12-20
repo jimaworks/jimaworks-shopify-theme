@@ -18,24 +18,8 @@
 <!-- Page-specific includes for each step of the wizard -->
 {% case page.handle %}
   <!-- Your Relationships Project -->
-  {% when 'your-relationships-project' %}
-    {% include 'init.00-preview' %}
-    {%- comment -%}
-      <!-- This file is currently empty, so no need to include it. -->
-      {% include 'init.01-home.liquid' %}
-    {%- endcomment -%}
-    {%- comment -%} init.02 not needed by Preview {%- endcomment -%}
-    {% include 'init.03-title-what' %}
-    {% include 'init.04-title-when' %}
-    {% include 'init.05-origins-line1' %}
-    {% include 'init.06-origins-line2' %}
-    {% include 'init.07-destination-line1' %}
-    {% include 'init.08-destination-line2' %}
-    {% include 'init.09-ship-image-type' %}
-    {% include 'init.10-ship-image' %}
-    {%- comment -%} init.11–14 not needed by Preview {%- endcomment -%}
 
-  {% when 'your-relationships-project-redux' %}
+  {% when 'your-relationships-project' or 'your-relationships-project-redux' %}
     {% include 'init.00-preview' %}
     {%- comment -%}
       <!-- This file is currently empty, so no need to include it. -->
