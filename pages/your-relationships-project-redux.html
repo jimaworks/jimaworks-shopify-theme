@@ -121,6 +121,11 @@
     position: relative;
     z-index: 9999;
   }
+
+  .jw-tour-spot__dropdown {
+    margin-bottom: 0;
+  }
+
   /* .jw-tour__action {} */
   .--disabled {
     opacity: 0.5;
@@ -197,6 +202,20 @@
             <h3 class="jw-tour-spot__heading">Map Background</h3>
             <div class="jw-tour-spot__body">
               <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+              <label for="map-background-selection">Choose your color:</label>
+              <select
+                id="map-background-selection"
+                class="jw-tour-spot__dropdown"
+                name="mapBackgroundSelection"
+              >
+                <option value="paris-sage">Paris Sage</option>
+                <option value="empress-teal">Empress Teal</option>
+                <option value="palace-rosa">Palace Rosa</option>
+                <option value="sea-spray-blue">Sea Spray Blue</option>
+                <option value="mayan-glow">Mayan Glow</option>
+                <!-- <option>Crema Taupe</option> -->
+                <!-- <option>Special Order</option> -->
+              </select>
             </div>
           </div><!--/.jw-tour__description-->
         </div><!--/.jw-tour__descriptions-->
@@ -233,6 +252,7 @@
 <script>
   var currentTourSpotIndex = 0;
   var $tourSpotsCache;
+  var tourSpotDescriptionsPreviouslyActivated = false;
 
   function getTourSpots() {
     if ( $tourSpotsCache ) {
@@ -274,7 +294,7 @@
     $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-exit-tour-text');
     $enterExitTourButton.setAttribute('aria-expanded', 'true');
     $expansionTarget.classList.add('--expanded');
-    activateTourSpotDescription();
+    activateTourSpotDescriptions();
   };
 
   function exitTour() {
@@ -309,7 +329,7 @@
         $sidebar.style.display = '';
       }, 125);
     }
-    deactivateTourSpotDescriptions();
+    deactivateTourSpotDescriptionss();
   };
 
   function tourActive__onPreviewClick(event) {
@@ -348,7 +368,7 @@
     }
   }
 
-  function deactivateTourSpotDescriptions() {
+  function deactivateTourSpotDescriptionss() {
     var $tourContent = document.getElementById('relationships-tour-content');
     var $tourSpotDescriptions = document.querySelectorAll( '.jw-tour__description' );
     var $next = document.getElementById('next');
@@ -367,7 +387,7 @@
     $sidebar.style.height = '';
   }
 
-  function activateTourSpotDescription() {
+  function activateTourSpotDescriptions() {
     // var $tourSpotDescriptions = getTourSpotDescriptions();
     var $tourContent = document.getElementById('relationships-tour-content');
     var $tourSpotDescriptions = document.querySelectorAll( '.jw-tour__description' );
@@ -382,7 +402,16 @@
 
       if ( $tourSpotDescription.id.indexOf( $currentHighlight.id + '-description' ) !== -1 ) {
         $tourSpotDescription.classList.add('jw-tour__description--active');
-        $sidebar.style.height = ( $tourSpotDescription.offsetHeight + $tourActions.offsetHeight + 'px' );
+        
+        if ( !tourSpotDescriptionsPreviouslyActivated ) {
+          // Give styles enough time to apply to the newly un-hidden DOM before adjusting or the description offsetHeight will be too short
+          setTimeout(function () {
+            $sidebar.style.height = ( $tourSpotDescription.offsetHeight + $tourActions.offsetHeight + 'px' );
+            tourSpotDescriptionsPreviouslyActivated = true;
+          }, 0);
+        } else {
+          $sidebar.style.height = ( $tourSpotDescription.offsetHeight + $tourActions.offsetHeight + 'px' );
+        }
       }
     }
 
@@ -401,6 +430,8 @@
     return ( className && ( className.indexOf('jw-map') !== -1 ) );
   }
 
+  function changeMapBackground() {}
+
   // function tour(descriptions) {}
 
   var tourSpotOriginalClasses = {};
@@ -408,6 +439,7 @@
   var $previewTarget = document.getElementById('map');
   var $enterExitTourButton = document.getElementById('enter-exit-tour');
   var $tourActions = document.getElementById('tour-actions');
+  var $mapBackgroundSelection = document.getElementById('map-background-selection');
 
   initializeDefaults();
 
@@ -421,81 +453,98 @@
 
   $previewTarget.innerHTML = $previewTemplate.innerHTML;
 
-  $enterExitTourButton.addEventListener('click', function enterExitTourButton__onClick() {
-    var enterTourText = $enterExitTourButton.getAttribute('data-enter-tour-text');
-    var exitTourText = $enterExitTourButton.getAttribute('data-exit-tour-text');
-    var currentTourText = $enterExitTourButton.textContent;
+  window.addEventListener("DOMContentLoaded", function yourRelationshipsProject__onDomContentLoaded() {
+    $enterExitTourButton.addEventListener('click', function enterExitTourButton__onClick() {
+      var enterTourText = $enterExitTourButton.getAttribute('data-enter-tour-text');
+      var exitTourText = $enterExitTourButton.getAttribute('data-exit-tour-text');
+      var currentTourText = $enterExitTourButton.textContent;
 
-    if ( currentTourText === enterTourText ) {
-      enterTour();
-    } else if ( currentTourText === exitTourText ) {
-      exitTour();
-    }
-  });
-
-  $tourActions.addEventListener('click', function tourActions__onClick(event) {
-    var $clicked = event.target;
-    var $tourSpots = getTourSpots();
-    var $previous = document.getElementById('previous');
-    var $next = document.getElementById('next');
-    var lastTourSpotIndex = ( $tourSpots.length - 1 );
-    var desiredIndex;
-    var proceed = false;
-
-    if ( $clicked.id === 'previous' ) {
-      desiredIndex = ( currentTourSpotIndex - 1 );
-
-      if ( desiredIndex < 0 ) {
-        return false;
+      if ( currentTourText === enterTourText ) {
+        enterTour();
+      } else if ( currentTourText === exitTourText ) {
+        exitTour();
       }
+    });
 
-      if ( desiredIndex < lastTourSpotIndex ) {
-        $next.classList.remove('--disabled');
+    $tourActions.addEventListener('click', function tourActions__onClick(event) {
+      var $clicked = event.target;
+      var $tourSpots = getTourSpots();
+      var $previous = document.getElementById('previous');
+      var $next = document.getElementById('next');
+      var lastTourSpotIndex = ( $tourSpots.length - 1 );
+      var desiredIndex;
+      var proceed = false;
+
+      if ( $clicked.id === 'previous' ) {
+        desiredIndex = ( currentTourSpotIndex - 1 );
+
+        if ( desiredIndex < 0 ) {
+          return false;
+        }
+
+        if ( desiredIndex < lastTourSpotIndex ) {
+          $next.classList.remove('--disabled');
+        }
+
+        if ( desiredIndex === 0 ) {
+          $previous.classList.add('--disabled');
+        }
+
+        unhighlight($tourSpots[currentTourSpotIndex]);
+        currentTourSpotIndex--;
+
+        if ( isPlaque($tourSpots[currentTourSpotIndex]) ) {
+          highlight($tourSpots[currentTourSpotIndex], true);
+        } else if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
+          highlight($tourSpots[currentTourSpotIndex], false, true);
+        } else {
+          highlight($tourSpots[currentTourSpotIndex]);
+        }
+        
+        activateTourSpotDescriptions();
+      } else if ( $clicked.id === 'next' ) {
+        desiredIndex = ( currentTourSpotIndex + 1 );
+
+        if ( desiredIndex > lastTourSpotIndex ) {
+          return false;
+        }
+
+        if ( desiredIndex > 0 ) {
+          $previous.classList.remove('--disabled');
+        }
+
+        if ( desiredIndex === lastTourSpotIndex ) {
+          $next.classList.add('--disabled');
+        }
+
+        unhighlight($tourSpots[currentTourSpotIndex]);
+        currentTourSpotIndex++;
+
+        if ( isPlaque($tourSpots[currentTourSpotIndex]) ) {
+          highlight($tourSpots[currentTourSpotIndex], true);
+        } else if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
+          highlight($tourSpots[currentTourSpotIndex], false, true);
+        } else {
+          highlight($tourSpots[currentTourSpotIndex]);
+        }
+
+        activateTourSpotDescriptions();
       }
+    });
+  
+    $mapBackgroundSelection.addEventListener('change', function mapBackgroundSelectionChanged(event) {
+      var newValue = event.target.value;
+      var newColorClass = ( 'jw-map--color-' + newValue );
+      var $mapBackground = document.getElementById('map-background');
 
-      if ( desiredIndex === 0 ) {
-        $previous.classList.add('--disabled');
-      }
-
-      unhighlight($tourSpots[currentTourSpotIndex]);
-      currentTourSpotIndex--;
-
-      if ( isPlaque($tourSpots[currentTourSpotIndex]) ) {
-        highlight($tourSpots[currentTourSpotIndex], true);
-      } else if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
-        highlight($tourSpots[currentTourSpotIndex], false, true);
+      if ( $mapBackground.className.indexOf( 'jw-map--color-' ) !== -1 ) {
+        $mapBackground.className = $mapBackground.className.replace(
+          /\bjw-map--color-[^\s]+\b/,
+          newColorClass
+        );
       } else {
-        highlight($tourSpots[currentTourSpotIndex]);
+        $mapBackground.classList.add( newColorClass );
       }
-      
-      activateTourSpotDescription();
-    } else if ( $clicked.id === 'next' ) {
-      desiredIndex = ( currentTourSpotIndex + 1 );
-
-      if ( desiredIndex > lastTourSpotIndex ) {
-        return false;
-      }
-
-      if ( desiredIndex > 0 ) {
-        $previous.classList.remove('--disabled');
-      }
-
-      if ( desiredIndex === lastTourSpotIndex ) {
-        $next.classList.add('--disabled');
-      }
-
-      unhighlight($tourSpots[currentTourSpotIndex]);
-      currentTourSpotIndex++;
-
-      if ( isPlaque($tourSpots[currentTourSpotIndex]) ) {
-        highlight($tourSpots[currentTourSpotIndex], true);
-      } else if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
-        highlight($tourSpots[currentTourSpotIndex], false, true);
-      } else {
-        highlight($tourSpots[currentTourSpotIndex]);
-      }
-
-      activateTourSpotDescription();
-    }
-  });
+    });
+  }); // DOMContentLoaded
 </script>
