@@ -48,8 +48,8 @@
     .jw-relationships-preview.aspect-ratio:before {
       padding-top: calc(3561/4407 * 100%);
     }
-    .jw-relationships-preview.jw-relationships-preview--frame {
-      border-image-slice: 433 444 433 466;
+    /* Applies to all frames */
+    .jw-relationships-preview[class*="jw-relationships-preview--frame"] {
       /* border-image-width: 60px; */
       border-image-width: 3.75rem;
       /* padding: 90px 90px 66.666px; */
@@ -57,8 +57,29 @@
       border-image-outset: 0;
       border-image-repeat: stretch stretch;
       border-style: solid;
+    }
+    /* Gold Trim */
+    .jw-relationships-preview.jw-relationships-preview--frame-gold-trim {
+      border-image-slice: 470;
+      border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Gold-NoRuler-72ppi.png);
+    }
+    /* Light Cherry */
+    .jw-relationships-preview.jw-relationships-preview--frame-light-cherry {
+      border-image-slice: 460 450 460 450;
+      border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Cherry-NoRuler-72ppi.png);
+    }
+    /* Black Roped */
+    .jw-relationships-preview.jw-relationships-preview--frame-black-roped {
+      border-image-slice: 406 410 406 410;
+      border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-72ppi.png);
+    }
+    /* Black Walnut */
+    /* Comes last to serve as default while other classes are preloaded */
+    .jw-relationships-preview.jw-relationships-preview--frame-black-walnut {
+      border-image-slice: 433 444 433 466;
       border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png);
     }
+
 
   .jw-relationships-preview__content {
     flex: 1;
@@ -242,7 +263,11 @@
   }
 </style>
 <div class="jw-relationships-preview-container">
-  <article class="jw-relationships-preview jw-relationships-preview--frame aspect-ratio">
+  <article id="frame" class="
+    jw-relationships-preview
+    jw-relationships-preview--frame-black-walnut
+    aspect-ratio
+  ">
     <div class="jw-relationships-preview__content">
       <div id="map-background" class="jw-map">
         <hgroup id="title-text-box" class="jw-title jw-map__row">

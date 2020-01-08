@@ -111,6 +111,7 @@
     }
     .jw-tour__description.jw-tour__description--active {
       opacity: 1;
+      z-index: 999999;
     }
 
   .--expanded {
@@ -218,6 +219,29 @@
               </select>
             </div>
           </article><!--/.jw-tour__description-->
+          <article id="frame-description" class="jw-tour__description">
+            <h3 class="jw-tour-spot__heading">Frame</h3>
+            <div class="jw-tour-spot__body">
+              <ul>
+                <li>Four different styles to choose from</li>
+                <li>Your print is double matted using a bevelled SandStone mat with Chinese Red trimming</li>
+                <li>The frame is natural wood</li>
+                <li>The glazing is UV-protective acrylic plexiglass</li>
+                <li>The plaque inset into the mat. It is gold-colored metal etched to your specifications</li>
+              </ul>
+              <label for="frame-selection">Choose your frame:</label>
+              <select
+                id="frame-selection"
+                class="jw-tour-spot__dropdown"
+                name="frameSelection"
+              >
+                <option value="black-walnut">Black Walnut</option>
+                <option value="gold-trim">Gold Trim</option>
+                <option value="light-cherry">Light Cherry</option>
+                <option value="black-roped">Black Roped</option>
+              </select>
+            </div>
+          </article>
         </div><!--/.jw-tour__descriptions-->
       </div><!--/.jw-modal.jw-tour-->
     </aside><!--/#sidebar-->
@@ -253,6 +277,15 @@
   var currentTourSpotIndex = 0;
   var $tourSpotsCache;
   var tourSpotDescriptionsPreviouslyActivated = false;
+  var previewImagesLoaded = false;
+  var tourSpotOriginalClasses = {};
+  var $previewTemplate = document.getElementById('preview-template');
+  var $previewLayoutContainer = document.getElementById('map');
+  var $enterExitTourButton = document.getElementById('enter-exit-tour');
+  var $tourActions = document.getElementById('tour-actions');
+  var $mapBackgroundSelection = document.getElementById('map-background-selection');
+  var $frameSelection = document.getElementById('frame-selection');
+  var $preview;
 
   function getTourSpots() {
     if ( $tourSpotsCache ) {
@@ -270,11 +303,43 @@
     document.getElementById("lastname").innerHTML = "FirstGen Name provided = " + localStorage.getItem('FirstGenLastName');
   }
 
+  function preloadPreviewImages() {
+    var previewImages = [
+      /* Map Backgrounds */
+      'https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Empr.png',
+      'https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pala.png',
+      'https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-SeaS.png',
+      'https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Maya.png',
+      
+      /* Frames */
+      'https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Gold-NoRuler-72ppi.png',
+      'https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Cherry-NoRuler-72ppi.png',
+      'https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-72ppi.png',
+      'https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png',
+    ];
+
+    for ( var i = 0; i < previewImages.length; i++ ) {
+      var currentFrameImage = previewImages[i];
+      var link = document.createElement( 'link' );
+      link.rel = 'preload';
+      link.href = currentFrameImage;
+      link.as = 'image';
+      document.head.appendChild( link );
+    }
+
+    previewImagesLoaded = true;
+  }
+
   function enterTour() {
     var $tourSpots = getTourSpots();
     var $expansionTarget = document.querySelector( $enterExitTourButton.getAttribute('data-expansion-target') );
     var $prevNext = document.getElementById('tour-actions');
     var $sidebar = document.getElementById('sidebar');
+
+    if ( !previewImagesLoaded ) {
+      // Prevent flash of unstyled content after changing selection
+      preloadPreviewImages();
+    }
 
     // for (var i = 0; i < $tourSpots.length; i++) {
     //   var $tourSpot = $tourSpots[i];
@@ -285,12 +350,14 @@
     // }
     if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
       highlight($tourSpots[currentTourSpotIndex], false, true);
+    } else if ( isFrame($tourSpots[currentTourSpotIndex]) ) {
+      highlight($tourSpots[currentTourSpotIndex], true, true);
     } else {
       highlight($tourSpots[currentTourSpotIndex]);
     }
     $sidebar.style.display = 'block';
     $prevNext.hidden = false;
-    $previewTarget.addEventListener('click', tourActive__onPreviewClick, false);
+    $previewLayoutContainer.addEventListener('click', tourActive__onPreviewClick, false);
     $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-exit-tour-text');
     $enterExitTourButton.setAttribute('aria-expanded', 'true');
     $expansionTarget.classList.add('--expanded');
@@ -316,7 +383,7 @@
     unhighlight($tourSpots[currentTourSpotIndex]);
     currentTourSpotIndex = 0;
     $prevNext.hidden = true;
-    $previewTarget.removeEventListener('click', tourActive__onPreviewClick, false);
+    $previewLayoutContainer.removeEventListener('click', tourActive__onPreviewClick, false);
     $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-enter-tour-text');
     $enterExitTourButton.setAttribute('aria-expanded', 'false');
     $expansionTarget.classList.remove('--expanded');
@@ -430,16 +497,15 @@
     return ( className && ( className.indexOf('jw-map') !== -1 ) );
   }
 
+  function isFrame( $element ) {
+    var className = $element.getAttribute('class');
+
+    return ( className && ( className.indexOf('jw-relationships-preview') !== -1 ) );
+  }
+
   function changeMapBackground() {}
 
   // function tour(descriptions) {}
-
-  var tourSpotOriginalClasses = {};
-  var $previewTemplate = document.getElementById('preview-template');
-  var $previewTarget = document.getElementById('map');
-  var $enterExitTourButton = document.getElementById('enter-exit-tour');
-  var $tourActions = document.getElementById('tour-actions');
-  var $mapBackgroundSelection = document.getElementById('map-background-selection');
 
   initializeDefaults();
 
@@ -451,7 +517,8 @@
     localStorage.removeItem("viewingTripVisuals");
   };
 
-  $previewTarget.innerHTML = $previewTemplate.innerHTML;
+  $previewLayoutContainer.innerHTML = $previewTemplate.innerHTML;
+  $preview = $previewLayoutContainer.querySelector('.jw-relationships-preview');
 
   window.addEventListener("DOMContentLoaded", function yourRelationshipsProject__onDomContentLoaded() {
     $enterExitTourButton.addEventListener('click', function enterExitTourButton__onClick() {
@@ -497,6 +564,8 @@
           highlight($tourSpots[currentTourSpotIndex], true);
         } else if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
           highlight($tourSpots[currentTourSpotIndex], false, true);
+        } else if ( isFrame($tourSpots[currentTourSpotIndex]) ) {
+          highlight($tourSpots[currentTourSpotIndex], true, true);
         } else {
           highlight($tourSpots[currentTourSpotIndex]);
         }
@@ -524,6 +593,8 @@
           highlight($tourSpots[currentTourSpotIndex], true);
         } else if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
           highlight($tourSpots[currentTourSpotIndex], false, true);
+        } else if ( isFrame($tourSpots[currentTourSpotIndex]) ) {
+          highlight($tourSpots[currentTourSpotIndex], true, true);
         } else {
           highlight($tourSpots[currentTourSpotIndex]);
         }
@@ -544,6 +615,21 @@
         );
       } else {
         $mapBackground.classList.add( newColorClass );
+      }
+    });
+
+    $frameSelection.addEventListener('change', function frameSelectionChanged(event) {
+      var newValue = event.target.value;
+      var newFrameClass = ( 'jw-relationships-preview--frame-' + newValue );
+      // $preview already initialized in surrounding scope
+
+      if ( $preview.className.indexOf( 'jw-relationships-preview--frame-' ) !== -1 ) {
+        $preview.className = $preview.className.replace(
+          /\bjw-relationships-preview--frame-[^\s]+\b/,
+          newFrameClass
+        );
+      } else {
+        $preview.classList.add( newFrameClass );
       }
     });
   }); // DOMContentLoaded
