@@ -611,3 +611,13 @@ From Jim:
 ### [Change view so preview is larger and background is dimmed](https://trello.com/c/pSfFO0Ih)
 
 - 
+
+## 01/08
+
+### [Replace map background and frame pages with preview-style interactions](https://trello.com/c/bVD8H4On)
+
+- Combined tour + customization is probably most elegant user experience but will probably launch with separate pages to start (incremental upgrades)
+- On separate frame page, reusing tour HTML+CSS isn’t enough; need to set `width: 100%` on the sidebar for some reason.
+- On separate frame page, by virtue of it being a Shopify Page, can’t access Liquid variables (without doing Liquid → JavaScript handoff), so wind up with multiple sources of truth for frame variants: the Liquid backend, and the JavaScript frontend.
+- Seems to be no use for `localStorage.FrameAbbrev` (in either the JavaScript or the Illustrator script), so making an optional parameter.
+- ⚠️ Remember to de-duplicate `jw-link-button`.

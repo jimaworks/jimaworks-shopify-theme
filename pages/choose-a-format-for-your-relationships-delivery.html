@@ -109,6 +109,10 @@
           window.location.href="/products/genericrelationshipsproduct-framed" ;
           alert(">>>ChooseAFormat FrameItPage()" ) ;
       */
-          window.location.href="/pages/2-the-frame" ;
+        if ( window.Jimaworks.isDev ) {
+          window.location.href = "/pages/2-the-frame-redux";
+        } else {
+          window.location.href = "/pages/2-the-frame";
+        }
       }
       // ]]></script>

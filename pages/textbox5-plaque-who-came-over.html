@@ -1,6 +1,6 @@
 <!-- 
         TextBox5: Plaque. Who came over?
-        https://jimaworks.com/pages/textbox5-plaque-who-came-over
+        /pages/textbox5-plaque-who-came-over
         template: page.initialize-jimaworks
         
         Jan 14, 2019: interactive scaling solution
@@ -9,14 +9,14 @@
         page.initialize-jimaworks
         Feb 08, 2019:0858 RBG to text color codes (#ffffff== white #FF0000==red>>greenified red borders)
         Jun 09 2019:1500 Create "TextBox5: Plaque. Who came over?" from Preview
-        Sep 03 2019:2130 Pass-thru to https://jimaworks.com/pages/1-c-map-background while build up Preview functionality for this page (Hugh Guiney)
+        Sep 03 2019:2130 Pass-thru to /pages/1-c-map-background while build up Preview functionality for this page (Hugh Guiney)
 
 
 Heading: 
     -->
     <script>// <![CDATA[
       function PassThru() {
-          var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          var nextPage = "/pages/1-c-map-background" ;
           window.location.assign(nextPage);
       }
   // ]]></script>
@@ -58,8 +58,8 @@ Heading:
   <script>// <![CDATA[
       function AcceptPlqueTextAndContinue() {
           if(confirm("Are you satisfied with the plaque text as represented in the mockup?")) {
-              //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
-              var nextPage = "https://jimaworks.com/pages/2-yourlookandfeel" ;
+              //var nextPage = "/pages/1-c-map-background" ;
+              var nextPage = "/pages/2-yourlookandfeel" ;
               window.location.assign(nextPage);
           }
       }
