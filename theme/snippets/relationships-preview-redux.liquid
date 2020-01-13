@@ -148,7 +148,6 @@
     }
 
   .jw-map {
-    background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png);
     background-repeat: no-repeat;
     background-size: cover;
     /* background-size: contain; */
@@ -162,7 +161,9 @@
     position: relative;
     flex: 1;
   }
-    /* .jw-map.jw-map--paris-sage {} */
+    .jw-map.jw-map--paris-sage {
+      background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png);
+    }
     .jw-map.jw-map--color-empress-teal {
       background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Empr.png);
     }
@@ -261,6 +262,138 @@
   .jw-relationships-preview-disclaimer {
     font-style: italic;
   }
+
+  /* --- Tour Styles --- */
+  /*
+    These styles don’t directly apply to the Preview, but to complementary components.
+    TODO: Find a better home for them.
+  */
+  .jw-skip-to-project {
+    display: inline-block;
+    height: 32px;
+    padding: 1px 7px 2px;
+    /* background-color: white; */
+  }
+
+  .jw-link-button {
+    color: white;
+    background-color: #0081a3;
+    padding: 1rem;
+    border-radius: 0.3rem;
+    position: relative;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.25);
+  }
+    .jw-link-button:hover,
+    .jw-link-button:focus,
+    .jw-link-button:active {
+      color: white;
+      background-color: #006d8a;
+    }
+    .jw-link-button:active {
+      top: 2px;
+      left: 2px;
+      box-shadow: 0 0 2px rgba(0,0,0,0.25);
+    }
+
+  .jw-more-info-link {
+    font-size: 110%;
+  }
+
+  /* .jw-modal {} */
+
+  .jw-relationships-tour {
+    margin-bottom: 0;
+  }
+  
+  .jw-relationships-tour__actions {
+    margin-bottom: .75rem;
+  }
+
+  .jw-relationships-tour__content {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 3rem;
+    margin: 0;
+    transition: .125s linear width, .125s linear margin;
+    width: 100%;
+    max-width: 100%;
+  }
+    /* .jw-relationships-tour__content.jw-relationships-tour__content--active {} */
+    @media only screen and (min-width: 940px) {
+      .jw-relationships-tour__content.jw-relationships-tour__content--active {
+        flex-direction: row;
+        margin: 0 -25%;
+        min-width: 90vw;
+      }
+    }
+
+  .jw-relationships-tour__map {
+    flex: 1;
+  }
+
+  .jw-relationships-tour__sidebar {
+    flex: .5;
+    transition: .125s ease height;
+    height: 0;
+    display: none;
+  }
+    @media only screen and (min-width: 940px) {
+      .jw-relationships-tour__sidebar {
+        padding-left: 1rem;
+      }
+    }
+    .jw-relationships-tour__sidebar.jw-relationships-tour__sidebar--active {
+      display: block;
+      height: auto;
+    }
+
+  .jw-relationships-tour__navigation {
+    margin-bottom: .75rem;
+  }
+
+  .jw-tour {
+    height: 0;
+    transition: .125s ease height;
+    overflow: hidden;
+  }
+    @media only screen and (min-width: 940px) {
+      .jw-tour {
+        transition: none;
+      }
+    }
+
+  .jw-tour__descriptions {
+    transition: .125s linear height;
+    position: relative;
+  }
+    .jw-tour__description {
+      opacity: 0;
+      transition: .125s ease opacity;
+      position: absolute;
+      top: 0;
+    }
+    .jw-tour__description.jw-tour__description--active {
+      opacity: 1;
+      z-index: 999999;
+    }
+
+  .--expanded {
+    height: 100%;
+  }
+
+  .jw-tour__actions {
+    position: relative;
+    z-index: 9999;
+  }
+  /* .jw-tour__action {} */
+  .--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .jw-relationships-tour__enter-exit {
+    transition: .125s ease width;
+  }
 </style>
 <div class="jw-relationships-preview-container">
   <article id="frame" class="
@@ -269,7 +402,7 @@
     aspect-ratio
   ">
     <div class="jw-relationships-preview__content">
-      <div id="map-background" class="jw-map">
+      <div id="map-background" class="jw-map jw-map--paris-sage">
         <hgroup id="title-text-box" class="jw-title jw-map__row">
           <h3 class="jw-title__text">The Family Crossing: First Generation</h3>
           <h3 class="jw-title__text" role="presentation">A Thread in the Great Tapistry that is America</h3>

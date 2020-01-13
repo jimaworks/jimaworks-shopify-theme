@@ -99,6 +99,11 @@
       {% include 'init.11-maps' %}
     {%- endcomment %}
 
+  {% when '1-c-map-background-redux' %}
+    <template id="preview-template" style="display:none;">
+      {% include 'relationships-preview-redux' %}
+    </template>
+
   <!-- Choose a format for your RelationShips delivery -->
   {% when 'choose-a-format-for-your-relationships-delivery' %}
     {% include 'init.09-ship-image-type' %}

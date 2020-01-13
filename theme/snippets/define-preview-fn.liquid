@@ -2238,7 +2238,7 @@
 
         if (!window.overlaysRendered) {
             window.addEventListener('DOMContentLoaded', function () {
-                console.warn('Images:', Array.from(ImgOverlayHTML.matchAll(/<img[^>]+>/g), m => m[0].replace(/.*src="?([^"\s]+)"?.*/, '$1')));
+                // console.warn('Images:', Array.from(ImgOverlayHTML.matchAll(/<img[^>]+>/g), m => m[0].replace(/.*src="?([^"\s]+)"?.*/, '$1')));
                 var displayOverlays = document.getElementById("DisplayOverlays");
                 if (displayOverlays) {
                     displayOverlays.innerHTML = ImgOverlayHTML;
