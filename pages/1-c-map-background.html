@@ -1,388 +1,186 @@
-<!-- /pages/1.c.MapStylePerRegionPerEra 
-    2.a: MapStyle
-    -->
-    <script type="text/javascript">// <![CDATA[
-      function ProductMockup() {
-          alert("in ProductMockup") ;
-          var previewPage = '/pages/testpage' ;
-          alert("this worked: /pages/testpage") ;
-          alert("previewPage == "+previewPage) ;
-          /*location.replace(previewPage) ;*/
-          window.location.assign(previewPage) ;
-      }
-      // ]]></script>
-      <!-- 
-      <div style="float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;">
-          <button id="myButton" 
-                  class="float-left submit-button" 
-                  onclick="ProductMockup()">Product-So-Far Preview
-          </button>
-      </div>
-      -->
-      <div id="selectMapStyleTable"></div>
-      <script type="text/javascript">// <![CDATA[
-      /*orig    function matchArrayString(element, arrayString) {
-            return element == arrayString;
-          }
-      */
-          
-          function RecordMapStyleChoice(styleName, styleIndex, styleImageFileNm) {
-      /*
-              alert("4a: RecordMapStyle()") ;
-              alert("4b:RecordMapStyleChoice: styleName=="+styleName+" styleIndex=="+styleIndex+" styleImageFileNm=="+styleImageFileNm ) ;
-      */
-              localStorage.setItem("MapStyle", styleName) ;
-              localStorage.setItem("MapStyleAbbrev", mapStyleAbbrevs[styleIndex]) ;
-              localStorage.setItem("webMapImg", styleImageFileNm) ;
-          }
-              
-      /* first set up a coordinated set of strings for an associative array */
-          var origsArray = [  "EuropeAndTheMediterranean",
-                              "Africa",
-                              "PacificRim",
-                              "SouthAmericaAndTheCaribbean",
-                              "SouthAsia"] ;
-          var origAbbrevs = [ "EuM",
-                              "Afr",
-                              "Pac",
-                              "SAm",
-                              "SoA"] ;
-          var currOrigChoice = (
-            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
-            localStorage.getItem("RegionOfOrigin")
-            || localStorage.getItem("RegionOfOriginDefault")
-            || "EuropeAndTheMediterranean"
-          );
-          var matchTarget = currOrigChoice ;  /* Creating a "local global" for matchArrayString...*/
-          /* define "matchTarget" in the local environment... */
-          var matchArrayString = function /*matchArrayString*/(element) {
-            return element == matchTarget;
-          }
-          var origsIndex = origsArray.findIndex(matchArrayString);
-          var currOrigChoiceAbbrev = origAbbrevs[origsIndex];
+<article class="jw-relationships-tour">
+  <!-- <nav class="jw-relationships-tour__actions"></nav> -->
+  <div id="relationships-tour-content" class="jw-relationships-tour__content jw-relationships-tour__content--active">
+    <div id="map" class="jw-relationships-tour__map"></div>
+    <aside id="sidebar" class="jw-relationships-tour__sidebar jw-relationships-tour__sidebar--active">
+      <!-- <nav class="jw-relationships-tour__navigation">
+        <span id="tour-actions" class="jw-tour__actions">
+        <a id="previous" class="jw-tour__action --disabled" href="javascript:void(0);">Previous</a>
+        <a id="next" class="jw-tour__action" href="javascript:void(0);">Next</a>
+        </span>
+      </nav> -->
+      <div id="tour" class="jw-tour --expanded">
+        <div class="jw-tour__descriptions">
+          <article
+            id="map-background-description"
+            class="jw-tour__description jw-tour__description--active"
+            style="width: 100%;"
+          >
+            <h3 class="jw-tour-spot__heading">Map Background</h3>
+            <div class="jw-tour-spot__body">
+              <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+              <label for="map-background-selection">Choose your color:</label>
+              <select
+                id="map-background-selection"
+                class="jw-tour-spot__dropdown"
+                name="mapBackgroundSelection"
+              >
+                <option data-variant-id="ParisSage" value="paris-sage">Paris Sage</option>
+                <option data-variant-id="EmpressTeal" value="empress-teal">Empress Teal</option>
+                <option data-variant-id="PalaceRosa" value="palace-rosa">Palace Rosa</option>
+                <option data-variant-id="SeaSprayBlue" value="sea-spray-blue">Sea Spray Blue</option>
+                <option data-variant-id="MayanGlow" value="mayan-glow">Mayan Glow</option>
+                <!-- <option>Crema Taupe</option> -->
+                <!-- <option>Special Order</option> -->
+              </select>
+              <p style="margin-top: 24px; margin-top: 1.5rem;">
+                <a class="jw-link-button" href="/pages/choose-a-format-for-your-relationships-delivery">Continue</a>
+              </p>
+            </div><!--/.jw-tour-spot__body-->
+          </article><!--/.jw-tour__description-->
+        </div><!--/.jw-tour__descriptions-->
+      </div><!--/#tour-->
+    </aside>
+  </div><!--/.jw-relationships-tour__content-->
+</article>
+  
+<script>
+  function recordMapBackgroundChoice( variantId, url, variantAbbreviation ) {
+    // TODO: localStorage.webMapImg differs from localStorage.FrameImg
+    // in that the former is only the filename and the latter is the complete URL.
+    // Should probably make the API internally consistent.
+    url = url.substring( url.lastIndexOf( '/' ) + 1 );
+
+    localStorage.setItem( "MapStyle", variantId );
+    localStorage.setItem( "webMapImg", url );
+
+    if ( variantAbbreviation && variantAbbreviation.length ) {
+      localStorage.setItem( "MapStyleAbbrev", variantAbbreviation ); // Not used AFAICT
+    } else {
+      localStorage.removeItem( "MapStyleAbbrev" );
+    }
+  }
+  
+  function preloadPreviewImages( callback ) {
+    for ( var key in previewImages ) {
+      var currentmapBackgroundImage = previewImages[key];
+      var link = document.createElement( 'link' );
+      link.rel = 'preload';
+      link.href = currentmapBackgroundImage;
+      link.as = 'image';
+      document.head.appendChild( link );
+    }
+  
+    previewImagesLoaded = true;
+    callback();
+  }
+  
+  function changeMapBackground( $mapBackground, newMapBackgroundClassId ) {
+    var newMapBackgroundClass = ( 'jw-map--color-' + newMapBackgroundClassId );
+
+    if ( $mapBackground.className.indexOf( 'jw-map--color-' ) !== -1 ) {
+      $mapBackground.className = $mapBackground.className.replace(
+        /\bjw-map--color-[^\s]+\b/,
+        newMapBackgroundClass
+      );
+    } else {
+      $mapBackground.classList.add( newMapBackgroundClass );
+    }
+  }
+  
+  function getSelectedOption( $select ) {
+    return $select.querySelector( ':checked' );
+  }
+  
+  function getVariantIdFromOption( $option ) {
+    return ( $option.dataset ? $option.dataset.variantId : $option.getAttribute( 'data-variant-id' ) );
+  }
+  
+  function selectOptionWithVariantId( $select, variantId ) {
+    var $option = $select.querySelector( '[data-variant-id="' + variantId + '"]' );
+  
+    if ( $option ) {
+      $option.selected = true;
+    }
+  }
+
+  function alignMapBackgroundWithSelection( $mapBackground, $mapBackgroundSelection ) {
+    var $initialSelection = getSelectedOption( $mapBackgroundSelection );
+  
+    if ( $initialSelection && ( $initialSelection.value !== defaultMapBackgroundClassId ) ) {
+      changeMapBackground( $mapBackground, $initialSelection.value );
+    }
+  }
+
+  var previewImagesLoaded = false;
+  var previewImages = {
+    /* Map Backgrounds */
+    "ParisSage": "https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png",
+    "EmpressTeal": "https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Empr.png",
+    "PalaceRosa": "https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pala.png",
+    "SeaSprayBlue": "https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-SeaS.png",
+    "MayanGlow": "https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Maya.png",
+  };
+  var defaultMapBackgroundVariantId = 'ParisSage';
+  var defaultMapBackgroundClassId = 'paris-sage';
+  var savedMapBackgroundVariantId = localStorage.getItem( 'MapStyle' );
+  
+  // initializeDefaults();
+  
+  window.addEventListener( "DOMContentLoaded", function pickYourmapBackground__onDomContentLoaded() {
+    var $previewLayoutContainer = document.getElementById( 'map' );
+    var $previewTemplate = document.getElementById( 'preview-template' );
+    var $preview;
+
+    $previewLayoutContainer.innerHTML = $previewTemplate.innerHTML;
+    $preview = $previewLayoutContainer.querySelector( '.jw-relationships-preview' );
+
+    // These variables won’t resolve unless $previewLayoutContainer has innerHTML populated.
+    var $mapBackground = document.getElementById( 'map-background' );
+    var $mapBackgroundSelection = document.getElementById( 'map-background-selection' );
+    var preloadPreviewImagesCallback = function preloadPreviewImages__callback() {
+      $mapBackgroundSelection.removeEventListener( 'mouseover', preloadPreviewImages );
+      $mapBackgroundSelection.removeEventListener( 'click', preloadPreviewImages );
+    };
+    
+    $mapBackgroundSelection.addEventListener(
+      'mouseover',
+      function mapBackgroundSelection__onMouseover() {
+        preloadPreviewImages( preloadPreviewImagesCallback );
+      },
+      false
+    );
+    $mapBackgroundSelection.addEventListener(
+      'click',
+      function mapBackgroundSelection__onClick() {
+        preloadPreviewImages( preloadPreviewImagesCallback );
+      },
+      false
+    );
+  
+    $mapBackgroundSelection.addEventListener(
+      'change',
+      function mapBackgroundSelectionChanged( event ) {
+        var newValue = event.target.value;
+        // $preview already initialized in surrounding scope
       
-      /*
-          var erasArray = [   "ColonialAndEarlyIndependenceEra(1607-1820)",
-                              "EraOfModernSail(1800-1900)",
-                              "EraOfTheSteamSailShip(1840-1915)",
-                              "EraOfThePassengerLiner(1890-1970)",
-                              "EraOfAirTravel(1945-Present)"] ;
-          var eraAbbrevs = [  "Early",
-                              "ModSl",
-                              "StmSl",
-                              "Liner",
-                              "AirTr"] ;
-      */
-          var erasArray = [   "ColonialAndEarlyIndependenceEra(1607-1840)",
-                              "EraOfTheSteamSailShip(1840-1915)",
-                              "EraOfThePassengerLiner(1895-1970)",
-                              "EraOfAirTravel(1945-Present)"] ;
-          var eraAbbrevs = [  "Early",
-                              "StmSl",
-                              "Liner",
-                              "AirTr"] ;
-          var eraStartArray = [  1607,
-                              1840,
-                              1895,
-                              1945] ;
-          var eraEndArray = [  1840,
-                              1915,
-                              1970,
-                              "Present"] ;
-          var eraRepresetativeYearArray = [  1720,
-                              1870,
-                              1910,
-                              2016] ;
+        changeMapBackground( $mapBackground, newValue );
       
-          var currEraChoice = (
-            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
-            localStorage.getItem("Era")
-            || localStorage.getItem("EraDefault")
-            || "EraOfThePassengerLiner(1895-1970)"
-          ); /* localStorage.EraOfCrossing; */
-          var matchTarget = currEraChoice ;  /* Creating a "local global" for matchArrayString...*/
-          var eraIndex = erasArray.findIndex(matchArrayString);
-          var currEraChoiceAbbrev = eraAbbrevs[eraIndex];
+        var $selectedOption = getSelectedOption( event.target );
+        var variantId = getVariantIdFromOption( $selectedOption );
       
-          /* read the current values for the ship/airplane/etc... */
-          var currTransportCraft = localStorage.TransportCraft;
-          var currShipName = localStorage.shipName;
-          var currShipImg = (
-            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
-            localStorage.getItem( "shipPic" )
-            || localStorage.getItem( "shipPicDefault" )
-            || 'jimaworksStPaul640.png'
-          );
-      /* ### 
-         need to fix this...
-         ### */
-          var shipimageDisplayWidth = "400";    /*   width=\"400\" */
-      /* ### 
-         need to fix this...
-         ### */
-      
-          var currShipImgFile =  "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-                                  + currShipImg.replace(" ","_").replace("(","_").replace(")","_") ;
-          var currShipImgWidth ;
-          var currShipImgHeight ;
-          var currShipImgXYRatio ;
-          var currShipImgArea ;
-      
-              var shipImgTransparentBackground = localStorage.shipImageTransparentBackground ;
-              var shipBorder ;
-              if (shipImgTransparentBackground === "transparent") {
-                  shipBorder = "" ;
-              }
-              else {
-                  shipBorder = "border-style: solid; border-width: 3px; border-color: darkblue;" ;
-              } ;
-      
-      
-          var LandscapeGoldenXYRatio = 1.618 ;
-          var mapDisplayWidth = 300 ; /* ### replace with percentages? ### */
-          var shipMaxDisplayWidth = 2/3 * mapDisplayWidth ; /* ### replace with percentages? ### */
-          var shipMaxDisplayHeight = shipMaxDisplayWidth/ LandscapeGoldenXYRatio ;
-          var shipImageDisplayTargetWidth = 150 ; /* ### replace with percentages? ### */
-          var shipImageDisplayTargetHeight =  shipImageDisplayTargetWidth/LandscapeGoldenXYRatio ; /* ### replace with percentages? ### */
-          var shipImageDisplayIdealArea = shipImageDisplayTargetWidth * shipImageDisplayTargetHeight ;
-          var shipImageToIdealDisplayRatio ;   
-          var shipDisplayWidth ;
-          var shipDisplayHeight ;
-      
-          console.log("Before img load: shipImageDisplayTargetWidth ="+shipImageDisplayTargetWidth) ;
-      /* https://stackoverflow.com/questions/8903854/check-image-width-and-height-before-upload-with-javascript */
-      var img = document.createElement("img");
-      img.onload = function() {
-          // `naturalWidth`/`naturalHeight` aren't supported on <IE9. Fallback to normal width/height
-          // The natural size is the actual image size regardless of rendering.
-          // The 'normal' width/height are for the **rendered** size.
-      
-          currShipImgWidth  = img.naturalWidth  || img.width;
-          currShipImgHeight = img.naturalHeight || img.height; 
-          // Do something with the width and height
-          currShipImgXYRatio = currShipImgWidth / currShipImgHeight ;
-          currShipImgArea = currShipImgWidth * currShipImgHeight ;
-      
-          shipImageToIdealDisplayRatio = Math.sqrt(shipImageDisplayIdealArea) / Math.sqrt(currShipImgArea) ;   
-          shipDisplayWidth = shipImageToIdealDisplayRatio * currShipImgWidth ;
-          shipDisplayHeight = shipImageToIdealDisplayRatio * currShipImgHeight ;
-      console.log("shipImgTransparentBackground = "+shipImgTransparentBackground) ;
-          
-          if (currShipImgXYRatio > LandscapeGoldenXYRatio) { /* landscape image */
-              if (shipDisplayWidth > shipImageDisplayTargetWidth) {
-                  shipDisplayWidth = shipImageDisplayTargetWidth ;
-                  shipDisplayHeight = shipDisplayWidth/currShipImgXYRatio ;
-                  console.log("Reset landscape XYs. shipDisplayWidth = "+shipDisplayWidth+"shipDisplayHeight = "+shipDisplayHeight) ;
-              }
-              else {
-                  console.log("currShipImgXYRatio > LandscapeGoldenXYRatio but shipDisplayWidth <= shipImageDisplayTargetWidth. shipDisplayWidth = "+shipDisplayWidth+"shipDisplayHeight = "+shipDisplayHeight) ;
-              } 
-          }
-          else { /* portrait image */
-              if (shipDisplayHeight > shipImageDisplayTargetHeight) {
-                  shipDisplayHeight = shipImageDisplayTargetHeight ;
-                  shipDisplayWidth = currShipImgXYRatio*shipDisplayHeight ;
-                  console.log("Reset portrait XYs. shipDisplayWidth = "+shipDisplayWidth+"shipDisplayHeight = "+shipDisplayHeight) ;
-              }
-              else {
-                  console.log("currShipImgXYRatio <= LandscapeGoldenXYRatio NS shipDisplayHeight <= shipImageDisplayTargetHeight. shipDisplayWidth = "+shipDisplayWidth+"shipDisplayHeight = "+shipDisplayHeight) ;
-              }
-          } ;
-      } ;
-      // Setting the source makes it start downloading and eventually call `onload`
-      img.src = currShipImgFile;
-      
-          var shipImageInProduct ;
-          if (currTransportCraft == "noShip") {
-              shipImageInProduct = "noship-" ;
-          }
-          else {
-              shipImageInProduct = "typicalship-" ;
-          }
-      
-      console.log("1. currEraChoiceAbbrev = " + currEraChoiceAbbrev 
-                   + " currShipName=" + currShipName
-                   + " currShipImg=" + currShipImg) ;
-      
-          var mapStylesArray = [ "ParisSage",
-                              "EmpressTeal",
-                              "PalaceRosa",
-                              "SeaSprayBlue",
-                              "MayanGlow"] ;
-      /*
-                              "CremaTaupe",
-                              "SpecialOrder"] ;
-      */
-          var mapStyleAbbrevs = [ "Pari",
-                              "Empr",
-                              "Pala",
-                              "SeaS",
-                              "Maya"] ;
-      /*
-                              "Crem",
-                              "Spec"] ;
-      */
-          var mapStyleChoice ; /* = localStorage.MapStyle; */
-          var mapStyleIndex ; /* = mapStylesArray.findIndex(matchArrayString); */
-          var currEraChoiceAbbrev ; /* = eraAbbrevs[eraIndex]; */
-      
-          var descripsPrefixString = currOrigChoice + "-" + currEraChoice + "-" ;
-          var optionsPrefixString = currOrigChoiceAbbrev + "-" + currEraChoiceAbbrev + "-" ;
-          var optionsSuffixString = ".png" ;
-          
-          var pagePrologue= "<h2>Set your ship on a suitable background</h2>" ;
-              pagePrologue+= "<div class=\'row\'>" ;
-          var pagePostlogue= "<div>";
-          var selectStylePage= "";
-          var selectStyleTable= "<table>";
-          var thisStylesImageSm;
-          var thisStylesImageOrig;
-          var thisStylesImageSuffix = "";
-      
-      console.log("2. descripsPrefixString = " + descripsPrefixString) ;
-      
-          for (var thisMapChoiceIndex=0; thisMapChoiceIndex<mapStylesArray.length; thisMapChoiceIndex++) {
-              if (thisMapChoiceIndex%2) {
-                  selectStyleTable+="<tr style=\"background-color: #ffff;\">";              
-              }
-              else {
-                  selectStyleTable+="<tr style=\"background-color: #eeee;\">";  
-              }
-              numStyleImages = 1 ;
-              for (var styleImageIndex=0; styleImageIndex<numStyleImages; styleImageIndex++) {
-                  if (styleImageIndex>0) {
-                       thisStylesImageSuffix= styleImageIndex+1;              
-                  }
-                  thisStylesImageSm = optionsPrefixString
-                                      + mapStyleAbbrevs[thisMapChoiceIndex]
-                                      + thisStylesImageSuffix
-                                      + "_256x256"
-                                      + optionsSuffixString ;
-                  thisStylesImageOrig = optionsPrefixString
-                                      + mapStyleAbbrevs[thisMapChoiceIndex]
-                                      + thisStylesImageSuffix
-                                      + optionsSuffixString ;
-                  thisStyleAltString = mapStylesArray[thisMapChoiceIndex]
-                                       + " is not available" 
-                                       + " in the " + currOrigChoice + " region"
-                                       + " for the " + currEraChoice + " years." ;
-                  /* product page example: /products/noship-palacerosamap */
-                  /* 
-                  nextPage = "/products/"
-                                          + shipImageInProduct
-                                          + mapStylesArray[thisMapChoiceIndex]
-                                          + "map" ;
-                                          
-                  /pages/choose-a-format-for-your-relationships-delivery
-                  */
-                  nextPage = "/pages/choose-a-format-for-your-relationships-delivery" ;
-                                          
-      
-                  console.log("2b. nextPage = " + nextPage) ;
-      
-                  selectStyleTable+=
-                      "<td style='width: 100px; text-align: left;'>" 
-                          + "<div style=\"position: relative\" >" 
-      /*
-                                          + "<a href=" 
-                                              + "\"" 
-                                              + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-                                              + thisStylesImageOrig + "\""
-                                              + "data-lightbox=" + "\"jimaworks-gallery\""
-                                              + "data-title=\"title...\""
-                                              + "data-title="
-                                                  + "\"&lt;a href= \'" + nextPage + "\'"
-                                                  + "&gt;Click here&lt;/a&gt; if commemorating..."\">"
-                                                  + " />"
-      */
-      /*
-                                          + "<a href=" 
-                                              + "\"" 
-                                              + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-                                              + thisStylesImageOrig + "\""
-                                              + "data-lightbox=" + "\"jimaworks-gallery\""
-                                              + "data-title=\"title...\""
-                                              + "data-title="
-                                                  + "\"&lt;a href= \'" + nextPage + "\'"
-                                                  + "&gt;Click here&lt;/a&gt; if commemorating..."\">"
-                                                  + " />"
-      */
-      /* ### last one used.. ###
-                                          + "<a href=" + "\"" + nextPage + "\"" + ">"
-                                              + "<img src="
-                                                  + "\""
-                                                  + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-                                                  + thisStylesImageSm
-      */
-          /*                                        + "?12341115911130290446" */
-      /*
-                                                  + "\""
-                                                  + " alt=" + "\"" + thisStyleAltString + "\""
-                                                  + " />"
-                                              + "</a>"
-      */
-      
-                                      + "<a href=" + "\"" + nextPage + "\"" 
-                                              + " onclick=\'RecordMapStyleChoice("
-                                                                      +"\""
-                                                                      +mapStylesArray[thisMapChoiceIndex]
-                                                                      +"\", "
-                                                                      +thisMapChoiceIndex
-                                                                      +", \""
-                                                                      +thisStylesImageOrig
-                                                                      +"\")"
-                                              + "\'"
-                                              + ">"
-                                              + "<img src="
-                                                  + "\""
-                                                  + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-                                                  + thisStylesImageSm
-                                                  + "\""
-                                                  + " width=" + "\"" + shipimageDisplayWidth+ "\""       /*   width=\"400\" height=\"50\" "   */
-                                                  + " alt=" + "\"" + thisStyleAltString + "\""
-                                                  + " />"
-                              + "<div style=\"position: absolute; z-index: 2;  bottom: 45px; left: 125px; \" >" 
-                                                  + "<img src="
-                                                  + "\""
-                                                  + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-                                                  + currShipImg.replace(" ","_").replace("(","_").replace(")","_").replace(".","_256x256.")
-                                                  + "\""
-                                                  + " alt=" + "\"" + currShipName + "\""
-                                                  + " style=\""
-                                                  + " width: 150px; "   /* height: 100px; */
-                                                  + "\"" +shipBorder+ "\""
-                                                  + " />"
-                              + "</div>"
-      /*
-                              + "<div style=\"position: absolute; z-index: 4;  bottom: -35px; left: 20px; \" >" 
-                                                  + "<img src="
-                                                  + "\""
-                                                  + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-                                                  + "GoldRatio-Med-NoFrame-NoPlaque-NoRuler-72ppi.png"
-                                                  + "\""
-                                                  + " alt=" + "\"" + "frameImage" + "\""
-                                                  + " style=\""
-                                                  + " width:350px;"
-                                                  + "\"" +shipBorder+ "\""
-                                                  + " />"
-                              + "</div>"
-      */
-                              + "<div style=\"position: absolute; z-index: 6;  bottom 60px; left: 160px;\" >" 
-                                  +   mapStylesArray[thisMapChoiceIndex]
-                              + "</div>"
-                                              + "</a>"
-                          + "</div>"
-                      + "</td>" ;
-      
-              }  
-              selectStyleTable+="</tr>";
-          }  
-          selectStyleTable+="</table>" ;
-      
-          selectStylePage+=pagePrologue+selectStyleTable+pagePostlogue ;
-          console.log("selectStylePage="+selectStylePage) ;
-      
-          /* document.write('selectStyleTable=='+selectStyleTable); */
-          /* document.write(selectStylePage) ; */
-          document.getElementById("selectMapStyleTable").innerHTML = selectStylePage ;
-      // ]]></script>
+        recordMapBackgroundChoice( variantId, previewImages[variantId] );
+      },
+      false
+    );
+  
+    if ( savedMapBackgroundVariantId !== defaultMapBackgroundVariantId ) {
+      selectOptionWithVariantId( $mapBackgroundSelection, savedMapBackgroundVariantId );
+    }
+  
+    // In case user hits back button and browser remembers selection, update the mapBackground to match
+    setTimeout( function () {
+      alignMapBackgroundWithSelection( $mapBackground, $mapBackgroundSelection );
+    }, 0 );
+  } );
+</script>
