@@ -1,454 +1,184 @@
-<!-- /pages/1.c.MapStylePerRegionPerEra 
-    2.b: Frame choice
-    -->
-    <script type="text/javascript">// <![CDATA[
-      function ProductMockup() {
-          alert("in ProductMockup") ;
-          var previewPage = '/pages/testpage' ;
-          alert("this worked: /pages/testpage") ;
-          alert("previewPage == "+previewPage) ;
-          /*location.replace(previewPage) ;*/
-          window.location.assign(previewPage) ;
+<article class="jw-relationships-tour">
+    <!-- <nav class="jw-relationships-tour__actions"></nav> -->
+    <div id="relationships-tour-content" class="jw-relationships-tour__content jw-relationships-tour__content--active">
+      <div id="map" class="jw-relationships-tour__map"></div>
+      <aside id="sidebar" class="jw-relationships-tour__sidebar jw-relationships-tour__sidebar--active">
+        <!-- <nav class="jw-relationships-tour__navigation">
+          <span id="tour-actions" class="jw-tour__actions">
+            <a id="previous" class="jw-tour__action --disabled" href="javascript:void(0);">Previous</a>
+            <a id="next" class="jw-tour__action" href="javascript:void(0);">Next</a>
+          </span>
+        </nav> -->
+        <div id="tour" class="jw-tour --expanded">
+          <div class="jw-tour__descriptions">
+            <article
+              id="frame-description"
+              class="jw-tour__description jw-tour__description--active"
+              style="width: 100%;"
+            >
+              <h3 class="jw-tour-spot__heading">Frame</h3>
+              <div class="jw-tour-spot__body">
+                <!-- <ul>
+                  <li>Four different styles to choose from</li>
+                  <li>Your print is double matted using a bevelled SandStone mat with Chinese Red trimming</li>
+                  <li>The frame is natural wood</li>
+                  <li>The glazing is UV-protective acrylic plexiglass</li>
+                  <li>The plaque inset into the mat. It is gold-colored metal etched to your specifications</li>
+                </ul> -->
+                <label for="frame-selection">Choose your frame:</label>
+                <select
+                  id="frame-selection"
+                  class="jw-tour-spot__dropdown"
+                  name="frameSelection"
+                >
+                  <option data-variant-id="BlackWalnut" value="black-walnut">Black Walnut</option>
+                  <option data-variant-id="GoldTrim" value="gold-trim">Gold Trim</option>
+                  <option data-variant-id="LightCherry" value="light-cherry">Light Cherry</option>
+                  <option data-variant-id="BlackRoped" value="black-roped">Black Roped</option>
+                </select>
+                <p style="margin-top: 24px; margin-top: 1.5rem;">
+                  <a class="jw-link-button" href="/products/genericrelationshipsproduct-framed">Continue</a>
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </article>
+  
+  <script>
+    function recordFrameChoice( variantId, url, variantAbbreviation ) {
+      localStorage.setItem( "Frame", variantId );
+      localStorage.setItem( "FrameImg", url );
+  
+      if ( variantAbbreviation && variantAbbreviation.length ) {
+        localStorage.setItem( "FrameAbbrev", variantAbbreviation ); // Not used AFAICT
+      } else {
+        localStorage.removeItem( "FrameAbbrev" );
       }
-      // ]]></script>
-      <!-- 
-      <div style="float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;">
-          <button id="myButton" 
-                  class="float-left submit-button" 
-                  onclick="ProductMockup()">Product-So-Far Preview
-          </button>
-      </div>
-      -->
-      <div id="selectMapStyleTable"></div>
-      <script type="text/javascript">// <![CDATA[
-      /*orig    function matchArrayString(element, arrayString) {
-            return element == arrayString;
-          }
-      */
-
-          function RecordFrameChoice(styleName, styleAbbrev, styleImageFileNm) {
-      /*
-              alert(">>>RecordFrameChoice():  styleName=="+styleName+" styleAbbrev=="+styleAbbrev+" styleImageFileNm=="+styleImageFileNm ) ;
-      */
-              localStorage.setItem("Frame", styleName) ;
-              localStorage.setItem("FrameAbbrev", styleAbbrev) ; // ### changed from mapStyleAbbrevs[styleIndex] ; ###
-              localStorage.setItem("FrameImg", styleImageFileNm) ; // ### FrameImg anywhere else? ###
-          }
-              
-      /* first set up a coordinated set of strings for an associative array */
-          var origsArray = [  "EuropeAndTheMediterranean",
-                              "Africa",
-                              "PacificRim",
-                              "SouthAmericaAndTheCaribbean",
-                              "SouthAsia"] ;
-          var origAbbrevs = [ "EuM",
-                              "Afr",
-                              "Pac",
-                              "SAm",
-                              "SoA"] ;
-          var currOrigChoice = (
-            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
-            localStorage.getItem("RegionOfOrigin")
-            || localStorage.getItem("RegionOfOriginDefault")
-            || "EuropeAndTheMediterranean"
-          );
-          var matchTarget = currOrigChoice ;  /* Creating a "local global" for matchArrayString...*/
-          var matchArrayString = function (element) {
-            return element == matchTarget;
-          }
-          var origsIndex = origsArray.findIndex(matchArrayString);
-          var currOrigChoiceAbbrev = origAbbrevs[origsIndex];
-      
-      /*
-          var erasArray = [   "ColonialAndEarlyIndependenceEra(1607-1820)",
-                              "EraOfModernSail(1800-1900)",
-                              "EraOfTheSteamSailShip(1840-1915)",
-                              "EraOfThePassengerLiner(1890-1970)",
-                              "EraOfAirTravel(1945-Present)"] ;
-          var eraAbbrevs = [  "Early",
-                              "ModSl",
-                              "StmSl",
-                              "Liner",
-                              "AirTr"] ;
-      */
-          var erasArray = [   "ColonialAndEarlyIndependenceEra(1607-1840)",
-                              "EraOfTheSteamSailShip(1840-1915)",
-                              "EraOfThePassengerLiner(1895-1970)",
-                              "EraOfAirTravel(1945-Present)"] ;
-          var eraAbbrevs = [  "Early",
-                              "StmSl",
-                              "Liner",
-                              "AirTr"] ;
-          var eraStartArray = [  1607,
-                              1840,
-                              1895,
-                              1945] ;
-          var eraEndArray = [  1840,
-                              1915,
-                              1970,
-                              "Present"] ;
-          var eraRepresetativeYearArray = [  1720,
-                              1870,
-                              1910,
-                              2016] ;
-      
-          var currEraChoice = (
-            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
-            localStorage.getItem("Era")
-            || localStorage.getItem("EraDefault")
-            || "EraOfThePassengerLiner(1895-1970)"
-          ); /* localStorage.EraOfCrossing; */
-          var matchTarget = currEraChoice ;  /* Creating a "local global" for matchArrayString...*/
-          /* define "matchTarget" in the local environment... */
-          /*
-            Normally we would not want to override the existing variable
-            (with the same function definition, no less) but we have to in order to accomodate
-            each `matchTarget`. TODO: Combine back into single function.
-          */
-          var matchArrayString = function (element) {
-            return element == matchTarget;
-          }
-          var eraIndex = erasArray.findIndex(matchArrayString);
-          var currEraChoiceAbbrev = eraAbbrevs[eraIndex];
-      
-          /* read the current values for the ship/airplane/etc... */
-          var currTransportCraft = localStorage.TransportCraft;
-          var currShipName = localStorage.shipName;
-          var currShipImg = (
-            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
-            localStorage.getItem( "shipPic" )
-            || localStorage.getItem( "shipPicDefault" )
-            || 'jimaworksStPaul640.png'
-          );
-      /* ### 
-         need to fix this...
-         ### */
-          var shipimageDisplayWidth = "400";    /*   width=\"400\" */
-      /* ### 
-         need to fix this...
-         ### */
-      
-          var currShipImgFile =  "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-                                  + currShipImg.replace(" ","_").replace("(","_").replace(")","_") ;
-          var currShipImgWidth ;
-          var currShipImgHeight ;
-          var currShipImgXYRatio ;
-          var currShipImgArea ;
-      
-              var shipImgTransparentBackground = localStorage.shipImageTransparentBackground ;
-              var shipBorder ;
-              if (shipImgTransparentBackground === "transparent") {
-                  shipBorder = "" ;
-              }
-              else {
-                  shipBorder = "border-style: solid; border-width: 3px; border-color: darkblue;" ;
-              } ;
-      
-      
-          var LandscapeGoldenXYRatio = 1.618 ;
-          var mapDisplayWidth = 300 ; /* ### replace with percentages? ### */
-          var shipMaxDisplayWidth = 2/3 * mapDisplayWidth ; /* ### replace with percentages? ### */
-          var shipMaxDisplayHeight = shipMaxDisplayWidth/ LandscapeGoldenXYRatio ;
-          var shipImageDisplayTargetWidth = 150 ; /* ### replace with percentages? ### */
-          var shipImageDisplayTargetHeight =  shipImageDisplayTargetWidth/LandscapeGoldenXYRatio ; /* ### replace with percentages? ### */
-          var shipImageDisplayIdealArea = shipImageDisplayTargetWidth * shipImageDisplayTargetHeight ;
-          var shipImageToIdealDisplayRatio ;   
-          var shipDisplayWidth ;
-          var shipDisplayHeight ;
-      
-          console.log("Before img load: shipImageDisplayTargetWidth ="+shipImageDisplayTargetWidth) ;
-      /* https://stackoverflow.com/questions/8903854/check-image-width-and-height-before-upload-with-javascript */
-      var img = document.createElement("img");
-      img.onload = function() {
-          // `naturalWidth`/`naturalHeight` aren't supported on <IE9. Fallback to normal width/height
-          // The natural size is the actual image size regardless of rendering.
-          // The 'normal' width/height are for the **rendered** size.
-      
-          currShipImgWidth  = img.naturalWidth  || img.width;
-          currShipImgHeight = img.naturalHeight || img.height; 
-          // Do something with the width and height
-          currShipImgXYRatio = currShipImgWidth / currShipImgHeight ;
-          currShipImgArea = currShipImgWidth * currShipImgHeight ;
-      
-          shipImageToIdealDisplayRatio = Math.sqrt(shipImageDisplayIdealArea) / Math.sqrt(currShipImgArea) ;   
-          shipDisplayWidth = shipImageToIdealDisplayRatio * currShipImgWidth ;
-          shipDisplayHeight = shipImageToIdealDisplayRatio * currShipImgHeight ;
-      console.log("shipImgTransparentBackground = "+shipImgTransparentBackground) ;
-          
-          if (currShipImgXYRatio > LandscapeGoldenXYRatio) { /* landscape image */
-              if (shipDisplayWidth > shipImageDisplayTargetWidth) {
-                  shipDisplayWidth = shipImageDisplayTargetWidth ;
-                  shipDisplayHeight = shipDisplayWidth/currShipImgXYRatio ;
-                  console.log("Reset landscape XYs. shipDisplayWidth = "+shipDisplayWidth+"shipDisplayHeight = "+shipDisplayHeight) ;
-              }
-              else {
-                  console.log("currShipImgXYRatio > LandscapeGoldenXYRatio but shipDisplayWidth <= shipImageDisplayTargetWidth. shipDisplayWidth = "+shipDisplayWidth+"shipDisplayHeight = "+shipDisplayHeight) ;
-              } 
-          }
-          else { /* portrait image */
-              if (shipDisplayHeight > shipImageDisplayTargetHeight) {
-                  shipDisplayHeight = shipImageDisplayTargetHeight ;
-                  shipDisplayWidth = currShipImgXYRatio*shipDisplayHeight ;
-                  console.log("Reset portrait XYs. shipDisplayWidth = "+shipDisplayWidth+"shipDisplayHeight = "+shipDisplayHeight) ;
-              }
-              else {
-                  console.log("currShipImgXYRatio <= LandscapeGoldenXYRatio NS shipDisplayHeight <= shipImageDisplayTargetHeight. shipDisplayWidth = "+shipDisplayWidth+"shipDisplayHeight = "+shipDisplayHeight) ;
-              }
-          } ;
-      } ;
-      // Setting the source makes it start downloading and eventually call `onload`
-      img.src = currShipImgFile;
-      
-          var shipImageInProduct ;
-          if (currTransportCraft == "noShip") {
-              shipImageInProduct = "noship-" ;
-          }
-          else {
-              shipImageInProduct = "typicalship-" ;
-          }
-      
-      console.log("1. currEraChoiceAbbrev = " + currEraChoiceAbbrev 
-                   + " currShipName=" + currShipName
-                   + " currShipImg=" + currShipImg) ;
-      
-          var mapStylesArray = [ "ParisSage",
-                              "EmpressTeal",
-                              "PalaceRosa",
-                              "SeaSprayBlue",
-                              "MayanGlow"] ;
-      /*
-                              "CremaTaupe",
-                              "SpecialOrder"] ;
-      */
-          var mapStyleAbbrevs = [ "Pari",
-                              "Empr",
-                              "Pala",
-                              "SeaS",
-                              "Maya"] ;
-      /*
-              ### Since the previuos page sets up:
-              
-              localStorage.setItem("MapStyle", styleName) ;
-              localStorage.setItem("MapStyleAbbrev", mapStyleAbbrevs[styleIndex]) ;
-              localStorage.setItem("webMapImg", styleImageFileNm) ;
-              
-              we shouldn't really have to set up the findIndex routine, right? ###
-      */
-      
-          var currMapChoice = (
-            // TODO: See comment for webMapImg in `define-preview-fn.liquid`
-            localStorage.getItem("MapStyle")
-            || localStorage.getItem("MapStyleDefault")
-            || "ParisSage"
-          );
-          var matchTarget = currMapChoice ;  /* Creating a "local global" for matchArrayString...*/
-          /* 3rd matchArrayString redefinition */
-          var matchArrayString = function (element) {
-            return element == matchTarget;
-          }
-          var mapIndex = mapStylesArray.findIndex(matchArrayString);
-          var currmapChoiceAbbrev = mapStyleAbbrevs[mapIndex];
-      
-      
-          var mapStyleChoice ; /* = localStorage.MapStyle; */
-          var mapStyleIndex ; /* = mapStylesArray.findIndex(matchArrayString); */
-      
-          var descripsPrefixString = currOrigChoice + "-" + currEraChoice + "-" ;
-          var optionsPrefixString = currOrigChoiceAbbrev + "-" + currEraChoiceAbbrev + "-" ;
-          var optionsSuffixString = ".png" ;
-          
-          var pagePrologue= "<h2>Choose a Frame Style suitable to your display</h2>" ;
-              pagePrologue+= "<div class=\'row\'>" ;
-          var pagePostlogue= "<div>";
-          var selectStylePage= "";
-          var selectStyleTable= "<table>";
-          var thisStylesImageSm;
-          var thisStylesImageOrig;
-          var thisStylesImageSuffix = "";
-      
-          var frameChoices = [ 
-              "BlackWalnut",
-              "GoldTrim",
-              "LightCherry",
-              "BlackRoped"
-      /*        "NoFrame" */
-              ] ;
-          
-          var frameChoiceDisplays = [ 
-              "Black Walnut frame",
-              "Gold Trim frame",
-              "Light Cherry frame",
-              "Black Roped frame"
-      /*        "(no frame)" */
-              ] ;
-          
-          var frameChoiceAbbrevs = [ 
-              "Walnut",
-              "Gold",
-              "Cherry",
-              "Black"
-      /*        "NoFrame" */
-              ] ;
-          
-          var origFrameImgs = [
-              "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png.png",
-              "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Gold-NoRuler-72ppi.png",
-              "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Cherry-NoRuler-72ppi.png",
-              "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-72ppi.png"
-      /*        "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-NoFrame-NoPlaque-NoRuler-72ppi.png" */
-              ] ;
-      
-          var smlFrameImgs = [ 
-              "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png_256x256.png",
-              "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Gold-NoRuler-72ppi_256x256.png",
-              "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Cherry-NoRuler-72ppi_256x256.png",
-              "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-72ppi_256x256.png"
-      /*        "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-NoFrame-NoRuler-72ppi_256x256.png" */
-               ] ;
-          
-          var frameAltStrings = [ 
-              "Golden Ratio BlackWalnut frame Medium,",
-              "Golden Ratio GoldTrim frame Medium",
-              "Golden Ratio Light Cherry frame Medium",
-              "Golden Ratio Black Roped frame Medium"
-      /*        "Golden Ratio - Medium, no fram.png" */
-              ] ;
-          
-          var thisMapChoiceIndex = mapIndex ;
-          for (var thisFrameChoiceIndex=0; thisFrameChoiceIndex<frameChoices.length; thisFrameChoiceIndex++) {
-              if (thisFrameChoiceIndex%2) {
-                  selectStyleTable+="<tr style=\"background-color: #ffff;\">";              
-              }
-              else {
-                  selectStyleTable+="<tr style=\"background-color: #eeee;\">";  
-              }
-              numStyleImages = 1 ;
-              for (var styleImageIndex=0; styleImageIndex<numStyleImages; styleImageIndex++) {
-                  if (styleImageIndex>0) {
-                       thisStylesImageSuffix= styleImageIndex+1;              
-                  }
-                  thisStylesImageSm = optionsPrefixString
-                                      + mapStyleAbbrevs[thisMapChoiceIndex]
-                                      + thisStylesImageSuffix
-                                      + "_256x256"
-                                      + optionsSuffixString ;
-                  thisStylesImageOrig = optionsPrefixString
-                                      + mapStyleAbbrevs[thisMapChoiceIndex]
-                                      + thisStylesImageSuffix
-                                      + optionsSuffixString ;
-                  thisStyleAltString = mapStylesArray[thisMapChoiceIndex]
-                                       + " is not available" 
-                                       + " in the " + currOrigChoice + " region"
-                                       + " for the " + currEraChoice + " years." ;
-                  /* product page example: /products/noship-palacerosamap */
-                  /* 
-                  nextPage = "/products/"
-                                          + shipImageInProduct
-                                          + mapStylesArray[thisMapChoiceIndex]
-                                          + "map" ;
-                                          
-                  /pages/choose-a-format-for-your-relationships-delivery
-      
-                  nextPage = "/pages/choose-a-format-for-your-relationships-delivery" ;
-                  */
-                  nextPage = "/products/genericrelationshipsproduct-framed" ;
-      
-                  console.log("2b. nextPage = " + nextPage) ;
-      
-                  selectStyleTable+=
-                      "<td style='width: 100px; text-align: left;'>" 
-                          + "<div style=\"position: relative;  z-index: 10; \" >" 
-                              + "<a href=" + "\"" + nextPage 
-                                  + "\"" 
-                                  + " onclick=\'RecordFrameChoice("
-                                                          +"\""
-                                                          +frameChoices[thisFrameChoiceIndex]
-                                                          +"\", "
-                                                          +frameChoiceAbbrevs[thisFrameChoiceIndex]
-                                                          +", \""
-                                                          +origFrameImgs[thisFrameChoiceIndex]
-                                                          +"\")"
-                                  + "\'"
-                                  + ">"
-      
-                                  + "<img src="
-                                  + "\""
-                                  + origFrameImgs[thisFrameChoiceIndex]
-                                  + "\""
-                                  + " alt=" + "\"" + frameAltStrings[thisFrameChoiceIndex] + "\""
-                                  + " style=\""
-                                  + " width:350px;"
-                                  + "\""
-                                  + " />"
-      
-                              + "<div style=\"position: absolute; z-index: 5;  bottom: 0px; left: 0px; \" >" 
-                                  + "<img src="
-                                  + "\""
-                                  + origFrameImgs[thisFrameChoiceIndex]
-                                  + "\""
-                                  + " alt=" + "\"" + frameAltStrings[thisFrameChoiceIndex] + "\""
-                                  + " style=\""
-                                  + " width:350px;"
-                                  + "\""
-                                  + "\"" 
-                                  + " onclick=\'RecordFrameChoice("
-                                                          +"\""
-                                                          +frameChoices[thisFrameChoiceIndex]
-                                                          +"\", "
-                                                          +"\""
-                                                          +frameChoiceAbbrevs[thisFrameChoiceIndex]
-                                                          +"\", "
-                                                          +"\""
-                                                          +origFrameImgs[thisFrameChoiceIndex]
-                                                          +"\")"
-                                  + "\'"
-                                  + " />"
-                              + "</div>"
-      
-                               + "<div style=\"position: absolute; z-index: 2;  bottom: 95px; left: 128px; \" >" 
-                                  + "<img src="
-                                  + "\""
-                                  + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-                                  + currShipImg.replace(" ","_").replace("(","_").replace(")","_").replace(".","_256x256.")
-                                  + "\""
-                                  + " alt=" + "\"" + currShipName + "\""
-                                  + " style=\""
-                                  + " width: 102px; "   /* height: 100px; */
-                                  + shipBorder
-                                  + "\""
-                                  + " />"
-                              + "</div>"
-      
-                              + "<div style=\"position: absolute; z-index: 1;  bottom: 85px; left: 65px; \" >" 
-      
-                                  + "<img src="
-                                      + "\""
-                                      + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
-                                      + thisStylesImageSm
-                                      + "\""
-                                      + " width=" + "\"" + "215px" + "\""       /*   width=\"400\" height=\"50\" "   */
-                                      + " alt=" + "\"" + thisStyleAltString + "\""
-                                      + " />"
-       
-                              + "</div>"
-                              + "<div style=\"position: absolute; z-index: 6;  top: 30px; left: 130px;\" >" 
-                                  +   frameChoiceDisplays[thisFrameChoiceIndex]
-                              + "</div>"
-                                  + "</a>"
-                          + "</div>"
-                      + "</td>" ;
-      
-              }  
-              selectStyleTable+="</tr>";
-          }  
-          selectStyleTable+="</table>" ;
-      
-          selectStylePage+=pagePrologue+selectStyleTable+pagePostlogue ;
-          console.log("selectStylePage="+selectStylePage) ;
-      
-          /* document.write('selectStyleTable=='+selectStyleTable); */
-          /* document.write(selectStylePage) ; */
-          document.getElementById("selectMapStyleTable").innerHTML = selectStylePage ;
-      
-      //RecordFrameChoice(frameChoices[0],frameChoiceAbbrevs[0],origFrameImgs[0])
-      // ]]></script>
+    }
+  
+    function preloadPreviewImages() {
+      for ( var key in previewImages ) {
+        var currentFrameImage = previewImages[key];
+        var link = document.createElement( 'link' );
+        link.rel = 'preload';
+        link.href = currentFrameImage;
+        link.as = 'image';
+        document.head.appendChild( link );
+      }
+  
+      previewImagesLoaded = true;
+      $frameSelection.removeEventListener( 'mouseover', preloadPreviewImages );
+      $frameSelection.removeEventListener( 'click', preloadPreviewImages );
+    }
+  
+    function changeMapBackground( $mapBackground, newMapBackgroundClassId ) {
+      var newMapBackgroundClass = ( 'jw-map--color-' + newMapBackgroundClassId );
+  
+      if ( $mapBackground.className.indexOf( 'jw-map--color-' ) !== -1 ) {
+        $mapBackground.className = $mapBackground.className.replace(
+          /\bjw-map--color-[^\s]+\b/,
+          newMapBackgroundClass
+        );
+      } else {
+        $mapBackground.classList.add( newMapBackgroundClass );
+      }
+    }
+  
+    function changeFrame( newFrameClassId ) {
+      var newFrameClass = ( 'jw-relationships-preview--frame-' + newFrameClassId );
+  
+      if ( $preview.className.indexOf( 'jw-relationships-preview--frame-' ) !== -1 ) {
+        $preview.className = $preview.className.replace(
+          /\bjw-relationships-preview--frame-[^\s]+\b/,
+          newFrameClass
+        );
+      } else {
+        $preview.classList.add( newFrameClass );
+      }
+    }
+  
+    function getSelectedOption( $select ) {
+      return $select.querySelector( ':checked' );
+    }
+  
+    function getVariantIdFromOption( $option ) {
+      return ( $option.dataset ? $option.dataset.variantId : $option.getAttribute( 'data-variant-id' ) );
+    }
+  
+    function selectOptionWithVariantId( variantId ) {
+      var $option = $frameSelection.querySelector( '[data-variant-id="' + variantId + '"]' );
+  
+      if ( $option ) {
+        $option.selected = true; 
+      }
+    }
+  
+    var $previewLayoutContainer = document.getElementById( 'map' );
+    var $previewTemplate = document.getElementById( 'preview-template' );
+    var $frameSelection = document.getElementById('frame-selection');
+    var $preview;
+    var previewImagesLoaded = false;
+    var previewImages = {
+      /* Frames */
+      "BlackWalnut": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png",
+      "GoldTrim": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Gold-NoRuler-72ppi.png",
+      "LightCherry": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Cherry-NoRuler-72ppi.png",
+      "BlackRoped": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-72ppi.png"
+    };
+    var defaultFrameVariantId = 'BlackWalnut';
+    var defaultFrameClassId = 'black-walnut';
+    var savedFrameVariantId = localStorage.getItem( 'Frame' );
+    var defaultMapBackgroundVariantId = 'ParisSage';
+    var defaultMapBackgroundClassId = 'paris-sage';
+    var mapVariantToClassId = {
+      "ParisSage": "paris-sage",
+      "EmpressTeal": "empress-teal",
+      "PalaceRosa": "palace-rosa",
+      "SeaSprayBlue": "sea-spray-blue",
+      "MayanGlow": "mayan-glow"
+    };
+    var savedMapBackgroundVariantId = localStorage.getItem( 'MapStyle' );
+  
+    // initializeDefaults();
+    $previewLayoutContainer.innerHTML = $previewTemplate.innerHTML;
+    $preview = $previewLayoutContainer.querySelector('.jw-relationships-preview');
+  
+    window.addEventListener( "DOMContentLoaded", function pickYourFrame__onDomContentLoaded() {
+      var $mapBackground = document.getElementById( 'map-background' );
+  
+      $frameSelection.addEventListener( 'mouseover', preloadPreviewImages, false );
+      $frameSelection.addEventListener( 'click', preloadPreviewImages, false );
+  
+      $frameSelection.addEventListener( 'change', function frameSelectionChanged( event ) {
+        var newValue = event.target.value;
+        // $preview already initialized in surrounding scope
+  
+        changeFrame( newValue );
+  
+        var $selectedOption = getSelectedOption( event.target );
+        var variantId = getVariantIdFromOption( $selectedOption );
+  
+        recordFrameChoice( variantId, previewImages[variantId] );
+      }, false );
+  
+      if ( savedFrameVariantId !== defaultFrameVariantId ) {
+        selectOptionWithVariantId( savedFrameVariantId );
+      }
+  
+      if ( savedMapBackgroundVariantId !== defaultMapBackgroundVariantId ) {
+        changeMapBackground( $mapBackground, mapVariantToClassId[savedMapBackgroundVariantId] )
+      }
+  
+      // In case user hits back button and browser remembers selection, update the frame to match
+      setTimeout( function alignFrameWithSelection() {
+        var $initialSelection = getSelectedOption( $frameSelection );
+  
+        if ( $initialSelection && ( $initialSelection.value !== defaultFrameClassId ) ) {
+          changeFrame( $initialSelection.value );
+        }
+      }, 0 );
+    } );
+  </script>
