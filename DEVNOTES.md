@@ -621,3 +621,41 @@ From Jim:
 - On separate frame page, by virtue of it being a Shopify Page, can’t access Liquid variables (without doing Liquid → JavaScript handoff), so wind up with multiple sources of truth for frame variants: the Liquid backend, and the JavaScript frontend.
 - Seems to be no use for `localStorage.FrameAbbrev` (in either the JavaScript or the Illustrator script), so making an optional parameter.
 - ⚠️ Remember to de-duplicate `jw-link-button`.
+
+## 01/17
+
+### [Revise Ship image size/placement on interaction window](https://trello.com/c/omhl57AC)
+
+- Assets/ShipImageLayout01152020.pdf from Jim specifies different positioning for jimaworks-made sail ships, jimaworks-made steam-sail ships, jimaworks-made steam/motor ships, historic imagery (landscape), historic imagery (portrait)
+- Need a way
+
+### [Add “Choose-a-Size” page (right before accordion page)](https://trello.com/c/5COG6p7A)
+
+- `Large-BlackWalnut-Ruler.png` has a row of errant pixels
+- On attempted upload of frame-with-ruler images, Shopify complains about images being corrupt:
+  - `Large-BlackRoped-Ruler.png`
+  - `Large-LightCherry-Ruler.png`
+  - `Large-BlackWalnut-Ruler.png`
+  - `Large-GoldTrim-Ruler.png`
+- Looks like these files have Adobe XML metadata embedded in them:
+  ```xml
+  PNG
+  
+     
+  IHDR    7    ºå  KiTXtXML:com.adobe.xmp     <?xpacket begin="ï»¿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+  <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c140 79.160451, 2017/05/06-01:08:21        ">
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description rdf:about=""/>
+  </rdf:RDF>
+  </x:xmpmeta>
+  <?xpacket end="r"?>
+  ```
+- Re-saving through Photoshop’s Export As preserves this metadata even when Metadata: None is selected
+- Re-saving through Photoshop’s Quick Export As PNG removes this metadata
+  - This did not fix the issue
+- Should probably get rid of the distinction between variantId and classId since it’s redundant and just creating extra code
+- All the different frame sizes are different pixel dimensions which makes transitions awkward
+  - Should clean up, optimize, and set appropriate sizes for all frame images
+  - There’s no need to have separate images for each size when we can just put the ruler on a separate layer and size accordingly
+    - Does the rule provide valuable information to the user? Would probably be most useful to specify the physical dimensions in the dropdown menu
+   
