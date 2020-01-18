@@ -1,139 +1,137 @@
 <div class="grid">
+  <div class="grid__item post-large--two-thirds push--post-large--one-sixth">
+    <div class="section-header">
+      <h1 class="section-header--title">{{ page.title }}</h1>
+    </div>
+    <script id="liquid">
+      window.Jimaworks = ( window.Jimaworks || {} );
+      window.Jimaworks.Liquid = ( window.Jimaworks.Liquid || {} );
+      window.Jimaworks.Liquid.page = {
+        "id": "{{ page.id }}",
+        "handle": "{{ page.handle }}"
+      };
+      console.warn( 'window.Jimaworks.Liquid.page', window.Jimaworks.Liquid.page );
+    </script>
+    <!-- Page-specific includes for each step of the wizard -->
+    {% case page.handle %}
+      <!-- Your Relationships Project -->
 
-    <div class="grid__item post-large--two-thirds push--post-large--one-sixth">
+      {% when 'your-relationships-project' or 'your-relationships-project-redux' %}
+        {% include 'init.00-preview' %}
+        {%- comment -%}
+          <!-- This file is currently empty, so no need to include it. -->
+          {% include 'init.01-home.liquid' %}
+        {%- endcomment -%}
+        {%- comment -%} init.02 not needed by Preview {%- endcomment -%}
+        {% include 'init.03-title-what' %}
+        {% include 'init.04-title-when' %}
+        {% include 'init.05-origins-line1' %}
+        {% include 'init.06-origins-line2' %}
+        {% include 'init.07-destination-line1' %}
+        {% include 'init.08-destination-line2' %}
+        {% include 'init.09-ship-image-type' %}
+        {% include 'init.10-ship-image' %}
+        {%- comment -%} init.11–14 not needed by Preview {%- endcomment -%}
+        <template id="preview-template" style="display:none;">
+          {% include 'relationships-preview-redux' %}
+        </template>
 
-<div class="section-header">
-  <h1 class="section-header--title">{{ page.title }}</h1>
-</div>
+      <!-- Set the Stage. In What Part of the World did this Story Start? -->
+      {% when 'textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start' %}
+        {% include 'init.02-region-of-origin' %}
 
-<script id="liquid">
-  window.Jimaworks = ( window.Jimaworks || {} );
-  window.Jimaworks.Liquid = ( window.Jimaworks.Liquid || {} );
-  window.Jimaworks.Liquid.page = {
-    "id": "{{ page.id }}",
-    "handle": "{{ page.handle }}"
-  };
-  console.warn( 'window.Jimaworks.Liquid.page', window.Jimaworks.Liquid.page );
-</script>
-<!-- Page-specific includes for each step of the wizard -->
-{% case page.handle %}
-  <!-- Your Relationships Project -->
+      <!-- 1. Title. What Is This Story About? -->
+      {% when 'textbox1-title-line1-what-is-this-story-about' %}
+        {% include 'init.03-title-what' %}
+        {% include 'init.05-origins-line1' %}
+        {% include 'init.06-origins-line2' %}
+        {% include 'init.09-ship-image-type' %}
+        {% include 'init.10-ship-image' %}
 
-  {% when 'your-relationships-project' or 'your-relationships-project-redux' %}
-    {% include 'init.00-preview' %}
+      <!-- 1. Title. When did it take place? -->
+      {% when 'textbox1-title-line2-when-did-it-take-place-1' %}
+        {% include 'init.02-region-of-origin' %}
+
+      <!-- 2. Origins. Where did this FirstGen come from? -->
+      {% when 'textbox2-origins-where-did-this-firstgen-come-from' %}
+        {% include 'init.02-region-of-origin' %}
+
+      <!-- 2. Origins. From where did they depart? -->
+      {% when 'textbox2-origins-from-where-did-they-depart' %}
+        {% include 'init.02-region-of-origin' %}
+        {% include 'init.05-origins-line1' %}
+        {% include 'init.06-origins-line2' %}
+
+      <!-- 3. American Destiny. Where did they land? -->
+      {% when 'textbox3-destination-where-did-they-land' %}
+        {% include 'init.06-origins-line2' %}
+        {%- comment %}{% include 'init.09-ship-image-type' %}{%- endcomment %}
+        {%- comment %}{% include 'init.10-ship-image' %}{%- endcomment %}
+
+      <!-- 3: Destination: Where did they end up? -->
+      {% when 'textbox3-destination-where-did-they-end-up' %}
+
+
+      {%- comment %}
+        Most of the following use the regular `page` template.
+        As a result, initializeDefaults() doesn’t get called,
+        so init.* includes won’t work for those pages.
+      {%- endcomment %}
+
+      <!-- Ship Image - Options -->
+      {% when '000-knownshipoptions' %}
+        {%- comment %}{% include 'init.09-ship-image-type' %}{%- endcomment %}
+
+      <!-- 4. How did they get here? The Ship. -->
+      {% when 'textbox4-tripinfo-how-did-they-get-here' %}
+      {% when '1-g-ii-jimaworks-madeshipimagery' %}
+        {%- comment %}
+          {% include 'init.04-title-when' %}
+          {% include 'init.09-ship-image-type' %}
+        {%- endcomment %}
+
+      <!-- 2: Define the Look and Feel of your Commemoration. a: Your Map. -->
+      {% when '1-c-map-background' or '1-c-map-background-redux' %}
+        {%- comment %}
+          {% include 'init.11-maps' %}
+        {%- endcomment %}
+        <template id="preview-template" style="display:none;">
+          {% include 'relationships-preview-redux' %}
+        </template>
+
+      <!-- Choose a format for your RelationShips delivery -->
+      {% when 'choose-a-format-for-your-relationships-delivery' %}
+        {% include 'init.09-ship-image-type' %}
+        {% include 'init.12-format' %}
+
+      <!-- 2. b: Pick your Frame. -->
+      {% when '2-the-frame' or '2-the-frame-redux' %}
+        {%- comment %}
+          {% include 'init.13-frame' %}
+        {%- endcomment %}
+        <template id="preview-template" style="display:none;">
+          {% include 'relationships-preview-redux' %}
+        </template>
+
+      {%- comment -%}
+      <!-- Accordion page does not actually read from this file. -->
+      <!-- RelationShips commemoration - Framed -->
+      {% when 'genericrelationshipsproduct-framed' %}
+        {% include 'init.14-accordion' %}
+      <!-- GenericRelationShipsProduct -->
+      {% when 'genericrelationshipsproduct' %}
+        {% include 'init.14-accordion' %}
+      {%- endcomment -%}
+      {% else %}
+    {% endcase %}
+
+    <!-- Defaults common to all Pages: -->
+    {% include 'initialize-defaults' %}
     {%- comment -%}
-      <!-- This file is currently empty, so no need to include it. -->
-      {% include 'init.01-home.liquid' %}
+      {% include 'initialize-shipdb' %}
     {%- endcomment -%}
-    {%- comment -%} init.02 not needed by Preview {%- endcomment -%}
-    {% include 'init.03-title-what' %}
-    {% include 'init.04-title-when' %}
-    {% include 'init.05-origins-line1' %}
-    {% include 'init.06-origins-line2' %}
-    {% include 'init.07-destination-line1' %}
-    {% include 'init.08-destination-line2' %}
-    {% include 'init.09-ship-image-type' %}
-    {% include 'init.10-ship-image' %}
-    {%- comment -%} init.11–14 not needed by Preview {%- endcomment -%}
-    <template id="preview-template" style="display:none;">
-      {% include 'relationships-preview-redux' %}
-    </template>
+    {% include 'define-preview-fn'%}
 
-  <!-- Set the Stage. In What Part of the World did this Story Start? -->
-  {% when 'textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start' %}
-    {% include 'init.02-region-of-origin' %}
-
-  <!-- 1. Title. What Is This Story About? -->
-  {% when 'textbox1-title-line1-what-is-this-story-about' %}
-    {% include 'init.03-title-what' %}
-    {% include 'init.05-origins-line1' %}
-    {% include 'init.06-origins-line2' %}
-    {% include 'init.09-ship-image-type' %}
-    {% include 'init.10-ship-image' %}
-
-  <!-- 1. Title. When did it take place? -->
-  {% when 'textbox1-title-line2-when-did-it-take-place-1' %}
-    {% include 'init.02-region-of-origin' %}
-
-  <!-- 2. Origins. Where did this FirstGen come from? -->
-  {% when 'textbox2-origins-where-did-this-firstgen-come-from' %}
-    {% include 'init.02-region-of-origin' %}
-
-  <!-- 2. Origins. From where did they depart? -->
-  {% when 'textbox2-origins-from-where-did-they-depart' %}
-    {% include 'init.02-region-of-origin' %}
-    {% include 'init.05-origins-line1' %}
-    {% include 'init.06-origins-line2' %}
-
-  <!-- 3. American Destiny. Where did they land? -->
-  {% when 'textbox3-destination-where-did-they-land' %}
-    {% include 'init.06-origins-line2' %}
-    {%- comment %}{% include 'init.09-ship-image-type' %}{%- endcomment %}
-    {%- comment %}{% include 'init.10-ship-image' %}{%- endcomment %}
-
-  <!-- 3: Destination: Where did they end up? -->
-  {% when 'textbox3-destination-where-did-they-end-up' %}
-
-
-  {%- comment %}
-    Most of the following use the regular `page` template.
-    As a result, initializeDefaults() doesn’t get called,
-    so init.* includes won’t work for those pages.
-  {%- endcomment %}
-
-  <!-- Ship Image - Options -->
-  {% when '000-knownshipoptions' %}
-    {%- comment %}{% include 'init.09-ship-image-type' %}{%- endcomment %}
-
-  <!-- 4. How did they get here? The Ship. -->
-  {% when 'textbox4-tripinfo-how-did-they-get-here' %}
-  {% when '1-g-ii-jimaworks-madeshipimagery' %}
-    {%- comment %}
-      {% include 'init.04-title-when' %}
-      {% include 'init.09-ship-image-type' %}
-    {%- endcomment %}
-
-  <!-- 2: Define the Look and Feel of your Commemoration. a: Your Map. -->
-  {% when '1-c-map-background' or '1-c-map-background-redux' %}
-    {%- comment %}
-      {% include 'init.11-maps' %}
-    {%- endcomment %}
-    <template id="preview-template" style="display:none;">
-      {% include 'relationships-preview-redux' %}
-    </template>
-
-  <!-- Choose a format for your RelationShips delivery -->
-  {% when 'choose-a-format-for-your-relationships-delivery' %}
-    {% include 'init.09-ship-image-type' %}
-    {% include 'init.12-format' %}
-
-  <!-- 2. b: Pick your Frame. -->
-  {% when '2-the-frame' or '2-the-frame-redux' %}
-    {%- comment %}
-      {% include 'init.13-frame' %}
-    {%- endcomment %}
-    <template id="preview-template" style="display:none;">
-      {% include 'relationships-preview-redux' %}
-    </template>
-
-  {%- comment -%}
-  <!-- Accordion page does not actually read from this file. -->
-  <!-- RelationShips commemoration - Framed -->
-  {% when 'genericrelationshipsproduct-framed' %}
-    {% include 'init.14-accordion' %}
-  <!-- GenericRelationShipsProduct -->
-  {% when 'genericrelationshipsproduct' %}
-    {% include 'init.14-accordion' %}
-  {%- endcomment -%}
-  {% else %}
-{% endcase %}
-
-<!-- Defaults common to all Pages: -->
-{% include 'initialize-defaults' %}
-{%- comment -%}
-  {% include 'initialize-shipdb' %}
-{%- endcomment -%}
-{% include 'define-preview-fn'%}
-
-{{ page.content }}
-</div></div>
+    {{ page.content }}
+  </div>
+</div>
