@@ -48,6 +48,7 @@
     .jw-relationships-preview.aspect-ratio:before {
       padding-top: calc(3561/4407 * 100%);
     }
+
     /* Applies to all frames */
     .jw-relationships-preview[class*="jw-relationships-preview--frame"] {
       /* border-image-width: 60px; */
@@ -58,21 +59,76 @@
       border-image-repeat: stretch stretch;
       border-style: solid;
     }
+
     /* Gold Trim */
-    .jw-relationships-preview.jw-relationships-preview--frame-gold-trim {
+    .jw-relationships-preview.jw-relationships-preview--frame-gold-trim
+    .jw-relationships-preview.jw-relationships-preview--frame-gold-trim-gem,
+    .jw-relationships-preview.jw-relationships-preview--frame-gold-trim-small,
+    .jw-relationships-preview.jw-relationships-preview--frame-gold-trim-medium,
+    .jw-relationships-preview.jw-relationships-preview--frame-gold-trim-large {
       border-image-slice: 470;
       border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Gold-NoRuler-72ppi.png);
     }
+      .jw-relationships-preview.jw-relationships-preview--frame-gold-trim-gem {
+        border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/Gem-GoldTrim-Ruler.png?v=1579321684);
+      }
+      .jw-relationships-preview.jw-relationships-preview--frame-gold-trim-small {
+        border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/Small-GoldTrim-Ruler.png?v=1579321685);
+      }
+      .jw-relationships-preview.jw-relationships-preview--frame-gold-trim-medium {
+        border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/Medium-GoldTrim-Ruler.png?v=1579321687);
+      }
+      /* Currently unavailable due to malformed PNG */
+      /* .jw-relationships-preview.jw-relationships-preview--frame-gold-trim-large {
+        border-image-source: url();
+      } */
+
     /* Light Cherry */
-    .jw-relationships-preview.jw-relationships-preview--frame-light-cherry {
+    .jw-relationships-preview.jw-relationships-preview--frame-light-cherry,
+    .jw-relationships-preview.jw-relationships-preview--frame-light-cherry-gem,
+    .jw-relationships-preview.jw-relationships-preview--frame-light-cherry-small,
+    .jw-relationships-preview.jw-relationships-preview--frame-light-cherry-medium,
+    .jw-relationships-preview.jw-relationships-preview--frame-light-cherry-large {
       border-image-slice: 460 450 460 450;
       border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Cherry-NoRuler-72ppi.png);
     }
+      .jw-relationships-preview.jw-relationships-preview--frame-light-cherry-gem {
+        border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/Gem-LightCherry-Ruler.png?v=1579321681);
+      }
+      .jw-relationships-preview.jw-relationships-preview--frame-light-cherry-small {
+        border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/Small-LightCherry-Ruler.png?v=1579321683);
+      }
+      .jw-relationships-preview.jw-relationships-preview--frame-light-cherry-medium {
+        border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/Medium-LightCherry-Ruler.png?v=1579321684);
+      }
+      /* Currently unavailable due to malformed PNG */
+      /* .jw-relationships-preview.jw-relationships-preview--frame-light-cherry-large {
+        border-image-source: url();
+      } */      
+
     /* Black Roped */
-    .jw-relationships-preview.jw-relationships-preview--frame-black-roped {
+    .jw-relationships-preview.jw-relationships-preview--frame-black-roped,
+    .jw-relationships-preview.jw-relationships-preview--frame-black-roped-gem,
+    .jw-relationships-preview.jw-relationships-preview--frame-black-roped-small,
+    .jw-relationships-preview.jw-relationships-preview--frame-black-roped-medium,
+    .jw-relationships-preview.jw-relationships-preview--frame-black-roped-large {
       border-image-slice: 406 410 406 410;
       border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-72ppi.png);
     }
+      .jw-relationships-preview.jw-relationships-preview--frame-black-roped-gem {
+        border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/Gem-BlackRoped-Ruler.png?v=1579321681);
+      }
+      .jw-relationships-preview.jw-relationships-preview--frame-black-roped-small {
+        border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/Small-BlackRoped-Ruler.png?v=1579321683);
+      }
+      .jw-relationships-preview.jw-relationships-preview--frame-black-roped-medium {
+        border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/Medium-BlackRoped-Ruler.png?v=1579321684);
+      }
+      /* Currently unavailable due to malformed PNG */
+      /* .jw-relationships-preview.jw-relationships-preview--frame-black-roped-large {
+        border-image-source: url();
+      } */
+
     /* Black Walnut */
     /* Comes last to serve as default while other classes are preloaded */
     .jw-relationships-preview.jw-relationships-preview--frame-black-walnut,
@@ -93,11 +149,9 @@
         border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/Medium-BlackWalnut-Ruler.png?v=1579321687);
       }
       /* Currently unavailable due to malformed PNG */
-      /*
-      .jw-relationships-preview.jw-relationships-preview--frame-black-walnut-large {
+      /* .jw-relationships-preview.jw-relationships-preview--frame-black-walnut-large {
         border-image-source: url();
-      }
-      */
+      } */
 
 
   .jw-relationships-preview__content {

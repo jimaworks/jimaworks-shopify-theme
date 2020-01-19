@@ -658,4 +658,4 @@ From Jim:
   - Should clean up, optimize, and set appropriate sizes for all frame images
   - There’s no need to have separate images for each size when we can just put the ruler on a separate layer and size accordingly
     - Does the rule provide valuable information to the user? Would probably be most useful to specify the physical dimensions in the dropdown menu
-   
+- Accordion page does not auto-select the Size based on `localStorage.Size`

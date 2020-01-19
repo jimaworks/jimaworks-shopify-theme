@@ -112,6 +112,11 @@
         <template id="preview-template" style="display:none;">
           {% include 'relationships-preview-redux' %}
         </template>
+      
+      {% when 'choose-a-size' %}
+        <template id="preview-template" style="display:none;">
+          {% include 'relationships-preview-redux' %}
+        </template>
 
       {%- comment -%}
       <!-- Accordion page does not actually read from this file. -->
