@@ -77,6 +77,11 @@
         ? window.overlaysRendered
         : false
     );
+    if (window.Jimaworks.isDev) {
+      window.Jimaworks.shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
+    } else {
+      window.Jimaworks.shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
+    }
     window.theme = window.theme || {};
 
     var theme = {

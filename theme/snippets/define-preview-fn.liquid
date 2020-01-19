@@ -1172,14 +1172,13 @@
 
         /*document.referrer ;*/
         var OriginatingPage = window.location.href;
-        var shopifyFilePrefix;
         var shopifyFileSuffix;
 
         if (window.Jimaworks.isDev) {
-            shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
+            // window.Jimaworks.shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
             shopifyFileSuffix = "?922";
         } else {
-            shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
+            // window.Jimaworks.shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
             shopifyFileSuffix = "?16338137725744926710";
         }
 
@@ -1720,7 +1719,7 @@
         var webMapStyleAbbrev = localStorage.MapStyleAbbrev;
 
         // 
-        var webMapImg = shopifyFilePrefix + (
+        var webMapImg = window.Jimaworks.shopifyFilePrefix + (
             /*
                 Whether or not these localStorage vars will be defined
                 depends on when RelationShipsPreviewZ (RPZ) is called.
@@ -1752,7 +1751,7 @@
         );
 
         /* ship */
-        var webShipImg = shopifyFilePrefix + shipPic.replace("(", "_").replace(")", "_");
+        var webShipImg = window.Jimaworks.shopifyFilePrefix + shipPic.replace("(", "_").replace(")", "_");
         // var webShipImgQuoted = '\"' + webShipImg + '\"'; // Not necessary
 
         /* frame */
@@ -1777,7 +1776,7 @@
             ) {
                 // TODO: Plaque misaligned!
                 webFrameAbbrv = 'NoFrame-NoPlaque';
-                webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoPlaque-NoRuler-72ppi.png' + '\"';
+                webFrameImg = '\"' + window.Jimaworks.shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoPlaque-NoRuler-72ppi.png' + '\"';
                 webFrameWidth = 510;
                 webFrameWidth = webFrameWidth * webFrameScale;
                 webFrameHeight = webMapWidth / theGoldenRatio;
@@ -1831,7 +1830,7 @@
         else {
             webFrameStyleName = 'NoFrame-NoPlaque'
             webFrameAbbrv = 'NoFrame-NoPlaque';
-            webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoPlaque-NoRuler-72ppi.png' + '\"';
+            webFrameImg = '\"' + window.Jimaworks.shopifyFilePrefix + 'GoldRatio-Med-NoFrame-NoPlaque-NoRuler-72ppi.png' + '\"';
             webFrameWidth = 510;
             webFrameWidth = webFrameWidth * webFrameScale;
             webFrameHeight = webMapWidth / theGoldenRatio;
@@ -1842,7 +1841,7 @@
 
         //webFrameTopOffset = -110;
 
-        webFrameImg = '\"' + shopifyFilePrefix + 'GoldRatio-Med-' + webFrameAbbrv + '-NoRuler-72ppi.png' + '\"';
+        webFrameImg = '\"' + window.Jimaworks.shopifyFilePrefix + 'GoldRatio-Med-' + webFrameAbbrv + '-NoRuler-72ppi.png' + '\"';
         webFrameDivStyle = ' style=\"position: absolute; Top:' + webFrameTopOffset + 'px; left:' + webFrameLeftOffset + 'px; z-index: 10;\">';
         webFrameAttribs = ' class=\"frame\" width=' + webFrameWidth + 'px height=\"auto\"';
         webFrameStyle = ' style=\"width:' + webFrameWidth + 'px; maxwidth: 25%; height: auto\";';
@@ -1897,7 +1896,7 @@
                     }
                     //### *arbitrarily* adjusting font size###
                     maxLnOfFilledPlaqueLines = maxLnOfFilledPlaqueLines/2 ;
-                    webPlaqueImg = '\"' + shopifyFilePrefix + webPlaque + 'Plaque.png' + '\"';  
+                    webPlaqueImg = '\"' + window.Jimaworks.shopifyFilePrefix + webPlaque + 'Plaque.png' + '\"';  
                     plaqueTextBoxFontSize = webPlaqueHeight/(numFilledPlaqueLines+1) ; //  *webFrameScale  ;   // 9*webFrameScale
                     console.log("plaqueTextBoxFontSize= webPlaqueHeight/(numFilledPlaqueLines+1))=="+plaqueTextBoxFontSize);
                     plaqueTextBoxFontSize = webPlaqueWidth/(maxLnOfFilledPlaqueLines+2) ;
@@ -1977,12 +1976,12 @@
 
             seaScapeImgName = "Ocean7CroppedSquashed500W.png";
             seaScapeImg = "\'"
-                + shopifyFilePrefix
+                + window.Jimaworks.shopifyFilePrefix
                 + seaScapeImgName.replace("(", "_").replace(")", "_")  /* ### (need to formalize these image names) ### */
                 + "\'";
             seaScapeHorizonImgName = "Ocean7Horizon500W.png";
             seaScapeHorizonImg = "\'"
-                + shopifyFilePrefix
+                + window.Jimaworks.shopifyFilePrefix
                 + seaScapeHorizonImgName.replace("(", "_").replace(")", "_")  /* ### (need to formalize these image names) ### */
                 + "\'";
             /* Seascape foreground */
@@ -2228,7 +2227,7 @@
             numAvailPlaqueLines, //isn't used below
             numFilledPlaqueLines,
             maxLnOfFilledPlaqueLines,
-            shopifyFilePrefix,
+            window.Jimaworks.shopifyFilePrefix,
             showTextBoxSVG
         );
 
