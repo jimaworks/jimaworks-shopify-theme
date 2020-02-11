@@ -1,0 +1,9 @@
+<h1>JSON parse()</h1>
+<p>JSON.parse() parses a string, written in JSON format, and returns a JavaScript object.</p>
+<p>The value of "firstName" is:</p>
+<p id="demo"> </p>
+<script>// <![CDATA[
+var obj = JSON.parse('{"firstName":"John", "lastName":"Doe"}');
+
+document.getElementById("demo").innerHTML = obj.firstName;
+// ]]></script>

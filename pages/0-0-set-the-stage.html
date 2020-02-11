@@ -1,0 +1,224 @@
+<!--
+
+        https://jimaworks.com/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start
+        template:  page.initialize-jimaworks
+        Title: 1.b In What Part of the World did this Story Start?
+
+        Feb 08 2019:1637  Change "onclick" fn so that can easily change action per region
+        Apr 15 2019:1200  Take out Africa, offer "pre-release" for now...
+        Apr 22 2019:1800  Incorporate new timeline and origins/destinations pages w all defaults updated
+        Jun 09 2019:1830  Incorporate into TextBox regimen as TextBox0
+        Jun 18 2019:0600  Change "this FirstGen" to "your FirstGen"
+        Aug 07 2019:1045  Initialize localStorage from here, so use page.initialize-jimaworks and run the initialization function
+        Jan 23 2020:1815  Bring all regions except SoAm back online...
+        --> <!-- Begin stage wrapper -->
+        <script>// <![CDATA[
+          // want to run the localStorage from as early as possible
+                  // ### check to make sure not invoked multiple times ###
+                  // ### like, if decide to add the introductory page... maybe add a tag that says it has been run? ###
+                  initializeDefaults() ;
+          // ]]></script>
+          <div style="position: relative;">
+          <div id="selectRegionOfOriginTable"></div>
+          <!--
+                  <a  href="//cdn.shopify.com/s/files/1/1336/0641/files/NAtlantic-AirTr.png"
+                  data-lightbox="jimaworks-gallery"
+                  data-title="&lt;a href='https://jimaworks.com/pages/x1b-time-period-europe-and-the-mediterranean'&gt;Click here&lt;/a&gt; to select the time period of the crossing">
+                  <img src="//cdn.shopify.com/s/files/1/1336/0641/files/NAtlantic-AirTr_256x256.png"
+                  alt="2016 Map of Europe and Mediterranean Origins in Paris Sage" />
+              </a>
+              --> <!--
+              <p><a   href="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg" >
+                  </a>
+              </p>
+          
+          
+              <div id="RegionSelection" class="row">
+              <table width="100%">
+              <tbody>
+              <tr>
+          
+          
+              <td style="text-align: left; vertical-align: top;">
+                  <a href="//cdn.shopify.com/s/files/1/1336/0641/files/NAtlantic-AirTr.png"
+                  data-lightbox="jimaworks-gallery"
+                  data-title="&lt;a href='https://jimaworks.com/pages/x1b-time-period-europe-and-the-mediterranean'&gt;Click here&lt;/a&gt; to select the time period of the crossing">
+                  <img src="//cdn.shopify.com/s/files/1/1336/0641/files/NAtlantic-AirTr_256x256.png"
+                  alt="2016 Map of Europe and Mediterranean Origins in Paris Sage" />
+                  </a>
+              <p> <a  href="https://jimaworks.com/pages/x1b-time-period-europe-and-the-mediterranean"
+                      a=""
+                      onclick="RecordRegionChoice(1)">
+                      <small><b>Europe and the Mediterranean</b></small>
+                  </a>
+              </p>
+              </td>
+          
+              <td style="text-align: left; vertical-align: top;"><a href="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg"
+                  data-lightbox="jimaworks-gallery"
+                  data-title="&lt;a href='https://jimaworks.com/pages/x1b-time-period-europe-and-the-mediterranean'&gt;Click here&lt;/a&gt; to select the time period of the crossing">
+                  <img src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg"
+                  alt="2016 Map of Europe and Mediterranean Origins in Paris Sage" /> </a>
+              <p> <a  href="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg"
+                      a="">
+                      <small><b>Europe and the Mediterranean</b></small>
+                  </a>
+              </p>
+              </tr>
+              </tbody>
+              </table>
+              </div>
+          
+              <img    src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg"
+                      width="1000"
+                      height="auto"
+                      alt="jimaworksWorld"
+                      usemap="#regionmap">
+          
+              <map name="regionmap">
+                <area shape="rect"
+                      coords="300,100,556,356"
+                      alt="EuM"
+                      href="//cdn.shopify.com/s/files/1/1336/0641/files/NAtlantic-AirTr_256x256.png"
+                      style="border-color:red;"
+              data-toggle="tooltip"
+                      title="Europe"
+                      border-width="2px 10px 4px 20px"
+                      border-style="dashed"
+                      border-color="red">
+                <area shape="rect"
+                      coords="10,150,522,672"
+                      alt="Pac"
+                      href="//cdn.shopify.com/s/files/1/1336/0641/files/2016-Pacific-ParisSage-72ppi_512x512.png"
+              data-toggle="tooltip"
+                      title="Pacific Rim"
+                      style="border-color:blue;"
+                      border-width="medium"
+                      border-style="groove"
+                      border-color="blue">
+                      >
+              </map>
+          
+              <div id="myImage" style="position:relative; width:1000px; height:auto; " >
+          
+              <img    src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg"
+                      width="1000"
+                      height="auto"
+                      alt="jimaworksWorld"
+                      >
+              --> <!--
+              onclick='RecordRegionOfOriginChoice(&quot;SouthAsia&quot;, &quot;SoA&quot, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SoA-AirTr-Pari.png&quot;)'
+              -->
+          <div id="myImage" style="position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+          <h2 style="color: cornsilk;"><b>What region did your "First Gen" come from?</b></h2>
+          <!--
+                  <script>alert("ready to set up regions") ; </script>
+                -->
+          <ul>
+          <li><img src="https://cdn.shopify.com/s/files/1/1336/0641/files/EnobrasUnderConstruction.gif" alt="Site Under Construction" style="display: block; position: absolute; top: 20px; left: 170px; width: 60px; height: 60px;" /></li>
+          <li><a href="https://jimaworks.com/pages/copy-of-1-title-when-did-it-take-place" style="display: block; position: absolute; top: 160px; left: 490px; width: 185px; height: 170px; border: 5px solid green;" onclick="RecordRegionOfOriginChoice(&quot;Africa&quot;, &quot;Afr&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/Afr-AirTr-Pari.png&quot;)"> <img alt=" " onmouseover="this.src='https://cdn.shopify.com/s/files/1/1336/0641/files/Afr-AirTr-Pari_256x256.png';" onmouseout="this.src='';" /> <span style="color: cornsilk; font-weight: bold; font-size: large;"> <em>Africa</em> </span> </a></li>
+          <!--
+          <li><a href="https://jimaworks.com/pages/contact-us" style="display: block; position: absolute; top: 160px; left: 490px; width: 185px; height: 170px; border: 4px dashed green;" onclick="RecordRegionOfOriginChoice(&quot;Africa&quot;, &quot;Afr&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/Afr-AirTr-Pari.png&quot;)"> <img alt=" " onmouseover="this.src='https://cdn.shopify.com/s/files/1/1336/0641/files/Afr-AirTr-Pari.png';" onmouseout="this.src='';" /> <span style="color: cornsilk; font-weight: large; font-size: large;"> <em>Africa</em> (Contact us for a prelease version) </span> </a></li>
+          -->
+          <li><a href="https://jimaworks.com/pages/copy-of-1-title-when-did-it-take-place" style="display: block; position: absolute; top: 80px; left: 680px; width: 180px; height: 160px; border: 5px solid blue;" onclick="RecordRegionOfOriginChoice(&quot;SouthAsia&quot;, &quot;SoA&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SoA-AirTr-Pari.png&quot;)"> <img alt=" " onmouseover="this.src='https://cdn.shopify.com/s/files/1/1336/0641/files/SoA-AirTr-Pari_256x256.png';" onmouseout="this.src='';" /> <span style="color: cornsilk; font-weight: large; font-size: large;"> <em>South Asia</em> (Contact us for a prelease version) </span> </a></li>
+          <li><a href="https://jimaworks.com/pages/contact-us" style="display: block; position: absolute; top: 150px; left: 220px; width: 260px; height: 230px; border: 5px solid purple;" onclick="RecordRegionOfOriginChoice(&quot;SouthAmericaAndTheCaribbean&quot;, &quot;SAm&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SAm-AirTr-Pari.png&quot;)"> <img alt=" " onmouseover="this.src='https://cdn.shopify.com/s/files/1/1336/0641/files/SAm-AirTr-Pari_256x256.png';" onmouseout="this.src='';" /> <span style="color: cornsilk; font-weight: large; font-size: large;"> <em>South America</em> (Contact us for a prelease version) </span> </a></li>
+          <li><a href="https://jimaworks.com/pages/copy-of-1-title-when-did-it-take-place" style="display: block; position: absolute; top: 100px; left: 0px; width: 200px; height: 200px; border-style: solid; border-width: 5px 5px 5px 0px; border-color: orange;" onclick="RecordRegionOfOriginChoice(&quot;PacificRim&quot;, &quot;Pac&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/Pac-AirTr-Pari.png&quot;)"> <img alt=" " onmouseover="this.src='https://cdn.shopify.com/s/files/1/1336/0641/files/Pac-AirTr-Pari_256x256.png';" onmouseout="this.src='';" /> <span style="color: cornsilk; font-weight: large; font-size: large;"> <em>Pacific Rim</em> (Contact us for a prelease version) </span> </a></li>
+          <li><a href="https://jimaworks.com/pages/copy-of-1-title-when-did-it-take-place" style="display: block; position: absolute; top: 100px; right: 0px; width: 135px; height: 200px; border-style: solid; border-width: 5px 0px 5px 5px; border-color: orange;" onclick="RecordRegionOfOriginChoice(&quot;PacificRim&quot;, &quot;Pac&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/Pac-AirTr-Pari.png&quot;)"> <img alt=" " onmouseover="this.src='https://cdn.shopify.com/s/files/1/1336/0641/files/Pac-AirTr-Pari_256x256.png';" onmouseout="this.src='';" /> <span style="color: cornsilk; font-weight: large; font-size: large;"> <em>Pacific Rim</em> (Contact us for a prelease version) </span> </a></li>
+          <!--
+              <li><a href="https://jimaworks.com/pages/x1b-time-period-europe-and-the-mediterranean" style="display: block; position: absolute; top: 30px; left: 510px; width: 165px; height: 120px; border: 5px solid red;" onclick="RecordRegionOfOriginChoice(&quot;EuropeAndTheMediterranean&quot;, &quot;EuM&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-AirTr-Pari.png&quot;)"> <img alt=" " onmouseover="this.src='https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-AirTr-Pari_256x256.png';" onmouseout="this.src='';" /> <span style="color: cornsilk; font-weight: bold; font-size: large;"> <em>Europe and the Mediterranean</em> </span> </a></li>
+              --> <!-- ### would be good to put this in javascript so can use "nextPage" conventino ### --> <!-- nextPage = "https://jimaworks.com/pages/1-c-when-did-it-take-place" ; --> <!-- nextPage == "https://jimaworks.com/pages/copy-of-1-title-when-did-it-take-place" ; -->
+          <li><a href="https://jimaworks.com/pages/0-0-origins-where-did-this-firstgen-come-from" style="display: block; position: absolute; top: 30px; left: 510px; width: 165px; height: 120px; border: 5px solid red;" onclick="RecordRegionOfOriginChoice(&quot;EuropeAndTheMediterranean&quot;, &quot;EuM&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-AirTr-Pari.png&quot;)"> <img alt=" " onmouseover="this.src='https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-AirTr-Pari_256x256.png';" onmouseout="this.src='';" /> <span style="color: cornsilk; font-weight: bold; font-size: large;"> <em>Europe and the Mediterranean</em> </span> </a></li>
+          <!--
+                  <li><a  href="//cdn.shopify.com/s/files/1/1336/0641/files/NAtlantic-AirTr.png"
+                          alt="NorthAmerica"
+                          style="display:block; position:absolute; top:20px; left:50px; width:350px; height:130px;border:5px dashed white;"
+                          data-lightbox="jimaworks-gallery"
+                          data-title="&lt;a href='https://jimaworks.com/pages/x1b-time-period-europe-and-the-mediterranean' onclick='RecordRegionOfOriginChoice(&quot;NorthAmerica&quot;, 0, &quot;//cdn.shopify.com/s/files/1/1336/0641/files/NAtlantic-AirTr.png&quot;)'
+                                      &gt;
+                                      Click here
+                                      &lt;/a&gt;
+                                      to begin the process of commemorating your immigration event!"
+                          >
+                          <img src=""
+                          alt=" "
+                          onmouseover="this.src='//cdn.shopify.com/s/files/1/1336/0641/files/NAtlantic-AirTr_256x256.png';"
+                          onmouseout="this.src='';"
+                          />
+                          <span style="color: cornsilk; font-weight: large; font-size: large;">
+                              <em>North America</em>
+                          </span>
+                          </a></li>
+              --></ul>
+          </div>
+          <script type="text/javascript">// <![CDATA[
+          //var nextPage = "https://jimaworks.com/pages/1-c-when-did-it-take-place" ;
+          //var nextPage = "https://jimaworks.com/pages/copy-of-1-title-when-did-it-take-place" ;
+          var nextPage = "https://jimaworks.com/pages/0-0-origins-where-did-this-firstgen-come-from" ;
+          
+              function RecordRegionOfOriginChoice(regionName, regionAbbrev, regionImageFileNm) {
+              //        alert("In RecordRegionOfOriginChoice()") ;
+          
+              /*
+                  if (regionName=="EuropeAndTheMediterranean") {
+                      alert("True Clause") ;
+                  }
+                  else {
+                      alert("False Clause") ;
+                      return ;
+                  }
+              */
+          
+                      console.log("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionAbbrev=="+regionAbbrev+" regionImageFileNm=="+regionImageFileNm ) ;
+              //        alert("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionAbbrev=="+regionAbbrev+" regionImageFileNm=="+regionImageFileNm ) ;
+          
+              /*
+                      window.location.href="https://jimaworks.com/pages/x1b-time-period-europe-and-the-mediterranean" ;
+          
+              */
+                      localStorage.setItem("RegionOfOrigin", regionName) ;
+                      localStorage.setItem("RegionOfOriginDefault", "UserProvided") ;
+                      localStorage.setItem("RegionOfOriginAbbrev", regionAbbrev) ;
+                      localStorage.setItem("RegionOfOriginImageFileName", regionImageFileNm) ;
+          
+              /*
+                      localStorage.ShowTransportCraftImage="KnownShip" ;
+                      localStorage.MapStyle="Pari" ;
+                      localStorage.Frame="Walnut" ;
+                      localStorage.Size="Med" ;
+                      localStorage.Options="None" ;
+          
+                      localStorage.TitleTextBoxLine1="Our Family's Atlantic Crossing" ;
+                      localStorage.TitleTextBoxLine2="A Thread in the Great American Tapestry" ;
+                      localStorage.TitleTextBoxLine3="" ;
+                      localStorage.OriginsTextBoxLine1="Origins: The Old World" ;
+                      localStorage.OriginsTextBoxLine2="Crossing: The North Atlantic" ;
+                      localStorage.DestinationTextBoxLine1="Arrival: A New World Port" ;
+                      localStorage.DestinationTextBoxLine2="Destiny: An American Lineage" ;
+                      localStorage.ShipInfoTextBoxLine1="The Voyage.  Approximate Duration:" ;
+                      localStorage.ShipInfoTextBoxLine2="1700: 2 Mo. 1900: 2 Wks.  Present: 6 Hrs" ;
+                      localStorage.ShipInfoTextBoxLine3="" ;
+                      localStorage.PlaqueTextBoxLine1="In Appreciation of" ;
+                      localStorage.PlaqueTextBoxLine2="the Initiative and Courage of" ;
+                      localStorage.PlaqueTextBoxLine3="Our Forebears Who First Crossed to America" ;
+                      localStorage.PlaqueTextBoxLine4="" ;
+                      localStorage.PlaqueTextBoxLine5="" ;
+                      localStorage.PlaqueTextBoxLine6="" ;
+                      localStorage.PlaqueTextBoxLine7="" ;
+                      localStorage.PlaqueTextBoxLine8="" ;
+              */
+          
+                  }
+          // ]]></script>
+          </div>
+          <!--
+          
+              localStorage.CommemorationName="" ;
+              localStorage.TransportCraft="" ;
+              localStorage.EarliestVoyageStart="" ;
+              localStorage.LatestVoyageEnd="" ;
+              localStorage.CountryEtcOfOrigin="" ;
+              localStorage.DeparturePort="" ;
+              localStorage.PortOfEntry="" ;
+              localStorage.InitialDestination="" ;
+          
+              -->

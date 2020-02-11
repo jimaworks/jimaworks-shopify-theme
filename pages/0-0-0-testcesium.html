@@ -1,0 +1,48 @@
+<div class="fullSize">
+  <div class="fullSize">
+  <div>
+  <div id="loadingOverlay">
+  <h1>Loading...</h1>
+  </div>
+  <div id="toolbar"><label>Camera FoV: <input id="cameraFoV" readonly="readonly" type="number" min="15" max="165" value="60" /></label> <button type="button" class="cesium-button" id="toggleBtn">Toggle Random FoV</button></div>
+  </div>
+  </div>
+  </div>
+  <style><!--
+  #toolbar {
+    z-index: 1;
+  }
+  --></style>
+  <div id="cesiumContainer" class="fullSize">
+  <div> 
+  <script>// <![CDATA[
+  //Set the random seed for reproducible random Angles.
+  Cesium.Math.setRandomNumberSeed(1234);
+  
+  var viewer = new Cesium.Viewer('cesiumContainer');
+  var camera = viewer.camera;
+  var hertz = 1.5; //1500 milliseconds
+  var interval;
+  
+  function randomFoV() {
+    // for sanity keep bewteen 15 and 165
+    var angle = Math.floor(Cesium.Math.nextRandomNumber() * 151) + 15;
+  
+    camera.frustum.fov = Cesium.Math.toRadians(angle);
+    document.getElementById("cameraFoV").value = angle;
+  }
+  
+  document.getElementById("toggleBtn").onclick = function() {
+    if (interval) {
+      interval = clearInterval(interval);
+  
+    } else {
+      interval = setInterval(randomFoV, hertz * 1000);
+  
+    }
+    
+  };
+  // ]]></script>
+  <script src="http://cesiumjs.org/Cesium/Build/Cesium/cesium.js"></script>
+  </div>
+  </div>

@@ -1,0 +1,33 @@
+<!-- https://jimaworks.com/pages/0-0-migrations
+Jan 28 2020:1430 Redesign for Migrations/Routes page.  Start from simple Migrations menu
+
+issues/tasks/projects
+- This file and 1.g.ii are basically identical except for the different route databases.  Unifiy.
+<h2>Here is a typical route-of-crossing of the era you specified.</h2>
+--> <!-- ### might want to make the backcground image a global var ### -->
+<div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x400.jpg');">
+  <div style="position: absolute; z-index: 50; top: 20px; left: 70px; width: 180px; height: 130px;"><select id="worldRegion" onchange="setNewWorldRegion()" title="Select the World Region">
+  <option id="EuropeAndMed" value="EuM">EuropeAndTheMediterranean</option>
+  <option id="Africa" value="Afr" title="Not Implemented">Africa</option>
+  </select></div>
+  <div style="position: absolute; z-index: 50; top: 70px; left: 70px; width: 180px; height: 130px;"><select id="continentRegion" onchange="setNewContinentRegion()" title="Select the Continent Region">
+  <option id="NEurope" value="NorthEu">Northern Europe</option>
+  <option id="Med" value="MedBasin">The Mediterranean Basin</option>
+  <option id="NAfrica" value="NorthAfr" title="Not Implemented">North Africa</option>
+  <option id="CentAfr" value="CentralAfr" title="Not Implemented">Central Africa</option>
+  </select></div>
+  </div>
+  <h1>Test h1</h1>
+  <script>// <![CDATA[
+  function setNewWorldRegion() {
+    alert("setNewWorldRegion()") ;
+    console.log("setNewWorldRegion()") ;
+    return
+  }
+  
+  function setNewContinentRegion() {
+    alert("setNewContinentRegion()") ;
+    console.log("setNewContinentRegion()") ;
+    return
+  }
+  // ]]></script>

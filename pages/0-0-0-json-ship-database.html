@@ -1,0 +1,1619 @@
+<!-- https://jimaworks.com/pages/1.g.ii.jimaworks-ship-images
+  1.g: Ship choices
+  1.g.i historic pre-existing ship imagery
+  1.g.ii jimaworks-made ship magery
+  1.g.iii no ship imagery
+
+  May 20 2019:0900 Copied from x1.c.Ship (now 1.g.i.HistoricalShipImagery) - make only jimaworks ships available
+  Feb 07 2020:1400 Rebuild to provide choices for all ships...
+
+  <h2>Here is a typical ship-of-crossing of the era you specified.</h2>
+  -->
+  <script>// <![CDATA[
+    // ### why localStorage?  Aren't these only used here? ###
+    localStorage.ShipSort = "alpha" ;
+    localStorage.shipFilter='noFilter';
+    
+  // ]]></script>
+  <!-- ### might want to make the backcground image a global var ### -->
+  <div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+  <div id="shipDisplay"></div>
+  </div>
+  <p>If you want a specific ship, we'll find or make an image of that ship for you.</p>
+  <button id="knownShip" class="float-left submit-button" onclick="userProvidedShip()"> <em>I have a specific ship in mind.</em> </button> <button id="typicalShip-Choice" class="float-left submit-button" onclick="chooseTypicalShip()"> <em>Let's look at some other typical ships.</em> </button> <button id="typicalShip-Given" class="float-left submit-button" onclick="stickWithCurrentShip()"> <em>This ship looks good. Use it.</em> </button>
+  <div id="shipChoiceMenu"></div>
+  <div id="shipChoicesDisplay"></div>
+  <script>// <![CDATA[
+    function displayCurrentShip(webShipImg) {
+      var shopifyFilePreFix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+      var shopifyFileSufFix = "?16338137725744926710" ; // ### don't think this is ever needed ###
+  
+      var ImgOverlayHTML = '<div style=\"position: relative; top: 60px; left: 100px; z-index: 0; text-shadow: 1px 1px 0px Ivory;\">' ;
+  
+      /* map */
+      /*         ImgOverlayHTML +=   '<img src=' + webMapImg ;
+      ImgOverlayHTML +=   'class=\"map\" style=\"width: 400px; height: auto;\" />' ;
+  
+  
+      /* ship */
+      //  ### okay, so here, need to get the years for the current ship and compare to the earlies-latest year of voyage ###
+      //  ### may also want to check for the geographical area ###
+      //  ### then ask if want to keep or change (One? Both? )  List as warnings? ###
+  
+      if (!webShipImg) {
+        webShipImg = localStorage.shipPic;
+  
+      }
+      var shopifiedShipImg = '\"' + shopifyFilePreFix + webShipImg.replace("(", "_").replace(")", "_") + '\"';
+      var ImgOverlayHTML = '' ;
+  
+      /* map */
+  
+      /* ship display */
+      /*        ImgOverlayHTML +=   '<div style=\"position: absolute; top: 120px; left: 120px; z-index: 3;\">' ;  */
+      ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 45px; left: 115px; z-index: 3;\">' ;
+      ImgOverlayHTML +=     '<img src=' + shopifiedShipImg ;
+      ImgOverlayHTML +=     ' class=\"ship\" width=\"400px\" height=\"auto\"' ;
+      ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
+      /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
+      ImgOverlayHTML +=     '\" />' ;
+      ImgOverlayHTML +=   '</div>' ;
+  
+      /* ship info */
+      ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 20px; left: 115px; z-index: 25; line-height: 0.8;  font-size: 8px; text-align: center; \">' ;
+      ImgOverlayHTML +=   '<p>'+localStorage.ShipInfoLine1 ;
+      ImgOverlayHTML +=   '<br>'+localStorage.ShipInfoLine2+'</p>' ;
+      ImgOverlayHTML +=   '</div>' ;
+  
+      ImgOverlayHTML += '</div>' ;
+  
+      console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
+      /*
+      alert("ImgOverlayHTML="+ImgOverlayHTML) ;
+      */
+      document.getElementById("shipDisplay").innerHTML = ImgOverlayHTML;
+    }
+    
+  // ]]></script>
+  <!--
+    -->
+  <script>// <![CDATA[
+    var shipEra = localStorage.shipEra ;
+  
+    displayCurrentShip(localStorage.shipPic) ;
+    
+  // ]]></script>
+  <!--
+    <script>chooseTypicalShip() ;</script>
+    -->
+  <script type="text/javascript">// <![CDATA[
+    function RecordNewSpecificShipChoice(shipInfoStr, shipIndex, shipImageIndex, shipImageFile, shipImageBackground, shipImageSource, shipImageType, eraIndex) {  /*  (shipName, shipIndex, shipImage) {  */
+      var shipInfo=shipInfoStr.split(",") ;
+  
+      /*
+      alert(  "RecordNewSpecificShipChoice:" +
+      " shipInfo=="+ shipInfo +
+      " shipIndex=="+ shipIndex +
+      " TransportCraft==shipInfo[IDIndex]=="+ shipInfo[IDIndex] +
+      " shipName==shipInfo[nameIndex]=="+ shipInfo[nameIndex] +
+      " shippingLine==shipInfo[operatorIndex]=="+ shipInfo[operatorIndex] +
+      " shipTotPsgrVolume==shipInfo[totalPsgrsIndex]=="+ shipInfo[totalPsgrsIndex] +
+      " shipCareerEnd==eraEndArray[eraIndex]=="+ eraEndArray[eraIndex] +
+      " shipImageIndex=="+ shipImageIndex +
+      " shipImageBackground=="+ shipImageBackground +
+      " eraIndex==" + eraIndex) ;
+  
+      newShipArray.push(["Mayflower(1609-1624)", "Mayflower", "ColonialAndEarlyIndependenceEra(1607-1840)", "Plymouth Colony", "Flute", 1609, 1629, 0.12, "Mayflower(1609-1624)-colpic.jpg|Mayflower(1609-1624)-colpic2.png|Mayflower(1609-1624)-painting.jpg|Mayflower(1609-1624)-illust.png|Mayflower(1609-1624)-illust2.png|Mayflower(1609-1624)-mdlrend.png","background|background|background|transparent|background|transparent"]) ;
+  
+      var IDIndex =  0 ;
+      var nameIndex =  1 ;
+      var eraIndex =  2 ;
+      var operatorIndex =  3 ;
+      var classIndex =  4 ;
+      var careerStartIndex =  5 ;
+      var careerEndIndex =  6 ;
+      var totalPsgrsIndex =  7 ;
+      var imageryIndex =  8 ;
+      var backgroundIndex =  9 ;
+  
+      */
+      localStorage.setItem("TransportCraft", shipInfo[IDIndex]) ;
+      localStorage.setItem("shipName", shipInfo[nameIndex]) ;
+      localStorage.setItem("shippingLine", shipInfo[operatorIndex]) ;
+      localStorage.setItem("shipTotPsgrVolume", shipInfo[totalPsgrsIndex]) ;
+      localStorage.setItem("shipCareerStart", shipInfo[careerStartIndex]) ; /*  ### shipCareerBegin? ### */
+      localStorage.setItem("shipCareerEnd", shipInfo[careerEndIndex]) ; /*  ### shipCareerBegin? ### */
+      localStorage.setItem("shipImageIndex", shipImageIndex) ;
+      localStorage.setItem("shipPic", shipImageFile) ;
+      localStorage.setItem("shipImageTransparentBackground", shipImageBackground) ;
+  // adding sources and imageTypes...
+  localStorage.setItem("shipImageSource", shipImageSource) ;
+  localStorage.setItem("shipImageType", shipImageType) ;
+  
+      scroll(0,0) ;
+      displayCurrentShip(localStorage.shipPic) ;
+      /*
+      window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
+      */
+    }
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    // ### This should be set by a checkbox
+    // and all checked filters should be applied ###
+    function setFilterCraftMethod() {
+      methodName=document.getElementById("shipFilter").value ;
+      if (methodName=="airplaneOnlyFilter") {
+        localStorage.shipFilter='airplaneOnlyFilter';
+      }
+      else if (methodName=="shipOnlyFilter") {
+        localStorage.shipFilter='shipOnlyFilter';
+      }
+      else if (methodName=="noFilter") {
+        localStorage.shipFilter='noFilter';
+      }
+      else if (methodName=="eraFilter") {
+        localStorage.shipFilter='eraFilter';
+      }
+      else if (methodName=="filterByYearInterval") {
+        localStorage.shipFilter='filterByYearInterval';
+      }
+      else if (methodName=="filterByYear") {
+        localStorage.shipFilter='filterByYear';
+      }
+      else {
+        alert("unrecognized filter option in setShipFilterMethod(methodName=="+methodName+")") ;
+      } ;
+      chooseTypicalShip () ;
+    }
+  
+    function setShipSortMethod() {
+      methodName=document.getElementById("shipSort").value ;
+      if (methodName=="lexical-closeness") {
+        localStorage.ShipSort='lexical-closeness';
+      }
+      else if (methodName=="alpha") {
+        localStorage.ShipSort='alpha';
+      }
+      else if (methodName=="rev-alpha") {
+        localStorage.ShipSort='rev-alpha';
+      }
+      else if (methodName=="passengers") {
+        localStorage.ShipSort='passengers';
+      }
+      else if (methodName=="year") {
+        localStorage.ShipSort='year';
+      }
+      else if (methodName=="rev-year") {
+        localStorage.ShipSort='rev-year';
+      }
+      else {
+        alert("unrecognized sort option in setShipSortMethod(methodName=="+methodName+")") ;
+      } ;
+      /*
+      location.reload();
+      */
+      chooseTypicalShip () ;
+    }
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    function sortByName(ship1Info, ship2Info) {
+      var comparison = 0;
+      var ship1Name = ship1Info[nameIndex] ;
+      var ship2Name = ship2Info[nameIndex] ;
+      if (ship1Name > ship2Name) {
+        comparison = 1; /* note:  want ordered by the most to least */
+      } else if (ship2Name > ship1Name) {
+        comparison = -1; /* note:  want ordered by the most to least */
+      }
+      return comparison;
+    } ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    function sortByTotPsgrs(ship1Info, ship2Info) {
+      var comparison = 0;
+      var ship1TotPsgrs = Number(ship1Info[totalPsgrsIndex]) ;
+      var ship2TotPsgrs = Number(ship2Info[totalPsgrsIndex]) ;
+      if (ship1TotPsgrs > ship2TotPsgrs) {
+        comparison = -1; /* note:  want ordered by the most to least */
+      } else if (ship2TotPsgrs > ship1TotPsgrs) {
+        comparison = 1; /* note:  want ordered by the most to least */
+      }
+      return comparison;
+    } ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    function sortByCareerStart(ship1Info, ship2Info) {
+      var comparison = 0;
+      var ship1StartYr = Number(ship1Info[careerStartIndex]) ;
+      var ship2StartYr = Number(ship2Info[careerStartIndex]) ;
+      if (ship1StartYr > ship2StartYr) {
+        comparison = 1;
+      } else if (ship2StartYr > ship1StartYr) {
+        comparison = -1;
+      }
+      return comparison;
+    } ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    /* this requires the target string "localStorage.userProvidedShipName" to be set up first */
+    function sortByNearnessToNameStart(ship1Info, ship2Info) {
+      var tgtShipName = localStorage.userProvidedShipName;
+      var ship1NameMatch = levenshteinProbEst(tgtShipName, ship1Info[nameIndex]) ;
+      var ship2NameMatch = levenshteinProbEst(tgtShipName, ship2Info[nameIndex]) ;
+      if (ship1NameMatch > ship2NameMatch) {
+        comparison = -1;
+      } else if (ship2NameMatch > ship1NameMatch) {
+        comparison = 1;
+      }
+      return comparison;
+    } ;
+  
+    // helper functions
+    var levenshteinProbEst = function(str1, str2) {
+      var levenshteinScore = levenshtein(str1, str2);
+      var targetStrLn = str1.length ;
+      var matchStrLn = str2.length ;
+      if (targetStrLn>=matchStrLn) {
+        return 1.0-(levenshteinScore/targetStrLn) ;
+      }
+      else {
+        return 1.0-(levenshteinScore/matchStrLn) ;
+      }
+    } ;
+  
+    var levenshtein = function(str1, str2) {
+      var current = [], prev, value;
+      for (var i = 0; i <= str2.length; i++) {
+        for (var j = 0; j <= str1.length; j++) {
+          if (i && j)
+          if (str1.charAt(j - 1) === str2.charAt(i - 1))
+          value = prev;
+          else
+          value = Math.min(current[j], current[j - 1], prev) + 1;
+          else
+          value = i + j;
+  
+          prev = current[j];
+          current[j] = value;
+        }
+      }
+      return current.pop();
+    };
+  
+    var testLevScores = function(tgtStr) {
+      var current = [] ;
+      for (var i = 1; i < newShipArray.length; i++) {
+        current[i] = levenshteinProbEst(tgtStr, newShipArray[i][nameIndex]) ;
+        console.log(i+": levenshteinProbEst("+tgtStr+","+newShipArray[i][nameIndex]+")="+current[i]) ;
+      }
+      return current;
+    };
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    function filterByEra(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+  
+      var currentEra = localStorage.Era ;
+      var shipEra = shipInfo[eraIndex] ;
+      return (shipEra==currentEra) ;
+  
+    }
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    // ### this is OBE since now working with intervals ###
+    function filterByRoute(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      var portsVisitedByShip = getListOfPorts(getListOfRoutes(shipInfo[shipsRoutesIndex])) ;
+      return(portsVisitedByShip.includes(localStorage.arrivalPort)
+      &&
+      portsVisitedByShip.includes(localStorage.departurePort)) ;
+    }
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    // ### this is OBE since now working with intervals ###
+    function filterByYear(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      var comparison = 0;
+      var crossingYr = localStorage.YearOfCrossing ;
+      var shipStartYr = Number(shipInfo[careerStartIndex]) ;
+      var shipEndYr = Number(shipInfo[careerEndIndex]) ;
+  
+      return ((shipStartYr <= crossingYr) && (crossingYr <= shipEndYr)) ;
+    }
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    // now working with user-specified interval vs begin to end of era
+    function filterByYearInterval(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      /*
+      var currentEraIndex = eraIndex ;
+      var eraStartYr = eraStartArray[currentEraIndex] ;
+      var eraEndYr = eraEndArray[currentEraIndex] ;
+      */
+      var shipStartYr = Number(shipInfo[careerStartIndex]) ;
+      var shipEndYr = Number(shipInfo[careerEndIndex]) ;
+      var EarliestPossYr = Number(localStorage.EarliestPossibleYearOfCrossing) ;
+      var LatestPossYr = Number(localStorage.LatestPossibleYearOfCrossing) ;
+      //return ((shipEndYr >= eraStartYr) && (shipEndYr <= eraEndYr)) ;  <<< ### error ###
+      return ((shipEndYr >= EarliestPossYr) && (shipStartYr <= LatestPossYr)) ;
+    }
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    function shipOnlyFilter(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      var shipEra = shipInfo[eraIndex] ;
+      return (!(shipEra=="EraOfAirTravel(1945-Present)")) ;
+    }
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    function airplaneOnlyFilter(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      var shipEra = shipInfo[eraIndex] ;
+      return ((shipEra=="EraOfAirTravel(1945-Present)")) ;
+    }
+    
+  // ]]></script>
+  <script type="text/javascript">// <![CDATA[
+    /* Don't understand how this works -
+    function matchEraString(element, eraString) {
+    console.log("matchEraString(element="+element+", eraString="+eraString+")") ;
+    return element == eraString;
+    }
+    */
+    /* define "matchTarget" in the local environment... */
+    function matchArrayString(element) {
+      return element == matchTarget;
+    }
+    
+  // ]]></script>
+  <script type="text/javascript">// <![CDATA[
+    console.log("1. matchArrayString()") ;
+  
+    /* first set up a coordinated set of strings for an associative array */
+    /* on the "era" page...
+    localStorage.setItem("EraOfCrossing", regionName) ;
+    localStorage.setItem("EraOfCrossingAbbrev", eraAbbrevs[regionIndex]) ;
+    localStorage.setItem("EraOfCrossingImageFileName", eraImageFileNm) ;
+    */
+    var matchTarget ;
+    var currentlySpecifiedEra = localStorage.Era;
+  
+    /*
+    var eraStartArray = ["1607", "1800", "1840", "1890", "1945"] ;
+    var eraEndArray = ["1820", "1900", "1915", "1970", "2018"] ;
+    */
+  
+    var erasArray = [   "ColonialAndEarlyIndependenceEra(1607-1840)",
+    "EraOfTheSteamSailShip(1840-1915)",
+    "EraOfThePassengerLiner(1895-1970)",
+    "EraOfAirTravel(1945-Present)"] ;
+    var eraAbbrevs = [  "Early",
+    "StmSl",
+    "Liner",
+    "AirTr"] ;
+    var eraStartArray = [  1607,
+      1840,
+      1895,
+      1945] ;
+      var eraEndArray = [  1840,
+        1915,
+        1970,
+        2100] ;  /* "Present"  - so make it large enough to always be larger than the eraStart */
+        var eraRepresentativeYearArray = [  1720,
+          1870,
+          1910,
+          2016] ;
+  
+          matchTarget = currentlySpecifiedEra ;
+          var eraIndex = erasArray.findIndex(matchArrayString);
+          console.log("eraIndex==" + eraIndex + "eraIndex==" + eraIndex) ;
+          console.log("currentlySpecifiedEra==" + currentlySpecifiedEra) ;
+        
+  // ]]></script>
+  <script>// <![CDATA[
+        /*
+        * Add functions that implement Obj-Attrib-Value model for ships
+        */
+        console.log("Building new ship datastructures...") ;
+  
+        var AlwaysAddAttrib = true ;
+        function AddObjectSetAttribute(ObjSet, Attrib, AttribDefault, AlwaysAdd) {
+          var IDIndex = ObjSet[0].indexOf("ID") ;
+          var numObjs=ObjSet.length ;
+          var numAttribs=ObjSet[0].length ;
+          var attribIndex = ObjSet[0].indexOf(Attrib) ;
+          var setAttribIndexStr ;
+          var yesNewAttrib ;
+          console.log("IDIndex=="+IDIndex) ;
+          console.log("attribIndex=="+attribIndex) ;
+          console.log("Before: ObjSet[0]=="+ObjSet[0]) ;
+          if (attribIndex>=0) {
+            if (AlwaysAdd) {
+              yesNewAttrib = true ;
+              // no need to set new attrib w ObjSet[0].splice(attribIndex,1,Attrib) ;
+              // no need for setAttribIndexStr = "var "+Attrib+"Index="+numAttribs+";" ;
+            }
+            else if (confirm('Object attribute "'+Attrib+'" already exists.  Replace all values with default "'+AttribDefault+'".  Continue?')) {
+              yesNewAttrib = true ;
+              // no need to set new attrib w ObjSet[0].splice(attribIndex,1,Attrib) ;
+              // no need for setAttribIndexStr = "var "+Attrib+"Index="+numAttribs+";" ;
+            }
+            else {
+              yesNewAttrib = false ;
+              alert('Attribute not added') ;
+            }
+          }
+          else {
+            //eval("ObjSet[0]."+Attrib+"="+numAttribs+";") ;
+            //alert("New attribute "+Attrib) ;
+            ObjSet[0].push(Attrib) ;
+            setAttribIndexStr = "var "+Attrib+"Index="+numAttribs+";" ;
+            eval(setAttribIndexStr) ;
+            //alert("New attribute set? "+Attrib+"Index=="+eval(Attrib+"Index")) ;
+            yesNewAttrib = true ;
+          }
+          //console.log("After: ObjSet[0]=="+ObjSet[0]) ;
+          for(i=1; i<numObjs; i++) {
+            //console.log("Before: ObjSet["+i+"]=="+ObjSet[i]) ;
+            if (attribIndex>=0) {
+              if (yesNewAttrib) {
+                ObjSet[i].splice(attribIndex,1,AttribDefault) ;
+              }
+            }
+            else {
+              //eval("ObjSet[0]."+Attrib+"="+numAttribs+";") ;
+              ObjSet[i].push(AttribDefault) ;
+            }
+            //console.log("After: ObjSet["+i+"]=="+ObjSet[i]) ;
+          }
+        }
+  
+        function RemoveObjectSetAttribute(ObjSet, Attrib) {
+          var attribIndex = ObjSet[0].indexOf(Attrib) ;
+          ObjSet[0].splice(attribIndex,1) ;
+          var numObjs=ObjSet.length ;
+          for(i=1; i<numObjs; i++) {
+            ObjSet[i].splice(attribIndex,1) ;
+          }
+        }
+  
+        function GetObjectAttributeValue(ObjSet, ObjID, Attrib) {
+          var attribIndex = ObjSet[0].indexOf(Attrib) ;
+          var IDIndex = ObjSet[0].indexOf("ID") ;
+          var numObjs=ObjSet.length ;
+          for(i=1; i<numObjs; i++) {
+            console.log("ObjSet[i][IDIndex]=="+ObjSet[i][IDIndex]) ;
+            if(ObjSet[i][IDIndex]==ObjID) {
+              console.log("ObjSet[i=="+i+"][IDIndex=="+IDIndex+"]; attribIndex=="+attribIndex+"; returning value=="+ObjSet[i][attribIndex]) ;
+              return(ObjSet[i][attribIndex]) ;
+            }
+          }
+        }
+  
+        function SetObjectAttributeValue(ObjSet, ObjID, Attrib, Value) {
+          var attribIndex = ObjSet[0].indexOf(Attrib) ;
+          var IDIndex = ObjSet[0].indexOf("ID") ;
+          var numObjs=ObjSet.length ;
+          //console.log("attribIndex=="+attribIndex) ;
+          //console.log("IDIndex=="+IDIndex) ;
+          for(i=1; i<numObjs; i++) {
+            //console.log("ObjSet[i][IDIndex]=="+ObjSet[i][IDIndex]) ;
+            if(ObjSet[i][IDIndex]==ObjID) {
+              //console.log("previous value=="+ObjSet[i][attribIndex]) ;
+              ObjSet[i][attribIndex]=Value ;
+              //console.log("new value=="+ObjSet[i][attribIndex]) ;
+            }
+          }
+        }
+  
+        /*
+        * Access functions etc for shipsRoutes.
+        * Route representation as the value of attribute "shipsRoutes":
+        * "startYr-endYr[DepPort>Port2>...ArrivalPort>DepPort]&&...startYrK-endYrK[DepPortK>PortK2>...ArrivalPortK>DepPortK]"
+        * "startYr-endYr[DepPortA++DepPortB>Port2>...ArrivalPort>DepPort]&&...startYrK-endYrK[DepPortK>PortK2>...ArrivalPortK>DepPortK]"
+        * >>adding: "startYr-endYr[@OperatorLineName#1]&&...startYrK-endYrK[DepPortK>PortK2>...ArrivalPortK>DepPortK]"
+        * >>adding: "startYr-endYr[*Any]&&...startYrK-endYrK[DepPortK>PortK2>...ArrivalPortK>DepPortK]"
+        * A ship with no pr empty "shipsRoutes" is available for any routes, any times.
+        */
+  
+        var testRoute1 = "1895-1900[Liverpool>Dublin>Halifax>NYC>Liverpool]" ;
+        var testRoute2 = "1900-1915[Liverpool>Dublin>leHavre>Halifax>NYC>Liverpool]" ;
+        var testRoute3 = "1919-1931[Liverpool>Dublin>Southampton>leHavre>Halifax>NYC>Liverpool]" ;
+        var testRouteHist = testRoute1 + "&&" + testRoute2 + "&&" + testRoute3 ;
+        function getListOfRoutes(routeHistoryStruct) {
+          var listOfRouteEpochs = routeHistoryStruct.split("&&") ;
+          return(listOfRouteEpochs) ;
+        }
+  
+        function getListOfPorts(routeEpoch) {
+          var route = splitYrStartEndFromRouteEpochStruct(routeEpoch) ;
+          var routeMinusBrackets = route.slice(1,-1) ;
+          var listOfStations = routeMinusBrackets.split(">") ;
+          var listOfPortsInStation = "" ;
+          var listOfPorts = Array() ;
+          for(i=0; i<listOfStations.length; i++) {
+            listOfPortsInStation = listOfStations[i].split("++") ;
+            for(j=0; j<listOfPortsInStation.length; j++) {
+              if (listOfPorts.includes(listOfPortsInStation[j])) {
+                continue ;
+              }
+              else {
+                listOfPorts.push(listOfPortsInStation[j]) ;
+              }
+            }
+          }
+          return(listOfPorts) ;
+        }
+  
+        function splitYrStartEndFromRouteEpochStruct(routeEpoch) {
+          var bracketedRoute = routeEpoch.replace(/[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]\[/,"[") ;
+          return(bracketedRoute) ;
+          var route = bracketedRoute.slice(1,-1) ;
+          return(route) ;
+        }
+  
+        function startYearOfRouteEpochStruct(routeEpoch) {
+          var routeStartYear = routeEpoch.match(/[0-9][0-9][0-9][0-9]/) ;
+          return(routeStartYear[0]) ;
+        }
+  
+        function endYearOfRouteEpochStruct(routeEpoch) {
+          var routeEndYearTrailer = routeEpoch.match(/-[0-9][0-9][0-9][0-9]/) ;
+          var routeEndYear = routeEndYearTrailer[0].match(/[0-9][0-9][0-9][0-9]/) ;
+          return(routeEndYear[0]) ;
+        }
+  
+      
+  // ]]></script>
+  <script>// <![CDATA[
+      /*
+      * This section defines the PercentFactor type.
+      * It is an Object type with properties of named factors including a special factor called "Other"
+      * and values that sum to 1.0.
+      */
+  
+      function addPercentFactor (factorObject, factorName, factorPercent) {
+        var prevPercentStr ;
+        var prevPercent ;
+        var changeInPercent ;
+        var newOther ;
+  
+        console.log("addPercentFactor().") ;
+        //if(factorName already exists)
+        if (factorPercent>100) {
+          console.log("addPercentFactor() - factorPercent has to be less than 100.  No op.") ;
+        }
+        // undefined factor object is caught at function invocation, so none of this is too useful...
+        else if(typeof(factorObject)==="undefined") {
+          //add the facor iff enough room
+          console.log("addPercentFactor().2") ;
+          prevPercent = 0 ; //eval(factorObject+"."+factorName) ;
+          changeInPercent = factorPercent - prevPercent ;
+          newOther = 100 - changeInPercent;
+          if (newOther>=0) {
+            eval("factorObject."+factorName+"="+factorPercent+";") ;
+            eval("factorObject.Other="+newOther+";") ;
+          }
+          else {
+            console.log("addPercentFactor() - factorPercent too large.  remaining Other cannot be less than 0.  No op.") ;
+          }
+        }
+        else if(eval("factorObject."+factorName)==undefined) {
+          // make the object with the factor
+          // this means there was already a property-value pair, so
+          console.log("addPercentFactor().3") ;
+          prevPercent = 0 ; //eval(factorObject+"."+factorName) ;
+          changeInPercent = factorPercent ; //factorPercent - prevPercent ;
+          newOther = eval("factorObject.Other") - changeInPercent;
+          if (newOther>=0) {
+            eval("factorObject."+factorName+"="+factorPercent+";") ;
+            eval("factorObject.Other="+newOther+";") ;
+          }
+          else {
+            console.log("addPercentFactor() - factorPercent too large.  remaining Other cannot be less than 0.  No op.") ;
+          }
+        }
+        else {
+          console.log("addPercentFactor().4") ;
+          console.log("factorName=="+factorName) ;
+          prevPercentStr = "factorObject."+factorName ;
+          console.log("prevPercentStr=="+prevPercentStr) ;
+          //console.log('prevPercentStr=="factorObject."+factorName)=='+prevPrecentStr) ;
+          prevPercent = eval(prevPercentStr) ;
+          console.log('prevPercent==eval(prevPrecentStr)=='+prevPercent) ;
+          changeInPercent = factorPercent - prevPercent ;
+          newOther = eval("factorObject.Other") - changeInPercent;
+          if (newOther>=0) {
+            eval("factorObject."+factorName+"="+factorPercent+";") ;
+            eval("factorObject.Other="+newOther+";") ;
+            if (factorPercent==0) {
+              eval("delete factorObject."+factorName+";") ;
+            }
+          }
+          else {
+            console.log("addPercentFactor() - factorPercent too large.  remaining Other cannot be less than 0.  No op.") ;
+          }
+        }
+      }
+  
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    /*
+    * Add functions that get a ship record, add a ship image
+    */
+  
+    function GetObjRecord(ObjSet, ObjID) {
+      var IDIndex = ObjSet[0].indexOf("ID") ;
+      var numObjs=ObjSet.length ;
+      for(i=1; i<numObjs; i++) {
+        if(ObjSet[i][IDIndex]==ObjID) {
+          console.log("Match at ObjSet[i=="+i+"]") ;
+          return(ObjSet[i]) ;
+        }
+      }
+    }
+  
+    /*
+    ["ID","name","era", "operator", "class", "careerStart","careerEnd","totalPsgrs",
+    "imagery",
+    "background",
+    "sources"]
+    */
+  
+    // ### require "source" to be defined as an attrib... ###
+    function addShipImage(shipSet, shipID, shipImageFile, bckgrnd, source, imageType) {
+      var ObjSet = shipSet ;
+      var currShipRecord = GetObjRecord(ObjSet, shipID) ;
+      var IDIndex = ObjSet[0].indexOf("ID") ;
+      var imageListIndex = ObjSet[0].indexOf("imagery") ;
+      var bckgrndListIndex = ObjSet[0].indexOf("background") ;
+      var sourceListIndex = ObjSet[0].indexOf("sources") ;
+      var imageTypesListIndex = ObjSet[0].indexOf("imageTypes") ;
+      var shipImageFileList, shipBckgrndList, shipSourceList, shipImageTypeList ;
+      if (currShipRecord) {
+        // definitely has imageList? Else no "|"
+        shipImageFileList = currShipRecord[imageListIndex]+"|"+shipImageFile ;
+        console.log("addShipImage(): new shipImageFileList=="+shipImageFileList) ;
+        SetObjectAttributeValue(ObjSet, shipID, "imagery", shipImageFileList) ;
+  
+        //shipImgTypeList = currShipRecord[imageTypeIndex]+"|"+shipImageType  ;
+  
+        shipBckgrndList = currShipRecord[bckgrndListIndex] +"|"+bckgrnd  ;
+        console.log("addShipImage(): new shipBckgrndList=="+shipBckgrndList) ;
+        SetObjectAttributeValue(ObjSet, shipID, "background", shipBckgrndList) ;
+        
+        shipSourceList = currShipRecord[sourceListIndex]+"|"+source  ;
+        console.log("addShipImage(): new shipSourceList=="+shipSourceList) ;
+        SetObjectAttributeValue(ObjSet, shipID, "sources", shipSourceList) ;
+        
+        shipImageTypeList = currShipRecord[imageTypesListIndex]+"|"+imageType  ;
+        console.log("addShipImage(): new shipImageTypeList=="+shipImageTypeList) ;
+        SetObjectAttributeValue(ObjSet, shipID, "imageTypes", shipImageTypeList) ;
+      }
+      else {
+        console.log("Warning: no ship with ID=="+shipID+" in the given shipSet") ;
+      }
+    }
+  
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    var knownShipPlaceholderArray =  [
+      ["ID","name","era", "operator", "class", "careerStart","careerEnd","totalPsgrs",
+      "imagery",
+      "background"]
+    ] ;
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1565-1790)", "Known Ship placeholder (1565-1790)", "ColonialAndEarlyIndependenceEra(1607-1840)", "Unk", "Flute", 1585, 1790, 300, "EarlySailKnownShipIconLabeled.png", "transparent"]);
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1790-1850)", "Known Ship placeholder (1790-1850)", "EraOfModernSail(1790-1890)", "Unk", "3MastedMerchant", 1790, 1850, 800, "ModernSailKnownShipIconLabeled.png", "transparent"]);
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1850-1890)", "Known Ship placeholder (1850-1890)", "EraOfTheSteamSailShip(1840-1915)", "Unk", "SteamSail", 1850, 1890, 1000, "SteamSailKnownShipIconLabeled.png", "transparent"]);
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1890-1920)", "Known Ship placeholder (1890-1920)", "EraOfThePassengerLiner(1890-1920)", "Unk", "SteamShip", 1890, 1920, 2500, "ClassicPssgrLinerKnownShipIconLabeled.png", "transparent"]);
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1920-1970)", "Known Ship placeholder (1920-1970)", "EraOfThePassengerLiner(1920-1970)", "Unk", "MotorShip", 1920, 1970, 800, "PssgrLinerKnownShipIconLabeled.png", "transparent"]);
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1945-Present)", "Known Plane placeholder (1945-Present)", "EraOfAirTravel(1945-Present)", "Unk", "Airplane", 1945, 2020, 1500, "AgeOfAirTravelKnownPlaneIconLabeled.png", "transparent"]);
+  
+    //AddObjectSetAttribute(ObjSet, Attrib, AttribDefault, AlwaysAddAttrib)
+    AddObjectSetAttribute(knownShipPlaceholderArray, "imageTypes", "Painting", AlwaysAddAttrib) ;
+    AddObjectSetAttribute(knownShipPlaceholderArray, "sources", "historic imagery", AlwaysAddAttrib) ;
+    AddObjectSetAttribute(knownShipPlaceholderArray, "perCountryPsgrs", {Other:100}, AlwaysAddAttrib) ;
+    AddObjectSetAttribute(knownShipPlaceholderArray, "shipsRoutes", "*Any*", AlwaysAddAttrib) ;
+  
+  
+    var newShipArray =  [
+      ["ID","name","era", "operator", "class", "careerStart","careerEnd","totalPsgrs",
+      "imagery",
+      "background"]
+    ] ;
+    var IDIndex =  0 ;
+    var nameIndex =  1 ;
+    var eraIndex =  2 ;
+    var operatorIndex =  3 ;
+    var classIndex =  4 ;
+    var careerStartIndex =  5 ;
+    var careerEndIndex =  6 ;
+    var totalPsgrsIndex =  7 ;
+    var imageryIndex =  8 ;
+    var backgroundIndex =  9 ;
+  
+    /*
+    * Structures for port sets
+    */
+    var AllKnownShipPorts  = "" ;
+    AllKnownShipPorts += "1600-2020" ;
+    AllKnownShipPorts += "[1600-2020]" ;
+  
+    //AddObjectSetAttribute(ObjSet, Attrib, AttribDefault, AlwaysAddAttrib)
+    AddObjectSetAttribute(newShipArray, "perCountryPsgrs", {Other:100}, AlwaysAddAttrib) ;
+    //AddObjectSetAttribute(newShipArray, "shipsRoutes", "1600-2020[*Any*]", AlwaysAddAttrib) ;
+    AddObjectSetAttribute(newShipArray, "shipsRoutes", "*Any*", AlwaysAddAttrib) ;
+    // sources: 
+    //  jimaworks-made
+    //  historic imagery
+    //  advertizing imagery
+    AddObjectSetAttribute(newShipArray, "sources", "historic imagery", AlwaysAddAttrib) ;
+    // imageTypes:
+    //B&W Picture (-bwpic)
+    //Color Picture (-colpic)
+    //Painting (-painting)
+    //Poster (-poster)
+    //Postcard (-postcd)
+    //Silhouette (-silhou)
+    //Illustration (-illust)
+    //2D Rendering (-mdlrend)
+    //2.5D Rendering (-halfmdl)
+    //3D Rendering (-fullmdl)
+    AddObjectSetAttribute(newShipArray, "imageTypes", "Poster", AlwaysAddAttrib)
+  
+    console.log("newShipArray="+newShipArray) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Maasdam", "Maasdam", "EraOfThePassengerLiner(1895-1970)", "Holland-America", "PsgLiner", 1952, 1968, 270.643,  "Maasdam-colpic.jpg|Maasdam_1952-1968_-640x413-b_wpic.png|Maasdam_1952-1968_-499x303-colpic.png|Maasdam_1952-1968_-640x177-mdlrend.png", "background|background|background|transparent"]) ;
+    //newShipArray.push(["Laconia" ,"Laconia", "EraOfThePassengerLiner(1895-1970)", "Cunard", "PsgLiner", 1912, 1917, 140.64,  "Laconia(1911-1917)-illust.png", "transparent"]) ;
+    SetObjectAttributeValue(newShipArray, "Maasdam", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Maasdam", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Maasdam", "sources", "advertizing image|advertizing image|advertizing image|jimaworks-made") ;
+    SetObjectAttributeValue(newShipArray, "Maasdam", "imageTypes", "advertizing image|advertizing image|advertizing image|2D Rendering") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Savannah(1818-1821)", "Savannah", "EraOfTheSteamSailShip(1840-1915)", "Holland-America", "PsgLiner", 1818, 1821, 270.643,  "Savannah_1818-1821_jimaworksmade300ppi.png", "transparent"]) ;
+    SetObjectAttributeValue(newShipArray, "Savannah(1818-1821)", "perCountryPsgrs", {GB: 5, BL:10, NL: 65, DE: 10, Other : 10}) ;
+    SetObjectAttributeValue(newShipArray, "Savannah(1818-1821)", "shipsRoutes", "*Any*") ;
+    SetObjectAttributeValue(newShipArray, "Savannah(1818-1821)", "sources", "jimaworks-made") ;
+    SetObjectAttributeValue(newShipArray, "Savannah(1818-1821)", "imageTypes", "2D Rendering") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["NieuwAmsterdam(1905-1932)", "Nieuw Amsterdam", "EraOfThePassengerLiner(1895-1970)", "Holland-America", "PsgLiner", 1905, 1932, 270.643,  "NieuwAmsterdam_1905-1932_jimaworksmade72ppi.png", "transparent"]) ;
+    SetObjectAttributeValue(newShipArray, "NieuwAmsterdam(1905-1932)", "perCountryPsgrs", {GB: 5, BL:10, NL: 65, DE: 10, Other : 10}) ;
+    SetObjectAttributeValue(newShipArray, "NieuwAmsterdam(1905-1932)", "shipsRoutes", "*Any*") ;
+    SetObjectAttributeValue(newShipArray, "NieuwAmsterdam(1905-1932)", "sources", "jimaworks-made") ;
+    SetObjectAttributeValue(newShipArray, "NieuwAmsterdam(1905-1932)", "imageTypes", "2D Rendering") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Maasdam(1952-1968)", "Maasdam", "EraOfThePassengerLiner(1895-1970)", "Holland-America", "PsgLiner", 1952, 1968, 270.643,  "Maasdam_1952-1968_jimaworksmade72ppi.png", "transparent"]) ;
+    SetObjectAttributeValue(newShipArray, "Maasdam(1952-1968)", "perCountryPsgrs", {GB: 5, BL:10, NL: 65, DE: 10, Other : 10}) ;
+    SetObjectAttributeValue(newShipArray, "Maasdam(1952-1968)", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Maasdam(1952-1968)", "sources", "jimaworks-made") ;
+    SetObjectAttributeValue(newShipArray, "Maasdam(1952-1968)", "imageTypes", "2D Rendering") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Savannah(1962-1972)", "Savannah", "EraOfThePassengerLiner(1895-1970)", "US Maritme Commission", "PsgLiner", 1962, 1972, 270.643,  "Savannah_1962-1972_jimaworksmade72ppi.png", "transparent"]) ;
+    SetObjectAttributeValue(newShipArray, "Savannah(1962-1972)", "perCountryPsgrs", {GB: 5, BL:10, NL: 65, DE: 10, Other : 10}) ;
+    SetObjectAttributeValue(newShipArray, "Savannah(1962-1972)", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Savannah(1962-1972)", "sources", "jimaworks-made") ;
+    SetObjectAttributeValue(newShipArray, "Savannah(1962-1972)", "imageTypes", "2D Rendering") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["StPaul(1895-1923)", "St.Paul", "EraOfThePassengerLiner(1895-1970)", "American", "PsgLiner", 1895, 1923, 95, "jimaworksStPaul640.png", "transparent"]) ;
+    SetObjectAttributeValue(newShipArray, "StPaul(1895-1923)", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "StPaul(1895-1923)", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "StPaul(1895-1923)", "sources", "jimaworks-made") ;
+    SetObjectAttributeValue(newShipArray, "StPaul(1895-1923)", "imageTypes", "2D Rendering") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Ryndam(1951-1970)", "Ryndam", "EraOfThePassengerLiner(1895-1970)", "Holland-America", "PsgLiner", 1951, 1966, 270.643,  "Ryndam_1951-1970_-mdlrend.png", "transparent"]) ;
+    SetObjectAttributeValue(newShipArray, "Ryndam(1951-1970)", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Ryndam(1951-1970)", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Ryndam(1951-1970)", "sources", "jimaworks-made") ;
+    SetObjectAttributeValue(newShipArray, "Ryndam(1951-1970)", "imageTypes", "2D Rendering") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Typical Snow(1700-1850)", "Typical Snow", "ColonialAndEarlyIndependenceEra(1607-1840)", "Unk", "Snow", 1700, 1840, 67.2, "Typical_Snow-519x640-illustr.png|A_naval_snow-640x529-painting.jpg", "background|background"]);
+    SetObjectAttributeValue(newShipArray, "Typical Snow(1700-1850)", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Typical Snow(1700-1850)", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Typical Snow(1700-1850)", "sources", "historic imagery|historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Typical Snow(1700-1850)", "imageTypes", "Painting|Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Marie Seraphique (1720-1820)", "Marie Seraphique", "ColonialAndEarlyIndependenceEra(1607-1840)", "Unk", "Slave Ship", 1700, 1820, 201.6, "MarieSeraphique-painting.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "Marie Seraphique (1720-1820)", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Marie Seraphique (1720-1820)", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Marie Seraphique (1720-1820)", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Marie Seraphique (1720-1820)", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Merchantman-Friedreich(1740-1880)", "Merchantman-Friedreich", "ColonialAndEarlyIndependenceEra(1607-1840)", "Unk", "Merchantman", 1740, 1860, 172.8, "ScandinavianMerchant3Master-painting.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "Merchantman-Friedreich(1740-1880)", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Merchantman-Friedreich(1740-1880)", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Merchantman-Friedreich(1740-1880)", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Merchantman-Friedreich(1740-1880)", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["The Slave Trade", "The Slave Trade", "ColonialAndEarlyIndependenceEra(1607-1840)", "Unk", "Slave Ship", 1600, 1865, 500, "Frigate_Fredensborg_Danish_slave_trade-640x443-illustr.png|La_Rochelle_slave_ship_Le_Saphir_1741-641x506-painting.png|Slave_ship_at_the_National_Maritime_Museum_Greenwich-640x222-painting.png|Walsh-cross-section-of-slave-ship-1830-640x402-illustr.png|SlaveshipposterBrookes-643x754-illustr.png|slave-ship-offloading-print-466x490-illustr.png", "background|background|background|background|background|background"]);
+    SetObjectAttributeValue(newShipArray, "The Slave Trade", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "The Slave Trade", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "The Slave Trade", "sources", "historic imagery|historic imagery|historic imagery|historic imagery|historic imagery|historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "The Slave Trade", "imageTypes", "Painting|Painting|Painting|Painting|Painting|Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Irish Immigration Ships", "Irish Immigration Ships", "EraOfTheSteamSailShip(1840-1915)", "Brit", "3MastedMerchant", 1840, 1870, 134.4, "JunkKeyingView70_1847_-640x330-painting.jpg|Davis-700x396-painting.jpg|CatalpaShip-640x539-illustr.jpg|StMary-640x384-painting.jpg", "background|background|background|background"]);
+    SetObjectAttributeValue(newShipArray, "Irish Immigration Ships", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Irish Immigration Ships", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Irish Immigration Ships", "sources", "historic imagery|historic imagery|historic imagery|historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Irish Immigration Ships", "imageTypes", "Painting|Painting|Painting|Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Atalanta", "Atalanta", "EraOfTheSteamSailShip(1840-1915)","Brit", "3MastedMerchant", 1800, 1870, 134.4, "Atalanta-painting.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "Atalanta", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Atalanta", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Atalanta", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Atalanta", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["EastIndiaman","EastIndiaman", "EraOfTheSteamSailShip(1840-1915)","Brit", "3MastedMerchant", 1760, 1830, 134.4, "East_Indian-painting.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "EastIndiaman", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "EastIndiaman", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "EastIndiaman", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "EastIndiaman", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Grossegler","Grossegler", "EraOfTheSteamSailShip(1840-1915)","Polish", "3MastedMerchant", 1780, 1870, 172.8, "Grosssegler-painting.jpg", "background"]);
+    //newShipArray.push(["Stad Amsterdam","Stad Amsterdam", "EraOfTheSteamSailShip(1840-1915)", "Netherlands", "3MastedClipper", 1820, 1915, 182.4, "StadtAmsterdam-illust.png", "background"]);
+    SetObjectAttributeValue(newShipArray, "The Slave Trade", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "The Slave Trade", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Grossegler", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Grossegler", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Manai Straits","Manai Straits", "EraOfTheSteamSailShip(1840-1915)", "Brit", "3MastedClipper", 1820, 1915, 182.4, "MenaiStraits-painting.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "Manai Straits", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Manai Straits", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Manai Straits", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Manai Straits", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Europa","Europa", "EraOfTheSteamSailShip(1840-1915)", "Polish", "3MastedMerchant", 1760, 1830, 134.4, "Europa-painting.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "Europa", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Europa", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Europa", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Europa", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Brittania", "Brittania", "EraOfTheSteamSailShip(1840-1915)", "Brit", "PaddleSteamer", 1840, 1880, 154.6, "Britannia-painting.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "Brittania", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Brittania", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Brittania", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Brittania", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["President", "President", "EraOfTheSteamSailShip(1840-1915)", "US", "PaddleSteamer", 1840, 1880, 153.6,  "The_President-painting.png", "background"]);
+    SetObjectAttributeValue(newShipArray, "President", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "President", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "President", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "President", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Great Britain", "Great Britain", "EraOfTheSteamSailShip(1840-1915)", "Brit", "ScrewSteamer", 1850, 1910, 230.4,  "Great_Britain-bwpic.jpg", "background"]);
+    //newShipArray.push(["Great Britain2","Great Britain2", "EraOfTheSteamSailShip(1840-1915)","Brit", "ScrewSteamer", 1850, 1910, 230.4,  "Great_Britain-illust4.png", "transparent"]);
+    SetObjectAttributeValue(newShipArray, "Great Britain", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Great Britain", "shipsRoutes", "*Any*") ;
+    SetObjectAttributeValue(newShipArray, "Great Britain", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Great Britain", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Great Britain3","Great Britain3", "EraOfTheSteamSailShip(1840-1915)","Brit", "ScrewSteamer", 1850, 1910, 230.4, "Great_Britain-painting2.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "Great Britain3", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Great Britain3", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Great Britain3", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Great Britain3", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["The County of Sutherland", "The County of Sutherland", "EraOfTheSteamSailShip(1840-1915)","Brit", "ScrewSteamer", 1850, 1910, 230.4, "County_of_Sutherland-painting.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "The County of Sutherland", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "The County of Sutherland", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "The County of Sutherland", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "The County of Sutherland", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["St.Paul", "St.Paul", "EraOfThePassengerLiner(1895-1970)", "American", "PsgLiner", 1895, 1923, 95, "St_Paul_1895-1923_-640x415-bwpic.png|St_Paul_1895-1923_-640x415-colpic.png", "background|background"]) ;
+    SetObjectAttributeValue(newShipArray, "St.Paul", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "St.Paul", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "St.Paul", "sources", "historic imagery|historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "St.Paul", "imageTypes", "Painting|Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Kaiser Wilhelm der Grosse", "Kaiser Wilhelm der Grosse", "EraOfThePassengerLiner(1895-1970)", "North German", "PsgLiner", 1897, 1914, 244.8, "Kaiser_Wilhelm_der_Grosse-640x371-bwpic.png|Kaiser_Wilhelm_der_Grosse-405x600-poster.png|Kaiser_Wilhelm_der_Grosse-640x404-postcd.png", "background|background|background"]) ;
+    SetObjectAttributeValue(newShipArray, "Kaiser Wilhelm der Grosse", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Kaiser Wilhelm der Grosse", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Kaiser Wilhelm der Grosse", "sources", "historic imagery|historic imagery|historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Kaiser Wilhelm der Grosse", "imageTypes", "Painting|Painting|Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Petersburg", "Petersburg", "EraOfThePassengerLiner(1895-1970)", "Russia", "PsgLiner",  1880, 1910, 115.2,  "Petersburg-bwpic.jpg", "background"]) ;
+    SetObjectAttributeValue(newShipArray, "Petersburg", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Petersburg", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Petersburg", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Petersburg", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Pretoria", "Pretoria", "EraOfThePassengerLiner(1895-1970)", "Hamburg-America", "PsgLiner", 1897, 1921, 460.8, "Pretoria(1897-1921)-bwpic.jpg", "background"]) ;
+    SetObjectAttributeValue(newShipArray, "Pretoria", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Pretoria", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Pretoria", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Pretoria", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Vaderland", "Vaderland", "EraOfThePassengerLiner(1895-1970)", "Belgium Red Star", "PsgLiner", 1900, 1917, 189.638, "Vaderland(1900-1917)-poster.png", "background"]) ;
+    SetObjectAttributeValue(newShipArray, "Vaderland", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Vaderland", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Vaderland", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Vaderland", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Europa", "Europa", "EraOfThePassengerLiner(1895-1970)", "Italy", "PsgLiner", 1930, 1945, 657.792, "Europa(1920-1960)-postcd.jpg", "background"]) ;
+    SetObjectAttributeValue(newShipArray, "Europa", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Europa", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Europa", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Europa", "imageTypes", "Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Maasdam", "Maasdam", "EraOfThePassengerLiner(1895-1970)", "Holland-America", "PsgLiner", 1952, 1968, 270.643,  "Maasdam-colpic.jpg|Maasdam_1952-1968_-640x413-b_wpic.png|Maasdam_1952-1968_-499x303-colpic.png", "background|background|background"]) ;
+    //newShipArray.push(["Laconia" ,"Laconia", "EraOfThePassengerLiner(1895-1970)", "Cunard", "PsgLiner", 1912, 1917, 140.64,  "Laconia(1911-1917)-illust.png", "transparent"]) ;
+    SetObjectAttributeValue(newShipArray, "Maasdam", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Maasdam", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Maasdam", "sources", "historic imagery|historic imagery|historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Maasdam", "imageTypes", "Painting|Painting|Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    //newShipArray.push(["Ryndam", "Ryndam", "EraOfThePassengerLiner(1895-1970)", "Holland-America", "PsgLiner", 1951, 1966, 270.643,  "Ryndam_Maiden_340x400.png|MS_Ryndam_HAL_Postcard_WorldShipSocNY_340x400.png", "background|background"]) ;
+    newShipArray.push(["Ryndam", "Ryndam", "EraOfThePassengerLiner(1895-1970)", "Holland-America", "PsgLiner", 1951, 1966, 270.643,  "Ryndam_Maiden.png|MS_Ryndam_HAL_Postcard_WorldShipSocNY.png", "background|background"]) ;
+    SetObjectAttributeValue(newShipArray, "Ryndam", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Ryndam", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Ryndam", "sources", "historic imagery|historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Ryndam", "imageTypes", "Painting|Painting") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    //newShipArray.push(["Airbus330", "Airbus330", "EraOfAirTravel(1945-Present)", "NorthWest", "PropPlane", 1994, 2018, 1929.6, "Airbus330-illust.png", "transparent"]);
+    //newShipArray.push(["Boeing 707-320B", "Boeing 707-320B", "EraOfAirTravel(1945-Present)", "TWA", "PropPlane", 1958, 1995, 828.8, "Boeing 707-320B-illust.png", "transparent"]);
+    newShipArray.push(["Boeing-377", "Boeing-377", "EraOfAirTravel(1945-Present)", "PanAm", "JetPlane", 1949, 1963, 127.68, "Boeing-377-bwpic.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "Boeing-377", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Boeing-377", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Boeing-377", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Boeing-377", "imageTypes", "Color Picture") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["LockheedC21Constellation", "LockheedC21Constellation", "EraOfAirTravel(1945-Present)", "PanAm", "JetPlane", 1945, 1992, 300.8, "LockheedC21Constellation-colpic.jpg", "background"]);
+    //newShipArray.push(["McDonnell-DouglasMD-83(DC10)", "McDonnell-DouglasMD-83(DC10)", "EraOfAirTravel(1945-Present)", "Amerian", "JetPlane", 1971, 2002, 1041.6, "McDonnell-DouglasMD-83(DC10)-illust.png", "background"]);
+    //newShipArray.push(["Sukhoi-Superjet100", "Sukhoi-Superjet100", "EraOfAirTravel(1945-Present)", "AeroFlot", "JetPlane", 2008, 2018, 192, "Sukhoi-Superjet100-illust.png", "transparent"]);
+    SetObjectAttributeValue(newShipArray, "LockheedC21Constellation", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "LockheedC21Constellation", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "LockheedC21Constellation", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "LockheedC21Constellation", "imageTypes", "Color Picture") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Boeing 707-321B", "Boeing 707-321B", "EraOfAirTravel(1945-Present)", "Pan Am", "JetPlane", 1958, 1995, 828.8, "Boeing_707-321B_-_Pan_Am_USA.png", "background"]);
+    SetObjectAttributeValue(newShipArray, "Boeing 707-321B", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Boeing 707-321B", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Boeing 707-321B", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Boeing 707-321B", "imageTypes", "Color Picture") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Boeing 747-100", "Boeing 747-100", "EraOfAirTravel(1945-Present)", "Pan Am", "JetPlane", 1969, 2019, 1200, "Pan_Am_Boeing_747-121_N732PA_Bidini.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "Boeing 747-100", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Boeing 747-100", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Boeing 747-100", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Boeing 747-100", "imageTypes", "Color Picture") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    newShipArray.push(["Douglas C47/DC3", "Douglas C47/DC3", "EraOfAirTravel(1945-Present)", "KLM", "PropPlane", 1941, 2019, 400, "Douglas_C-47A_Skytrain__DC-3__KLM_-_Royal_Dutch_Airlines__DDA_Classic_Airlines__AN2107554.jpg", "background"]);
+    SetObjectAttributeValue(newShipArray, "Douglas C47/DC3", "perCountryPsgrs", {GB: 75, IE:10, NL: 10, Other : 5}) ;
+    SetObjectAttributeValue(newShipArray, "Douglas C47/DC3", "shipsRoutes", "*Any*") ;
+    // sources: jimaworks-made, historic imagery, advertizing image
+    SetObjectAttributeValue(newShipArray, "Douglas C47/DC3", "sources", "historic imagery") ;
+    SetObjectAttributeValue(newShipArray, "Douglas C47/DC3", "imageTypes", "Color Picture") ;
+    console-log('Added: newShipArray['+newShipArray.length-1+'= '+newShipArray[newShipArray.length-1]) ;
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    function stickWithCurrentShip(){
+      console.log("stickWithCurrentShip()") ;
+      var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+      window.location.assign(nextPage);
+    }
+  
+    function chooseTypicalShip (){
+      console.log("chooseTypicalShip()") ;
+      console.log("entering chooseTypicalShip() with localStorage.ShipSort=="+localStorage.ShipSort) ;
+      var pagePrologue= "<div class=\'row\'>" ;
+  
+      pagePrologue += "<p>Select one of the ship images below:" ;
+      pagePrologue += "<p>Filter options:</p>" ;
+      pagePrologue += "<select id=\"shipFilter\" onchange=\"setFilterCraftMethod()\">" ;
+      pagePrologue += "<option value=\"\" selected=\"selected\" disabled=\"disabled\" hidden=\"\">Filter the ships here</option>" ;
+      pagePrologue += "<option value=\"airplaneOnlyFilter\">Only see airplanes.</option>" ;
+      pagePrologue += "<option value=\"shipOnlyFilter\">Only see ships.</option>" ;
+      pagePrologue += "<option value=\"noFilter\">See all craft.</option>" ;
+      pagePrologue += "<option value=\"eraFilter\">See only craft of the currently specified era (="+localStorage.Era+")</option>" ;
+      pagePrologue += "<option value=\"filterByYearInterval\">See only ships within an interval of years(="+localStorage.EarliestPossibleYearOfCrossing+" to "+localStorage.LatestPossibleYearOfCrossing+").</option>" ;
+      pagePrologue += "<option value=\"filterByYear\">Only see craft operating in currently specfied year (="+localStorage.YearOfCrossing+")</option>" ;
+      pagePrologue += "</select>" ;
+      pagePrologue += "<p>Sort options:</p>" ;
+      pagePrologue += "<select id=\"shipSort\" onchange=\"setShipSortMethod()\">" ;
+      pagePrologue += "<option value=\"\" selected=\"selected\" disabled=\"disabled\" hidden=\"\">Change sort method here</option>" ;
+      pagePrologue += "<option value=\"lexical-closeness\">(sort by closeness to name)</option>" ;
+      pagePrologue += "<option value=\"alpha\">(sort alphabetically)</option>" ;
+      pagePrologue += "<option value=\"rev-alpha\">(sort reverse-alphabetically)</option>" ; /* (sort alphabetically) */
+      pagePrologue += "<option value=\"passengers\">(sort by the number of passengers carried)</option>" ;
+      pagePrologue += "<option value=\"year\">(sort by year started service)</option>" ;
+      pagePrologue += "<option value=\"rev-year\">(sort reverse-year started service)</option>" ;
+      pagePrologue += "</select>" ;
+      pagePrologue += "</p>" ;
+      /********
+      alert("pagePrologue=="+pagePrologue) ;
+  
+      pagePrologue += "<div id=\"shipChoicesDisplay\"></div>" ;
+      *******/
+  
+      var pagePostlogue= "</div>";
+  
+      var selectShipPage= "";
+      var selectShipTable= "<table>";
+      /*
+      selectShipTable+="<h2>Find your ship below, or enter the name of the ship you want (we have 1000's of additional ships)</h2>";
+      selectShipTable+="<button style= \"background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;\" onclick=\"getNewShipName()\">Provide a ship name</button>";
+      */
+  
+      console.log("1d") ;
+      /*
+      thisShipsAltString = erasArray[thisMapChoiceIndex]
+      + " is not currently available" ;
+      */
+      /* product page example: https://jimaworks.com/products/noship-palacerosamap */
+      nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+      console.log("2b. nextPage = " + nextPage) ;
+  
+  
+      /*
+      <input type="text" id="ShipName" value="&lt;enter your ship's name&gt;" />
+      <a href="https://jimaworks.com/pages/1-c-map-background"
+      a="" onclick="###RecordNewShipChoice()###"> [Click Here to Submit your Shipname] </a>
+      <p> </p>
+      <h2>Or... find and image for your ship in the list below</h2>
+  
+      filterByYearInterval
+      */
+  
+      console.log("Original newShipArray == "+newShipArray) ;
+      var processedShipsArray = newShipArray.slice(1) ;  /* clone the array (shallow) without copying header */
+      var filteredArray ;
+  
+      //var currentShipFilterMethod = "filterByYearInterval"  ; /* localStorage.ShipFilter ; */
+      var currentShipFilterMethod = localStorage.shipFilter ;
+      console.log("Before filter.  currentShipFilterMethod="+currentShipFilterMethod) ;
+      console.log("                processedShipsArray="+processedShipsArray) ;
+  
+      /*
+      if (localStorage.Era=="EraOfAirTravel(1945-Present)") {
+      console.log("currentShipFilterMethod==airplaneOnlyFilter") ;
+      processedShipsArray=processedShipsArray.filter(airplaneOnlyFilter) ;
+    }
+    else {
+    console.log("currentShipFilterMethod!=airplaneOnlyFilter") ;
+    processedShipsArray=processedShipsArray.filter(shipOnlyFilter) ;
+    }
+    console.log("After filtering for planes-only.  processedShipsArray="+processedShipsArray) ;
+    */
+    if (currentShipFilterMethod=="noFilter") {
+      console.log("currentShipFilterMethod== *no* Filter") ;
+      // no-op: processedShipsArray=processedShipsArray ;
+      filteredArray=processedShipsArray ;
+    }
+    else if (currentShipFilterMethod=="airplaneOnlyFilter") {
+      console.log("currentShipFilterMethod==airplaneOnlyFilter") ;
+      filteredArray=processedShipsArray.filter(airplaneOnlyFilter) ;
+    }
+    else if (currentShipFilterMethod=="shipOnlyFilter") {
+      console.log("currentShipFilterMethod==shipOnlyFilter") ;
+      filteredArray=processedShipsArray.filter(shipOnlyFilter) ;
+    }
+    else if (currentShipFilterMethod=="eraFilter") {
+      console.log("currentShipFilterMethod==eraFilter") ;
+      filteredArray=processedShipsArray.filter(filterByEra) ;
+    }
+    else if (currentShipFilterMethod=="filterByYearInterval") {
+      console.log("currentShipFilterMethod==filterByYearInterval") ;
+      filteredArray=processedShipsArray.filter(filterByYearInterval) ;
+    }
+    else if (currentShipFilterMethod=="filterByYear") {
+      console.log("currentShipFilterMethod==filterByYear") ;
+      filteredArray=processedShipsArray.filter(filterByYear) ;
+    }
+    else {
+      console.log("currentFilterMethod is none of above") ;
+    } ;
+    console.log("filter method=="+currentShipFilterMethod+"  After filter, filteredArray="+filteredArray) ;
+    console.log("filter method=="+currentShipFilterMethod+"  After filter, filteredArray[3]="+filteredArray[3]) ;
+    processedShipsArray=filteredArray;
+    var currentShipSortMethod = localStorage.ShipSort ;
+    /*
+    console.log("in chooseTypicalShip ***Before sort***  currentShipSortMethod =="+currentShipSortMethod+" processedShipsArray="+processedShipsArray) ;
+    */
+    if (currentShipSortMethod=="alpha") {
+      console.log("currentShipSortMethod==alpha") ;
+      processedShipsArray.sort(sortByName) ;
+    }
+    else if (currentShipSortMethod=="rev-alpha") {
+      console.log("currentShipSortMethod==rev-alpha") ;
+      processedShipsArray.sort(sortByName).reverse() ;
+    }
+    else if (currentShipSortMethod=="passengers") {
+      console.log("currentShipSortMethod==passengers") ;
+      processedShipsArray.sort(sortByTotPsgrs) ;
+    }
+    else if (currentShipSortMethod=="year") {
+      console.log("currentShipSortMethod==year") ;
+      processedShipsArray.sort(sortByCareerStart) ;
+    }
+    else if (currentShipSortMethod=="rev-year") {
+      console.log("currentShipSortMethod==rev-year") ;
+      processedShipsArray.sort(sortByCareerStart).reverse() ;
+    }
+    else if (currentShipSortMethod=="lexical-closeness") {
+      console.log("currentShipSortMethod==lexical-closeness") ;
+      // ??            localStorage.userProvidedShipName = prompt("Please enter the name of the ship you're looking for", getDefaultShip(localStorage.YearOfCrossing)) ;
+      processedShipsArray.sort(sortByNearnessToNameStart) ;
+    }
+    else {
+      alert("***unrecognized sort method***  currentShipSortMethod =="+currentShipSortMethod) ;
+      console.log("currentSortMethod is none of above") ;
+    } ;
+    /*
+    console.log("***After sort***.  sort method=="+currentShipSortMethod+"  After sort.  processedShipsArray="+processedShipsArray) ;
+    */
+    var thisShipInfo ;
+    var thisShipsName ;
+    var thisShipsImages ;
+    var currentShipExample ;
+    var shipImageBackgroundArray ;
+    var shipImageSourceArray ;
+    var shipImageTypeArray ;
+    var imageSourcesIndex = newShipArray[0].indexOf("sources") ;
+    var imageTypesIndex = newShipArray[0].indexOf("imageTypes") ;
+  for (var thisShipIndex=0; thisShipIndex<processedShipsArray.length; thisShipIndex++) {
+      /* ### subtract 1 from sorting results for javascript zero-start indices ### */
+      thisShipInfo = processedShipsArray[thisShipIndex] ;
+      thisShipsName = thisShipInfo[nameIndex];
+      thisShipsImages = thisShipInfo[imageryIndex].split("|");
+      shipImageBackgroundArray = thisShipInfo[backgroundIndex].split("|"); 
+      shipImageSourceArray = thisShipInfo[imageSourcesIndex].split("|");
+      shipImageTypeArray = thisShipInfo[imageTypesIndex].split("|");
+      console.log("thisShipIndex: " + thisShipIndex
+      + "   thisShipsName=" + thisShipsName
+      + "   thisShipsImages=" + thisShipsImages
+      + "   shipImageBackgroundArray=" + shipImageBackgroundArray
+      + "   thisShipsImageTypeArray=" + shipImageTypeArray
+      + "   shipImageBackgroundArray=" + shipImageBackgroundArray ) ;
+      numShipImages = thisShipsImages.length;
+  
+      if (thisShipIndex%2) {
+        selectShipTable+="<tr style=\"background-color: #ffff;\">";
+      }
+      else {
+        selectShipTable+="<tr style=\"background-color: #eeee;\">";
+      }
+  
+      selectShipTable+=
+          "<td style='text-align: left;'>"
+          +"<small>"+ thisShipsName+"</small>"
+          + "<br>"
+          + "(" + thisShipInfo[careerStartIndex] + "-" + thisShipInfo[careerEndIndex] + ")"
+          + "</td>" ;
+          + "<td style='text-align: left;'>"
+          + "Total Passengers Est=" + 1000*thisShipInfo[totalPsgrsIndex]
+          + "</td>" ;
+  
+      var borderSpec ;
+      for (var shipImageIndex=0; shipImageIndex<numShipImages; shipImageIndex++) {
+        currentShipExample = thisShipsImages[shipImageIndex] ;
+        console.log("currentShipExample =="+currentShipExample) ;
+  
+        if (shipImageBackgroundArray[shipImageIndex] == "transparent") {
+          borderSpec = "" ;
+        }
+        else {
+          borderSpec = " border: 5px solid darkblue;" ;
+        }
+        selectShipTable+="<td style='text-align: left;'>"
+        /*
+        + "<a href="+ "\""
+        + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
+        + thisShipsImages[shipImageIndex].replace(" ","_").replace("(","_").replace(")","_").replace(".","_1024x1024.")
+        + "\""
+        + "data-lightbox=\"jimaworks-gallery\" "
+        + "data-title=\"&lt;a href=\'" + nextPage + "\'"
+        + "&gt;Click here&lt;/a&gt; to begin the process of commemorating your immigration event!\""
+        + " onclick=\'RecordNewSpecificShipChoice("
+        +"\"" + thisShipInfo + "\", "
+        +thisShipIndex
+        +", "
+        +shipImageIndex
+        +", \""
+        +thisShipsImages[shipImageIndex]
+        +"\", \""
+        +shipImageBackgroundArray[shipImageIndex]
+        +"\", \""
+        +shipImageSourceArray[shipImageIndex]
+        +"\", \""
+        +shipImageTypeArray[shipImageIndex]
+        +"\", "
+        +eraIndex
+        +")"
+        + "\'"
+        + ">"
+  
+        + "<img src="
+        + "\""
+        + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
+        + thisShipsImages[shipImageIndex].replace(" ","_").replace("(","_").replace(")","_").replace(".","_256x256.")
+        + "\""
+        + " alt=" + "\"" + thisShipsImages[shipImageIndex] + "\""
+        + " />"
+        + "</a>"
+        */
+        + "<img src="
+        + "\""
+        + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
+        + thisShipsImages[shipImageIndex].replace(" ","_").replace("(","_").replace(")","_").replace(".","_256x256.")
+        + "\""
+        + " alt=" + "\"" + thisShipsImages[shipImageIndex] + "\""
+        + " onclick="
+        /*
+        + "\'displayCurrentShip(\""+currentShipExample+"\")\'"
+        */
+        + "\'RecordNewSpecificShipChoice("
+        +"\"" + thisShipInfo + "\", "
+        +thisShipIndex
+        +", "
+        +shipImageIndex
+        +", \""
+        +thisShipsImages[shipImageIndex]
+        +"\", \""
+        +shipImageBackgroundArray[shipImageIndex]
+        +"\", \""
+        +shipImageSourceArray[shipImageIndex]
+        +"\", \""
+        +shipImageTypeArray[shipImageIndex]
+        +"\", "
+        +eraIndex
+        +")\'"
+        /*
+        */
+        + " />"
+        + "</a>"
+  
+        + "</td>";
+      }
+      selectShipTable+="</tr>";
+    }
+    selectShipTable+="</table>" ;
+    selectShipPage+=pagePrologue+selectShipTable+pagePostlogue ;
+  
+    console.log('selectShipTable=='+selectShipTable);
+    /*document.write(selectShipPage) ;*/
+    document.getElementById("shipChoicesDisplay").innerHTML = selectShipPage;
+    }
+  
+    function userProvidedShip (){
+      console.log("userProvidedShip()") ;
+  
+      var crossingYear = localStorage.YearOfCrossing ;
+      var prevUserProvidedShipName = localStorage.userProvidedShipName ;
+      var userProvidedShipDefault ;
+      if ((prevUserProvidedShipName != "null") && (prevUserProvidedShipName != null)) {
+        userProvidedShipDefault = prevUserProvidedShipName ;
+      }
+      else {
+        userProvidedShipDefault = getDefaultShip(crossingYear) ;
+      }
+      var userProvidedShipNameStr = prompt("Please enter the name of your ship", userProvidedShipDefault) ; //getDefaultShip(localStorage.YearOfCrossing)) ;
+      //var userPovidedShipStr = "Specified ship: "+userProvidedShipNameStr ;
+      localStorage.userProvidedShipName = userProvidedShipNameStr ;
+      document.getElementById("knownShip").innerHTML = "A New Specific Ship Please" ;
+      /*
+      var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+      window.location.assign(nextPage);
+      */
+  
+      /*
+      ###  use of knownShipPlaceholderArray[1] seems a bit squirrelly ###
+      */
+      var knownShipPlaceholderStruct ;
+      var shipIndex ;
+      if(crossingYear<1790) {
+        shipIndex = 1 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[1] ;
+      }
+      else if (crossingYear<1850) {
+        shipIndex = 2 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[2] ;
+      }
+      else if (crossingYear<1890) {
+        shipIndex = 3 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[3] ;
+      }
+      else if (crossingYear<1920) {
+        shipIndex = 4 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[4] ;
+      }
+      else if (crossingYear<1970) {
+        shipIndex = 5 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[5] ;
+      }
+      else {
+        shipIndex = 6 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[6] ;
+      }
+  
+      var thisShipInfoStr = '"'+knownShipPlaceholderStruct+'"' ;
+      //var thisShipInfoStr = knownShipPlaceholderStruct ;
+      var shipImageIndex = 0 ;
+      var thisShipsImageFile = knownShipPlaceholderStruct[imageryIndex] ;
+      var shipImageBackground = knownShipPlaceholderStruct[backgroundIndex] ;
+      var eraIndex ;
+  
+      localStorage.setItem("TransportCraft", knownShipPlaceholderStruct[IDIndex]) ;
+      localStorage.setItem("shipName", knownShipPlaceholderStruct[nameIndex]) ;
+      localStorage.setItem("shipImageIndex", shipImageIndex) ;
+      localStorage.setItem("shipPic", thisShipsImageFile) ;
+      localStorage.setItem("shipCareerEnd", eraEndArray[eraIndex]) ;
+      localStorage.setItem("shipTotPsgrVolume", knownShipPlaceholderStruct[totalPsgrsIndex]) ;
+      localStorage.setItem("shippingLine", knownShipPlaceholderStruct[operatorIndex]) ;
+      localStorage.setItem("shipImageTransparentBackground", knownShipPlaceholderStruct[backgroundIndex]) ;
+      localStorage.setItem("shipImageSource", knownShipPlaceholderStruct[shipSourcesIndex]) ;
+      localStorage.setItem("shipImageType", knownShipPlaceholderStruct[shipTypesIndex]) ;
+  
+      RecordNewSpecificShipChoice(thisShipInfoStr,
+        shipIndex, //??
+        shipImageIndex,
+        thisShipsImageFile,
+        shipImageBackground,
+        eraIndex) ;
+      }
+  
+      function noShip (){
+        console.log("noShip()") ;
+        localStorage.setItem("userProvidedShipName", "noShip") ;
+        var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+        window.location.assign(nextPage);
+      }
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    function getDefaultShip(crossingYear) {
+      var defaultShipName ;
+      if(crossingYear<1790) {
+        defaultShipName = "Dutch Flute(1600-1750)" ;
+      }
+      else if (crossingYear<1850) {
+        defaultShipName = "Manai Straits" ;
+      }
+      else if (crossingYear<1890) {
+        defaultShipName = "The County of Sutherland" ;
+      }
+      else if (crossingYear<1920) {
+        defaultShipName = "Kaiser Wilhelm der Grosse" ;
+      }
+      else if (crossingYear<1970) {
+        defaultShipName = "Europa" ;
+  
+      }
+      else {
+        defaultShipName = "Boeing 707-321B" ;
+      }
+      return defaultShipName ;
+    }
+    
+  // ]]></script>
+  <script>// <![CDATA[
+    function getMostLikelyShipForTimeAndPlace() {
+      console.log("###getMostLikelyShipForTimeAndPlace()###") ;
+      var thisShipInfo ;
+      var thisShipInfoStr ;
+      var thisShipsName ;
+      var thisShipsImages ;
+      var currentShipExample ;
+      var shipImageBackgroundArray ;
+      var processedShipsArray = newShipArray.slice(1) ;  /* clone the array (shallow) without copying header */
+      var tempShipFilterMethod = "filterByYearInterval"  ; /* localStorage.ShipFilter ; */
+      var currentShipSortMethod = "passengers" ;
+      var NForShowTopN = 1 ;
+  
+      if (localStorage.Era=="EraOfAirTravel(1945-Present)") {
+        processedShipsArray=processedShipsArray.filter(airplaneOnlyFilter) ;
+      }
+      else {
+        processedShipsArray=processedShipsArray.filter(shipOnlyFilter) ;
+      }
+      // processedShipsArray=processedShipsArray.filter(tempShipFilterMethod) ;
+      processedShipsArray=processedShipsArray.filter(filterByYearInterval) ;
+      /*
+      console.log("in chooseTypicalShip ***Before sort***  currentShipSortMethod =="+currentShipSortMethod+" processedShipsArray="+processedShipsArray) ;
+      */
+      if (currentShipSortMethod=="alpha") {
+        console.log("currentShipSortMethod==alpha") ;
+        processedShipsArray.sort(sortByName) ;
+      }
+      else if (currentShipSortMethod=="rev-alpha") {
+        console.log("currentShipSortMethod==rev-alpha") ;
+        processedShipsArray.sort(sortByName).reverse() ;
+      }
+      else if (currentShipSortMethod=="passengers") {
+        console.log("currentShipSortMethod==passengers") ;
+        processedShipsArray.sort(sortByTotPsgrs) ;
+      }
+      else if (currentShipSortMethod=="year") {
+        console.log("currentShipSortMethod==year") ;
+        processedShipsArray.sort(sortByCareerStart) ;
+      }
+      else if (currentShipSortMethod=="rev-year") {
+        console.log("currentShipSortMethod==rev-year") ;
+        processedShipsArray.sort(sortByCareerStart).reverse() ;
+      }
+      else if (currentShipSortMethod=="lexical-closeness") {
+        console.log("currentShipSortMethod==lexical-closeness") ;
+        // ??            localStorage.userProvidedShipName = prompt("Please enter the name of the ship you're looking for", getDefaultShip(localStorage.YearOfCrossing)) ;
+        processedShipsArray.sort(sortByNearnessToNameStart) ;
+      }
+      else {
+        alert("***unrecognized sort method***  currentShipSortMethod =="+currentShipSortMethod) ;
+        console.log("currentSortMethod is none of above") ;
+      } ;
+  
+      //  for (var thisShipIndex=0; thisShipIndex<processedShipsArray.length; thisShipIndex++) {
+      for (var thisShipIndex=0; thisShipIndex < NForShowTopN ; thisShipIndex++ ) {
+        /* ### subtract 1 from sorting results for javascript zero-start indices ### */
+        thisShipInfo = processedShipsArray[thisShipIndex] ;
+        thisShipInfoStr="\"" + thisShipInfo + "\"" ;
+        thisShipsName = thisShipInfo[nameIndex];
+        thisShipsImages = thisShipInfo[imageryIndex].split("|");
+        shipImageBackgroundArray = thisShipInfo[backgroundIndex] ; /* .split("|"); */
+        numShipImages = thisShipsImages.length;
+        console.log("thisShipIndex: " + thisShipIndex
+        + "   thisShipsName=" + thisShipsName
+        + "   thisShipsImages=" + thisShipsImages
+        + "   shipImageBackgroundArray=" + shipImageBackgroundArray ) ;
+        //        RecordNewSpecificShipChoice(shipInfoStr, shipIndex, shipImageIndex, shipImageFile, shipImageBackground, eraIndex) {  /*  (shipName, shipIndex, shipImage) {  */
+        for (var shipImageIndex=0; shipImageIndex<numShipImages; shipImageIndex++) {
+          currentShipExample = thisShipsImages[shipImageIndex] ;
+          console.log("currentShipExample =="+currentShipExample) ;
+          thisShipsImageFile = thisShipsImages[shipImageIndex] ;
+          console.log("thisShipsImageFile =="+currentShipExample) ;
+          shipImageBackground = shipImageBackgroundArray[shipImageIndex] ;
+          console.log("shipImageBackground =="+shipImageBackground) ;
+  
+  
+          RecordNewSpecificShipChoice(thisShipInfoStr,
+            thisShipIndex, //??
+            shipImageIndex,
+            thisShipsImageFile,
+            shipImageBackground,
+            eraIndex) ;
+          }
+        }
+      }
+      getMostLikelyShipForTimeAndPlace() ;
+    
+  // ]]></script>

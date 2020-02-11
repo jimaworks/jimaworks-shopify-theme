@@ -1,0 +1,174 @@
+<div id="i4c-draggable-container" style="position: fixed; z-index: 1499; width: 0px; height: 0px;">
+  <div data-reactroot="" class="resolved" style="all: initial;"></div>
+  </div>
+  <article class="jw-relationships-tour"><!-- <nav class="jw-relationships-tour__actions"></nav> -->
+  <div id="relationships-tour-content" class="jw-relationships-tour__content jw-relationships-tour__content--active">
+  <div id="map" class="jw-relationships-tour__map"></div>
+  <aside id="sidebar" class="jw-relationships-tour__sidebar jw-relationships-tour__sidebar--active"><!-- <nav class="jw-relationships-tour__navigation">
+          <span id="tour-actions" class="jw-tour__actions">
+            <a id="previous" class="jw-tour__action --disabled" href="javascript:void(0);">Previous</a>
+            <a id="next" class="jw-tour__action" href="javascript:void(0);">Next</a>
+          </span>
+        </nav> -->
+  <div id="tour" class="jw-tour --expanded">
+  <div class="jw-tour__descriptions">
+  <article id="frame-description" class="jw-tour__description jw-tour__description--active" style="width: 100%;">
+  <h3 class="jw-tour-spot__heading">Frame</h3>
+  <div class="jw-tour-spot__body"><!-- <ul>
+                  <li>Four different styles to choose from</li>
+                  <li>Your print is double matted using a bevelled SandStone mat with Chinese Red trimming</li>
+                  <li>The frame is natural wood</li>
+                  <li>The glazing is UV-protective acrylic plexiglass</li>
+                  <li>The plaque inset into the mat. It is gold-colored metal etched to your specifications</li>
+                </ul> --> <label for="frame-selection">Choose your frame:</label><select id="frame-selection" class="jw-tour-spot__dropdown" name="frameSelection">
+  <option data-variant-id="BlackWalnut" value="black-walnut">Black Walnut</option>
+  <option data-variant-id="GoldTrim" value="gold-trim">Gold Trim</option>
+  <option data-variant-id="LightCherry" value="light-cherry">Light Cherry</option>
+  <option data-variant-id="BlackRoped" value="black-roped">Black Roped</option>
+  </select><!--
+  <p style="margin-top: 1.5rem;"><a class="jw-link-button" href="/products/genericrelationshipsproduct-framed">Continue</a></p>
+  -->
+  <p style="margin-top: 1.5rem;"><a class="jw-link-button" href="https://jimaworks.com/pages/0-0-look-feel-size">Continue</a></p>
+  </div>
+  </article>
+  </div>
+  </div>
+  </aside>
+  </div>
+  </article>
+  <script>// <![CDATA[
+  function recordFrameChoice( variantId, url, variantAbbreviation ) {
+      localStorage.setItem( "Frame", variantId );
+      localStorage.setItem( "FrameImg", url );
+  
+      if ( variantAbbreviation && variantAbbreviation.length ) {
+        localStorage.setItem( "FrameAbbrev", variantAbbreviation ); // Not used AFAICT
+      } else {
+        localStorage.removeItem( "FrameAbbrev" );
+      }
+    }
+  
+    function preloadPreviewImages() {
+      for ( var key in previewImages ) {
+        var currentFrameImage = previewImages[key];
+        var link = document.createElement( 'link' );
+        link.rel = 'preload';
+        link.href = currentFrameImage;
+        link.as = 'image';
+        document.head.appendChild( link );
+      }
+  
+      previewImagesLoaded = true;
+      $frameSelection.removeEventListener( 'mouseover', preloadPreviewImages );
+      $frameSelection.removeEventListener( 'click', preloadPreviewImages );
+    }
+  
+    function changeMapBackground( $mapBackground, newMapBackgroundClassId ) {
+      var newMapBackgroundClass = ( 'jw-map--color-' + newMapBackgroundClassId );
+  
+      if ( $mapBackground.className.indexOf( 'jw-map--color-' ) !== -1 ) {
+        $mapBackground.className = $mapBackground.className.replace(
+          /\bjw-map--color-[^\s]+\b/,
+          newMapBackgroundClass
+        );
+      } else {
+        $mapBackground.classList.add( newMapBackgroundClass );
+      }
+    }
+  
+    function changeFrame( newFrameClassId ) {
+      var newFrameClass = ( 'jw-relationships-preview--frame-' + newFrameClassId );
+  
+      if ( $preview.className.indexOf( 'jw-relationships-preview--frame-' ) !== -1 ) {
+        $preview.className = $preview.className.replace(
+          /\bjw-relationships-preview--frame-[^\s]+\b/,
+          newFrameClass
+        );
+      } else {
+        $preview.classList.add( newFrameClass );
+      }
+    }
+  
+    function getSelectedOption( $select ) {
+      return $select.querySelector( ':checked' );
+    }
+  
+    function getVariantIdFromOption( $option ) {
+      return ( $option.dataset ? $option.dataset.variantId : $option.getAttribute( 'data-variant-id' ) );
+    }
+  
+    function selectOptionWithVariantId( variantId ) {
+      var $option = $frameSelection.querySelector( '[data-variant-id="' + variantId + '"]' );
+  
+      if ( $option ) {
+        $option.selected = true;
+      }
+    }
+  
+    var $previewLayoutContainer = document.getElementById( 'map' );
+    var $previewTemplate = document.getElementById( 'preview-template' );
+    var $frameSelection = document.getElementById('frame-selection');
+    var $preview;
+    var previewImagesLoaded = false;
+    var previewImages = {
+      /* Frames */
+      "BlackWalnut": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png",
+      "GoldTrim": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Gold-NoRuler-72ppi.png",
+      "LightCherry": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Cherry-NoRuler-72ppi.png",
+      "BlackRoped": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-72ppi.png"
+    };
+    var defaultFrameVariantId = 'BlackWalnut';
+    var defaultFrameClassId = 'black-walnut';
+    var savedFrameVariantId = localStorage.getItem( 'Frame' );
+    var defaultMapBackgroundVariantId = 'ParisSage';
+    var defaultMapBackgroundClassId = 'paris-sage';
+    var mapVariantToClassId = {
+      "ParisSage": "paris-sage",
+      "EmpressTeal": "empress-teal",
+      "PalaceRosa": "palace-rosa",
+      "SeaSprayBlue": "sea-spray-blue",
+      "MayanGlow": "mayan-glow"
+    };
+    var savedMapBackgroundVariantId = localStorage.getItem( 'MapStyle' );
+  
+    // initializeDefaults();
+    $previewLayoutContainer.innerHTML = $previewTemplate.innerHTML;
+    $preview = $previewLayoutContainer.querySelector('.jw-relationships-preview');
+  
+    window.addEventListener( "DOMContentLoaded", function pickYourFrame__onDomContentLoaded() {
+      var $mapBackground = document.getElementById( 'map-background' );
+  
+      $frameSelection.addEventListener( 'mouseover', preloadPreviewImages, false );
+      $frameSelection.addEventListener( 'click', preloadPreviewImages, false );
+  
+      $frameSelection.addEventListener( 'change', function frameSelectionChanged( event ) {
+        var newValue = event.target.value;
+        // $preview already initialized in surrounding scope
+  
+        changeFrame( newValue );
+  
+        var $selectedOption = getSelectedOption( event.target );
+        var variantId = getVariantIdFromOption( $selectedOption );
+  
+        recordFrameChoice( variantId, previewImages[variantId] );
+      }, false );
+  
+      if ( savedFrameVariantId !== defaultFrameVariantId ) {
+        selectOptionWithVariantId( savedFrameVariantId );
+      }
+  
+      if ( savedMapBackgroundVariantId !== defaultMapBackgroundVariantId ) {
+        changeMapBackground( $mapBackground, mapVariantToClassId[savedMapBackgroundVariantId] )
+      }
+  
+      // In case user hits back button and browser remembers selection, update the frame to match
+      setTimeout( function alignFrameWithSelection() {
+        var $initialSelection = getSelectedOption( $frameSelection );
+  
+        if ( $initialSelection && ( $initialSelection.value !== defaultFrameClassId ) ) {
+          changeFrame( $initialSelection.value );
+        }
+      }, 0 );
+    } );
+  // ]]></script>
+  <div id="i4c-dialogs-container"></div>
