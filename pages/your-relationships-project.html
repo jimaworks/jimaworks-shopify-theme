@@ -327,6 +327,15 @@
   };
 
   $previewLayoutContainer.innerHTML = $previewTemplate.innerHTML;
+  $previewLayoutContainer.removeChild( $previewLayoutContainer.querySelector( 'script' ) );
+
+  if ( 'content' in $previewTemplate ) {
+    // Supports HTML5 <template>
+    $previewLayoutContainer.appendChild( $previewTemplate.content.querySelector( 'script' ) );
+  } else {
+    $previewLayoutContainer.appendChild( $preview.querySelector( 'script' ) );
+  }
+
   $preview = $previewLayoutContainer.querySelector('.jw-relationships-preview');
 
   window.addEventListener("DOMContentLoaded", function yourRelationshipsProject__onDomContentLoaded() {
