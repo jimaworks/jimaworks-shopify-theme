@@ -1,0 +1,228 @@
+{
+  "jimaworksMade": [
+    {
+      "ID": "Savannah(1818-1821)",
+      "name": "Savannah",
+      "era": "EraOfTheSteamSailShip(1840-1915)",
+      "operator": "Holland-America",
+      "class": "PsgLiner",
+      "careerStart": 1818,
+      "careerEnd": 1821,
+      "totalPsgrs": 270.643,
+      "imagery": "Savannah_1818-1821_jimaworksmade300ppi.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail",
+      "sources": null,
+      "perCountryPsgrs": {
+        "GB": 5,
+        "BL": 10,
+        "NL": 65,
+        "DE": 10,
+        "Other": 10
+      },
+      "shipsRoutes": "*Any*",
+    },
+    {
+      "ID": "NieuwAmsterdam(1905-1932)",
+      "name": "Nieuw Amsterdam",
+      "era": "EraOfThePassengerLiner(1895-1970)",
+      "operator": "Holland-America",
+      "class": "PsgLiner",
+      "careerStart": 1905,
+      "careerEnd": 1932,
+      "totalPsgrs": 270.643,
+      "imagery": "NieuwAmsterdam_1905-1932_jimaworksmade72ppi.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail",
+      "sources": null,
+      "perCountryPsgrs": {
+        "GB": 5,
+        "BL": 10,
+        "NL": 65,
+        "DE": 10,
+        "Other": 10
+      },
+      "shipsRoutes": "*Any*"
+    },
+    {
+      "ID": "Maasdam(1952-1968)",
+      "name": "Maasdam",
+      "era": "EraOfThePassengerLiner(1895-1970)",
+      "operator": "Holland-America",
+      "class": "PsgLiner",
+      "careerStart": 1952,
+      "careerEnd": 1968,
+      "totalPsgrs": 270.643,
+      "imagery": "Maasdam_1952-1968_jimaworksmade72ppi.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail",
+      "sources": null,
+      "perCountryPsgrs": {
+        "GB": 5,
+        "BL": 10,
+        "NL": 65,
+        "DE": 10,
+        "Other": 10
+      },
+      "shipsRoutes": "*Any*"
+    },
+    {
+      "ID": "Savannah(1962-1972)",
+      "name": "Savannah",
+      "era": "EraOfThePassengerLiner(1895-1970)",
+      "operator": "US Maritme Commission",
+      "class": "PsgLiner",
+      "careerStart": 1962,
+      "careerEnd": 1972,
+      "totalPsgrs": 270.643,
+      "imagery": "Savannah_1962-1972_jimaworksmade72ppi.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail",
+      "sources": null,
+      "perCountryPsgrs": {
+        "GB": 5,
+        "BL": 10,
+        "NL": 65,
+        "DE": 10,
+        "Other": 10
+      },
+      "shipsRoutes": "*Any*"
+    },
+    {
+      "ID": "St.Paul",
+      "name": "St.Paul",
+      "era": "EraOfThePassengerLiner(1895-1970)",
+      "operator": "American",
+      "class": "PsgLiner",
+      "careerStart": 1895,
+      "careerEnd": 1923,
+      "totalPsgrs": 95,
+      "imagery": "jimaworksStPaul640.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail"
+    },
+    {
+      "ID": "Ryndam",
+      "name": "Ryndam",
+      "era": "EraOfThePassengerLiner(1895-1970)",
+      "operator": "Holland-America",
+      "class": "PsgLiner",
+      "careerStart": 1951,
+      "careerEnd": 1966,
+      "totalPsgrs": 270.643,
+      "imagery": "Ryndam_1951-1970_-mdlrend.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail"
+    }
+  ],
+  "knownShipPlaceholders": [
+    {
+      "ID": "Known Ship placeholder (1565-1790)",
+      "name": "Known Ship placeholder (1565-1790)",
+      "era": "ColonialAndEarlyIndependenceEra(1607-1840)",
+      "operator": "Unk",
+      "class": "Flute",
+      "careerStart": 1585,
+      "careerEnd": 1790,
+      "totalPsgrs": 300,
+      "imagery": "EarlySailKnownShipIconLabeled.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail",
+      "sources": "",
+      "perCountryPsgrs": {
+        "Other": 100
+      },
+      "shipsRoutes": "*Any*"
+    },
+    {
+      "ID": "Known Ship placeholder (1790-1850)",
+      "name": "Known Ship placeholder (1790-1850)",
+      "era": "EraOfModernSail(1790-1890)",
+      "operator": "Unk",
+      "class": "3MastedMerchant",
+      "careerStart": 1790,
+      "careerEnd": 1850,
+      "totalPsgrs": 800,
+      "imagery": "ModernSailKnownShipIconLabeled.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail",
+      "sources": "",
+      "perCountryPsgrs": {
+        "Other": 100
+      },
+      "shipsRoutes": "*Any*"
+    },
+    {
+      "ID": "Known Ship placeholder (1850-1890)",
+      "name": "Known Ship placeholder (1850-1890)",
+      "era": "EraOfTheSteamSailShip(1840-1915)",
+      "operator": "Unk",
+      "class": "SteamSail",
+      "careerStart": 1850,
+      "careerEnd": 1890,
+      "totalPsgrs": 1000,
+      "imagery": "SteamSailKnownShipIconLabeled.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail",
+      "sources": "",
+      "perCountryPsgrs": {
+        "Other": 100
+      },
+      "shipsRoutes": "*Any*"
+    },
+    {
+      "ID": "Known Ship placeholder (1890-1920)",
+      "name": "Known Ship placeholder (1890-1920)",
+      "era": "EraOfThePassengerLiner(1890-1920)",
+      "operator": "Unk",
+      "class": "SteamShip",
+      "careerStart": 1890,
+      "careerEnd": 1920,
+      "totalPsgrs": 2500,
+      "imagery": "ClassicPssgrLinerKnownShipIconLabeled.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail",
+      "sources": "",
+      "perCountryPsgrs": {
+        "Other": 100
+      },
+      "shipsRoutes": "*Any*"
+    },
+    {
+      "ID": "Known Ship placeholder (1920-1970)",
+      "name": "Known Ship placeholder (1920-1970)",
+      "era": "EraOfThePassengerLiner(1920-1970)",
+      "operator": "Unk",
+      "class": "MotorShip",
+      "careerStart": 1920,
+      "careerEnd": 1970,
+      "totalPsgrs": 800,
+      "imagery": "PssgrLinerKnownShipIconLabeled.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail",
+      "sources": "",
+      "perCountryPsgrs": {
+        "Other": 100
+      },
+      "shipsRoutes": "*Any*"
+    },
+    {
+      "ID": "Known Ship placeholder (1945-Present)",
+      "name": "Known Plane placeholder (1945-Present)",
+      "era": "EraOfAirTravel(1945-Present)",
+      "operator": "Unk",
+      "class": "Airplane",
+      "careerStart": 1945,
+      "careerEnd": 2020,
+      "totalPsgrs": 1500,
+      "imagery": "AgeOfAirTravelKnownPlaneIconLabeled.png",
+      "background": "transparent",
+      "imageClassification": "steam-sail",
+      "sources": "",
+      "perCountryPsgrs": {
+        "Other": 100
+      },
+      "shipsRoutes": "*Any*"
+    }
+  ]
+}
