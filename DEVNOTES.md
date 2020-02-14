@@ -622,12 +622,30 @@ From Jim:
 - Seems to be no use for `localStorage.FrameAbbrev` (in either the JavaScript or the Illustrator script), so making an optional parameter.
 - ⚠️ Remember to de-duplicate `jw-link-button`.
 
-## 01/17
+## 01/17, 01/18
 
 ### [Revise Ship image size/placement on interaction window](https://trello.com/c/omhl57AC)
 
-- Assets/ShipImageLayout01152020.pdf from Jim specifies different positioning for jimaworks-made sail ships, jimaworks-made steam-sail ships, jimaworks-made steam/motor ships, historic imagery (landscape), historic imagery (portrait)
-- Need a way
+- Assets/ShipImageLayout01152020.pdf from Jim specifies different positioning for:
+  1. jimaworks-made sail ships
+  2. jimaworks-made steam-sail ships
+  3. jimaworks-made steam/motor ships
+  4. historic imagery (landscape)
+  5. historic imagery (portrait)
+- Need a way to determine which is which in order to set the appropriate classes
+  - Stealing output of dynamically-generated variable `jimaworksMadeImagery` from `/pages/1-g-ii-jimaworks-madeshipimagery`.
+  - Found `localStorage.shipImageType`
+    - Not consistently set
+      - Clicking on “Order jimaworks-made!”, then “This ship looks good. Use it.” does not update localStorage.
+      - Clicking on “Request Historic Ship Imagery” sets to `h`.
+        - Clicking on “I have a specific ship in mind” sets to `jimaworksMadeImagery`.
+        - Clicking on “Let’s look at some other typical ships.” does nothing.
+        - Clicking on “This ship looks good. Use it.” does not update localStorage.
+  - Appears to be only two ship imagery databases: `jimaworksMadeImagery` and `knownShipPlaceholderArray`.
+    - Need to classify each as sail, steam-sail, steam-motor, etc. in order to derive the 5 total categories
+  - Ship Imagery ID corresponds to `localStorage.TransportCraft`
+- The `ship-imagery-db.json` file is incomplete. Does not contain e.g. `Europa_1920-1960_-postcd.jpg`.
+
 
 ### [Add “Choose-a-Size” page (right before accordion page)](https://trello.com/c/5COG6p7A)
 
