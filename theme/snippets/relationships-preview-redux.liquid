@@ -4,6 +4,10 @@
   Body font size for rem calculations: 16px
 -->
 <style>
+  /* Fonts */
+  /* @import url('https://fonts.googleapis.com/css?family=Pinyon+Script&display=swap'); */
+  @import url('https://fonts.googleapis.com/css?family=Pacifico&display=swap');
+
   /*
     Maintian aspect ratio for map
     Source: https://css-tricks.com/aspect-ratio-boxes/#article-header-id-6
@@ -26,7 +30,7 @@
   }
 
   .jw-relationships-preview,
-  [class$="__text"] {
+  [class*="__text"] {
     font-size: 10px;
     font-size: .625rem;
   }
@@ -37,7 +41,6 @@
     background-color: #fff8d2;
     line-height: 1.25;
     margin-right: auto;
-    /* padding: 10px; */
     padding: .625rem;
     display: flex;
     flex-direction: row;
@@ -58,6 +61,12 @@
       border-image-outset: 0;
       border-image-repeat: stretch stretch;
       border-style: solid;
+    }
+    @media only screen and (min-width: 940px) {
+      .jw-relationships-preview[class*="jw-relationships-preview--fram"] {
+        border-image-width: calc(3.75rem * 1.5);
+        padding: calc(5.625rem * 1.5) calc(5.625rem * 1.5) calc(4.166625rem * 1.5);
+      }
     }
 
     /* Gold Trim */
@@ -136,8 +145,9 @@
     .jw-relationships-preview.jw-relationships-preview--frame-black-walnut-small,
     .jw-relationships-preview.jw-relationships-preview--frame-black-walnut-medium,
     .jw-relationships-preview.jw-relationships-preview--frame-black-walnut-large {
-      border-image-slice: 433 444 433 466;
-      border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png);
+      /* border-image-slice: 433 444 433 466; */
+      border-image-slice: 84;
+      border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/black-walnut-frame-border-10x10.jpg?v=1581997784);
     }
       .jw-relationships-preview.jw-relationships-preview--frame-black-walnut-gem {
         border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/Gem-BlackWalnut-Ruler.png?v=1579321685);
@@ -153,61 +163,66 @@
         border-image-source: url();
       } */
 
-
   .jw-relationships-preview__content {
     flex: 1;
     display: flex;
     flex-direction: column;
   }
 
-  [class$="__text"] {
+  [class*="__text"] {
     color: #111;
-    /* text-shadow: 1px 1px 0 ivory; */
     text-shadow: .0625rem .0625rem 0 ivory;
     margin: 0 !important;
   }
     @media only screen and (min-width: 940px) {
-      [class$="__text"] {
+      [class*="__text"] {
         font-size: .8rem;
       }
     }
 
   .jw-title {
     text-align: center;
+    margin-top: 1rem;
   }
     .jw-title__text {
       font-family: inherit;
       border: none;
       padding: 0;
+      font-size: 1rem;
+    }
+    .jw-title__text.jw-title__text--line2 {
+      font-size: .9rem;
     }
 
   .jw-route {
-    position: relative;
-    /* height: 46px; */
-    height: 2.875rem;
+    /* position: relative; */
+    /* height: 2.875rem; */
+    display: flex;
+    justify-content: space-between;
   }
     .jw-route__origin,
     .jw-route__destination {
-      /* position: absolute; */
       display: inline-block;
       vertical-align: top;
-      /* top: 62.5%; */
       transition: .125s linear top, .125s linear left, .125s linear right;
+      margin-top: 1rem;
     }
     .jw-route__origin {
       text-align: right;
-      right: 0;
+      /* right: 0; */
+      padding-right: 1rem;
     }
     .jw-route__destination {
-      left: 0;
+      /* left: 0; */
+      padding-left: 1rem;
     }
-    @media only screen and (min-width: 940px) {
+    /* @media only screen and (min-width: 940px) {
       .jw-route__origin,
       .jw-route__destination {
         top: 125%;
       }
-    }
-    @media only screen and (min-width: 1200px) {
+    } */
+    /* @media only screen and (min-width: 1200px) {
       .jw-route__origin,
       .jw-route__destination {
         top: 250%;
@@ -218,21 +233,19 @@
       .jw-route__destination {
         left: 16%;
       }
-    }
+    } */
 
   .jw-map {
+    font-family: 'Pacifico', cursive;
     background-repeat: no-repeat;
     background-size: cover;
-    /* background-size: contain; */
-    /* border: 3px solid #ad4448; */
     border: .1875rem solid #ad4448;
-    /* padding: 10px; */
-    /* padding: .625rem; */
-    /* min-height: 202px; */
     min-height: 12.625rem;
     width: 100%;
-    position: relative;
+    /* position: relative; */
     flex: 1;
+    display: flex;
+    flex-direction: column;
   }
     .jw-map.jw-map--paris-sage {
       background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png);
@@ -252,68 +265,74 @@
     .jw-map.aspect-ratio:before {
       padding-top: calc(1151/1850 * 100%);
     }
-    .jw-map__row + .jw-map__row {
-      /* margin-top: 10px; */
-      margin-top: .625rem;
+    .jw-map__group {
+      flex: .5;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
+    .jw-map__row {
+      position: relative;
+      /* border: 2px solid maroon; */
+    }
+      .jw-map__row + .jw-map__row {
+        /* margin-top: .625rem; */
+      }
   
+  /*
+    jw-map height: 333.239px;
+    jw-ship height: 261.79px;
+
+    jw-
+  */
   .jw-ship {
     text-align: center;
-    /* position: absolute; */
-    /* bottom: 10px; */
-    /* bottom: .625rem; */
-    /* width: 98%; */
-    /* width: calc(100% - (0.625rem * 2)); */
-    /* width: 100%; */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
     .jw-ship__image-container {
       width: 100%;
-      position: absolute;
-      /* display: block; */
-      bottom: 17%;
+      /* position: absolute; */
+      /* bottom: 17%; */
+      margin-top: 1rem;
     }
     .jw-ship__image {
       margin: 0 auto; /* !important; */
       display: block;
-      /* max-width: 50% !important; */
+      width: 50%; /* Default width if imagery → imageClassification is missing */
     }
-
-    /*
-      jimaworks-made SailShips.
-
-      Using the map image/mat opening as the reference:
-
-      The bottom of the ship image:
-      • Should be 17% from the map/opening bottom.
-
-      The width of the ship image:
-      • Should be 40% of the map/opening width
-    */
-    .jw-ship__image.jw-ship__image--jimaworks-made-sail {
-      width: 40%; /* TODO: of map, not parent */
-    }
-    .jw-ship__image.jw-ship__image--jimaworks-made-steam-sail {
-      width: 65%;
-    }
-    .jw-ship__image.jw-ship__image--jimaworks-made-steam {
-      width: 75%;
-    }
-    .jw-ship__image.jw-ship__image--historic-landscape {
-      width: 55%;
-    }
-    .jw-ship__image.jw-ship__image--historic-portrait {
-      width: 55%;
-    }
-
+      /* Jimaworks-made Sail Ship */
+      .jw-ship__image.jw-ship__image--jimaworks-made-sail {
+        width: 40%;
+      }
+      /* Jimaworks-made Steam-Sail Ship */
+      .jw-ship__image.jw-ship__image--jimaworks-made-steam-sail {
+        width: 65%;
+      }
+      /* Jimaworks-made Steam Ship */
+      .jw-ship__image.jw-ship__image--jimaworks-made-steam {
+        width: 75%;
+      }
+      /* Historic imagery - landscape */
+      .jw-ship__image.jw-ship__image--historic-landscape {
+        width: 55%;
+      }
+      /* Historic imagery - portrait */
+      .jw-ship__image.jw-ship__image--historic-portrait {
+        width: 55%;
+      }
     .jw-ship__info {
       width: 100%;
       height: 17%; /* Must match `bottom` of .jw-ship__image-container */
-      position: absolute;
-      bottom: 0%;
+      /* position: absolute; */
+      /* bottom: 0%; */
       display: flex; /* TODO: vendor prefix */
       flex-direction: column;
       justify-content: center;
       text-align: center;
+      margin: 1rem auto;
     }
 
   .jw-plaque {
@@ -322,12 +341,9 @@
     background-color: #ecc37e;
     text-align: center;
     max-width: 50%;
-    /* max-height: 70px; */
     max-height: 4.375rem;
     overflow: auto;
-    /* margin: 10px auto 0; */
     margin: .625rem auto 0;
-    /* padding: 2.5px; */
     padding: .15625rem;
   }
     .jw-plaque.aspect-ratio:before {
@@ -339,7 +355,7 @@
       }
     }
 
-  .jw-relationships-preview-container [id] {
+  .jw-relationships-preview-container [data-tour-spot][id] {
     transition: all .5s linear; /* slow unhighlight */
   }
 
@@ -348,13 +364,12 @@
   .jw-route__origin,
   /* .jw-ship__image-container, */
   .jw-plaque {
-    max-width: 75%;
+    /* max-width: 75%;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto; */
   }
   
   .jw-info {
-    /* box-shadow: 0 0 10px #05537a; */
     box-shadow: 0 0 .625rem #05537a;
     cursor: default;
   }
@@ -368,10 +383,8 @@
     z-index: 999999;
   }
     .jw-highlighted.jw-highlighted--alter-box-style {
-      /* padding: 10px; */
       padding: .625rem;
       background-color: rgba(255,255,255,0.75);
-      /* border: 1px solid #05537a; */
       border: .0625rem solid #05537a;
     }
     .jw-highlighted.jw-highlighted--retain-size {
@@ -515,288 +528,237 @@
   }
 </style>
 <div class="jw-relationships-preview-container">
-  <article id="frame" class="
-    jw-relationships-preview
-    jw-relationships-preview--frame-black-walnut
-    aspect-ratio
-  ">
+  <article
+    id="frame"
+    class="
+      jw-relationships-preview
+      jw-relationships-preview--frame-black-walnut
+      aspect-ratio
+    "
+    data-tour-spot
+  >
     <div class="jw-relationships-preview__content">
       <div id="map-background" class="jw-map jw-map--paris-sage">
-        <hgroup id="title-text-box" class="jw-title jw-map__row">
-          <h3 class="jw-title__text">The Family Crossing: First Generation</h3>
-          <h3 class="jw-title__text" role="presentation">A Thread in the Great Tapistry that is America</h3>
-          <h3 class="jw-title__text" role="presentation"></h3>
-        </hgroup>
-        <div class="jw-route jw-map__row">
-          <div id="destination-text-box" class="jw-route__destination">
-            <p class="jw-route__text">Arrival: A New World Port</p>
-            <p class="jw-route__text">Destiny: An American Lineage</p>
-          </div>
-          <div id="origins-text-box" class="jw-route__origin">
-            <p class="jw-route__text">Origin: The Old World</p>
-            <p class="jw-route__text">Crossing: The North Atlantic</p>
+        <div class="jw-map__group">
+          <hgroup id="title-text-box" class="jw-title jw-map__row" data-tour-spot>
+            <h3 id="title-line1" class="jw-title__text">The Family Crossing: First Generation</h3>
+            <h3 id="title-line2" class="jw-title__text jw-title__text--line2" role="presentation">A Thread in the Great Tapistry that is America</h3>
+            <h3 id="title-line3" class="jw-title__text jw-title__text--line3" role="presentation"></h3>
+          </hgroup>
+          <div class="jw-route jw-map__row">
+            <div id="destination-text-box" class="jw-route__destination" data-tour-spot>
+              <p id="destination-line1" class="jw-route__text">Arrival: A New World Port</p>
+              <p id="destination-line2" class="jw-route__text">Destiny: An American Lineage</p>
+            </div>
+            <div id="origins-text-box" class="jw-route__origin" data-tour-spot>
+              <p id="origin-line1" class="jw-route__text">Origin: The Old World</p>
+              <p id="origin-line2" class="jw-route__text">Crossing: The North Atlantic</p>
+            </div>
           </div>
         </div>
-        <div class="jw-map__row"><!-- .jw-ship -->
-          <div id="ship" class="jw-ship__image-container">
-            <img class="jw-ship__image" src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" alt="Ship" />
+        <div class="jw-ship jw-map__row">
+          <div id="ship" class="jw-ship__image-container" data-tour-spot>
+            <img id="ship-image" class="jw-ship__image jw-ship__image--jimaworks-made-steam" src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" alt="Ship" />
           </div>
-          <div id="ship-info-text-box" class="jw-ship__info">
-            <p class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
-            <p class="jw-ship__text">Typical Duration of Crossing: Two Weeks</p>
+          <div id="ship-info-text-box" class="jw-ship__info" data-tour-spot>
+            <p id="ship-info-line1" class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
+            <p id="ship-info-line2" class="jw-ship__text">Typical Duration of Crossing: Two Weeks</p>
           </div>
         </div>
       </div>
-      <div id="webPlaqueTextBoxDiv" class="jw-plaque">
-        <p class="jw-plaque__text">In Appreciation of</p>
-        <p class="jw-plaque__text">the Initiative and Courage of</p>
-        <p class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
-        <p class="jw-plaque__text">#4</p>
-        <p class="jw-plaque__text">#5</p>
-        <p class="jw-plaque__text">#6</p>
-        <p class="jw-plaque__text">#7</p>
-        <p class="jw-plaque__text">#8</p>
+      <div id="webPlaqueTextBoxDiv" class="jw-plaque" data-tour-spot>
+        <p id="plaque-line1" class="jw-plaque__text">In Appreciation of</p>
+        <p id="plaque-line2" class="jw-plaque__text">the Initiative and Courage of</p>
+        <p id="plaque-line3" class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
+        <p id="plaque-line4" class="jw-plaque__text">#4</p>
+        <p id="plaque-line5" class="jw-plaque__text">#5</p>
+        <p id="plaque-line6" class="jw-plaque__text">#6</p>
+        <p id="plaque-line7" class="jw-plaque__text">#7</p>
+        <p id="plaque-line8" class="jw-plaque__text">#8</p>
       </div>
     </div>
   </article>
   <p class="jw-relationships-preview-disclaimer">Mockup only. Final product may differ in appearance.</p>
 </div>
 <script>
-  console.warn('RelationShips Preview Redux initialized');
+  console.log( 'RelationShips Preview Redux initialized' );
 
-  var $ship = document.getElementById( 'ship' );
-  var $shipImage = $ship.querySelector( '.jw-ship__image' );
-  var defaultShipImage = 'jimaworksStPaul640.png';
+  var mapElements = {
+    "frame": {
+      "$element": document.getElementById( 'frame' ),
+      "default": localStorage.getItem( 'FrameDefault' ),
+      "saved": localStorage.getItem( 'Frame' )
+    },
+    "mapBackground": {
+      "$element": document.getElementById( 'map-background' ),
+      "default": localStorage.getItem( 'MapStyleDefault' ),
+      "saved": localStorage.getItem( 'MapStyle' )
+    },
+    "title": {
+      "$element": document.getElementById( 'title-text-box' ),
+      "fields": ["line1", "line2"],
+      "line1": {
+        "$element": document.getElementById( 'title-line1' ),
+        "default": localStorage.getItem( 'TitleLine1Default' ),
+        "saved": localStorage.getItem( 'TitleLine1' )
+      },
+      "line2": {
+        "$element": document.getElementById( 'title-line2' ),
+        "default": localStorage.getItem( 'TitleLine2Default' ),
+        "saved": localStorage.getItem( 'TitleLine2' )
+      }
+    },
+    "origins": {
+      "$element": document.getElementById( 'origins-text-box' ),
+      "fields": ["line1", "line2"],
+      "line1": {
+        "$element": document.getElementById( 'origin-line1' ),
+        "default": localStorage.getItem( 'originsTextBoxL1Default' ),
+        "saved": localStorage.getItem( 'originsTextBoxL1' )
+      },
+      "line2": {
+        "$element": document.getElementById( 'origin-line2' ),
+        "default": localStorage.getItem( 'originsTextBoxL2Default' ),
+        "saved": localStorage.getItem( 'originsTextBoxL2' )
+      }
+    },
+    "destination": {
+      "$element": document.getElementById( 'destination-text-box' ),
+      "fields": ["line1", "line2"],
+      "line1": {
+        "$element": document.getElementById( 'destination-line1' ),
+        "default": localStorage.getItem( 'DestinyLine1Default' ),
+        "saved": localStorage.getItem( 'DestinyLine1' )
+      },
+      "line2": {
+        "$element": document.getElementById( 'destination-line2' ),
+        "default": localStorage.getItem( 'DestinyLine2Default' ),
+        "saved": localStorage.getItem( 'DestinyLine2' )
+      }
+    },
+    "ship": {
+      "$element": document.getElementById( 'ship' ),
+      "fields": ["image", "infoLine1", "infoLine2"],
+      "image": {
+        "$element": document.getElementById( 'ship-image' ),
+        "default": localStorage.getItem( 'shipPicDefault' ),
+        "saved": localStorage.getItem( 'shipPic' )
+      },
+      "infoLine1": {
+        "$element": document.getElementById( 'ship-info-line1' ),
+        "default": localStorage.getItem( 'ShipInfoLine1Default' ),
+        "saved": localStorage.getItem( 'ShipInfoLine1' )
+      },
+      "infoLine2": {
+        "$element": document.getElementById( 'ship-info-line2' ),
+        "default": localStorage.getItem( 'ShipInfoLine2Default' ),
+        "saved": localStorage.getItem( 'ShipInfoLine2' )
+      }
+    },
+    "plaque": {
+      "$element": document.getElementById( 'webPlaqueTextBoxDiv' ),
+      "fields": ["line1", "line2", "line3", "line4", "line5", "line6", "line7", "line8"],
+      "line1": {
+        "$element": document.getElementById( 'plaque-line1' ),
+        "default": "In Appreciation of",
+        "saved":  localStorage.getItem( 'PlaqueLine1' ),
+      },
+      "line2": {
+        "$element": document.getElementById( 'plaque-line1' ),
+        "default": "the Initiative and Courage of",
+        "saved":  localStorage.getItem( 'PlaqueLine2' ),
+      },
+      "line3": {
+        "$element": document.getElementById( 'plaque-line1' ),
+        "default": "Our Forebears Who First Crossed to America",
+        "saved":  localStorage.getItem( 'PlaqueLine3' ),
+      },
+      "line4": {
+        "$element": document.getElementById( 'plaque-line1' ),
+        "default": "#4",
+        "saved":  localStorage.getItem( 'PlaqueLine4' ),
+      },
+      "line5": {
+        "$element": document.getElementById( 'plaque-line1' ),
+        "default": "#5",
+        "saved":  localStorage.getItem( 'PlaqueLine5' ),
+      },
+      "line6": {
+        "$element": document.getElementById( 'plaque-line1' ),
+        "default": "#6",
+        "saved":  localStorage.getItem( 'PlaqueLine6' ),
+      },
+      "line7": {
+        "$element": document.getElementById( 'plaque-line1' ),
+        "default": "#7",
+        "saved":  localStorage.getItem( 'PlaqueLine7' ),
+      },
+      "line8": {
+        "$element": document.getElementById( 'plaque-line1' ),
+        "default": "#8",
+        "saved":  localStorage.getItem( 'PlaqueLine8' ),
+      },
+    }
+  };
+  // var $ship = document.getElementById( 'ship' );
+  // var $shipImage = $ship.querySelector( '.jw-ship__image' );
+
   var shipImagery = {
     "jimaworksMade": [
       {
-        "ID": "Savannah(1818-1821)",
-        "name": "Savannah",
-        "era": "EraOfTheSteamSailShip(1840-1915)",
-        "operator": "Holland-America",
-        "class": "PsgLiner",
-        "careerStart": 1818,
-        "careerEnd": 1821,
-        "totalPsgrs": 270.643,
         "imagery": "Savannah_1818-1821_jimaworksmade300ppi.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail",
-        "sources": null,
-        "perCountryPsgrs": {
-          "GB": 5,
-          "BL": 10,
-          "NL": 65,
-          "DE": 10,
-          "Other": 10
-        },
-        "shipsRoutes": "*Any*",
+        "imageClassification": "jimaworks-made-steam-sail"
       },
       {
-        "ID": "NieuwAmsterdam(1905-1932)",
-        "name": "Nieuw Amsterdam",
-        "era": "EraOfThePassengerLiner(1895-1970)",
-        "operator": "Holland-America",
-        "class": "PsgLiner",
-        "careerStart": 1905,
-        "careerEnd": 1932,
-        "totalPsgrs": 270.643,
         "imagery": "NieuwAmsterdam_1905-1932_jimaworksmade72ppi.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail",
-        "sources": null,
-        "perCountryPsgrs": {
-          "GB": 5,
-          "BL": 10,
-          "NL": 65,
-          "DE": 10,
-          "Other": 10
-        },
-        "shipsRoutes": "*Any*"
+        "imageClassification": "jimaworks-made-steam-sail"
       },
       {
-        "ID": "Maasdam(1952-1968)",
-        "name": "Maasdam",
-        "era": "EraOfThePassengerLiner(1895-1970)",
-        "operator": "Holland-America",
-        "class": "PsgLiner",
-        "careerStart": 1952,
-        "careerEnd": 1968,
-        "totalPsgrs": 270.643,
         "imagery": "Maasdam_1952-1968_jimaworksmade72ppi.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail",
-        "sources": null,
-        "perCountryPsgrs": {
-          "GB": 5,
-          "BL": 10,
-          "NL": 65,
-          "DE": 10,
-          "Other": 10
-        },
-        "shipsRoutes": "*Any*"
+        "imageClassification": "jimaworks-made-steam-sail"
       },
       {
-        "ID": "Savannah(1962-1972)",
-        "name": "Savannah",
-        "era": "EraOfThePassengerLiner(1895-1970)",
-        "operator": "US Maritme Commission",
-        "class": "PsgLiner",
-        "careerStart": 1962,
-        "careerEnd": 1972,
-        "totalPsgrs": 270.643,
         "imagery": "Savannah_1962-1972_jimaworksmade72ppi.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail",
-        "sources": null,
-        "perCountryPsgrs": {
-          "GB": 5,
-          "BL": 10,
-          "NL": 65,
-          "DE": 10,
-          "Other": 10
-        },
-        "shipsRoutes": "*Any*"
+        "imageClassification": "jimaworks-made-steam-sail"
       },
       {
-        "ID": "St.Paul",
-        "name": "St.Paul",
-        "era": "EraOfThePassengerLiner(1895-1970)",
-        "operator": "American",
-        "class": "PsgLiner",
-        "careerStart": 1895,
-        "careerEnd": 1923,
-        "totalPsgrs": 95,
         "imagery": "jimaworksStPaul640.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail"
+        "imageClassification": "jimaworks-made-steam"
       },
       {
-        "ID": "Ryndam",
-        "name": "Ryndam",
-        "era": "EraOfThePassengerLiner(1895-1970)",
-        "operator": "Holland-America",
-        "class": "PsgLiner",
-        "careerStart": 1951,
-        "careerEnd": 1966,
-        "totalPsgrs": 270.643,
         "imagery": "Ryndam_1951-1970_-mdlrend.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail"
+        "imageClassification": "jimaworks-made-steam-sail"
       }
     ],
     "knownShipPlaceholders": [
       {
-        "ID": "Known Ship placeholder (1565-1790)",
-        "name": "Known Ship placeholder (1565-1790)",
-        "era": "ColonialAndEarlyIndependenceEra(1607-1840)",
-        "operator": "Unk",
-        "class": "Flute",
-        "careerStart": 1585,
-        "careerEnd": 1790,
-        "totalPsgrs": 300,
         "imagery": "EarlySailKnownShipIconLabeled.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail",
-        "sources": "",
-        "perCountryPsgrs": {
-          "Other": 100
-        },
-        "shipsRoutes": "*Any*"
+        "imageClassification": "jimaworks-made-steam-sail"
       },
       {
-        "ID": "Known Ship placeholder (1790-1850)",
-        "name": "Known Ship placeholder (1790-1850)",
-        "era": "EraOfModernSail(1790-1890)",
-        "operator": "Unk",
-        "class": "3MastedMerchant",
-        "careerStart": 1790,
-        "careerEnd": 1850,
-        "totalPsgrs": 800,
         "imagery": "ModernSailKnownShipIconLabeled.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail",
-        "sources": "",
-        "perCountryPsgrs": {
-          "Other": 100
-        },
-        "shipsRoutes": "*Any*"
+        "imageClassification": "jimaworks-made-steam-sail"
       },
       {
-        "ID": "Known Ship placeholder (1850-1890)",
-        "name": "Known Ship placeholder (1850-1890)",
-        "era": "EraOfTheSteamSailShip(1840-1915)",
-        "operator": "Unk",
-        "class": "SteamSail",
-        "careerStart": 1850,
-        "careerEnd": 1890,
-        "totalPsgrs": 1000,
         "imagery": "SteamSailKnownShipIconLabeled.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail",
-        "sources": "",
-        "perCountryPsgrs": {
-          "Other": 100
-        },
-        "shipsRoutes": "*Any*"
+        "imageClassification": "jimaworks-made-steam-sail"
       },
       {
-        "ID": "Known Ship placeholder (1890-1920)",
-        "name": "Known Ship placeholder (1890-1920)",
-        "era": "EraOfThePassengerLiner(1890-1920)",
-        "operator": "Unk",
-        "class": "SteamShip",
-        "careerStart": 1890,
-        "careerEnd": 1920,
-        "totalPsgrs": 2500,
         "imagery": "ClassicPssgrLinerKnownShipIconLabeled.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail",
-        "sources": "",
-        "perCountryPsgrs": {
-          "Other": 100
-        },
-        "shipsRoutes": "*Any*"
+        "imageClassification": "jimaworks-made-steam-sail"
       },
       {
-        "ID": "Known Ship placeholder (1920-1970)",
-        "name": "Known Ship placeholder (1920-1970)",
-        "era": "EraOfThePassengerLiner(1920-1970)",
-        "operator": "Unk",
-        "class": "MotorShip",
-        "careerStart": 1920,
-        "careerEnd": 1970,
-        "totalPsgrs": 800,
         "imagery": "PssgrLinerKnownShipIconLabeled.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail",
-        "sources": "",
-        "perCountryPsgrs": {
-          "Other": 100
-        },
-        "shipsRoutes": "*Any*"
+        "imageClassification": "jimaworks-made-steam-sail"
       },
       {
-        "ID": "Known Ship placeholder (1945-Present)",
-        "name": "Known Plane placeholder (1945-Present)",
-        "era": "EraOfAirTravel(1945-Present)",
-        "operator": "Unk",
-        "class": "Airplane",
-        "careerStart": 1945,
-        "careerEnd": 2020,
-        "totalPsgrs": 1500,
         "imagery": "AgeOfAirTravelKnownPlaneIconLabeled.png",
-        "background": "transparent",
-        "imageClassification": "steam-sail",
-        "sources": "",
-        "perCountryPsgrs": {
-          "Other": 100
-        },
-        "shipsRoutes": "*Any*"
+        "imageClassification": "jimaworks-made-steam-sail"
       },
-      // Missing in original dataset
+      // Missing in original dataset:
       {
         "imagery": "Europa_1920-1960_-postcd.jpg",
-        "imageClassification": "jimaworks-made-steam-sail", //"steam-sail" // TODO: verify
+        "imageClassification": "historic-landscape"
       }
     ]
   };
@@ -807,16 +769,34 @@
     'historic-landscape',
     'historic-portrait'
   ];
+  var mapBackgroundColorSchemeToClassId = {
+    "ParisSage": "paris-sage",
+    "EmpressTeal": "empress-teal",
+    "PalaceRosa": "palace-rosa",
+    "SeaSprayBlue": "sea-spray-blue",
+    "MayanGlow": "mayan-glow"
+  };
+  var frameStyleToClassId = {
+    "BlackWalnut": "black-walnut",
+    "GoldTrim": "gold-trim",
+    "LightCherry": "light-cherry",
+    "BlackRoped": "black-roped"
+  };
+
+  function updateFrame( $frame, frameStyle ) {
+    applyFrameClasses( $frame, frameStyle );
+  }
+
+  function updateMapBackground( $mapBackground, mapBackgroundColorScheme ) {
+    applyMapBackgroundClasses( $mapBackground, mapBackgroundColorScheme );
+  }
 
   function updateShipImage( $shipImage, shipImageFileName ) {
-    console.log('updateShipImage');
     if ( typeof shipImageFileName !== "string" ) {
       shipImageFileName = shipImageFileName.toString();
     }
 
     var newShipImageClassification = getShipImageClassification( shipImageFileName );
-
-    console.log( 'newShipImageClassification', newShipImageClassification );
 
     if ( newShipImageClassification ) {
       $shipImage.src = ( window.Jimaworks.shopifyFilePrefix + shipImageFileName );
@@ -853,7 +833,7 @@
 
     if ( classNameModifierBaseRegex.test( $shipImage.className ) ) {
       for ( var index = 0; index < shipImageClassifications.length; index++ ) {
-        var className = ( classNameModifierBase + shipsImageClassifications[index] );
+        var className = ( classNameModifierBase + shipImageClassifications[index] );
         
         $shipImage.classList.remove( className );
       }
@@ -862,12 +842,91 @@
     $shipImage.classList.add( newClassName );
   }
 
-  var savedShipImage = localStorage.getItem( 'shipPic' );
+  function applyMapBackgroundClasses( $mapBackground, mapBackgroundColorScheme ) {
+    var classNameModifierBase = 'jw-map--color-';
+    var classNameModifierBaseRegex = new RegExp( classNameModifierBase );
 
-  console.log( 'savedShipImage', savedShipImage );
-  console.log( 'defaultShipImage', defaultShipImage );
+    if ( mapBackgroundColorSchemeToClassId.hasOwnProperty( mapBackgroundColorScheme ) ) {
+      var mapBackgroundColorSchemeClassId = mapBackgroundColorSchemeToClassId[mapBackgroundColorScheme];
+      var newClassName = ( classNameModifierBase + mapBackgroundColorSchemeClassId );
 
-  if ( savedShipImage && ( savedShipImage !== defaultShipImage ) ) {
-    updateShipImage( $shipImage, savedShipImage );
+      if ( classNameModifierBaseRegex.test( $mapBackground.className ) ) {
+        for ( var currentMapBackgroundColorScheme in mapBackgroundColorSchemeToClassId ) {
+          var className = ( classNameModifierBase + mapBackgroundColorSchemeToClassId[currentMapBackgroundColorScheme] );
+
+          $mapBackground.classList.remove( className );
+        }
+      }
+
+      $mapBackground.classList.add( newClassName );
+    } else {
+      console.error( 'Unsupported map background color scheme:', mapBackgroundColorScheme );
+    }
+  }
+
+  function applyFrameClasses( $frame, frameStyle ) {
+    var classNameModifierBase = 'jw-relationships-preview--frame-';
+    var classNameModifierBaseRegex = new RegExp( classNameModifierBase );
+
+    if ( frameStyleToClassId.hasOwnProperty( frameStyle ) ) {
+      var frameStyleClassId = frameStyleToClassId[frameStyle];
+      var newClassName = ( classNameModifierBase + frameStyleClassId );
+
+      if ( classNameModifierBaseRegex.test( $frame.className ) ) {
+        for ( var currentFrameStyle in frameStyleToClassId ) {
+          var className = ( classNameModifierBase + frameStyleToClassId[currentFrameStyle] );
+
+          $frame.classList.remove( className );
+        }
+      }
+
+      $frame.classList.add( newClassName );
+    } else {
+      console.error( 'Unsupported frame style:', mapBackgroundColorScheme );
+    }
+  }
+
+  function getMapElementUpdateFunctionName( mapElementPath ) {
+    // ship.image → updateShipImage
+    var mapElementPathParts = mapElementPath.split( '.' );
+    var updateFunctionName = 'update';
+
+    for ( var index = 0; index < mapElementPathParts.length; index++ ) {
+      var mapElementPathPart = mapElementPathParts[index];
+      
+      updateFunctionName += mapElementPathPart.charAt( 0 ).toUpperCase() + mapElementPathPart.substring( 1 );
+    }
+
+    return updateFunctionName;
+  }
+
+  function updatePreview( mapElementPath, $element, newValue ) {
+    var mapElementUpdateFunctionName = getMapElementUpdateFunctionName( mapElementPath );
+
+    if ( typeof window[mapElementUpdateFunctionName] === 'function' ) {
+      window[mapElementUpdateFunctionName]( $element, newValue );
+    } else {
+      $element.textContent = newValue;
+    }
+  }
+
+  for ( var mapElementKey in mapElements ) {
+    var mapElement = mapElements[mapElementKey];
+
+    if ( mapElement.hasOwnProperty( 'fields' ) && mapElement.fields.length ) {
+      for ( var index = 0; index < mapElement.fields.length; index++ ) { // line1, line2, etc.
+        var fieldName = mapElement.fields[index];
+        var field = mapElement[fieldName];
+        var mapElementPath = mapElementKey + '.' + fieldName;
+
+        if ( field.saved && ( field.saved !== field.default ) ) {
+          updatePreview( mapElementPath, field.$element, field.saved );
+        }
+      }
+    } else {
+      if ( mapElement.saved && ( mapElement.saved !== mapElement.default ) ) {
+        updatePreview( mapElementKey, mapElement.$element, mapElement.saved );
+      }
+    }
   }
 </script>
