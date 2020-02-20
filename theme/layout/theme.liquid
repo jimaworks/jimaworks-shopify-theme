@@ -69,19 +69,53 @@
 
       See bottom of `RelationShipsPreviewZ` for implementation.
     */
-    window.Jimaworks = ( window.Jimaworks || {
-        "isDev": /^jimaworks-dev\.myshopify\.com/.test( window.location.host )
-    } ); // Singleton for namespacing; avoids global variable conflicts
-    window.Jimaworks.overlaysRendered = (
-        ( typeof window.overlaysRendered !== "undefined" )
-        ? window.overlaysRendered
-        : false
-    );
-    if (window.Jimaworks.isDev) {
-      window.Jimaworks.shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
+    window.Jimaworks = ( window.Jimaworks || {} ); // Singleton for namespacing; avoids global variable conflicts
+    
+    Jimaworks.isDev = /^jimaworks-dev\.myshopify\.com/.test( window.location.host );
+    if ( Jimaworks.isDev ) {
+      Jimaworks.shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
     } else {
-      window.Jimaworks.shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
+      Jimaworks.shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
     }
+
+    Jimaworks.overlaysRendered = (
+      ( typeof window.overlaysRendered !== "undefined" )
+      ? window.overlaysRendered
+      : false
+    );
+
+    Jimaworks.initializePreview = function initializePreview( callback ) {
+      if ( callback && ( typeof callback !== 'function' ) ) {
+        console.error( 'Parameter `callback` must be of type function' );
+      }
+
+      Jimaworks.Preview = ( Jimaworks.Preview || {} );
+      Jimaworks.Preview.$ = {
+        "previewLayoutContainer": document.getElementById( 'map' ),
+        "previewTemplate": document.getElementById( 'preview-template' ),
+        "previewScript": null,
+        "preview": null
+      };
+      Jimaworks.Preview._callbackQueue = [];
+
+      Jimaworks.Preview.$.previewLayoutContainer.innerHTML = Jimaworks.Preview.$.previewTemplate.innerHTML;
+      Jimaworks.Preview.$.previewLayoutContainer.removeChild( Jimaworks.Preview.$.previewLayoutContainer.querySelector( 'script' ) );
+
+      if ( 'content' in Jimaworks.Preview.$.previewTemplate ) {
+        // Supports HTML5 <template>
+        Jimaworks.Preview.$.previewScript = Jimaworks.Preview.$.previewTemplate.content.querySelector( 'script' );
+      } else {
+        Jimaworks.Preview.$.previewScript = Jimaworks.Preview.$.previewTemplate.querySelector( 'script' );
+      }
+
+      if ( callback ) {
+        Jimaworks.Preview._callbackQueue.push( callback ); 
+      }
+
+      Jimaworks.Preview.$.previewLayoutContainer.appendChild( Jimaworks.Preview.$.previewScript );
+      Jimaworks.Preview.$.preview = Jimaworks.Preview.$.previewLayoutContainer.querySelector( '.jw-relationships-preview' );      
+    };
+
     window.theme = window.theme || {};
 
     var theme = {

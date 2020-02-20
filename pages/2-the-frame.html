@@ -48,136 +48,37 @@
 </article>
 
 <script>
-  function recordFrameChoice( variantId, url, variantAbbreviation ) {
-    localStorage.setItem( "Frame", variantId );
-    localStorage.setItem( "FrameImg", url );
-
-    if ( variantAbbreviation && variantAbbreviation.length ) {
-      localStorage.setItem( "FrameAbbrev", variantAbbreviation ); // Not used AFAICT
-    } else {
-      localStorage.removeItem( "FrameAbbrev" );
-    }
-  }
-
-  function preloadPreviewImages() {
-    for ( var key in previewImages ) {
-      var currentFrameImage = previewImages[key];
-      var link = document.createElement( 'link' );
-      link.rel = 'preload';
-      link.href = currentFrameImage;
-      link.as = 'image';
-      document.head.appendChild( link );
-    }
-
-    previewImagesLoaded = true;
-    $frameSelection.removeEventListener( 'mouseover', preloadPreviewImages );
-    $frameSelection.removeEventListener( 'click', preloadPreviewImages );
-  }
-
-  function changeMapBackground( $mapBackground, newMapBackgroundClassId ) {
-    var newMapBackgroundClass = ( 'jw-map--color-' + newMapBackgroundClassId );
-
-    if ( $mapBackground.className.indexOf( 'jw-map--color-' ) !== -1 ) {
-      $mapBackground.className = $mapBackground.className.replace(
-        /\bjw-map--color-[^\s]+\b/,
-        newMapBackgroundClass
-      );
-    } else {
-      $mapBackground.classList.add( newMapBackgroundClass );
-    }
-  }
-
-  function changeFrame( newFrameClassId ) {
-    var newFrameClass = ( 'jw-relationships-preview--frame-' + newFrameClassId );
-
-    if ( $preview.className.indexOf( 'jw-relationships-preview--frame-' ) !== -1 ) {
-      $preview.className = $preview.className.replace(
-        /\bjw-relationships-preview--frame-[^\s]+\b/,
-        newFrameClass
-      );
-    } else {
-      $preview.classList.add( newFrameClass );
-    }
-  }
-
-  function getSelectedOption( $select ) {
-    return $select.querySelector( ':checked' );
-  }
-
-  function getVariantIdFromOption( $option ) {
-    return ( $option.dataset ? $option.dataset.variantId : $option.getAttribute( 'data-variant-id' ) );
-  }
-
-  function selectOptionWithVariantId( variantId ) {
-    var $option = $frameSelection.querySelector( '[data-variant-id="' + variantId + '"]' );
-
-    if ( $option ) {
-      $option.selected = true; 
-    }
-  }
-
-  var $previewLayoutContainer = document.getElementById( 'map' );
-  var $previewTemplate = document.getElementById( 'preview-template' );
-  var $frameSelection = document.getElementById('frame-selection');
-  var $preview;
-  var previewImagesLoaded = false;
-  var previewImages = {
-    /* Frames */
-    "BlackWalnut": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png",
-    "GoldTrim": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Gold-NoRuler-72ppi.png",
-    "LightCherry": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Cherry-NoRuler-72ppi.png",
-    "BlackRoped": "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-72ppi.png"
-  };
-  var defaultFrameVariantId = 'BlackWalnut';
-  var defaultFrameClassId = 'black-walnut';
-  var savedFrameVariantId = localStorage.getItem( 'Frame' );
-  var defaultMapBackgroundVariantId = 'ParisSage';
-  var defaultMapBackgroundClassId = 'paris-sage';
-  var mapVariantToClassId = {
-    "ParisSage": "paris-sage",
-    "EmpressTeal": "empress-teal",
-    "PalaceRosa": "palace-rosa",
-    "SeaSprayBlue": "sea-spray-blue",
-    "MayanGlow": "mayan-glow"
-  };
-  var savedMapBackgroundVariantId = localStorage.getItem( 'MapStyle' );
-
-  // initializeDefaults();
-  $previewLayoutContainer.innerHTML = $previewTemplate.innerHTML;
-  $preview = $previewLayoutContainer.querySelector('.jw-relationships-preview');
-
   window.addEventListener( "DOMContentLoaded", function pickYourFrame__onDomContentLoaded() {
-    var $mapBackground = document.getElementById( 'map-background' );
+    Jimaworks.initializePreview();
 
-    $frameSelection.addEventListener( 'mouseover', preloadPreviewImages, false );
-    $frameSelection.addEventListener( 'click', preloadPreviewImages, false );
+    var $frameSelection = document.getElementById( 'frame-selection' );
 
-    $frameSelection.addEventListener( 'change', function frameSelectionChanged( event ) {
-      var newValue = event.target.value;
-      // $preview already initialized in surrounding scope
-
-      changeFrame( newValue );
-
-      var $selectedOption = getSelectedOption( event.target );
-      var variantId = getVariantIdFromOption( $selectedOption );
-
-      recordFrameChoice( variantId, previewImages[variantId] );
+    $frameSelection.addEventListener( 'mouseover', function pickYourFrame__onSizeSelectionMouseover() {
+      Jimaworks.Preview.preloadFrameImages( $frameSelection );
+    }, false );
+    $frameSelection.addEventListener( 'click', function pickYourFrame__onSizeSelectionClick() {
+      Jimaworks.Preview.preloadFrameImages( $frameSelection );
     }, false );
 
-    if ( savedFrameVariantId !== defaultFrameVariantId ) {
-      selectOptionWithVariantId( savedFrameVariantId );
-    }
+    $frameSelection.addEventListener( 'change', function frameSelectionChanged( event ) {
+      var $selectedOption = Jimaworks.Preview.getSelectedOption( event.target );
+      var newValue = Jimaworks.Preview.getVariantIdFromOption( $selectedOption );
 
-    if ( savedMapBackgroundVariantId !== defaultMapBackgroundVariantId ) {
-      changeMapBackground( $mapBackground, mapVariantToClassId[savedMapBackgroundVariantId] )
+      Jimaworks.Preview.updateFrame( newValue );
+      Jimaworks.Preview.recordFrameChocie( newValue, Jimaworks.Preview.frameToFilename[newValue] );
+    }, false );
+
+    if ( Jimaworks.Preview.mapElements.frame.saved !== Jimaworks.Preview.mapElements.frame.default ) {
+      Jimaworks.Preview.selectOptionWithVariantId( $frameSelection, Jimaworks.Preview.mapElements.frame.saved );
     }
 
     // In case user hits back button and browser remembers selection, update the frame to match
     setTimeout( function alignFrameWithSelection() {
-      var $initialSelection = getSelectedOption( $frameSelection );
+      var $initialSelection = Jimaworks.Preview.getSelectedOption( $frameSelection );
+      var defaultFrameClassId = Jimaworks.Preview.frameToClassId[Jimaworks.Preview.mapElements.frame.default];
 
       if ( $initialSelection && ( $initialSelection.value !== defaultFrameClassId ) ) {
-        changeFrame( $initialSelection.value );
+        Jimaworks.Preview.updateFrame( $initialSelection.getAttribute( 'data-variant-id' ) );
       }
     }, 0 );
   } );
