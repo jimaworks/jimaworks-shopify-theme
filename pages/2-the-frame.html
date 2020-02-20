@@ -53,19 +53,14 @@
 
     var $frameSelection = document.getElementById( 'frame-selection' );
 
-    $frameSelection.addEventListener( 'mouseover', function pickYourFrame__onSizeSelectionMouseover() {
-      Jimaworks.Preview.preloadFrameImages( $frameSelection );
-    }, false );
-    $frameSelection.addEventListener( 'click', function pickYourFrame__onSizeSelectionClick() {
-      Jimaworks.Preview.preloadFrameImages( $frameSelection );
-    }, false );
+    Jimaworks.Preview.preloadFrameImages( $frameSelection );
 
     $frameSelection.addEventListener( 'change', function frameSelectionChanged( event ) {
       var $selectedOption = Jimaworks.Preview.getSelectedOption( event.target );
       var newValue = Jimaworks.Preview.getVariantIdFromOption( $selectedOption );
 
       Jimaworks.Preview.updateFrame( newValue );
-      Jimaworks.Preview.recordFrameChocie( newValue, Jimaworks.Preview.frameToFilename[newValue] );
+      Jimaworks.Preview.recordFrameChoice( newValue, Jimaworks.Preview.frameToFilename[newValue] );
     }, false );
 
     if ( Jimaworks.Preview.mapElements.frame.saved !== Jimaworks.Preview.mapElements.frame.default ) {

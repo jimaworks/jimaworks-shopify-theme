@@ -242,8 +242,12 @@
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
+
+    -webkit-transition: background-image .25s linear;
+    -o-transition: background-image .25s linear;
+    transition: background-image .25s linear;
   }
-    .jw-map.jw-map--paris-sage {
+    .jw-map.jw-map--color-paris-sage {
       background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png);
     }
     .jw-map.jw-map--color-empress-teal {
@@ -594,7 +598,7 @@
     data-tour-spot
   >
     <div class="jw-relationships-preview__content">
-      <div id="map-background" class="jw-map jw-map--paris-sage">
+      <div id="map-background" class="jw-map jw-map--color-paris-sage">
         <div class="jw-map__group">
           <hgroup id="title-text-box" class="jw-title jw-map__row" data-tour-spot>
             <h3 id="title-line1" class="jw-title__text">The Family Crossing: First Generation</h3>
@@ -646,12 +650,17 @@
     Jimaworks.Preview.mapElements = {
       "frame": {
         "$element": document.getElementById( 'frame' ),
-        "default": localStorage.getItem( 'FrameDefault' ),
+        "default": ( localStorage.getItem( 'FrameDefault' ) || 'BlackWalnut' ),
         "saved": localStorage.getItem( 'Frame' )
+      },
+      "size": {
+        "$element": document.getElementById( 'frame' ),
+        "default": ( localStorage.getItem( 'SizeDefault' ) || 'Medium' ),
+        "saved": localStorage.getItem( 'Size' )
       },
       "mapBackground": {
         "$element": document.getElementById( 'map-background' ),
-        "default": localStorage.getItem( 'MapStyleDefault' ),
+        "default": ( localStorage.getItem( 'MapStyleDefault' ) || 'ParisSage' ),
         "saved": localStorage.getItem( 'MapStyle' )
       },
       "title": {
@@ -829,7 +838,7 @@
       'historic-portrait'
     ];
 
-    Jimaworks.Preview.mapColorSchemeToClassId = {
+    Jimaworks.Preview.mapBackgroundToClassId = {
       "ParisSage": "paris-sage",
       "EmpressTeal": "empress-teal",
       "PalaceRosa": "palace-rosa",
@@ -886,6 +895,14 @@
       "BlackRoped": "black-roped-frame-border-10x10.jpg?v=1582079316"
     };
 
+    Jimaworks.Preview.mapBackgroundToFilename = {
+      "ParisSage": "EuM-Liner-Pari.png",
+      "EmpressTeal": "EuM-Liner-Empr.png",
+      "PalaceRosa": "EuM-Liner-Pala.png",
+      "SeaSprayBlue": "EuM-Liner-SeaS.png",
+      "MayanGlow": "EuM-Liner-Maya.png"
+    };
+
     Jimaworks.Preview.formatDimensions = function formatDimensions( widthByHeight ) {
       return (
         widthByHeight
@@ -899,13 +916,11 @@
 
       if ( !Jimaworks.Preview.frameToDimensions.hasOwnProperty( frame ) ) {
         console.warn( 'Can’t find physical dimensions for selected frame:', frame );
-        return false;
+        frame = Jimaworks.Preview.mapElements.frame.default;
       }
 
       var $options = $select.querySelectorAll( 'option' );
       var frameDimensions = Jimaworks.Preview.frameToDimensions[frame];
-
-      console.log( 'what', frame, $select, $options, frameDimensions );
 
       for ( var index = 0; index < $options.length; index++ ) {
         var $option = $options[index];
@@ -923,7 +938,11 @@
       Jimaworks.Preview._applyFrameClasses( Jimaworks.Preview.mapElements.frame.$element, frameStyle );
     };
 
-    Jimaworks.Preview.recordFrameChocie = function recordFrameChoice( variantId, url, variantAbbreviation ) {
+    Jimaworks.Preview.updateSize = function updateSize( size ) {
+      Jimaworks.Preview._applyFrameClasses( Jimaworks.Preview.mapElements.size.$element, size );
+    };
+
+    Jimaworks.Preview.recordFrameChoice = function recordFrameChoice( variantId, url, variantAbbreviation ) {
       localStorage.setItem( "Frame", variantId );
       localStorage.setItem( "FrameImg", url );
 
@@ -944,33 +963,53 @@
       }
     };
 
-    Jimaworks.Preview.updateMapColorScheme = function updateMapColorScheme( mapColorScheme ) {
-      Jimaworks.Preview._applyMapBackgroundClasses( Jimaworks.Preview.mapElements.mapBackground.$element, mapColorScheme );
+    Jimaworks.Preview.recordMapBackground = function recordMapBackground( variantId, url, variantAbbreviation ) {
+      // TODO: localStorage.webMapImg differs from localStorage.FrameImg
+      // in that the former is only the filename and the latter is the complete URL.
+      // Should probably make the API internally consistent.
+      if ( url ) {
+        url = url.substring( url.lastIndexOf( '/' ) + 1 );
+      } else {
+        url = Jimaworks.Preview.mapBackgroundToFilename[variantId];
+      }
+
+      localStorage.setItem( 'MapStyle', variantId );
+      localStorage.setItem( 'webMapImg', url );
+
+      if ( variantAbbreviation && variantAbbreviation.length ) {
+        localStorage.setItem( 'MapStyleAbbrev', variantAbbreviation ); // Not used AFAICT
+      } else {
+        localStorage.removeItem( 'MapStyleAbbrev' );
+      }
+    };
+
+    Jimaworks.Preview.updateMapBackground = function updateMapBackground( mapBackground ) {
+      Jimaworks.Preview._applyMapBackgroundClasses( Jimaworks.Preview.mapElements.mapBackground.$element, mapBackground );
     };
 
     Jimaworks.Preview.updateShipImage = function updateShipImage( shipImageFileName ) {
       var $shipImage = Jimaworks.Preview.mapElements.ship.image.$element;
-      var newShipImageClassification = getShipImageClassification( shipImageFileName );
+      var newShipImageClassification = Jimaworks.Preview.getShipImageClassification( shipImageFileName );
 
       if ( newShipImageClassification ) {
         $shipImage.src = ( window.Jimaworks.shopifyFilePrefix + shipImageFileName );
-        _applyShipImageClasses( $shipImage, newShipImageClassification );
+        Jimaworks.Preview._applyShipImageClasses( $shipImage, newShipImageClassification );
       } else {
         console.error( 'Couldn’t get ship image classification for', shipImageFileName );
       }
     };
 
     Jimaworks.Preview.getShipImageClassification = function getShipImageClassification( shipImageFileName ) {
-      for ( var i = 0; i < shipImagery.jimaworksMade.length; i++ ) {
-        var shipImage = shipImagery.jimaworksMade[i];
+      for ( var i = 0; i < Jimaworks.Preview.shipImagery.jimaworksMade.length; i++ ) {
+        var shipImage = Jimaworks.Preview.shipImagery.jimaworksMade[i];
         
         if ( shipImage.hasOwnProperty( 'imagery' ) && ( shipImage.imagery === shipImageFileName ) ) {
           return shipImage.imageClassification;
         }
       }
 
-      for ( var i = 0; i < shipImagery.knownShipPlaceholders.length; i++ ) {
-        var shipImage = shipImagery.knownShipPlaceholders[i];
+      for ( var i = 0; i < Jimaworks.Preview.shipImagery.knownShipPlaceholders.length; i++ ) {
+        var shipImage = Jimaworks.Preview.shipImagery.knownShipPlaceholders[i];
 
         if ( shipImage.hasOwnProperty( 'imagery' ) && ( shipImage.imagery === shipImageFileName ) ) {
           return shipImage.imageClassification;
@@ -986,8 +1025,8 @@
       var newClassName = ( classNameModifierBase + shipImageClassification );
 
       if ( classNameModifierBaseRegex.test( $shipImage.className ) ) {
-        for ( var index = 0; index < shipImageClassifications.length; index++ ) {
-          var className = ( classNameModifierBase + shipImageClassifications[index] );
+        for ( var index = 0; index < Jimaworks.Preview.shipImageClassifications.length; index++ ) {
+          var className = ( classNameModifierBase + Jimaworks.Preview.shipImageClassifications[index] );
           
           $shipImage.classList.remove( className );
         }
@@ -996,17 +1035,17 @@
       $shipImage.classList.add( newClassName );
     }
 
-    Jimaworks.Preview._applyMapBackgroundClasses = function _applyMapBackgroundClasses( $mapBackground, mapColorScheme ) {
+    Jimaworks.Preview._applyMapBackgroundClasses = function _applyMapBackgroundClasses( $mapBackground, mapBackground ) {
       var classNameModifierBase = 'jw-map--color-';
       var classNameModifierBaseRegex = new RegExp( classNameModifierBase );
 
-      if ( mapColorSchemeToClassId.hasOwnProperty( mapColorScheme ) ) {
-        var mapColorSchemeClassId = mapColorSchemeToClassId[mapColorScheme];
-        var newClassName = ( classNameModifierBase + mapColorSchemeClassId );
+      if ( Jimaworks.Preview.mapBackgroundToClassId.hasOwnProperty( mapBackground ) ) {
+        var mapBackgroundClassId = Jimaworks.Preview.mapBackgroundToClassId[mapBackground];
+        var newClassName = ( classNameModifierBase + mapBackgroundClassId );
 
         if ( classNameModifierBaseRegex.test( $mapBackground.className ) ) {
-          for ( var currentmapColorScheme in mapColorSchemeToClassId ) {
-            var className = ( classNameModifierBase + mapColorSchemeToClassId[currentmapColorScheme] );
+          for ( var currentmapBackground in Jimaworks.Preview.mapBackgroundToClassId ) {
+            var className = ( classNameModifierBase + Jimaworks.Preview.mapBackgroundToClassId[currentmapBackground] );
 
             $mapBackground.classList.remove( className );
           }
@@ -1014,7 +1053,7 @@
 
         $mapBackground.classList.add( newClassName );
       } else {
-        console.error( 'Unsupported map background color scheme:', mapColorScheme );
+        console.error( 'Unsupported map background color scheme:', mapBackground );
       }
     }
 
@@ -1076,23 +1115,51 @@
       }
     }
 
-    Jimaworks.Preview.frameImagesLoaded = false;
-    Jimaworks.Preview.preloadFrameImages = function preloadFrameImages( $select ) {
-      for ( var frame in Jimaworks.Preview.frameToFilename ) {
-        var currentFrame = Jimaworks.Preview.frameToFilename[frame];
+    Jimaworks.Preview._preloadImages = function _preloadImages( event ) {
+      var filenameLookup;
+      var loadedIndicator;
+      var preloadHandler;
+      var $select;
+
+      switch ( event.target.name ) {
+        case 'mapBackgroundSelection':
+          filenameLookup = Jimaworks.Preview.mapBackgroundToFilename;
+          loadedIndicator = 'mapBackgroundsLoaded';
+          break;
+        
+        case 'frameSelection':
+          filenameLookup = Jimaworks.Preview.frameToFilename;
+          loadedIndicator = 'frameImagesLoaded';
+          break;
+      }
+
+      for ( var variantId in filenameLookup ) {
+        var filename = filenameLookup[variantId];
         var link = document.createElement( 'link' );
 
         link.rel = 'preload';
-        link.href = window.Jimaworks.shopifyFilePrefix + currentFrame;
+        link.href = Jimaworks.shopifyFilePrefix + filename;
         link.as = 'image';
 
         document.head.appendChild( link );
       }
 
-      Jimaworks.Preview.frameImagesLoaded = true;
+      Jimaworks.Preview[loadedIndicator] = true;
 
-      $select.removeEventListener( 'mouseover', Jimaworks.Preview.preloadFrameImages );
-      $select.removeEventListener( 'click', Jimaworks.Preview.preloadFrameImages );
+      event.target.removeEventListener( 'mouseover', Jimaworks.Preview._preloadImages, false );
+      event.target.removeEventListener( 'click', Jimaworks.Preview._preloadImages, false );
+    };
+
+    Jimaworks.Preview.frameImagesLoaded = false;
+    Jimaworks.Preview.preloadFrameImages = function preloadFrameImages( $frameSelection ) {
+      $frameSelection.addEventListener( 'mouseover', Jimaworks.Preview._preloadImages, false );
+      $frameSelection.addEventListener( 'click', Jimaworks.Preview._preloadImages, false );
+    };
+
+    Jimaworks.Preview.mapBackgroundsLoaded = false;
+    Jimaworks.Preview.preloadMapBackgrounds = function preloadMapBackgrounds( $mapBackgroundSelection ) {
+      $mapBackgroundSelection.addEventListener( 'mouseover', Jimaworks.Preview._preloadImages, false );
+      $mapBackgroundSelection.addEventListener( 'click', Jimaworks.Preview._preloadImages, false );
     };
 
     Jimaworks.Preview.getSelectedOption = function getSelectedOption( $select ) {

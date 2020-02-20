@@ -19,7 +19,7 @@
             <!-- <h3 class="jw-tour-spot__heading">Size</h3> -->
             <div class="jw-tour-spot__body">
               <label for="size-selection">Size</label>
-              <select id="size-selection">
+              <select id="size-selection" name="sizeSelection">
                 <option data-variant-id="Gem" value="gem">Gem</option>
                 <option data-variant-id="Small" value="small">Small</option>
                 <option data-variant-id="Medium" value="medium">Medium</option>
@@ -39,48 +39,32 @@
 
 <script>
   window.addEventListener( "DOMContentLoaded", function chooseASize__onDomContentLoaded() {
-    Jimaworks.initializePreview( function chooseASize__previewInitialized() {
-      var $sizeSelection = document.getElementById( 'size-selection' );
-      var $sizes = $sizeSelection.querySelectorAll( 'option' );
-      var savedframeId = Jimaworks.Preview.mapElements.frame.saved;
-      var defaultframeId = Jimaworks.Preview.mapElements.frame.default;
+    Jimaworks.initializePreview();
 
-      for ( var i = 0; i < $sizes.length; i++ ) {
-        var $size = $sizes[i];
-        
-        $size.value = Jimaworks.Preview.frameToClassId[savedframeId] + '-' + $size.value;
-      }
+    var $sizeSelection = document.getElementById( 'size-selection' );
+    var $sizes = $sizeSelection.querySelectorAll( 'option' );
+    var savedSizeId = Jimaworks.Preview.mapElements.size.saved;
+    var defaultSizeId = Jimaworks.Preview.mapElements.frame.default;
 
-      Jimaworks.Preview.populateDimensions( $sizeSelection );
+    for ( var i = 0; i < $sizes.length; i++ ) {
+      var $size = $sizes[i];
+      
+      $size.value = Jimaworks.Preview.frameToClassId[savedSizeId] + '-' + $size.value;
+    }
 
-      $sizeSelection.addEventListener( 'mouseover', function chooseASize__onSizeSelectionMouseover() {
-        Jimaworks.Preview.preloadFrameImages( $sizeSelection );
-      }, false );
-      $sizeSelection.addEventListener( 'click', function chooseASize__onSizeSelectionClick() {
-        Jimaworks.Preview.preloadFrameImages( $sizeSelection );
-      }, false );
+    Jimaworks.Preview.populateDimensions( $sizeSelection );
+    Jimaworks.Preview.preloadFrameImages( $sizeSelection );
 
-      $sizeSelection.addEventListener( 'change', function sizeSelectionChanged( event ) {
-        var $selectedOption = Jimaworks.Preview.getSelectedOption( event.target );
-        var newValue = Jimaworks.Preview.getVariantIdFromOption( $selectedOption );
+    $sizeSelection.addEventListener( 'change', function sizeSelectionChanged( event ) {
+      var $selectedOption = Jimaworks.Preview.getSelectedOption( event.target );
+      var newValue = Jimaworks.Preview.getVariantIdFromOption( $selectedOption );
 
-        Jimaworks.Preview.updateFrame( newValue );
-        Jimaworks.Preview.recordSizeChoice( newValue );
-      }, false );
+      Jimaworks.Preview.updateFrame( newValue );
+      Jimaworks.Preview.recordSizeChoice( newValue );
+    }, false );
 
-      if ( savedframeId !== defaultframeId ) {
-        Jimaworks.Preview.selectOptionWithVariantId( $sizeSelection, savedframeId );
-      }
-
-      // In case user hits back button and browser remembers selection, update the frame to match
-      setTimeout( function alignFrameWithSelection() {
-        var $initialSelection = Jimaworks.Preview.getSelectedOption( $sizeSelection );
-        var defaultFrameClassId = Jimaworks.Preview.frameToClassId[Jimaworks.Preview.mapElements.frame.default];
-
-        if ( $initialSelection && ( $initialSelection.value !== defaultFrameClassId ) ) {
-          Jimaworks.Preview.updateFrame( $initialSelection.getAttribute( 'data-variant-id' ) );
-        }
-      }, 0 );
-    } );
+    if ( savedSizeId !== defaultSizeId ) {
+      Jimaworks.Preview.selectOptionWithVariantId( $sizeSelection, savedSizeId );
+    }
   } );
 </script>
