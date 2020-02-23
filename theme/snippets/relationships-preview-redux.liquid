@@ -1011,7 +1011,16 @@
       var newShipImageClassification = Jimaworks.Preview.getShipImageClassification( shipImageFileName );
 
       if ( newShipImageClassification ) {
-        $shipImage.src = ( window.Jimaworks.shopifyFilePrefix + shipImageFileName );
+        $shipImage.src = ( Jimaworks.shopifyFilePrefix + shipImageFileName );
+        $shipImage.addEventListener( 'error', function onShipImageError() {
+          if ( Jimaworks.isDev ) {
+            $shipImage.src = ( Jimaworks._shopifyFilePrefixProd + shipImageFileName );
+            console.warn( 'Ship image `' + shipImageFileName + '` not available on Dev site; trying Production instead' );
+          }
+
+          $shipImage.removeEventListener( 'error', onShipImageError, false );
+        }, false );
+
         Jimaworks.Preview._applyShipImageClasses( $shipImage, newShipImageClassification );
       } else {
         console.error( 'Couldn’t get ship image classification for', shipImageFileName );
