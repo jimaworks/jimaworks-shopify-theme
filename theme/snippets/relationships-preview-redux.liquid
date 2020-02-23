@@ -105,7 +105,7 @@
     /* Frame Sizes */
     /* Gem */
     .jw-relationships-preview.jw-relationships-preview--size-gem {
-      border-image-width: 4.40934065934066rem; /* 1.175824175824176x Medium */
+      border-image-width: 4.40934065934066rem;
       padding: 5.625rem 5.625rem 5rem;
     }
     @media only screen and (min-width: 940px) {
@@ -118,8 +118,8 @@
 
     /* Small */
     .jw-relationships-preview.jw-relationships-preview--size-small {
-      border-image-width: 3.75rem; /* 1.213333333333333x Small */
-      padding: 5.625rem 5.625rem 5rem; /* 1.32x Small */
+      border-image-width: 3.75rem;
+      padding: 5.625rem 5.625rem 5rem;
     }
     @media only screen and (min-width: 940px) {
       .jw-relationships-preview.jw-relationships-preview--size-small {
@@ -133,7 +133,7 @@
     /* Scaled padding makes things too crowded at Large size, so Medium and Large share padding and only vary in border width */
     .jw-relationships-preview.jw-relationships-preview--size-medium,
     .jw-relationships-preview.jw-relationships-preview--size-large {
-      border-image-width: 3.090659340659342rem; /* 1.209677419354839x Gem */
+      border-image-width: 3.090659340659342rem;
       padding: 4.261363636363636rem 4.261363636363636rem 3.636363636363636rem; /* 1.351351351351351x Gem */
     }
     @media only screen and (min-width: 940px) {
@@ -372,6 +372,22 @@
   }
     .jw-plaque.aspect-ratio:before {
       padding-top: calc(298/640 * 100%);
+    }
+    .jw-plaque.jw-plaque--gem {
+      max-width: 41.333333333333323%;
+      max-height: 3.616666666666666rem;
+    }
+    .jw-plaque.jw-plaque--small {
+      max-width: 50%;
+      max-height: 4.375rem;
+    }
+    .jw-plaque.jw-plaque--medium {
+      max-width: 60.66666666666665%;
+      max-height: 5.308333333333332rem;
+    }
+    .jw-plaque.jw-plaque--large {
+      max-width: 71.333333333333324%;
+      max-height: 6.241666666666666rem;
     }
     @media only screen and (min-width: 940px) {
       .jw-plaque {
@@ -628,7 +644,7 @@
           </div>
         </div>
       </div>
-      <div id="webPlaqueTextBoxDiv" class="jw-plaque" data-tour-spot>
+      <div id="webPlaqueTextBoxDiv" class="jw-plaque jw-plaque--size-small" data-tour-spot>
         <p id="plaque-line1" class="jw-plaque__text">In Appreciation of</p>
         <p id="plaque-line2" class="jw-plaque__text">the Initiative and Courage of</p>
         <p id="plaque-line3" class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
@@ -942,6 +958,7 @@
 
     Jimaworks.Preview.updateSize = function updateSize( size ) {
       Jimaworks.Preview._applyFrameClasses( Jimaworks.Preview.mapElements.size.$element, size );
+      Jimaworks.Preview._applyFrameClasses( Jimaworks.Preview.mapElements.plaque.$element, size );
     };
 
     Jimaworks.Preview.recordFrameChoice = function recordFrameChoice( variantId, url, variantAbbreviation ) {
@@ -1059,7 +1076,7 @@
       }
     }
 
-    Jimaworks.Preview._applyFrameClasses = function _applyFrameClasses( $frame, frameStyle ) {
+    Jimaworks.Preview._applyFrameClasses = function _applyFrameClasses( $frameOrPlaque, frameStyle ) {
       var classNameModifierBase;
       var classNameModifierBaseRegex;
       var frameStyleClassId;
@@ -1071,8 +1088,13 @@
         classNameModifierBase = 'jw-relationships-preview--frame-';
         frameStyleList = 'frameToClassId';
       } else if ( Jimaworks.Preview.sizeToClassId.hasOwnProperty( frameStyle ) ) {
-        classNameModifierBase = 'jw-relationships-preview--size-';
-        frameStyleList = 'sizeToClassId';
+        if ( $frameOrPlaque === Jimaworks.Preview.mapElements.frame.$element ) {
+          classNameModifierBase = 'jw-relationships-preview--size-';
+          frameStyleList = 'sizeToClassId';
+        } else if ( $frameOrPlaque === Jimaworks.Preview.mapElements.plaque.$element ) {
+          classNameModifierBase = 'jw-plaque--size-';
+          frameStyleList = 'sizeToClassId';
+        }
       } else {
         console.error( 'Unsupported frame style:', frameStyle );
         return false;
@@ -1082,15 +1104,15 @@
       frameStyleClassId = Jimaworks.Preview[frameStyleList][frameStyle];
       newClassName = ( classNameModifierBase + frameStyleClassId );
 
-      if ( classNameModifierBaseRegex.test( $frame.className ) ) {
+      if ( classNameModifierBaseRegex.test( $frameOrPlaque.className ) ) {
         for ( var currentFrameStyle in Jimaworks.Preview[frameStyleList] ) {
           var className = ( classNameModifierBase + Jimaworks.Preview[frameStyleList][currentFrameStyle] );
 
-          $frame.classList.remove( className );
+          $frameOrPlaque.classList.remove( className );
         }
       }
 
-      $frame.classList.add( newClassName );
+      $frameOrPlaque.classList.add( newClassName );
     }
 
     Jimaworks.Preview.getMapElementUpdateFunctionName = function getMapElementUpdateFunctionName( mapElementPath ) {
