@@ -98,7 +98,7 @@
             "type": "text",
             "settings": {
               "title": "Company",
-              "richtext": "<p><strong>Jimaworks, LLC,&nbsp;<\/strong>7315 Wisconsin Avenue, Suite 400W, Bethesda, MD 20814, (301) 969-1956<\/p>\n<p><a href=\"https:\/\/jimaworks.com\/pages\/000experimenting-product-page\" title=\"https:\/\/jimaworks.com\/pages\/000experimenting-product-page\">Products<\/a><\/p>\n<p><a href=\"\/pages\/jimaworks-tech-consulting\" title=\"jimaworks Tech Consulting\">Jimaworks Tech Consulting<\/a><\/p>\n<p><a href=\"\/pages\/contact-us\" title=\"Contact Us\">Contact jimaworks<\/a><\/p>"
+              "richtext": "<p><strong>Jimaworks, LLC,&nbsp;<\/strong>7315 Wisconsin Avenue, Suite 400W, Bethesda, MD 20814<\/p>\n<p><a href=\"https:\/\/jimaworks.com\/pages\/000experimenting-product-page\" title=\"https:\/\/jimaworks.com\/pages\/000experimenting-product-page\">Products<\/a><\/p>\n<p><a href=\"\/pages\/jimaworks-tech-consulting\" title=\"jimaworks Tech Consulting\">Jimaworks Tech Consulting<\/a><\/p>\n<p><a href=\"\/pages\/contact-us\" title=\"Contact Us\">Contact jimaworks<\/a><\/p>"
             }
           }
         },
@@ -120,7 +120,7 @@
             "type": "page",
             "settings": {
               "show_heading": true,
-              "home_page_content": "frontpage"
+              "home_page_content": ""
             }
           },
           "1532530463541": {
@@ -422,6 +422,18 @@
       "1504990579889": {
         "type": "rich-text",
         "disabled": true,
+        "blocks": {
+          "1581869927533": {
+            "type": "page",
+            "settings": {
+              "show_heading": true,
+              "home_page_content": "textbox2-origins-from-what-region-did-this-firstgen-come"
+            }
+          }
+        },
+        "block_order": [
+          "1581869927533"
+        ],
         "settings": {
           "home_page_full_width": true
         }
@@ -502,17 +514,6 @@
           "slider_home_transition": "slide"
         }
       },
-      "1526685528074": {
-        "type": "feature-row",
-        "settings": {
-          "image": "shopify:\/\/shop_images\/Style2BMaasdam1958Render.png",
-          "layout": "left",
-          "title": "We build pictures.",
-          "text": "<p>The pictures we build tell stories.<br>We'll build you a picture of&nbsp;<strong><em>your<\/em>&nbsp;story<\/strong>.<br>The story will depict<strong> your family's first generation<\/strong> to cross&nbsp;to America.<\/p>",
-          "button_label": "Get Started",
-          "button_link": "shopify:\/\/pages\/your-relationships-project"
-        }
-      },
       "1526685704254": {
         "type": "feature-row",
         "disabled": true,
@@ -523,17 +524,6 @@
           "text": "",
           "button_label": "",
           "button_link": ""
-        }
-      },
-      "1526685909924": {
-        "type": "feature-row",
-        "settings": {
-          "image": "shopify:\/\/shop_images\/005_JimAntonisse3DShadowbox_2018.jpg",
-          "layout": "right",
-          "title": "Quality, Guaranteed .",
-          "text": "<p>This will be a work of art that will be displayed proudly on your wall and passed down for generations to come.<\/p>\n<p><\/p>\n<p>See how we guarantee the quality of your RelationShips&reg; purchase here&gt;&gt;<\/p>",
-          "button_label": "Quality Guaranteed",
-          "button_link": "shopify:\/\/pages\/process-anatomy"
         }
       },
       "1532530941469": {
@@ -581,7 +571,7 @@
       "1833bbec1270": {
         "type": "custom-html",
         "settings": {
-          "custom_html": "<h2>In America, Everyone's Deepest Roots are Elsewhere.<\/h2>\n<h2>RelationShips® offer the opportunity for you to compose their story in a beautiful artpiece.\n<\/h2>\n<h2>Honor Your Deepest American Roots with a RelationShips® Display.<\/h2>"
+          "custom_html": "<h1>Your Family's Story in Art<\/h1>\n<h2>Commemorate your First Gens' momentous transition to a New World.\n<\/h2>\n<h2>Honor your earliest American roots with a RelationShips® display.<\/h2>\n<a href=\"https:\/\/jimaworks.com\/pages\/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start\"> <button>Start<\/button><\/a>"
         }
       }
     },
@@ -592,9 +582,7 @@
       "1493741708411",
       "rich-text",
       "1504990579889",
-      "1526685528074",
       "1526685704254",
-      "1526685909924",
       "1540575714256",
       "1d71c6b85bb3"
     ]
