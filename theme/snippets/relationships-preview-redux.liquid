@@ -1234,11 +1234,12 @@
     };
 
     Jimaworks.Preview.executeCallbacks = function executeCallbacks() {
-      console.log( 'Running Preview callbacks...' );
-
-      for ( var index = 0; index < Jimaworks.Preview._callbackQueue.length; index++ ) {
-        var callback = Jimaworks.Preview._callbackQueue[index];
-        callback();
+      if ( Jimaworks.Preview._callbackQueue && Jimaworks.Preview._callbackQueue.length ) {
+        console.log( 'Running Preview callbacks...' );
+        for ( var index = 0; index < Jimaworks.Preview._callbackQueue.length; index++ ) {
+          var callback = Jimaworks.Preview._callbackQueue[index];
+          callback();
+        }
       }
     };
 
