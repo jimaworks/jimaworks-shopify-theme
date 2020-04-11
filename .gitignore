@@ -1,17 +1,4 @@
 theme/config.yml
 
-._*
-.DS_Store
-Thumbs.db
-node_modules/
-.env
-Assets/
-variables
-backup/
-backup.*/
-
-*.backup.*
-variable-audit.html
-_*
 
 *.yml
