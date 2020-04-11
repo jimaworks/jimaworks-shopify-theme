@@ -12,10 +12,12 @@
   <div class="product-single">
     <div class="grid product-single__hero">
       <div class="grid__item post-large--one-whole">
-        <h1 itemprop="name">{{ product.title }}
-        <span class="price-text">From {{ product.price_min | money_with_currency }} to {{ product.price_max | money_with_currency }}</h1>
+        <h1 itemprop="name">
+          {{ product.title }}
+          <span class="price-text">From {{ product.price_min | money_with_currency }} to {{ product.price_max | money_with_currency }}</span>
+        </h1>
 				
-			</div>
+	  </div>
 			
       <div class="grid__item post-large--one-third">
           <meta itemprop="priceCurrency" content="{{ shop.currency }}">
@@ -123,8 +125,14 @@
 	              <label for="Quantity">{{ 'products.product.quantity' | t }}</label>
 	              <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
 	            </div>
-						
+						{{ variant.name }}
 							{% include 'product-ancestor-info--pogodan' %}
+                
+                
+<!--                 <p class="line-item-property__field">
+  					<label for="upload-a-custom-map">Upload a custom map</label>
+  					<input id="upload-a-custom-map" type="file" name="properties[Upload a custom map]">
+				</p> -->
 
 	            <button type="submit" name="add" id="AddToCart" class="btn">
 	              <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>

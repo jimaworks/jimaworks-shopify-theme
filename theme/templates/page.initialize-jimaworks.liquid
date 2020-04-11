@@ -1,3 +1,17 @@
+<style>
+  .add-scale {
+    padding: .625rem !important;
+    background-color: rgba(255,255,255,0.75);
+    border: .0625rem solid #05537a !important;
+    transform: scale(2);
+    z-index: 30 !important;
+  }
+
+  .add-scale p span {
+    line-height: 1;
+  }
+</style>
+
 <div class="grid">
 
   <div class="grid__item post-large--two-thirds push--post-large--one-sixth">
@@ -45,7 +59,8 @@
           {% include 'init.03-title-what' %}
           {% include 'init.05-origins-line1' %}
           {% include 'init.06-origins-line2' %}
-          {% include 'init.09-ship-image-type' %}
+          {% include 'init.07-destination-line1' %}
+          {% include 'init.09-ship-image-type' %}   
           {% include 'init.10-ship-image' %}
 
         <!-- 1. Title. When did it take place? -->
@@ -91,7 +106,7 @@
           {%- endcomment %}
 
         <!-- 2: Define the Look and Feel of your Commemoration. a: Your Map. -->
-        {% when '1-c-map-background' %}
+        {% when '6-a-choose-map' %}
           {%- comment %}
             {% include 'init.11-maps' %}
           {%- endcomment %}
@@ -102,7 +117,7 @@
           {% include 'init.12-format' %}
 
         <!-- 2. b: Pick your Frame. -->
-        {% when '2-the-frame' %}
+        {% when '6-b-choose-frame' %}
           {%- comment %}
             {% include 'init.13-frame' %}
           {%- endcomment %}

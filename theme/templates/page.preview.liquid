@@ -1,5 +1,43 @@
-<div class="grid">
-  <div class="grid__item post-large--two-thirds push--post-large--one-sixth">
+<style>
+/*  
+  .preview-container.push--post-large--one-sixth {
+    left: 0;
+    width: 100%;
+  }
+*/
+
+  .jw-relationships-tour__content.jw-relationships-tour__content--active {
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+  
+  .jw-tour__description {
+    background-color: white;
+    padding: 1vw;
+  }
+
+  .jw-relationships-preview-disclaimer {
+    color: white;
+  }
+
+  .jw-relationships-tour__navigation {
+    background-color: white;
+    margin: 0;
+    padding: 1vw 1vw 0 1vw;
+    margin: 0 !important;
+  }
+
+  .jw-relationships-tour__navigation a {
+    cursor: pointer;
+  }
+
+  .--disabled {
+      cursor: not-allowed !important;
+  }
+</style>
+
+<div class="grid page-container">
+  <div class="grid__item preview-container">
     <div class="section-header">
       <h1 class="section-header--title">{{ page.title }}</h1>
     </div>
@@ -91,7 +129,7 @@
         {%- endcomment %}
 
       <!-- 2: Define the Look and Feel of your Commemoration. a: Your Map. -->
-      {% when '1-c-map-background' or '1-c-map-background-redux' %}
+      {% when '6-a-choose-map' or '6-a-choose-map-redux' %}
         {%- comment %}
           {% include 'init.11-maps' %}
         {%- endcomment %}
@@ -105,7 +143,7 @@
         {% include 'init.12-format' %}
 
       <!-- 2. b: Pick your Frame. -->
-      {% when '2-the-frame' or '2-the-frame-redux' %}
+      {% when '6-b-choose-frame' or '6-b-choose-frame-redux' %}
         {%- comment %}
           {% include 'init.13-frame' %}
         {%- endcomment %}
@@ -113,7 +151,7 @@
           {% include 'relationships-preview-redux' %}
         </template>
       
-      {% when 'choose-a-size' %}
+      {% when '6-c-choose-size' %}
         <template id="preview-template" style="display:none;">
           {% include 'relationships-preview-redux' %}
         </template>

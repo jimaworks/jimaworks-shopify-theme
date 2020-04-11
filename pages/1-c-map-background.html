@@ -1,77 +1,63 @@
-<article class="jw-relationships-tour">
-  <!-- <nav class="jw-relationships-tour__actions"></nav> -->
+<div class="select_map post-large--two-thirds push--post-large--one-sixth">
+  <article class="jw-relationships-tour"><!-- <nav class="jw-relationships-tour__actions"></nav> -->
   <div id="relationships-tour-content" class="jw-relationships-tour__content jw-relationships-tour__content--active">
-    <div id="map" class="jw-relationships-tour__map"></div>
-    <aside id="sidebar" class="jw-relationships-tour__sidebar jw-relationships-tour__sidebar--active">
-      <!-- <nav class="jw-relationships-tour__navigation">
-        <span id="tour-actions" class="jw-tour__actions">
-        <a id="previous" class="jw-tour__action --disabled" href="javascript:void(0);">Previous</a>
-        <a id="next" class="jw-tour__action" href="javascript:void(0);">Next</a>
-        </span>
-      </nav> -->
-      <div id="tour" class="jw-tour --expanded">
-        <div class="jw-tour__descriptions">
-          <article
-            id="map-background-description"
-            class="jw-tour__description jw-tour__description--active"
-            style="width: 100%;"
-          >
-            <h3 class="jw-tour-spot__heading">Map Background</h3>
-            <div class="jw-tour-spot__body">
-              <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
-              <label for="map-background-selection">Choose your color:</label>
-              <select
-                id="map-background-selection"
-                class="jw-tour-spot__dropdown"
-                name="mapBackgroundSelection"
-              >
-                <option data-variant-id="ParisSage" value="paris-sage">Paris Sage</option>
-                <option data-variant-id="EmpressTeal" value="empress-teal">Empress Teal</option>
-                <option data-variant-id="PalaceRosa" value="palace-rosa">Palace Rosa</option>
-                <option data-variant-id="SeaSprayBlue" value="sea-spray-blue">Sea Spray Blue</option>
-                <option data-variant-id="MayanGlow" value="mayan-glow">Mayan Glow</option>
-                <!-- <option>Crema Taupe</option> -->
-                <!-- <option>Special Order</option> -->
-              </select>
-              <p style="margin-top: 24px; margin-top: 1.5rem;">
-                <a class="jw-link-button" href="/pages/choose-a-format-for-your-relationships-delivery">Continue</a>
-              </p>
-            </div><!--/.jw-tour-spot__body-->
-          </article><!--/.jw-tour__description-->
-        </div><!--/.jw-tour__descriptions-->
-      </div><!--/#tour-->
-    </aside>
-  </div><!--/.jw-relationships-tour__content-->
-</article>
-  
-<script>
+  <div id="map" class="jw-relationships-tour__map"></div>
+  <aside id="sidebar" class="jw-relationships-tour__sidebar jw-relationships-tour__sidebar--active"><!-- <nav class="jw-relationships-tour__navigation">
+          <span id="tour-actions" class="jw-tour__actions">
+          <a id="previous" class="jw-tour__action --disabled" href="javascript:void(0);">Previous</a>
+          <a id="next" class="jw-tour__action" href="javascript:void(0);">Next</a>
+          </span>
+        </nav> -->
+  <div id="tour" class="jw-tour --expanded">
+  <div class="jw-tour__descriptions">
+  <article id="map-background-description" class="jw-tour__description jw-tour__description--active" style="width: 100%;">
+  <h3 class="jw-tour-spot__heading">Map Background</h3>
+  <div class="jw-tour-spot__body">
+  <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+  <label for="map-background-selection">Choose your color:</label><select id="map-background-selection" class="jw-tour-spot__dropdown" name="mapBackgroundSelection">
+  <option data-variant-id="ParisSage" value="paris-sage">Paris Sage</option>
+  <option data-variant-id="EmpressTeal" value="empress-teal">Empress Teal</option>
+  <option data-variant-id="PalaceRosa" value="palace-rosa">Palace Rosa</option>
+  <option data-variant-id="SeaSprayBlue" value="sea-spray-blue">Sea Spray Blue</option>
+  <option data-variant-id="MayanGlow" value="mayan-glow">Mayan Glow</option>
+  <!-- <option>Crema Taupe</option> --> <!-- <option>Special Order</option> --></select>
+  <p style="margin-top: 1.5rem;"><a class="jw-link-button" href="/pages/6-b-choose-frame">Continue</a></p>
+  </div>
+  <!--/.jw-tour-spot__body--></article>
+  <!--/.jw-tour__description--></div>
+  <!--/.jw-tour__descriptions--></div>
+  <!--/#tour--></aside>
+  </div>
+  <!--/.jw-relationships-tour__content--></article>
+  <script>// <![CDATA[
   window.addEventListener( "DOMContentLoaded", function pickYourmapBackground__onDomContentLoaded() {
-    Jimaworks.initializePreview();
-
-    var $mapBackgroundSelection = document.getElementById( 'map-background-selection' );
-
-    Jimaworks.Preview.preloadFrameImages( $mapBackgroundSelection );
+      Jimaworks.initializePreview();
   
-    $mapBackgroundSelection.addEventListener( 'change', function mapBackgroundSelectionChanged( event ) {
-      var $selectedOption = Jimaworks.Preview.getSelectedOption( event.target );
-      var newValue = Jimaworks.Preview.getVariantIdFromOption( $selectedOption );
+      var $mapBackgroundSelection = document.getElementById( 'map-background-selection' );
+  
+      Jimaworks.Preview.preloadFrameImages( $mapBackgroundSelection );
     
-      Jimaworks.Preview.updateMapBackground( newValue );
-      Jimaworks.Preview.recordMapBackground( newValue );
-    }, false );
-  
-    if ( Jimaworks.Preview.mapElements.mapBackground.saved !== Jimaworks.Preview.mapElements.mapBackground.default ) {
-      Jimaworks.Preview.selectOptionWithVariantId( $mapBackgroundSelection, Jimaworks.Preview.mapElements.mapBackground.saved );
-    }
-  
-    // In case user hits back button and browser remembers selection, update the mapBackground to match
-    setTimeout( function alignMapBackgroundWithSelection() {
-      var $initialSelection = Jimaworks.Preview.getSelectedOption( $mapBackgroundSelection );
-      var defaultMapBackground = Jimaworks.Preview.mapBackgroundToClassId[Jimaworks.Preview.mapElements.mapBackground.default];
-
-      if ( $initialSelection && ( $initialSelection.value !== defaultMapBackground ) ) {
-        Jimaworks.Preview.updateMapBackground( $initialSelection.getAttribute( 'data-variant-id' ) );
+      $mapBackgroundSelection.addEventListener( 'change', function mapBackgroundSelectionChanged( event ) {
+        var $selectedOption = Jimaworks.Preview.getSelectedOption( event.target );
+        var newValue = Jimaworks.Preview.getVariantIdFromOption( $selectedOption );
+      
+        Jimaworks.Preview.updateMapBackground( newValue );
+        Jimaworks.Preview.recordMapBackground( newValue );
+      }, false );
+    
+      if ( Jimaworks.Preview.mapElements.mapBackground.saved !== Jimaworks.Preview.mapElements.mapBackground.default ) {
+        Jimaworks.Preview.selectOptionWithVariantId( $mapBackgroundSelection, Jimaworks.Preview.mapElements.mapBackground.saved );
       }
-    }, 0 );
-  } );
-</script>
+    
+      // In case user hits back button and browser remembers selection, update the mapBackground to match
+      setTimeout( function alignMapBackgroundWithSelection() {
+        var $initialSelection = Jimaworks.Preview.getSelectedOption( $mapBackgroundSelection );
+        var defaultMapBackground = Jimaworks.Preview.mapBackgroundToClassId[Jimaworks.Preview.mapElements.mapBackground.default];
+  
+        if ( $initialSelection && ( $initialSelection.value !== defaultMapBackground ) ) {
+          Jimaworks.Preview.updateMapBackground( $initialSelection.getAttribute( 'data-variant-id' ) );
+        }
+      }, 0 );
+    } );
+  // ]]></script>
+  </div>

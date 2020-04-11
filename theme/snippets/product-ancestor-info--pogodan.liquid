@@ -42,9 +42,23 @@ function ProductMockup() {
       var origins = localStorage.RegionOfOrigin;
       var Era = localStorage.Era;
       var prodTitle = "{{ product.title }}";
+      var productVariants = "{{product.variants}}";
       var currentVariant = "{{product.selected_or_first_available_variant.id}}";
-      var option = "{{product.selected_or_first_available_variant.option1}}";
-      var frame = "{{product.selected_or_first_available_variant.option2}}";
+
+      var option1 = "{{product.selected_or_first_available_variant.option1}}";
+      var frameOption = "{{product.selected_or_first_available_variant.option1}}";
+      var frameOption1Selected = "{{product.selected.option1}}";
+      var frameOption1FirstAvail = "{{product.first_available_variant.option1}}";
+
+      var option2 = "{{product.selected_or_first_available_variant.option2}}";
+      var sizeOption = "{{product.selected_or_first_available_variant.option2}}";
+      var sizeOption2Selected = "{{product.selected.option2}}";
+      var sizeOption2FirstAvail = "{{product.first_available_variant.option2}}";
+
+      var option3 = "{{product.selected_or_first_available_variant.option3}}";
+      var customizationOption = "{{product.selected_or_first_available_variant.option3}}";
+      var customizationOption3Selected = "{{product.selected.option3}}";
+      var customizationOption3FirstAvail = "{{product.first_available_variant.option3}}";
     
         var shipImgTransparentBackground = localStorage.shipImageTransparentBackground ;
         var shipBorder ;
@@ -58,7 +72,7 @@ function ProductMockup() {
       console.log('origins =' + origins);
       console.log('title = ' + prodTitle);
       console.log('current variant = ' + currentVariant);
-      console.log('frame = ' + frame) ;
+      console.log('frameOption = ' + frameOption) ;
       console.log('shipImgTransparentBackground = ' + shipImgTransparentBackground) ;
       console.log('shipBorder = ' + shipBorder) ;
     </script>
@@ -162,8 +176,8 @@ function ProductMockup() {
                                 + shopifyFilePrefix
                                 + webShipImgName.replace("(","_").replace(")","_")  /* ### (need to formalize these image names) ### */
                                 + "\'"
-        option = "AddSeaScape" ;   
-        if (option === "AddSeaScape") {
+        //option1 = "AddSeaScape" ;   
+        if (true) {  //}(option1 === "AddSeaScape") {
             /*seaScapeImg = "https://cdn.shopify.com/s/files/1/1336/0641/files/Ocean7Cropped640W.png?10959405084462869905" ;*/
             seaScapeImgName = "Ocean7Cropped640W.png" ;
             var seaScapeImg =    "\'"
@@ -250,13 +264,13 @@ function ProductMockup() {
         <p>Choose a size 
             (see "Product Sizes" in the Help menu for illustration of sizes), 
             and add relevant photos, maps, etc. as custom inserts
-            (two levels of insertss - we'll work with you to get the look right).  
+            (two levels of inserts - we'll work with you to get the look right).  
         </p>
 
     <div id="accordion2" style="background: aliceblue" class="accordion">
       <h3 style="border: 1px solid #05537a; background-color: #05537a; color:#fff">Size and Extras</h3>
       <div>
-            <h2>Select Options:</h2>
+            <h2>Select Options: <span style="color: red";>You must choose options to see correct prices</span></h2>
             <p>These are the only options that affect the price of this version of the RelationShip product. You can always come back and change them later.</p>
             
         <select name="id" id="productSelect" class="product-single__variants">
@@ -281,7 +295,7 @@ function ProductMockup() {
     
     <hr>
     
-    <h2>Fill in your Plaque.  Have more detail? Personalize any/all of your text boxs to your heart's content with the customization options below.</h2>
+    <h2>Have more detail? Personalize your Plaque and any/all of your text boxes to your heart's content with the customization options below.</h2>
 
     <p>We've used the information from your "Setting the Stage" responses to pre-fill your personalizations with some suggested text for you, however we encourage you to change the text to reflect the specifics of your story.</p>
         

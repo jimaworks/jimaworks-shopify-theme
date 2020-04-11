@@ -104,55 +104,66 @@
 
     /* Frame Sizes */
     /* Gem */
+
+    .jw-relationships-preview.aspect-ratio {
+      border-image-width: 2.5rem!important;
+    }
+
     .jw-relationships-preview.jw-relationships-preview--size-gem {
       border-image-width: 4.40934065934066rem;
-      padding: 5.625rem 5.625rem 5rem;
-    }
+/*    padding: 5.625rem 5.625rem 5rem;
+*/    }
     @media only screen and (min-width: 940px) {
       .jw-relationships-preview.jw-relationships-preview--size-gem {
         /* 1.5x the above */
+        margin-left: 7rem;
+        padding: 0.5rem 6rem;
         border-image-width: 6.61401098901099rem;
-        padding: 8.4375rem 8.4375rem 7.8125rem;
+ /*       padding: 8.4375rem 8.4375rem 7.8125rem;
+ */
       }
     }
 
     /* Small */
     .jw-relationships-preview.jw-relationships-preview--size-small {
       border-image-width: 3.75rem;
-      padding: 5.625rem 5.625rem 5rem;
+/*      padding: 5.625rem 5.625rem 5rem; */
     }
     @media only screen and (min-width: 940px) {
       .jw-relationships-preview.jw-relationships-preview--size-small {
         /* 1.5x the above */
         border-image-width: 5.625rem; 
-        padding: 8.4375rem 8.4375rem 7.8125rem; /* Bottom Padding = T/R/L Padding - Top Margin of Plaque = 8.4375rem - .625rem */
+        margin-left: 4.3rem;
+        padding: 1.2rem 7rem;
+/*      padding: 8.4375rem 8.4375rem 7.8125rem; /* Bottom Padding = T/R/L Padding - Top Margin of Plaque = 8.4375rem - .625rem */
       }
     }
 
     /* Medium */
     /* Scaled padding makes things too crowded at Large size, so Medium and Large share padding and only vary in border width */
-    .jw-relationships-preview.jw-relationships-preview--size-medium,
-    .jw-relationships-preview.jw-relationships-preview--size-large {
+    .jw-relationships-preview.jw-relationships-preview--size-medium{
       border-image-width: 3.090659340659342rem;
-      padding: 4.261363636363636rem 4.261363636363636rem 3.636363636363636rem; /* 1.351351351351351x Gem */
+/*    padding: 4.261363636363636rem 4.261363636363636rem 3.636363636363636rem; /* 1.351351351351351x Gem */
     }
     @media only screen and (min-width: 940px) {
-      .jw-relationships-preview.jw-relationships-preview--size-medium,
-      .jw-relationships-preview.jw-relationships-preview--size-large {
-        border-image-width: 4.635989010989012rem; /* 1.5x the above */
-        padding: 6.392045454545454rem 6.392045454545454rem 5.767045454545454rem; /* 1.5x the above */
+      .jw-relationships-preview.jw-relationships-preview--size-medium {
+        margin-left: 2.2rem;
+        padding: 1rem 6.5rem; /* 1.5x the above */
+/*      padding: 6.392045454545454rem 6.392045454545454rem 5.767045454545454rem; /*1.5x the above */
       }
     }
 
     /* Large */
     .jw-relationships-preview.jw-relationships-preview--size-large {
       border-image-width: 2.554945054945055rem;
-      padding: 3.153409090909091rem 3.153409090909091rem 2.528409090909091rem;
+/*      padding: 3.153409090909091rem 3.153409090909091rem 2.528409090909091rem;
+*/
     }
     @media only screen and (min-width: 940px) {
       .jw-relationships-preview.jw-relationships-preview--size-large {
+        margin-left: 0;
         border-image-width: 3.832417582417583rem; /* 1.5x the above */
-        padding: 4.730113636363637rem 4.730113636363637rem 4.105113636363637rem; /* 1.5x the above */
+        padding: 1.5rem 6rem; /* 1.5x the above */
       }
     }
 
@@ -644,15 +655,17 @@
           </div>
         </div>
       </div>
-      <div id="webPlaqueTextBoxDiv" class="jw-plaque jw-plaque--size-small" data-tour-spot>
-        <p id="plaque-line1" class="jw-plaque__text">In Appreciation of</p>
-        <p id="plaque-line2" class="jw-plaque__text">the Initiative and Courage of</p>
-        <p id="plaque-line3" class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
-        <p id="plaque-line4" class="jw-plaque__text">#4</p>
-        <p id="plaque-line5" class="jw-plaque__text">#5</p>
-        <p id="plaque-line6" class="jw-plaque__text">#6</p>
-        <p id="plaque-line7" class="jw-plaque__text">#7</p>
-        <p id="plaque-line8" class="jw-plaque__text">#8</p>
+      <div class="jw-plaque-container">
+        <div id="webPlaqueTextBoxDiv" class="jw-plaque jw-plaque--size-small" data-tour-spot>
+          <p id="plaque-line1" class="jw-plaque__text">In Appreciation of</p>
+          <p id="plaque-line2" class="jw-plaque__text">the Initiative and Courage of</p>
+          <p id="plaque-line3" class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
+          <p id="plaque-line4" class="jw-plaque__text">#4</p>
+          <p id="plaque-line5" class="jw-plaque__text">#5</p>
+          <p id="plaque-line6" class="jw-plaque__text">#6</p>
+          <p id="plaque-line7" class="jw-plaque__text">#7</p>
+          <p id="plaque-line8" class="jw-plaque__text">#8</p>
+        </div>
       </div>
     </div>
   </article>
