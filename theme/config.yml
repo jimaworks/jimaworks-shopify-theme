@@ -1,4 +1,8 @@
 development:
-  password: 157797f2497b480cf0173c5085dcd4f3
-  theme_id: "79017803841"
+  password: ${DEV_PASSWORD}
+  theme_id: "75492261936"
+  store: jimaworks-dev.myshopify.com
+production:
+  password: ${PROD_PASSWORD}
+  theme_id: "16458842177"
   store: jimaworks.myshopify.com
