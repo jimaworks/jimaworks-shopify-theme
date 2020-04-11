@@ -1,3 +1,5 @@
+theme/config.yml
+
 ._*
 .DS_Store
 Thumbs.db
@@ -11,4 +13,4 @@ backup.*/
 *.backup.*
 variable-audit.html
 _*
-config.yml
+
