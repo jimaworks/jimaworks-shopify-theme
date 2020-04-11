@@ -2384,3 +2384,71 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
     margin-bottom: 10px;
   }
 }
+
+.select_map, .select_frame, .select_size, {
+  position: relative;
+  width: 1000px;
+  height: 400px;
+  background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg);
+
+  .jw-relationships-tour {
+    transform: scale(0.7);
+    transform-origin: top center;
+    padding-top: 0.5rem;
+
+    .jw-relationships-preview-disclaimer {
+      display: none;
+    }
+  }
+} 
+
+.jw-relationships-preview__content {
+  transform: scaley(0.8);
+
+  .jw-plaque-container {
+    transform: scaley(1.25);
+    transform-origin: top center;
+    
+  }
+
+  .jw-relationships-preview.jw-relationships-preview--size-gem  & {
+    transform: scaley(0.7);
+
+    .jw-plaque-container {
+      transform: scaley(1.42);
+      transform-origin: top center;
+
+      #webPlaqueTextBoxDiv {
+
+      }
+    }
+  }
+
+  .jw-relationships-preview.jw-relationships-preview--size-small  & {
+
+    transform: scaley(0.7);
+
+    .jw-plaque-container {
+      transform: scaley(1.42);
+      transform-origin: top center;
+
+      #webPlaqueTextBoxDiv {
+        transform: scale(0.9);
+      }
+    }
+  }
+
+  .jw-relationships-preview.jw-relationships-preview--size-medium  & {
+
+    #webPlaqueTextBoxDiv {
+      transform: scale(0.75);
+    }
+  }
+
+  .jw-relationships-preview.jw-relationships-preview--size-large  & {
+
+    #webPlaqueTextBoxDiv {
+      transform: scale(0.6);
+    }
+  }
+}
