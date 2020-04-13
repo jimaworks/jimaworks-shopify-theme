@@ -102,12 +102,12 @@
       border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/black-walnut-frame-border-10x10.jpg?v=1581997784);
     }
 
+    .jw-relationships-preview.jw-relationships-preview--frame-no-frame {
+      border-image-slice: 84;
+    }
+
     /* Frame Sizes */
     /* Gem */
-
-    .jw-relationships-preview.aspect-ratio {
-      border-image-width: 2.5rem!important;
-    }
 
     .jw-relationships-preview.jw-relationships-preview--size-gem {
       border-image-width: 4.40934065934066rem;
@@ -117,8 +117,8 @@
       .jw-relationships-preview.jw-relationships-preview--size-gem {
         /* 1.5x the above */
         margin-left: 7rem;
-        padding: 0.5rem 6rem;
-        border-image-width: 6.61401098901099rem;
+        padding: 0.5rem 1rem;
+        border-image-width: 4.61401098901099rem;
  /*       padding: 8.4375rem 8.4375rem 7.8125rem;
  */
       }
@@ -126,15 +126,15 @@
 
     /* Small */
     .jw-relationships-preview.jw-relationships-preview--size-small {
-      border-image-width: 3.75rem;
+      border-image-width: 3.825rem;
 /*      padding: 5.625rem 5.625rem 5rem; */
     }
     @media only screen and (min-width: 940px) {
       .jw-relationships-preview.jw-relationships-preview--size-small {
         /* 1.5x the above */
-        border-image-width: 5.625rem; 
+        border-image-width: 3.825rem;
         margin-left: 4.3rem;
-        padding: 1.2rem 7rem;
+        padding: 2.2rem 4rem;
 /*      padding: 8.4375rem 8.4375rem 7.8125rem; /* Bottom Padding = T/R/L Padding - Top Margin of Plaque = 8.4375rem - .625rem */
       }
     }
@@ -148,7 +148,7 @@
     @media only screen and (min-width: 940px) {
       .jw-relationships-preview.jw-relationships-preview--size-medium {
         margin-left: 2.2rem;
-        padding: 1rem 6.5rem; /* 1.5x the above */
+        padding: 2rem 4.5rem; /* 1.5x the above */
 /*      padding: 6.392045454545454rem 6.392045454545454rem 5.767045454545454rem; /*1.5x the above */
       }
     }
@@ -162,8 +162,8 @@
     @media only screen and (min-width: 940px) {
       .jw-relationships-preview.jw-relationships-preview--size-large {
         margin-left: 0;
-        border-image-width: 3.832417582417583rem; /* 1.5x the above */
-        padding: 1.5rem 6rem; /* 1.5x the above */
+        border-image-width: 2.554945054945055rem; /* 1.5x the above */
+        padding: 2.5rem 4rem; /* 1.5x the above */
       }
     }
 
@@ -324,11 +324,11 @@
     .jw-ship__image-container {
       width: 100%;
       margin-top: 1rem;
-    }
+    } 
     .jw-ship__image {
       margin: 0 auto;
       display: block;
-      width: 50%; /* Default width if imagery → imageClassification is missing */
+      width: 50%!important; /* Default width if imagery → imageClassification is missing */
     }
       /* Jimaworks-made Sail Ship */
       .jw-ship__image.jw-ship__image--jimaworks-made-sail {
@@ -881,7 +881,8 @@
       "BlackWalnut": "black-walnut",
       "GoldTrim": "gold-trim",
       "LightCherry": "light-cherry",
-      "BlackRoped": "black-roped"
+      "BlackRoped": "black-roped",
+      "NoFrame": "no-frame"
     };
 
     Jimaworks.Preview.sizeToClassId = {

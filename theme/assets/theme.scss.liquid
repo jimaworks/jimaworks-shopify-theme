@@ -2402,53 +2402,48 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 } 
 
-.jw-relationships-preview__content {
-  transform: scaley(0.8);
 
-  .jw-plaque-container {
-    transform: scaley(1.25);
-    transform-origin: top center;
-    
-  }
+.select_size {
 
-  .jw-relationships-preview.jw-relationships-preview--size-gem  & {
-    transform: scaley(0.7);
+  .jw-relationships-preview.jw-relationships-preview--size-gem  {
 
-    .jw-plaque-container {
-      transform: scaley(1.42);
-      transform-origin: top center;
-
-      #webPlaqueTextBoxDiv {
-
-      }
-    }
-  }
-
-  .jw-relationships-preview.jw-relationships-preview--size-small  & {
-
-    transform: scaley(0.7);
-
-    .jw-plaque-container {
-      transform: scaley(1.42);
-      transform-origin: top center;
-
-      #webPlaqueTextBoxDiv {
-        transform: scale(0.9);
-      }
-    }
-  }
-
-  .jw-relationships-preview.jw-relationships-preview--size-medium  & {
-
-    #webPlaqueTextBoxDiv {
-      transform: scale(0.75);
-    }
-  }
-
-  .jw-relationships-preview.jw-relationships-preview--size-large  & {
-
-    #webPlaqueTextBoxDiv {
+    .jw-relationships-preview__content {
       transform: scale(0.6);
     }
   }
+
+  .jw-relationships-preview.jw-relationships-preview--size-small  {
+
+    .jw-relationships-preview__content {
+      transform: scale(0.75);
+
+      .jw-plaque-container {
+        transform: scale(0.8);
+      }
+    }
+
+  }
+
+  .jw-relationships-preview.jw-relationships-preview--size-medium  {
+
+    .jw-relationships-preview__content {
+      transform: scale(0.8);
+
+      .jw-plaque-container{
+        transform: scale(0.7);
+      }
+    }
+  }
+
+  .jw-relationships-preview.jw-relationships-preview--size-large  {
+
+    .jw-relationships-preview__content {
+      transform: scale(0.8);
+
+      .jw-plaque-container{
+        transform: scale(0.6);
+      }
+    }
+  }
+
 }
