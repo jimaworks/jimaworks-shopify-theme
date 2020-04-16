@@ -148,7 +148,7 @@
     @media only screen and (min-width: 940px) {
       .jw-relationships-preview.jw-relationships-preview--size-medium {
         margin-left: 2.2rem;
-        padding: 2rem 4.5rem; /* 1.5x the above */
+        padding: 1rem 2rem; /* 1.5x the above */
 /*      padding: 6.392045454545454rem 6.392045454545454rem 5.767045454545454rem; /*1.5x the above */
       }
     }
@@ -163,7 +163,7 @@
       .jw-relationships-preview.jw-relationships-preview--size-large {
         margin-left: 0;
         border-image-width: 2.554945054945055rem; /* 1.5x the above */
-        padding: 2.5rem 4rem; /* 1.5x the above */
+        padding: 0.5rem 1rem; /* 1.5x the above */
       }
     }
 
@@ -330,6 +330,13 @@
       display: block;
       width: 50%!important; /* Default width if imagery → imageClassification is missing */
     }
+
+    .jw-ship__image.border {
+      border-style: solid; 
+      border-width: 3px; 
+      border-color: darkblue;
+    }
+
       /* Jimaworks-made Sail Ship */
       .jw-ship__image.jw-ship__image--jimaworks-made-sail {
         width: 40%;
@@ -535,6 +542,11 @@
     flex: 1;
   }
 
+  .jw-relationships-tour__map.scale {
+    transform: scale(1.25);
+    transform-origin: top right;
+  }
+
   .jw-relationships-tour__sidebar {
     -webkit-box-flex: .5;
     -ms-flex: .5;
@@ -647,7 +659,10 @@
         </div>
         <div class="jw-ship jw-map__row">
           <div id="ship" class="jw-ship__image-container" data-tour-spot>
-            <img id="ship-image" class="jw-ship__image jw-ship__image--jimaworks-made-steam" src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" alt="Ship" />
+            <img id="ship-image" 
+            class="jw-ship__image jw-ship__image--jimaworks-made-steam" 
+            src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" 
+            alt="Ship" />
           </div>
           <div id="ship-info-text-box" class="jw-ship__info" data-tour-spot>
             <p id="ship-info-line1" class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
@@ -943,6 +958,22 @@
       );
     };
 
+
+    Jimaworks.Preview.setShipBackgroundBorder = function setShipBackgroundBorder() {
+      var shipImgTransparentBackground = localStorage.shipImageTransparentBackground ;
+      var element;
+      var shipBorder ;
+      if (shipImgTransparentBackground === "transparent") {
+          shipBorder = "" ;
+      }
+      else {
+          shipBorder ='border';
+      }
+
+      $element = Jimaworks.Preview.mapElements.ship.image.$element;
+      $element.classList.add( shipBorder );
+    }
+
     Jimaworks.Preview.populateDimensions = function populateDimensions( $select ) {
       var frame = Jimaworks.Preview.mapElements.frame.saved;
 
@@ -1042,12 +1073,17 @@
     };
 
     Jimaworks.Preview.getShipImageClassification = function getShipImageClassification( shipImageFileName ) {
+
+      console.log("shipImageFileName = " + shipImageFileName);
+
       for ( var i = 0; i < Jimaworks.Preview.shipImagery.jimaworksMade.length; i++ ) {
         var shipImage = Jimaworks.Preview.shipImagery.jimaworksMade[i];
         
-        if ( shipImage.hasOwnProperty( 'imagery' ) && ( shipImage.imagery === shipImageFileName ) ) {
-          return shipImage.imageClassification;
-        }
+        return "jimaworks-made-steam";
+
+//        if ( shipImage.hasOwnProperty( 'imagery' ) && ( shipImage.imagery === shipImageFileName ) ) {
+//          return shipImage.imageClassification;
+//        }
       }
 
       for ( var i = 0; i < Jimaworks.Preview.shipImagery.knownShipPlaceholders.length; i++ ) {
