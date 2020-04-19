@@ -112,22 +112,20 @@
     .jw-relationships-preview.jw-relationships-preview--size-gem {
       border-image-width: 4.40934065934066rem;
 /*    padding: 5.625rem 5.625rem 5rem;
-*/    }
+*/    
+    }
     @media only screen and (min-width: 940px) {
       .jw-relationships-preview.jw-relationships-preview--size-gem {
         /* 1.5x the above */
         margin-left: 7rem;
         padding: 0.5rem 1rem;
         border-image-width: 4.61401098901099rem;
- /*       padding: 8.4375rem 8.4375rem 7.8125rem;
- */
       }
     }
 
     /* Small */
     .jw-relationships-preview.jw-relationships-preview--size-small {
       border-image-width: 3.825rem;
-/*      padding: 5.625rem 5.625rem 5rem; */
     }
     @media only screen and (min-width: 940px) {
       .jw-relationships-preview.jw-relationships-preview--size-small {
@@ -135,7 +133,6 @@
         border-image-width: 3.825rem;
         margin-left: 4.3rem;
         padding: 2.2rem 4rem;
-/*      padding: 8.4375rem 8.4375rem 7.8125rem; /* Bottom Padding = T/R/L Padding - Top Margin of Plaque = 8.4375rem - .625rem */
       }
     }
 
@@ -149,7 +146,6 @@
       .jw-relationships-preview.jw-relationships-preview--size-medium {
         margin-left: 2.2rem;
         padding: 1rem 2rem; /* 1.5x the above */
-/*      padding: 6.392045454545454rem 6.392045454545454rem 5.767045454545454rem; /*1.5x the above */
       }
     }
 
@@ -511,9 +507,9 @@
 
     -webkit-box-orient: vertical;
     -webkit-box-direction: reverse;
-    -ms-flex-direction: column-reverse;
+/*    -ms-flex-direction: column-reverse;
     flex-direction: column-reverse;
-
+*/
     margin: 0;
     
     -webkit-transition: .125s linear width, .125s linear margin;
@@ -557,7 +553,8 @@
     transition: .125s ease height;
     
     height: 0;
-    display: none;
+/*    display: none;
+*/
   }
     @media only screen and (min-width: 940px) {
       .jw-relationships-tour__sidebar {
@@ -962,16 +959,12 @@
     Jimaworks.Preview.setShipBackgroundBorder = function setShipBackgroundBorder() {
       var shipImgTransparentBackground = localStorage.shipImageTransparentBackground ;
       var element;
-      var shipBorder ;
       if (shipImgTransparentBackground === "transparent") {
-          shipBorder = "" ;
       }
       else {
-          shipBorder ='border';
+          $element = Jimaworks.Preview.mapElements.ship.image.$element;
+          $element.classList.add( 'border' );
       }
-
-      $element = Jimaworks.Preview.mapElements.ship.image.$element;
-      $element.classList.add( shipBorder );
     }
 
     Jimaworks.Preview.populateDimensions = function populateDimensions( $select ) {

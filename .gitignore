@@ -1,4 +1,5 @@
 config.yml
+pages/*.html
 ._*
 .DS_Store
 Thumbs.db

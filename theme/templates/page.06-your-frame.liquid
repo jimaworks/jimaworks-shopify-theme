@@ -1,0 +1,74 @@
+{% capture contents %}
+
+<div class="select_frame post-large--two-thirds push--post-large--one-sixth">
+    <article class="jw-relationships-tour"><!-- <nav class="jw-relationships-tour__actions"></nav> -->
+    <div id="relationships-tour-content" class="jw-relationships-tour__content jw-relationships-tour__content--active">
+    <div id="map" class="jw-relationships-tour__map"></div>
+    <aside id="sidebar" class="jw-relationships-tour__sidebar jw-relationships-tour__sidebar--active"><!-- <nav class="jw-relationships-tour__navigation">
+            <span id="tour-actions" class="jw-tour__actions">
+              <a id="previous" class="jw-tour__action --disabled" href="javascript:void(0);">Previous</a>
+              <a id="next" class="jw-tour__action" href="javascript:void(0);">Next</a>
+            </span>
+          </nav> -->
+    <div id="tour" class="jw-tour --expanded">
+    <div class="jw-tour__descriptions">
+    <article id="frame-description" class="jw-tour__description jw-tour__description--active" style="width: 100%;">
+    <h3 class="jw-tour-spot__heading">Frame</h3>
+    <div class="jw-tour-spot__body"><!-- <ul>
+                    <li>Four different styles to choose from</li>
+                    <li>Your print is double matted using a bevelled SandStone mat with Chinese Red trimming</li>
+                    <li>The frame is natural wood</li>
+                    <li>The glazing is UV-protective acrylic plexiglass</li>
+                    <li>The plaque inset into the mat. It is gold-colored metal etched to your specifications</li>
+                  </ul> --> <label for="frame-selection">Choose your frame:</label><select id="frame-selection" class="jw-tour-spot__dropdown" name="frameSelection">
+    <option data-variant-id="BlackWalnut" value="black-walnut">Black Walnut</option>
+    <option data-variant-id="GoldTrim" value="gold-trim">Gold Trim</option>
+    <option data-variant-id="LightCherry" value="light-cherry">Light Cherry</option>
+    <option data-variant-id="BlackRoped" value="black-roped">Black Roped</option>
+    <option data-variant-id="NoFrame" value="no-frame">No Frame</option>
+    </select>
+    <p style="margin-top: 1.5rem;"><a class="jw-link-button" href="/pages/choose-a-size">Continue</a></p>
+    </div>
+    </article>
+    </div>
+    </div>
+    </aside>
+    </div>
+    </article>
+    <script>// <![CDATA[
+    window.addEventListener( "DOMContentLoaded", function pickYourFrame__onDomContentLoaded() {
+        Jimaworks.initializePreview();
+    
+        var $frameSelection = document.getElementById( 'frame-selection' );
+    
+    Jimaworks.Preview.setShipBackgroundBorder();
+        Jimaworks.Preview.preloadFrameImages( $frameSelection );
+    
+        $frameSelection.addEventListener( 'change', function frameSelectionChanged( event ) {
+          var $selectedOption = Jimaworks.Preview.getSelectedOption( event.target );
+          var newValue = Jimaworks.Preview.getVariantIdFromOption( $selectedOption );
+    
+          Jimaworks.Preview.updateFrame( newValue );
+          Jimaworks.Preview.recordFrameChoice( newValue, Jimaworks.Preview.frameToFilename[newValue] );
+        }, false );
+    
+        if ( Jimaworks.Preview.mapElements.frame.saved !== Jimaworks.Preview.mapElements.frame.default ) {
+          Jimaworks.Preview.selectOptionWithVariantId( $frameSelection, Jimaworks.Preview.mapElements.frame.saved );
+        }
+    
+        // In case user hits back button and browser remembers selection, update the frame to match
+        setTimeout( function alignFrameWithSelection() {
+          var $initialSelection = Jimaworks.Preview.getSelectedOption( $frameSelection );
+          var defaultFrameClassId = Jimaworks.Preview.frameToClassId[Jimaworks.Preview.mapElements.frame.default];
+    
+          if ( $initialSelection && ( $initialSelection.value !== defaultFrameClassId ) ) {
+            Jimaworks.Preview.updateFrame( $initialSelection.getAttribute( 'data-variant-id' ) );
+          }
+        }, 0 );
+      } );
+    // ]]></script>
+    </div>
+
+{% endcapture %}
+
+{% include 'page-preview-contents', contents : contents %}

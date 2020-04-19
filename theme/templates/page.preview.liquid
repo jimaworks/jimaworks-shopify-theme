@@ -20,10 +20,13 @@
     color: white;
   }
 
+  .jw-relationships-tour__sidebar--active .jw-relationships-tour__navigation {
+    padding: 1vw 1vw 0 1vw;
+  }
+
   .jw-relationships-tour__navigation {
     background-color: white;
     margin: 0;
-    padding: 1vw 1vw 0 1vw;
     margin: 0 !important;
   }
 
@@ -54,7 +57,7 @@
     {% case page.handle %}
       <!-- Your Relationships Project -->
 
-      {% when 'your-relationships-project' or 'your-relationships-project-redux' %}
+      {% when '001-your-relationships-project' or '001-your-relationships-project-redux' %}
         {% include 'init.00-preview' %}
         {%- comment -%}
           <!-- This file is currently empty, so no need to include it. -->

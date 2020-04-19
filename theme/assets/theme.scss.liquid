@@ -2385,7 +2385,7 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 }
 
-.select_map, .select_frame, .select_size, {
+.select_map, .select_frame, .select_size {
   position: relative;
   width: 1000px;
   height: 400px;
@@ -2400,9 +2400,37 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       display: none;
     }
   }
+}
+
+.relationships_project {
+  .background_map {
+    position: relative;
+    width: 1000px;
+    height: 400px;
+    background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg);
+
+    .jw-relationships-tour {
+      transform: scale(0.7);
+      transform-origin: top center;
+      padding-top: 0.5rem;
+
+      .jw-relationships-preview-disclaimer {
+        display: none;
+      }
+    }
+
+    .jw-relationships-tour__content--active article.jw-relationships-preview{
+      transform: scale(1.35);
+      transform-origin: top right;
+    }
+  }
+
+
+}
+
+.select_map, .select_frame, .select_size, .relationships_project {
 
   .jw-relationships-preview.jw-relationships-preview--size-gem  {
-
     .jw-relationships-preview__content {
       transform: scale(0.6);
 
@@ -2411,12 +2439,9 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
         transform-origin: bottom;
       }
     }
-
-
   }
 
   .jw-relationships-preview.jw-relationships-preview--size-small  {
-
     .jw-relationships-preview__content {
       transform: scale(0.75);
 
@@ -2424,11 +2449,9 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
         transform: scale(0.8);
       }
     }
-
   }
 
   .jw-relationships-preview.jw-relationships-preview--size-medium  {
-
     .jw-relationships-preview__content {
       transform: scale(0.75);
 
@@ -2439,7 +2462,6 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 
   .jw-relationships-preview.jw-relationships-preview--size-large  {
-
     .jw-relationships-preview__content {
       transform: scale(0.75);
 
@@ -2448,5 +2470,4 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       }
     }
   }
-
 }
