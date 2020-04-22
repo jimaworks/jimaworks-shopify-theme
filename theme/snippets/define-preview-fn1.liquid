@@ -1,30 +1,3 @@
-<!-- 
-    PreviewFn -- The Story So Far...
-    page.initialize-jimaworks
-    Jan 14 2019: interactive scaling solution
-    Jan 14 2019:2031 text box etc alignments
-    Jan 15 2019:2031 control buttons:"Buy" button to pogodan product page
-    Feb 08 2019:0858 RBG to text color codes (#ffffff== white #FF0000==red>>DarkGreenified red borders)
-    Feb 15 2019:1611 fn-ify the Preview page so can unify all functionality in define-prev and propagate uniformly.  white>>Ivory; green>>darkgreen
-    Feb 17 2019:2000 edits for all text boxes except variable-length plaque
-    Feb 18 2019:1700 edits for variable-length plaque
-    Feb 19 2019:1000 edit to make "Back" function work in editing contexts
-    Feb 21 2019:1000 adding "DeleteLastLine" function to text box edits
-    Mar 02 2019:1000 debugged large-shipPic-at-bottom-of-page phenomenon (### but first appearance of ship is small###)
-    Mar 14 2019:1100 Restore the seascape option
-    Apr 07 2019:1115 Center plaque text in plaque image and repair plaque double size increases
-    rltnShpDisplayFns --        
-    page.initialize-jimaworks
-    Edit code for #2.2 Dynamic Flow Jima Edit 18-06:  Snippet.
-    Jun 07 2019:0900 Break define-preview-fns into set of more compact function calls:  generatePlaqueHTML()
-    Jun 08 2019:1230 Change *ProductAnatomy to *TextBoxes and add *TripVisuals
-    Jun 09 2019:1600 Incorporate map background choices/displays/edits.
-    Jun 11 2019:1500 Polish "LookAndFeel" options from "showTripVisuals".
-    Jun 14 2019:1100 replace "showTripVisuals" and "showTextBoxes" functions with "describeTripVisuals" and "describeTextBoxes"
-    Jun 17 2019:0615 Fix showTextBoxes" header and turn off default seascape
-    Jul 14 2019:0700 Add RelationShipsPreviewZ("highlightTitle", "showFrame") ;
-    Aug 11 2019:0945 Fixed undefined webPlaqueText initialization
--->
 
 <script>// <![CDATA[
     var showTextBoxSVG = false;
@@ -33,8 +6,49 @@
     var previewScaleMultiple = 1.25;  // ### globalize? ###
     // start small...
     currentPreviewScale /= previewScaleMultiple;
+
+    function isOpacity($element)
+    {
+        if ($element.style.opacity === '1')
+        {
+            console.log("$element.style.opacity === 1");
+            $element.style.opacity = 0;
+            $element.style.visibility = 'hidden';
+        } 
+        else if ($element.style.opacity === '0') {
+
+            console.log("$element.style.opacity === 0");
+            $element.style.opacity = 1;
+            $element.style.visibility = 'visible';
+        }
+    }
+    function isBackground($element, highlight)
+    {
+        var className = $element.getAttribute('class');
+        if (className && (className.indexOf('map_image') !== -1))
+        {
+            if (highlight){
+                $element.style.top = '-50px';
+                $element.style.left = '-100px';
+            }
+            else
+            {
+                $element.style.top = '0px';
+                $element.style.left = '0px';
+            }
+        }
+
+        return (className && (className.indexOf('map_image') !== -1))
+    }
+
+
     function highlight($element, preserveBoxStyle, retainSize) {
+
+        isOpacity($element);
+        isBackground($element, true);
+
         $element.classList.add('jw-highlighted');
+
         if ( preserveBoxStyle !== true ) {
             $element.classList.add('jw-highlighted--alter-box-style');
         }
@@ -42,22 +56,30 @@
             $element.classList.add('jw-highlighted--retain-size');
         }
     }
+
     function unhighlight($element) {
+
+        isOpacity($element);
+        isBackground($element, false);
+
         $element.classList.remove('jw-highlighted');
         $element.classList.remove('jw-highlighted--alter-box-style');
         $element.classList.remove('jw-highlighted--retain-size');
     }
+
     function unhighlightAllPreviewTextBoxes() {
         for (var index = 0; index < $previewTextBoxKeys.length; index++) {
             var key = $previewTextBoxKeys[index];
             unhighlight($previewTextBoxes[key]);
         }
     }
+
     function getImgWidthAndHeight(url, callback) {
         var img = new Image();
         img.src = url;
         img.onload = function () { callback(this.width, this.height); }
     }
+
     /*
                 var shipImg = webMapImg;
                 img.src = shipImg;
@@ -65,17 +87,23 @@
                 shipY = img.height ;
                 console.log("shipImg=="+shipImg+" shipX=="+shipX+" shipY=="+shipY) ; //  ### not working ###
     */
+
     function IncreasePreviewScaleMultiple() {
         currentPreviewScale = currentPreviewScale * previewScaleMultiple;
         RelationShipsPreviewZ("mockup", "showFrame", "BuyButton", "SaveButton", "ReturnButton");
+      	myFunction();
     }
+
     function DecreasePreviewScaleMultiple() {
         currentPreviewScale = currentPreviewScale / previewScaleMultiple;
         RelationShipsPreviewZ("mockup", "showFrame", "BuyButton", "SaveButton", "ReturnButton");
+      	myFunction();
     }
+
     function ReturnToCallingPage() {
         window.location.href = document.referrer;
     }
+
     function BackToPrevLevel(previewRole) {
         //alert("BackToPrevLevel(previewRole[="+previewRole+"]") ;
         if (previewRole === "editTitle") {
@@ -94,6 +122,9 @@
         else if (previewRole === "editShipInfo") {
             RelationShipsPreviewZ("edit", "showFrame");
         }
+        else if (previewRole === "editArtistInfo") {
+            RelationShipsPreviewZ("edit", "showFrame");
+        }
         else if (previewRole === "editPlaque") {
             RelationShipsPreviewZ("edit", "showFrame");
         }
@@ -101,77 +132,166 @@
             ReturnToCallingPage();
         }
     }
+
     function SaveCurrentState() {
         window.location.href = '/pages/saveandreturnlater';
     }
+
     function GoToBuyPage() {
         window.location.href = '/products/pogo-ship'; // '/cart" ;
     }
+
     function EditPage() {
-        // alert("(Edit page not implemented yet)") ;
         RelationShipsPreviewZ("edit", "showFrame", "BuyButton", "SaveButton", "ReturnButton");  // ### RetunButton? ###
+      	myFunction1();
     }
+
+    function EditVisualButton() {
+        alert("In Construction");
+    }
+
+    function EditStyleButton() {
+        alert("In Construction");
+    }
+
     function editTitleTextBox() {
         RelationShipsPreviewZ("editTitle", "showFrame", "BuyButton", "SaveButton", "ReturnButton");  // ### RetunButton? ###
+        $(".edit-text-scale").removeClass("add-scale");
+        $("#title-text-box").addClass("add-scale");
+      	myFunction2();
     }
+
     function enterTitleText() {
         var titleTextBoxEntry1;
         var titleTextBoxEntry2;
         var titleTextBoxEntry3;
+        
         titleTextBoxEntry1 = document.getElementById("enterTitleLine1").value;
         titleTextBoxEntry2 = document.getElementById("enterTitleLine2").value;
         titleTextBoxEntry3 = document.getElementById("enterTitleLine3").value;
+
         // ### How does this work.  Is a div/spann with this id supposed to lie in the environment?
+/*
+agc---4/20
+
         document.getElementById("TitleTextBoxL1").innerHTML = titleTextBoxEntry1;
         document.getElementById("TitleTextBoxL2").innerHTML = titleTextBoxEntry2;
         document.getElementById("TitleTextBoxL3").innerHTML = titleTextBoxEntry3;
+*/
+        document.getElementById("title-line1").innerHTML = titleTextBoxEntry1;
+        document.getElementById("title-line2").innerHTML = titleTextBoxEntry2;
+        document.getElementById("title-line3").innerHTML = titleTextBoxEntry3;
+
         localStorage.TitleLine1 = titleTextBoxEntry1;
         localStorage.TitleLine2 = titleTextBoxEntry2;
         localStorage.TitleLine3 = titleTextBoxEntry3;
+
         //alert('current title line 1=='+localStorage.TitleLine1+'; title line 2=='+localStorage.TitleLine2+'; title line 2=='+localStorage.TitleLine3) ;
+
     }
+
     function editOriginTextBox() {
         RelationShipsPreviewZ("editOrigin", "showFrame", "BuyButton", "SaveButton", "ReturnButton");  // ### RetunButton? ###
+        $(".edit-text-scale").removeClass("add-scale");
+        $("#origins-text-box").addClass("add-scale");
     }
+
     function enterOriginText() {
         var originTextBoxEntry1;
         var originTextBoxEntry2;
+
         originTextBoxEntry1 = document.getElementById("enterOriginLine1").value;
         originTextBoxEntry2 = document.getElementById("enterOriginLine2").value;
+        
+/*
+agc---4/20
+
         document.getElementById("OriginTextBoxL1").innerHTML = originTextBoxEntry1;
         document.getElementById("OriginTextBoxL2").innerHTML = originTextBoxEntry2;
+*/
+        document.getElementById("origin-line1").innerHTML = originTextBoxEntry1;
+        document.getElementById("origin-line2").innerHTML = originTextBoxEntry2;
+
         localStorage.originsTextBoxL1 = originTextBoxEntry1
         localStorage.originsTextBoxL2 = originTextBoxEntry2;
     }
+
     function editDestinationTextBox() {
         RelationShipsPreviewZ("editDestination", "showFrame", "BuyButton", "SaveButton", "ReturnButton");  // ### RetunButton? ###
+        $(".edit-text-scale").removeClass("add-scale");
+        $("#destination-text-box").addClass("add-scale");
     }
+
     function enterDestinationText() {
         var destinationTextBoxEntry1;
         var destinationTextBoxEntry2;
+
         destinationTextBoxEntry1 = document.getElementById("enterDestinyLine1").value;
         destinationTextBoxEntry2 = document.getElementById("enterDestinyLine2").value;
+/*
+agc---4/20
         document.getElementById("DestinationTextBoxL1").innerHTML = destinationTextBoxEntry1;
         document.getElementById("DestinationTextBoxL2").innerHTML = destinationTextBoxEntry2;
+*/
+        document.getElementById("destination-line1").innerHTML = destinationTextBoxEntry1;
+        document.getElementById("destination-line2").innerHTML = destinationTextBoxEntry2;
+
         localStorage.DestinyLine1 = destinationTextBoxEntry1;
         localStorage.DestinyLine2 = destinationTextBoxEntry2;
     }
+
     function editShipInfoTextBox() {
         RelationShipsPreviewZ("editShipInfo", "showFrame", "BuyButton", "SaveButton", "ReturnButton");  // ### RetunButton? ###
+        $(".edit-text-scale").removeClass("add-scale");
+        $("#ship-info-text-box").addClass("add-scale");
     }
+
+    function editArtistInfoTextBox() {
+        RelationShipsPreviewZ("editArtistInfo", "showFrame", "BuyButton", "SaveButton", "ReturnButton");  // ### RetunButton? ###
+        $(".edit-text-scale").removeClass("add-scale");
+        $("#artist_acknowledgement").addClass("add-scale");
+    }
+
     function enterShipInfoText() {   // ### Three? ###
         var shipInfoTextBoxEntry1;
         var shipInfoTextBoxEntry2;
+
         shipInfoTextBoxEntry1 = document.getElementById("enterShipInfoLine1").value;
         shipInfoTextBoxEntry2 = document.getElementById("enterShipInfoLine2").value;
+/*
+agc---4/20
+
         document.getElementById("shipInfoTextBoxL1").innerHTML = shipInfoTextBoxEntry1;
         document.getElementById("shipInfoTextBoxL2").innerHTML = shipInfoTextBoxEntry2;
+*/
+
+        document.getElementById("ship-info-line1").innerHTML = shipInfoTextBoxEntry1;
+        document.getElementById("ship-info-line2").innerHTML = shipInfoTextBoxEntry2;
+
         localStorage.ShipInfoLine1 = shipInfoTextBoxEntry1;
         localStorage.ShipInfoLine2 = shipInfoTextBoxEntry2;
     }
+
+    function editArtistInfoText() {   // ### Three? ###
+        var artistInfoTextBoxEntry;
+        var printIdTextBoxEntry;
+
+        artistInfoTextBoxEntry = document.getElementById("enterArtistInfoLine").value;
+        printIdTextBoxEntry = document.getElementById("enterPrintId").value;
+
+        document.getElementById("artist_acknowledgement").innerHTML = artistInfoTextBoxEntry;
+        document.getElementById("print_id").innerHTML = printIdTextBoxEntry;
+
+        localStorage.ArtistInfo = artistInfoTextBoxEntry;
+        localStorage.PrintId = printIdTextBoxEntry;
+    }
+
     function editPlaqueTextBox() {
         RelationShipsPreviewZ("editPlaque", "showFrame", "BuyButton", "SaveButton", "ReturnButton");  // ### RetunButton? ###
+        $(".edit-text-scale").removeClass("add-scale");
+        $("#webPlaqueTextBoxDiv").addClass("add-scale");
     }
+
     function enterPlaqueText(lineNumber, newText) {
         //alert('enterPlaqueText(): lineNumber='+lineNumber+' newText='+newText)                
         var numAvailPlaqueLines = 8;
@@ -183,7 +303,8 @@
         for (i = 1; i <= numAvailPlaqueLines; i++) {
             currentPlaqueLine = localStorage.getItem('PlaqueLine' + i);
             plaqueTextBoxEntryStr = 'enterPlaqueLine' + i;
-            getElementByIdStr = 'plaqueTextBoxL' + i;
+            getElementByIdStr = 'plaque-line' + i;
+
             PlaqueLineStr = 'PlaqueLine' + i;
             currentPlaqueTextBox = document.getElementById(getElementByIdStr);
             currentPlaqueLinebreak = currentPlaqueTextBox.nextElementSibling;
@@ -193,6 +314,7 @@
             if (currentPlaqueLine !== null) {
                 plaqueTextBoxEntry = document.getElementById(plaqueTextBoxEntryStr).value;
                 //alert('enterPlaqueText(): plaqueTextBoxEntry='+plaqueTextBoxEntry) ;
+
                 if (currentPlaqueLine.trim() === '') {
                     currentPlaqueTextBox.setAttribute('hidden', 'hidden');
                     currentPlaqueLinebreak && currentPlaqueLinebreak.setAttribute('hidden', '');
@@ -200,6 +322,9 @@
                     currentPlaqueTextBox.removeAttribute('hidden');
                     currentPlaqueLinebreak && currentPlaqueLinebreak.removeAttribute('hidden');
                 }
+
+                console.log("plaqueTextBoxEntry..............................= " + plaqueTextBoxEntry);
+
                 currentPlaqueTextBox.innerHTML = plaqueTextBoxEntry;
                 localStorage['PlaqueLine' + i] = plaqueTextBoxEntry;
             }
@@ -249,6 +374,7 @@
                         localStorage.PlaqueLine7 = plaqueTextBoxEntry7 ;
         */
     }
+
     function describeMap() {
         var tripVisualsText = '';
         tripVisualsText += 'The map background for the RelationShips® project ';
@@ -258,6 +384,7 @@
         tripVisualsText += 'for your map background.'
         alert(tripVisualsText);
     }
+
     function describeOrigins() {
         var tripVisualsText = '';
         tripVisualsText += 'While the "Origins Text Box" provides two lines ';
@@ -266,6 +393,7 @@
         tripVisualsText += 'that you specify in specifying that text box.';
         alert(tripVisualsText);
     }
+
     function describeDestination() {
         var tripVisualsText = '';
         tripVisualsText += 'While the "Destination Text Box" provides two lines ';
@@ -274,6 +402,7 @@
         tripVisualsText += 'that you specify in specifying the Destination text box.';
         alert(tripVisualsText);
     }
+
     function describeRoute() {
         var tripVisualsText = '';
         tripVisualsText += 'Your RelationShips® product focuses on a specific crossing to America ';
@@ -283,6 +412,7 @@
         tripVisualsText += 'to the port or area of arrival that you describe.';
         alert(tripVisualsText);
     }
+
     function describeShip() {
         var $ship = document.getElementById('ship');
         highlight($ship);
@@ -299,6 +429,7 @@
             unhighlight($ship);
         }, 500);
     }
+
     function describeSeaScape() {
         // TODO: highlight(). Element does not exist in preview.
         var tripVisualsText = '';
@@ -308,6 +439,7 @@
         tripVisualsText += 'of your commemoration.';
         alert(tripVisualsText);
     }
+
     function describeTitleTextBox() {
         var $titleTextBox = document.getElementById('title-text-box');
         highlight($titleTextBox);
@@ -323,6 +455,7 @@
         }, 500);
         // confirm(tripVisualsText) ?  : unhighlight($titleTextBox);
     }
+
     function describeOriginsTextBox() {
         var $originsTextBox = document.getElementById('origins-text-box');
         highlight($originsTextBox);
@@ -338,6 +471,7 @@
             unhighlight($originsTextBox);
         }, 500);
     }
+
     function describeDestinationTextBox() {
         var $destinationTextBox = document.getElementById('destination-text-box');
         highlight($destinationTextBox);
@@ -353,6 +487,8 @@
             unhighlight($destinationTextBox);
         }, 500);
     }
+
+
     function describeShipInfoTextBox() {
         var $shipInfoTextBox = document.getElementById('ship-info-text-box');
         highlight($shipInfoTextBox);
@@ -368,6 +504,7 @@
             unhighlight($shipInfoTextBox);
         }, 500);
     }
+
     function describePlaqueTextBox() {
         var $plaqueTextBox = document.getElementById('webPlaqueTextBoxDiv');
         highlight($plaqueTextBox, true);
@@ -381,9 +518,11 @@
             unhighlight($plaqueTextBox);
         }, 500);
     }
+
     function removeLastLine(previewRole) {
         var numTxtBoxLines;
         var currentLocalStoreName;
+
         if (previewRole == "editPlaque") {
             localStoreNamePrefix = "PlaqueLine";
             numTxtBoxLines = 8;
@@ -391,6 +530,10 @@
         else if (previewRole == "editShipInfo") {
             localStoreNamePrefix = "ShipInfoLine";
             numTxtBoxLines = 3;
+        }
+        else if (previewRole == "editArtistInfo") {
+            localStoreNamePrefix = "ArtistInfoLine";
+            numTxtBoxLines = 2;
         }
         else if (previewRole == "editDestination") {
             localStoreNamePrefix = "DestinyLine";
@@ -408,10 +551,13 @@
             alert('removeLastLine(' + previewRole + '): "' + localStoreNamePrefix + '" is not a recognized text box');
         }
         lastFilledLine = 0
+
         for (i = 1; i <= numTxtBoxLines; i++) {
             currentLocalStoreName = localStoreNamePrefix + i;
             currentLocalStore = localStorage[currentLocalStoreName];
-            console.log('removeLastLine(' + previewRole + '): testing localStorage.' + localStoreNamePrefix + i + '==' + currentLocalStore);
+
+//            console.log('removeLastLine(' + previewRole + '): testing localStorage.' + localStoreNamePrefix + i + '==' + currentLocalStore);
+
             if (
                 (currentLocalStore !== undefined)
                 & (currentLocalStore !== "undefined")
@@ -431,12 +577,15 @@
                 console.log('removeLastLine(' + previewRole + '): "' + currentLocalStoreName + '" Clause4');
             }
         } // for
-        console.log('removeLastLine(' + previewRole + '): "' + localStoreNamePrefix + '". lastFilledLine==' + lastFilledLine + '. Evalling: (localStorage.' + localStoreNamePrefix + lastFilledLine + ' = undefined)');
+//        console.log('removeLastLine(' + previewRole + '): "' + localStoreNamePrefix + '". lastFilledLine==' + lastFilledLine + '. Evalling: (localStorage.' + localStoreNamePrefix + lastFilledLine + ' = undefined)');
+
         // To remove the key/value pair entirely:
         // localStorage.removeItem( localStoreNamePrefix + lastFilledLine );
         localStorage.setItem(localStoreNamePrefix + lastFilledLine, '');
+
         RelationShipsPreviewZ("mockup", "showFrame", "BuyButton", "SaveButton", "ReturnButton");
     }
+
     function acceptEdits() {
         RelationShipsPreviewZ("mockup", "showFrame", "BuyButton", "SaveButton", "ReturnButton");
     }
@@ -455,6 +604,7 @@
         var textBoxSVG = "";
         var titleHTML = '';
         var currentTitleLine;
+
         titleTextBoxFontSize = 12 * webFrameScale;
         titleTextBoxLineHeight = 0.8 * webFrameScale;
         //titleTextBoxBottomOffset = 15 * webFrameScale;
@@ -463,6 +613,7 @@
         //webTitleTextBoxWidth = ;
         //webTitleTextBoxHeight = ;
         var minTitleTextLn = minTextBoxWidth;
+
         //ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+titleTextBoxTopOffset+'px; left: '+titleTextBoxLeftOffset+'px; z-index: 25; line-height: '+titleTextBoxLineHeight+'; font-size: '+titleTextBoxFontSize+'px; text-align: center; \">' ;
         webTitleTextBoxDivStyle =
             ' style=\"position: absolute;'
@@ -485,6 +636,7 @@
         showExtraLine = true;
         for (i = 1; i < numAvailTitleLines + 1; i++) {
             currentTitleLine = localStorage['TitleLine' + i];
+
             // horizontal lines
             if (i > 1) webTitleText += '<br>';
             // use current value of text box lines if there is a value
@@ -516,7 +668,7 @@
             textBoxSVG += '</svg>';
             //textBoxSVG +=   '</div>' ;
         };
-        titleHTML += '<div id="title-text-box"' + webTitleTextBoxDivStyle + '/>';
+        titleHTML += '<div id="title-text-box" class="edit-text-scale"' + webTitleTextBoxDivStyle + '/>';
         titleHTML += webTitleText;
         titleHTML += textBoxSVG;
         titleHTML += '</div>';
@@ -537,12 +689,14 @@
         var showExtraLine;
         var originHTML = '';
         var currentOriginLine;
+
         originTextBoxFontSize = 8 * webFrameScale;
         originTextBoxLineHeight = 0.8 * webFrameScale;
         originTextBoxTopOffset = 81 * webFrameScale;
         originTextBoxLeftOffset = 250 * webFrameScale;
         originTextBoxWidth = 0;
         originTextBoxHeight = 0;
+
         //ImgOverlayHTML +=   '<div style=\"position: absolute; top: '+departureTextBoxTopOffset+'px; left: '+departureTextBoxLeftOffset+'px; z-index: 25; line-height: '+departureTextBoxLineHeight+'; font-size: '+departureTextBoxFontSize+'px; text-align: left; \">' ;
         webOriginTextBoxDivStyle = ' style="'
             + ' position: absolute;'
@@ -557,6 +711,7 @@
         numFilledOriginLines = 0;
         numAvailOriginLines = 2; // ### draw this from some other place... ###
         showExtraLine = true;
+
         for (i = 1; i < numAvailOriginLines + 1; i++) {
             currentOriginLine = localStorage['originsTextBoxL' + i]; // 
             // horizontal lines
@@ -590,7 +745,7 @@
             textBoxSVG += '</svg>';
             //textBoxSVG +=   '</div>' ;
         }
-        originHTML += '<div id="origins-text-box"' + webOriginTextBoxDivStyle + '>';
+        originHTML += '<div id="origins-text-box" class="edit-text-scale" ' + webOriginTextBoxDivStyle + '>';
         originHTML += webOriginText;
         originHTML += textBoxSVG;
         originHTML += '</div>';
@@ -611,12 +766,14 @@
         var showExtraLine;
         var textBoxSVG = "";
         var destinationHTML = '';
+
         destinationTextBoxFontSize = 8 * webFrameScale;
         destinationTextBoxLineHeight = 0.8 * webFrameScale;
         destinationTextBoxBottomOffset = 60 * webFrameScale;
         destinationTextBoxLeftOffset = 25 * webFrameScale;
         destinationTextBoxWidth = 0;
         destinationTextBoxHeight = 0;
+
         //ImgOverlayHTML +=   '<div style=\"position: absolute; top: 60px; left: 25px; z-index: 25; line-height: 0.8;  font-size: 8px; \">' ;
         // ### note difference with ShiInfo - this is oriented to specify top and to text-align right ###
         webDestinationTextBoxDivStyle = ' style=\"position: absolute; top: ' + destinationTextBoxBottomOffset + 'px; left: ' + destinationTextBoxLeftOffset + 'px; z-index: 25; line-height: ' + destinationTextBoxLineHeight + '; font-size: ' + destinationTextBoxFontSize + 'px; text-align: right; \"';
@@ -629,7 +786,7 @@
             if (i > 1) webDestinationText += '<br>';
             // use current value of text box lines if there is a value
             if (
-                (localStorage['DestinyLine' + i] !== undefined)
+                (localStorage['DestinyLine' + i] !== "undefined")
                 & (localStorage['DestinyLine' + i] !== "undefined")
             ) {
                 webDestinationText += '<span id="DestinationTextBoxL' + i + '">' + localStorage['DestinyLine' + i] + '</span></em>';  // ### </em> ? ###
@@ -656,7 +813,7 @@
             textBoxSVG += '</svg>';
             //textBoxSVG +=   '</div>' ;
         }
-        destinationHTML += '<div id="destination-text-box"' + webDestinationTextBoxDivStyle + '/>';
+        destinationHTML += '<div id="destination-text-box" class="edit-text-scale"' + webDestinationTextBoxDivStyle + '/>';
         destinationHTML += webDestinationText;
         destinationHTML += textBoxSVG;
         destinationHTML += '</div>';
@@ -665,6 +822,7 @@
     }
 </script>
 <script>
+
     function generateShipInfoHTML(webFrameScale, showTextBoxSVG) {
         var shipInfoTextBoxFontSize, shipInfoTextBoxLineHeight;
         var shipInfoTextBoxTopOffset, shipInfoTextBoxLeftOffset;
@@ -677,17 +835,20 @@
         var showExtraLine;
         var textBoxSVG = "";
         var shipInfoHTML = '';
+
         shipInfoTextBoxFontSize = 8 * webFrameScale;
         shipInfoTextBoxLineHeight = 0.8 * webFrameScale;
         shipInfoTextBoxBottomOffset = 40 * webFrameScale;
         shipInfoTextBoxLeftOffset = 115 * webFrameScale;
         //webShipInfoTextBoxWidth = ;
         //webShipInfoTextBoxHeight = ;
+
         // shipInfoHTML += '<div style=\"position: absolute; bottom: ' + shipInfoTextBoxBottomOffset + 'px; left: ' + shipInfoTextBoxLeftOffset + 'px; z-index: 25; line-height: ' + shipInfoTextBoxLineHeight + '; font-size: ' + shipInfoTextBoxFontSize + 'px; text-align: center; \">';
         // //shipInfoHTML +=   '<div style=\"position: absolute; bottom: 20px; left: 115px; z-index: 25; line-height: 0.8;  font-size: 8px; text-align: center; \">' ;
         // shipInfoHTML += '<p><span id="shipInfoTextBoxL1">' + localStorage.ShipInfoLine1 + '</span></em>';
         // shipInfoHTML += '<br><span id="shipInfoTextBoxL2">' + localStorage.ShipInfoLine2 + '</span></em></p>';
         // shipInfoHTML += '</div>';
+
         // webShipInfoAttribs = ' class=\"Plaque\" width='+webShipInfoTextBoxWidth+'px height='+webShipInfoTextBoxHeight+'px' ;
         // webShipInfoTextBoxDivStyle = ' style=\"width:'+webShipInfoTextBoxWidth+'px; maxwidth: 25%;'+webShipInfoTextBoxHeight+'px;\";' ;
         webShipInfoTextBoxDivStyle = ' style="'
@@ -746,7 +907,8 @@
                 plaqueHTML +=   '</div>' ;
             }
         */
-        shipInfoHTML += '<div id="ship-info-text-box"' + webShipInfoTextBoxDivStyle + '>';
+
+        shipInfoHTML += '<div id="ship-info-text-box" class="edit-text-scale"' + webShipInfoTextBoxDivStyle + '>';
         shipInfoHTML += webShipInfoText;
         shipInfoHTML += textBoxSVG;
         shipInfoHTML += '</div>';
@@ -755,6 +917,7 @@
     }
 </script>
 <script>
+
     /* need:
  * webFrameScale
  * webFrameTopOffset
@@ -790,6 +953,7 @@
         var plaqueTextBoxFontSize, plaqueTextBoxLineHeight, plaqueTextBoxLeftOffset, webPlaqueTextBoxDivStyle;
         webPlaqueBaseWidth = 140 + 10; //### adding 10 to coer previous plaque ###
         webPlaqueMatBorder = 6;  // ### was 4... 6? ###
+
         webPlaqueWidth = (webPlaqueBaseWidth + webPlaqueMatBorder) * webFrameScale;
         webPlaqueHeight = webPlaqueWidth / 2;
         //webPlaqueBottomOffset = -50;
@@ -813,6 +977,7 @@
         //### *arbitrarily* adjusting font size###
         maxLnOfFilledPlaqueLines = maxLnOfFilledPlaqueLines / 2;
         webPlaqueImg = shopifyFilePrefix + webPlaque + 'Plaque.png';
+
         // plaqueTextBoxFontSize = webPlaqueHeight / (numFilledPlaqueLines + 1); //  *webFrameScale  ;   // 9*webFrameScale
         // console.log("plaqueTextBoxFontSize= webPlaqueHeight/(numFilledPlaqueLines+1))==" + plaqueTextBoxFontSize);
         // plaqueTextBoxFontSize = webPlaqueWidth / (maxLnOfFilledPlaqueLines + 2);
@@ -821,9 +986,11 @@
         // console.log("plaqueTextBoxFontSize = Math.min((webPlaqueHeight/(numFilledPlaqueLines+1)),webPlaqueWidth/(maxLnOfFilledPlaqueLines+2)))==" + plaqueTextBoxFontSize);
         //### plaqueTextBoxLineHeight = webPlaqueHeight / numFilledPlaqueLines ;
         // plaqueTextBoxFontSize = ( 9.25 * webFrameScale ) // 7.4, pair with px unit later
+
         // plaqueTextBoxLineHeight = (webPlaqueHeight / numFilledPlaqueLines) * webFrameScale;
         // plaqueTextBoxLineHeight = 1.0 * webFrameScale;
         plaqueTextBoxLineHeight = 1.5;
+
         /*
             webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset+'px; left:'+webPlaqueLeftOffset+'px; z-index: 10;\">' ;
             webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset+'px; left:'+webPlaqueLeftOffset+'px; text-align: center; line-height: 1.0;  font-size: 9px; z-index: 10;\">' ;
@@ -831,8 +998,10 @@
         */
         //webPlaqueDivStyle =   'style=\"position: absolute; bottom: '+webPlaqueBottomOffset+'px; left: '+webPlaqueLeftOffset+'px; z-index: 25; line-height: '+plaqueTextBoxLineHeight+'; font-size: '+plaqueTextBoxFontSize+'px; text-align: center; z-index: 25; \">' ;
         //webPlaqueDivStyle = ' style=\"position: absolute; bottom:'+webPlaqueBottomOffset+'px; left:'+webPlaqueLeftOffset+'px; text-align: center; line-height: 1.0;  font-size: 9px; z-index: 25;\">' ;
+
         webPlaqueTopOffset = webFrameHeight + webPlaqueDistanceBelowMapDisplay;  // ### not sure exactly why this makes sense ###
         webPlaqueTopOffset = webFrameTopThickness + webMapHeight + webPlaqueDistanceBelowMapDisplay;  // ### not sure exactly why this makes sense ###
+
         // webPlaqueDivStyle =
         //     ' style=\"'
         //     + 'position: absolute;'
@@ -850,10 +1019,13 @@
         //     + 'padding: 9.5px 12.8px;'
         //     // End EmptyPlaque as background-image
         //     + '\">';
+
         // previously: webPlaqueBottomOffset = -(webPlaqueHeight) + (4* webFrameScale) ; // + webPlaqueDistanceBelowMapDisplay) ;  // ### not sure exactly why this makes sense ###
         //webPlaqueBottomOffset = -(webPlaqueHeight + 4* webFrameScale) ; // + webPlaqueDistanceBelowMapDisplay) ;  // ### not sure exactly why this makes sense ###
         webPlaqueBottomOffset = -(webPlaqueHeight * webFrameScale);
+
         webPlaqueLeftOffset = webMapWidth / 2 - webPlaqueWidth / 2; /* 100+400/2-140/2 = 220... nope */
+
         // webPlaqueDivStyle =
         //     ' style=\"position: absolute;'
         //     + ' bottom:' + webPlaqueBottomOffset + 'px;'
@@ -871,8 +1043,10 @@
         //     // End EmptyPlaque as background-image
         //     + '\">';
         //plaqueTextBoxLeftOffset, webPlaqueTextBoxDivStyle
+
         plaqueTextBoxLeftOffset = webPlaqueLeftOffset + 8;
         webPlaqueTextBottomOffset = webPlaqueBottomOffset - 20 * plaqueTextBoxLineHeight; // ?? some number of lines offset??
+
         webPlaqueTextBoxDivStyle =
             ' style=\"position: absolute;'
             // + ' bottom:' + webPlaqueTextBottomOffset + 'px;'
@@ -884,12 +1058,14 @@
             + ' font-size: ' + plaqueTextBoxFontSize + 'px;'
             + ' z-index: 27;'
             + '"';
+
         webPlaqueAttribs = ' class=\"Plaque\" width=' + webPlaqueWidth + 'px height=' + webPlaqueHeight + 'px';
         webPlaqueStyle = ' style=\"width:' + webPlaqueWidth + 'px; maxwidth: 25%;' + webPlaqueHeight + 'px;\";';
         // plaque text ### this is not being used.  Redo and use ###
         var webPlaqueText = "";
         numFilledPlaqueLines = 0;
         var showExtraLine = true;
+
         webPlaqueText +=
             '<p style="'
             + ' margin-bottom: 0;'
@@ -901,6 +1077,7 @@
             // End clip text
             + '">'
             ;
+
         var currentPlaqueLine;
         var currentPlaqueLineIsBlank;
         for (i = 1; i < numAvailPlaqueLines + 1; i++) {
@@ -919,7 +1096,9 @@
         // Prevent bugs from variable name reuse
         currentPlaqueLine = undefined;
         currentPlaqueLineIsBlank = undefined;
+
         webPlaqueText += '</p>';
+
         var webPlaqueTextBoxAspectRatioStyle =
             // EmptyPlaque as background-image:
             ' position: relative;'
@@ -936,6 +1115,7 @@
             // + ' border: 3px solid black'
             // End EmptyPlaque as background-image
             ;
+
         var webPlaqueTextBoxDivContentStyle =
             'position: absolute;'
             + ' left: 0;'
@@ -965,16 +1145,18 @@
             + ' -ms-flex-align: center;'
             + ' align-items: center;'
             ;
+
         // plaqueHTML += '<div' + webPlaqueDivStyle;
         // plaqueHTML += '<img src=' + webPlaqueImg + webPlaqueAttribs + webPlaqueStyle + '/>';
         // plaqueHTML += '</div>';
-        plaqueHTML += '<div id="webPlaqueTextBoxDiv"' + webPlaqueTextBoxDivStyle + '>';
+        plaqueHTML += '<div id="webPlaqueTextBoxDiv" class="edit-text-scale"' + webPlaqueTextBoxDivStyle + '>';
         plaqueHTML +=   '<div style="' + webPlaqueTextBoxAspectRatioStyle + '">';
         plaqueHTML +=     '<div id="webPlaqueTextBoxDivContent" style="' + webPlaqueTextBoxDivContentStyle + '">';
         plaqueHTML +=       webPlaqueText;
         plaqueHTML +=     '</div>';
         plaqueHTML +=   '</div>';
         plaqueHTML += '</div>';
+
         if (false) { //localStorage.viewingTripVisuals) {
             plaqueHTML += '<div style=\"position: absolute; bottom: 20px; left: 150px; z-index: 10000;\">';
             plaqueHTML += '<svg width="' + 200 + '" height="' + 200 + '">';
@@ -998,6 +1180,7 @@
         console.log("*****End PlaqueHTML*****");
         return plaqueHTML;
     } //generatePlaqueHTML()
+
 </script>
 
 <script>
@@ -1005,44 +1188,59 @@
         /* fancy parameter management... */
         console.warn("RelationShipsPreviewZ()...");
         console.trace();
+
+        console.log("RelationShipsPreviewZ().......................................................agc");
         // if ( !window.Jimaworks.defaultsHaveBeenInitialized ) {
         //     console.warn('RelationShipsPreviewZ() called before initializeDefaults(); returning');
         //     return false;
         // }
+
         var EditButton = "nope";
         var EditTitleButton = "nope";
         var EditOriginsButton = "nope";
         var EditDestinationButton = "nope";
         var EditShipInfoButton = "nope";
+        var EditArtistInfoButton = "nope";
         var EditPlaqueButton = "nope";
         var AcceptEditsButton = "nope";
+
         var EnterTitleText = "nope";
         var EnterOriginsText = "nope";
         var EnterDestinationText = "nope";
         var EnterShipInfoText = "nope";
+        var EnterArtistInfoText = "nope";
         var EnterPlaqueText = "nope";
         var RemoveLastLine = "nope";
+
+        var EditVisualButton = 'nope';
         var ShowMapButton = "nope";
         var ShowOriginsButton = "nope";
         var ShowDestinationButton = "nope";
         var ShowRouteButton = "nope";
         var ShowShipButton = "nope";
         var ShowSeaScapeButton = "nope";
+
         var describeMapButton = "nope";
         var describeOriginsButton = "nope";
         var describeDestinationButton = "nope";
         var describeRouteButton = "nope";
         var describeShipButton = "nope";
         var describeSeaScapeButton = "nope";
+
         var describeTitleTextBoxButton = "nope";
         var describeOriginsTextBoxButton = "nope";
         var describeDestinationTextBoxButton = "nope";
         var describeShipInfoTextBoxButton = "nope";
         var describePlaqueTextBoxButton = "nope";
+
+        var EditStyleButton = 'nope';
+
         var BackButton = "nope";
         var SaveButton = "nope";
         var BuyButton = "nope";
         var ReturnButton = "nope";
+
+console.log(".....................arguments.length = " + arguments.length);
         /* use this to determine whether b was passed or not */
         if (arguments.length < 3) {
             /* BuyButton, SaveButton not passed */
@@ -1062,9 +1260,11 @@
             SaveButton = arguments[4];
             ReturnButton = arguments[5];
         }
+
         /*document.referrer ;*/
         var OriginatingPage = window.location.href;
         var shopifyFileSuffix;
+
         if (window.Jimaworks.isDev) {
             // window.Jimaworks.shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
             shopifyFileSuffix = "?922";
@@ -1072,7 +1272,11 @@
             // window.Jimaworks.shopifyFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
             shopifyFileSuffix = "?16338137725744926710";
         }
+
         var headerText
+
+        console.log("...............previewRole = " + previewRole);
+
         if (previewRole === "initialView") {
             headerText = '<p><small><em>A mockup of your RelationShips Project at its starting point.';
             headerText += '<br>From here you switch, mix, match, and tailor any elements of this display';
@@ -1083,12 +1287,17 @@
             SaveButton = "yup";
         }
         else if (previewRole === "mockup") {
+/*    
+agc---4/20
             headerText = '<p><em>Mockup.';
             headerText += '<br>See <a href="/pages/galleries">Examples</a> to see what final orders look like</em></p>';
+*/ 
             /* Control Button defn and placement */
             EditButton = "yup";
-            BackButton = "yup";
-            SaveButton = "yup";
+            EditVisualButton = "yup";
+            EditStyleButton = "yup";
+//agc---4/21            BackButton = "yup";
+//agc---4/21            SaveButton = "yup";
         }
         else if (previewRole === "noMenus") {
             headerText = '<p><em>Mockup.';
@@ -1103,6 +1312,7 @@
             EditOriginsButton = "yup";
             EditDestinationButton = "yup";
             EditShipInfoButton = "yup";
+            EditArtistInfoButton = "yup";
             EditPlaqueButton = "yup";
             BackButton = "yup";
             //  setting localStorage.viewingTextBoxes = "yup" in calling context (and removing afterwards) ;
@@ -1116,6 +1326,7 @@
             EditOriginsButton = "yup";
             EditDestinationButton = "yup";
             EditShipInfoButton = "yup";
+            EditArtistInfoButton = "yup";
             EditPlaqueButton = "yup";
             BackButton = "yup";
             /* AcceptEditsButton = "yup";  */
@@ -1136,7 +1347,7 @@
             /* Control Button defn and placement */
             EnterTitleText = "yup";
             BackButton = "yup";
-            RemoveLastLine = "yup";
+//agc---4/21            RemoveLastLine = "yup";
             /* AcceptEditsButton = "yup";  */
         }
         else if (previewRole === "editOrigin") {
@@ -1155,7 +1366,7 @@
             /* Control Button defn and placement */
             EnterOriginsText = "yup";
             BackButton = "yup";
-            RemoveLastLine = "yup";
+//agc---4/21            RemoveLastLine = "yup";
             /* AcceptEditsButton = "yup";  */
         }
         else if (previewRole === "editDestination") {
@@ -1174,7 +1385,7 @@
             /* Control Button defn and placement */
             EnterDestinationText = "yup";
             BackButton = "yup";
-            RemoveLastLine = "yup";
+//agc---4/21            RemoveLastLine = "yup";
             /* AcceptEditsButton = "yup";  */
         }
         else if (previewRole === "editShipInfo") {
@@ -1198,7 +1409,32 @@
             /* Control Button defn and placement */
             EnterShipInfoText = "yup";
             BackButton = "yup";
-            RemoveLastLine = "yup";
+//agc---4/21            RemoveLastLine = "yup";
+            /* AcceptEditsButton = "yup";  */
+        }
+        else if (previewRole === "editArtistInfo") {
+            if (localStorage.viewingTextBoxes == "yup") {
+                headerText = '<p><em>The Ship Info Text Box has at most two lines.';
+                headerText += '<br>They appear to the right.</em></p>';
+            }
+            else if (localStorage.viewingTripVisuals == "yup") {
+                headerText = '<p><em>The crossing route will be graphically displayed.';
+                headerText += '<br>This will show an accurate rendering of the sea route (or air route if this crossing was by plane)</em></p>';
+            }
+            // sixth visual
+            else if (localStorage.viewingTripVisuals == "yup") {
+                headerText = '<p><em>A seascape option is offered.';
+                headerText += '<br>This option will often provide dramatic impact for the display</em></p>';
+            }
+            else {
+                headerText = '<p><em>Modify the Ship Info text any way you want.';
+                headerText += '<br>See Examples for some possibilities</em></p>';
+            }
+            /* Control Button defn and placement */
+            EnterArtistInfoText = "yup";
+            
+            BackButton = "yup";
+//agc---4/21            RemoveLastLine = "yup";
             /* AcceptEditsButton = "yup";  */
         }
         else if (previewRole === "editPlaque") {
@@ -1217,7 +1453,7 @@
             /* Control Button defn and placement */
             EnterPlaqueText = "yup";
             BackButton = "yup";
-            RemoveLastLine = "yup";
+//agc---4/21            RemoveLastLine = "yup";
             /* AcceptEditsButton = "yup";  */
         }
         else if (false) { //previewRole==="showTripVisuals") {
@@ -1299,12 +1535,14 @@
             BackButton = "yup";
             SaveButton = "yup";
         }
+
         //                ReturnButton = "yup" ;
         var IncreaseButton = "yup";
         var DecreaseButton = "yup";
+
         var controlButtonPlacement = "RightColumn"; // or "Top"
         var buttonWidth = 60;
-        var editButtonWidth = 90;
+        var editButtonWidth = 170;
         var titleLineWidth = 160;
         var originLineWidth = 160;
         var destinationLineWidth = 160;
@@ -1314,16 +1552,17 @@
         //"showTripVisuals"
         //var showTripVisualsButtonWidth = 200 ;
         var describeTripVisualsButtonWidth = 200;
+
         var controlButtons = "";
         if (EditTitleButton !== "nope") {
             if (localStorage.viewingTextBoxes == "yup") {
-                controlButtons += '<button id="editTitle" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="editTitleTextBox()">TextBox 1: Title</button>';
+                controlButtons += '<button id="editTitle" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editTitleTextBox()">TextBox 1: Title</button>';
                 if (controlButtonPlacement == "RightColumn") {
                     controlButtons += '<br>';
                 }
             }
             else {
-                controlButtons += '<button id="editTitle" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="editTitleTextBox()">Edit Title</button>';
+                controlButtons += '<button id="editTitle" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editTitleTextBox()">Edit Title</button>';
                 if (controlButtonPlacement == "RightColumn") {
                     controlButtons += '<br>';
                 }
@@ -1331,13 +1570,13 @@
         }
         if (EditOriginsButton !== "nope") {
             if (localStorage.viewingTextBoxes == "yup") {
-                controlButtons += '<button id="editOrigin" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="editOriginTextBox()">TextBox 2: Origins</button>';
+                controlButtons += '<button id="editOrigin" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editOriginTextBox()">TextBox 2: Origins</button>';
                 if (controlButtonPlacement == "RightColumn") {
                     controlButtons += '<br>';
                 }
             }
             else {
-                controlButtons += '<button id="editOrigin" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="editOriginTextBox()">Edit Origins</button>';
+                controlButtons += '<button id="editOrigin" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editOriginTextBox()">Edit Origins</button>';
                 if (controlButtonPlacement == "RightColumn") {
                     controlButtons += '<br>';
                 }
@@ -1345,13 +1584,13 @@
         }
         if (EditDestinationButton !== "nope") {
             if (localStorage.viewingTextBoxes == "yup") {
-                controlButtons += '<button id="editDestination" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="editDestinationTextBox()">TextBox3: Destination</button>';
+                controlButtons += '<button id="editDestination" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editDestinationTextBox()">TextBox3: Destination</button>';
                 if (controlButtonPlacement == "RightColumn") {
                     controlButtons += '<br>';
                 }
             }
             else {
-                controlButtons += '<button id="editDestination" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="editDestinationTextBox()">Edit Destination</button>';
+                controlButtons += '<button id="editDestination" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editDestinationTextBox()">Edit Destination</button>';
                 if (controlButtonPlacement == "RightColumn") {
                     controlButtons += '<br>';
                 }
@@ -1361,14 +1600,31 @@
             if (localStorage.viewingTextBoxes == "yup") {
                 //controlButtons +=  '<div style="position: absolute; top: -34px; left: -0px; width: 510px; height: 80px; z-index: 25; line-height: 0.9; color red">' ;
                 //controlButtons +=  '<div style="font-size: large;">' ;
-                controlButtons += '<button id="editShipInfo" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="editShipInfoTextBox()">TextBox 4: Ship Info</button>';
+                controlButtons += '<button id="editShipInfo" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editShipInfoTextBox()">TextBox 4: Ship Info</button>';
                 //controlButtons +=  '</div>' ;
                 if (controlButtonPlacement == "RightColumn") {
                     controlButtons += '<br>';
                 }
             }
             else {
-                controlButtons += '<button id="editShipInfo" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="editShipInfoTextBox()">Edit Ship Info</button>';
+                controlButtons += '<button id="editShipInfo" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editShipInfoTextBox()">Edit Ship Info</button>';
+                if (controlButtonPlacement == "RightColumn") {
+                    controlButtons += '<br>';
+                }
+            }
+        }
+        if (EditArtistInfoButton  !== "nope") {
+            if (localStorage.viewingTextBoxes == "yup") {
+                //controlButtons +=  '<div style="position: absolute; top: -34px; left: -0px; width: 510px; height: 80px; z-index: 25; line-height: 0.9; color red">' ;
+                //controlButtons +=  '<div style="font-size: large;">' ;
+                controlButtons += '<button id="editArtistInfo" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editArtistInfoTextBox()">TextBox 4: Artist Info</button>';
+                //controlButtons +=  '</div>' ;
+                if (controlButtonPlacement == "RightColumn") {
+                    controlButtons += '<br>';
+                }
+            }
+            else {
+                controlButtons += '<button id="editArtistInfo" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editArtistInfoTextBox()">Edit Artist Info</button>';
                 if (controlButtonPlacement == "RightColumn") {
                     controlButtons += '<br>';
                 }
@@ -1376,13 +1632,13 @@
         }
         if (EditPlaqueButton !== "nope") {
             if (localStorage.viewingTextBoxes == "yup") {
-                controlButtons += '<button id="editPlaque" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="editPlaqueTextBox()">TextBox 5: Plaque</button>';
+                controlButtons += '<button id="editPlaque" class="float-left submit-button" style="width: ' + describeTextBoxWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editPlaqueTextBox()">TextBox 5: Plaque</button>';
                 if (controlButtonPlacement == "RightColumn") {
                     controlButtons += '<br>';
                 }
             }
             else {
-                controlButtons += '<button id="editPlaque" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="editPlaqueTextBox()">Edit Plaque</button>';
+                controlButtons += '<button id="editPlaque" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="editPlaqueTextBox()">Edit Plaque</button>';
                 if (controlButtonPlacement == "RightColumn") {
                     controlButtons += '<br>';
                 }
@@ -1390,67 +1646,80 @@
         }
         if (EnterTitleText !== "nope") {
             //                        controlButtons +=  '<p>Change Title Lines here:<\p>'
-            controlButtons += '<input id="enterTitleLine1" type="text" value="' + localStorage.TitleLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterTitleText()">';
-            controlButtons += '<br><input id="enterTitleLine2" type="text" value="' + localStorage.TitleLine2 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterTitleText()">';
-            controlButtons += '<br><input id="enterTitleLine3" type="text" value="' + localStorage.TitleLine3 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterTitleText()">';
+            controlButtons += '<input id="enterTitleLine1" type="text" value="' + localStorage.TitleLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterTitleText()">';
+            controlButtons += '<input id="enterTitleLine2" type="text" value="' + localStorage.TitleLine2 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterTitleText()">';
+            controlButtons += '<input id="enterTitleLine3" type="text" value="' + localStorage.TitleLine3 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterTitleText()">';
         }
         if (EnterOriginsText !== "nope") {
             //                        controlButtons +=  '<p>Change Origin Lines here:<\p>'
-            controlButtons += '<input id="enterOriginLine1" type="text" value="' + localStorage.originsTextBoxL1 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterOriginText()">';
-            controlButtons += '<br><input id="enterOriginLine2" type="text" value="' + localStorage.originsTextBoxL2 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterOriginText()">';
+            controlButtons += '<input id="enterOriginLine1" type="text" value="' + localStorage.originsTextBoxL1 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterOriginText()">';
+            controlButtons += '<input id="enterOriginLine2" type="text" value="' + localStorage.originsTextBoxL2 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterOriginText()">';
         }
         if (EnterDestinationText !== "nope") {
             //                        controlButtons +=  '<p>Change Destination Lines here:<\p>'
-            controlButtons += '<input id="enterDestinyLine1" type="text" value="' + localStorage.DestinyLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterDestinationText()">';
-            controlButtons += '<br><input id="enterDestinyLine2" type="text" value="' + localStorage.DestinyLine2 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterDestinationText()">';
+            controlButtons += '<input id="enterDestinyLine1" type="text" value="' + localStorage.DestinyLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterDestinationText()">';
+            controlButtons += '<input id="enterDestinyLine2" type="text" value="' + localStorage.DestinyLine2 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterDestinationText()">';
         }
         if (EnterShipInfoText !== "nope") {
-            //                        controlButtons +=  '<p>Change ShipInfo Lines here:<\p>'
-            controlButtons += '<input id="enterShipInfoLine1" type="text" value="' + localStorage.ShipInfoLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterShipInfoText()">';
-            controlButtons += '<br><input id="enterShipInfoLine2" type="text" value="' + localStorage.ShipInfoLine2 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterShipInfoText()">';
+            console.log("EnterShipInfoText !== 'nope'");
+
+            controlButtons += '<input id="enterShipInfoLine1" type="text" value="' + localStorage.ShipInfoLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterShipInfoText()">';
+            controlButtons += '<input id="enterShipInfoLine2" type="text" value="' + localStorage.ShipInfoLine2 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterShipInfoText()">';
+        }
+
+        console.log("EnterArtistInfoText ========================== " + EnterArtistInfoText);
+
+        if (EnterArtistInfoText !== "nope") {
+            console.log("EnterArtistInfoText !== 'nope'");
+
+            controlButtons +=  '<p>Change ArtistInfo Lines here:<\p>'
+            controlButtons += '<input id="enterArtistInfoLine" type="text" value="' + localStorage.ArtistInfo + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="editArtistInfoText()">';
+            controlButtons += '<input id="enterPrintId" type="text" value="' + localStorage.PrintId + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="editArtistInfoText()">';
         }
         if (describeMapButton !== "nope") {
-            controlButtons += '<button id="describeMapButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describeMap()">MapBackground</button>';
+            controlButtons += '<button id="describeMapButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describeMap()">MapBackground</button>';
         }
         if (describeOriginsButton !== "nope") {
-            controlButtons += '<br><button id="describeOriginsButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describeOrigins()">Hightlighted Country of Origin</button>';
+            controlButtons += '<button id="describeOriginsButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describeOrigins()">Hightlighted Country of Origin</button>';
         }
         if (describeDestinationButton !== "nope") {
-            controlButtons += '<br><button id="describeDestinationButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describeDestination()">Highlighted Destination State/Province</button>';
+            controlButtons += '<button id="describeDestinationButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describeDestination()">Highlighted Destination State/Province</button>';
         }
         if (describeRouteButton !== "nope") {
-            controlButtons += '<br><button id="describeRouteButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describeRoute()">Rendering of Crossing Route</button>';
+            controlButtons += '<button id="describeRouteButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describeRoute()">Rendering of Crossing Route</button>';
         }
         if (describeShipButton !== "nope") {
-            controlButtons += '<br><button id="describeShipButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describeShip()">The Ship (or Plane)</button>';
+            controlButtons += '<button id="describeShipButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describeShip()">The Ship (or Plane)</button>';
         }
         if (describeSeaScapeButton !== "nope") {
-            controlButtons += '<br><button id="describeSeaScapeButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describeSeaScape()">Optional Seascape for Dramatic Effect</button>';
+            controlButtons += '<button id="describeSeaScapeButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describeSeaScape()">Optional Seascape for Dramatic Effect</button>';
             // ### special case - add break to end of th
-            controlButtons += '<br>';
+            controlButtons += '';
         }
         if (describeTitleTextBoxButton !== "nope") {
-            controlButtons += '<button id="describeTitleTextBoxButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describeTitleTextBox()">Title TextBox</button>';
+            controlButtons += '<button id="describeTitleTextBoxButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describeTitleTextBox()">Title TextBox</button>';
         }
         if (describeOriginsTextBoxButton !== "nope") {
-            controlButtons += '<br><button id="describeOriginsTextBoxButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describeOriginsTextBox()">Origins TextBox</button>';
+            controlButtons += '<button id="describeOriginsTextBoxButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describeOriginsTextBox()">Origins TextBox</button>';
         }
         if (describeDestinationTextBoxButton !== "nope") {
-            controlButtons += '<br><button id="describeDestinationTextBoxButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describeDestinationTextBox()">Destination TextBox</button>';
+            controlButtons += '<button id="describeDestinationTextBoxButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describeDestinationTextBox()">Destination TextBox</button>';
         }
         if (describeShipInfoTextBoxButton !== "nope") {
-            controlButtons += '<br><button id="describeShipInfoTextBoxButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describeShipInfoTextBox()">Trip Information TextBox</button>';
+            controlButtons += '<button id="describeShipInfoTextBoxButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describeShipInfoTextBox()">Trip Information TextBox</button>';
         }
         if (describePlaqueTextBoxButton !== "nope") {
-            controlButtons += '<br><button id="describePlaqueTextBoxButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="describePlaqueTextBox()">Plaque TextBox - Who Came Over</button>';
+            controlButtons += '<button id="describePlaqueTextBoxButton" class="float-left submit-button" style="width: ' + describeTripVisualsButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="describePlaqueTextBox()">Plaque TextBox - Who Came Over</button>';
             // ### special case - add break to end of th
-            controlButtons += '<br>';
+            controlButtons += '';
         }
+
         var numAvailPlaqueLines = 8;
         var numFilledPlaqueLines = 0;
         var maxLnOfFilledPlaqueLines = 0;
         var thisLineNum = 0;
         var currentPlaqueLine;
+
         for (i = 0; i < numAvailPlaqueLines; i++) {
             currentPlaqueLine = localStorage['PlaqueLine' + i];
             //console.log("(eval('localStorage.PlaqueLine'+i)["+eval('localStorage.PlaqueLine'+i)+"] !== undefined)"+(eval('localStorage.PlaqueLine'+i) !== undefined));
@@ -1466,136 +1735,159 @@
         if (EnterPlaqueText !== "nope") {
             //                        controlButtons +=  '<p>Change Plaque Lines here:<\p>'
             /*
-                                    controlButtons +=  '<input id="enterPlaqueLine1" type="text" value="'+localStorage.PlaqueLine1+'" style="width: '+titleLineWidth+'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
-                                    controlButtons +=  '<br><input id="enterPlaqueLine2" type="text" value="'+localStorage.PlaqueLine2+'" style="width: '+titleLineWidth+'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
-                                    controlButtons +=  '<br><input id="enterPlaqueLine3" type="text" value="'+localStorage.PlaqueLine3+'" style="width: '+titleLineWidth+'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
-                                    controlButtons +=  '<br><input id="enterPlaqueLine4" type="text" value="'+localStorage.PlaqueLine4+'" style="width: '+titleLineWidth+'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
-                                    controlButtons +=  '<br><input id="enterPlaqueLine5" type="text" value="'+localStorage.PlaqueLine5+'" style="width: '+titleLineWidth+'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
-                                    controlButtons +=  '<br><input id="enterPlaqueLine6" type="text" value="'+localStorage.PlaqueLine6+'" style="width: '+titleLineWidth+'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
-                                    controlButtons +=  '<br><input id="enterPlaqueLine7" type="text" value="'+localStorage.PlaqueLine7+'" style="width: '+titleLineWidth+'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
+                                    controlButtons +=  '<input id="enterPlaqueLine1" type="text" value="'+localStorage.PlaqueLine1+'" style="width: '+titleLineWidth+'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
+                                    controlButtons +=  '<br><input id="enterPlaqueLine2" type="text" value="'+localStorage.PlaqueLine2+'" style="width: '+titleLineWidth+'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
+                                    controlButtons +=  '<br><input id="enterPlaqueLine3" type="text" value="'+localStorage.PlaqueLine3+'" style="width: '+titleLineWidth+'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
+                                    controlButtons +=  '<br><input id="enterPlaqueLine4" type="text" value="'+localStorage.PlaqueLine4+'" style="width: '+titleLineWidth+'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
+                                    controlButtons +=  '<br><input id="enterPlaqueLine5" type="text" value="'+localStorage.PlaqueLine5+'" style="width: '+titleLineWidth+'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
+                                    controlButtons +=  '<br><input id="enterPlaqueLine6" type="text" value="'+localStorage.PlaqueLine6+'" style="width: '+titleLineWidth+'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
+                                    controlButtons +=  '<br><input id="enterPlaqueLine7" type="text" value="'+localStorage.PlaqueLine7+'" style="width: '+titleLineWidth+'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText('+thisLineNum+',false)">' ;  
             */
             thisLineNum++; // thisLineNum==1
             if (numFilledPlaqueLines >= thisLineNum) {
-                controlButtons += '<br><input id="enterPlaqueLine1" type="text" value="' + localStorage.PlaqueLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
+                controlButtons += '<br><input id="enterPlaqueLine1" type="text" value="' + localStorage.PlaqueLine1 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine2" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine2" type="text" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==2
             if (numFilledPlaqueLines >= thisLineNum) {
-                controlButtons += '<br><input id="enterPlaqueLine2" type="text" value="' + localStorage.PlaqueLine2 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
+                controlButtons += '<br><input id="enterPlaqueLine2" type="text" value="' + localStorage.PlaqueLine2 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine3" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine3" type="text" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==3
             if (numFilledPlaqueLines >= thisLineNum) {
-                controlButtons += '<br><input id="enterPlaqueLine3" type="text" value="' + localStorage.PlaqueLine3 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
+                controlButtons += '<br><input id="enterPlaqueLine3" type="text" value="' + localStorage.PlaqueLine3 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine4" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine4" type="text" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==4
             if (numFilledPlaqueLines >= thisLineNum) {
-                controlButtons += '<br><input id="enterPlaqueLine4" type="text" value="' + localStorage.PlaqueLine4 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
+                controlButtons += '<br><input id="enterPlaqueLine4" type="text" value="' + localStorage.PlaqueLine4 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine5" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine5" type="text" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==5
             if (numFilledPlaqueLines >= thisLineNum) {
-                controlButtons += '<br><input id="enterPlaqueLine5" type="text" value="' + localStorage.PlaqueLine5 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
+                controlButtons += '<br><input id="enterPlaqueLine5" type="text" value="' + localStorage.PlaqueLine5 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine6" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine6" type="text" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==6
             if (numFilledPlaqueLines >= thisLineNum) {
-                controlButtons += '<br><input id="enterPlaqueLine6" type="text" value="' + localStorage.PlaqueLine6 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
+                controlButtons += '<br><input id="enterPlaqueLine6" type="text" value="' + localStorage.PlaqueLine6 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine7" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine7" type="text" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + numFilledPlaqueLines + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==7
             if (numFilledPlaqueLines >= thisLineNum) {
-                controlButtons += '<br><input id="enterPlaqueLine7" type="text" value="' + localStorage.PlaqueLine7 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
+                controlButtons += '<br><input id="enterPlaqueLine7" type="text" value="' + localStorage.PlaqueLine7 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
                 if (numFilledPlaqueLines == thisLineNum) {
-                    controlButtons += '<br><input id="enterPlaqueLine8" type="text" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',true)">';
+                    controlButtons += '<br><input id="enterPlaqueLine8" type="text" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',true)">';
                 }
             }
             thisLineNum++; // thisLineNum==8
             if (numFilledPlaqueLines == thisLineNum) {
-                controlButtons += '<br><input id="enterPlaqueLine8" type="text" value="' + localStorage.PlaqueLine8 + '" style="width: ' + titleLineWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
+                controlButtons += '<br><input id="enterPlaqueLine8" type="text" value="' + localStorage.PlaqueLine8 + '" style="width: ' + titleLineWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" oninput="enterPlaqueText(' + thisLineNum + ',false)">';
             }
         }
         if (RemoveLastLine !== "nope") {
-            controlButtons += '<button id="removeLastLine" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="removeLastLine(\'' + previewRole + '\')">DeleteLast</button>';
+            controlButtons += '<button id="removeLastLine" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="removeLastLine(\'' + previewRole + '\')">DeleteLast</button>';
             if (controlButtonPlacement == "RightColumn") {
                 controlButtons += '<br>';
             }
         }
         if (AcceptEditsButton !== "nope") {
-            controlButtons += '<button id="acceptEdits" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" onclick="acceptEdits()">AcceptEdits</button>';
+            controlButtons += '<button id="acceptEdits" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold;" onclick="acceptEdits()">AcceptEdits</button>';
             if (controlButtonPlacement == "RightColumn") {
                 controlButtons += '<br>';
             }
         }
+
         if (EditButton !== "nope") {
-            controlButtons += '<button id="EditButton" class="float-left submit-button" style="width: ' + buttonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="EditPage()">Edit</button>';
+            controlButtons += '<button id="EditButton" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="EditPage()">RelationShips@ TextBoxes</button>';
             if (controlButtonPlacement == "RightColumn") {
                 controlButtons += '<br>';
             }
         }
+
+        if (EditVisualButton !== "nope") {
+            controlButtons += '<button id="EditVisualButton" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="EditVisualButton()">RelationShips@ Visuals</button>';
+            if (controlButtonPlacement == "RightColumn") {
+                controlButtons += '<br>';
+            }
+        }
+        
+        if (EditStyleButton !== "nope") {
+            controlButtons += '<button id="EditStyleButton" class="float-left submit-button" style="width: ' + editButtonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="EditStyleButton()">RelationShips@ Styles</button>';
+            if (controlButtonPlacement == "RightColumn") {
+                controlButtons += '<br>';
+            }
+        }
+
         if (BackButton != "nope") {
-            controlButtons += '<button id="BackButton" class="float-left submit-button" style="width: ' + buttonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="BackToPrevLevel(' + '\'' + previewRole + '\'' + ')">Back</button>';
+            controlButtons += '<button id="BackButton" class="float-left submit-button" style="width: ' + buttonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="BackToPrevLevel(' + '\'' + previewRole + '\'' + ')">Back</button>';
             if (controlButtonPlacement == "RightColumn") {
                 controlButtons += '<br>';
             }
         }
         /*
                if (ReturnButton!="nope") {
-                        controlButtons +=  '<button id="ReturnButton" class="float-left submit-button" style="width: '+buttonWidth+'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="ReturnToCallingPage()">Back</button>' ;  
+                        controlButtons +=  '<button id="ReturnButton" class="float-left submit-button" style="width: '+buttonWidth+'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="ReturnToCallingPage()">Back</button>' ;  
                         if(controlButtonPlacement == "RightColumn") {
                             controlButtons +=  '<br>' ;
                         }
                     } 
           */
         if (SaveButton != "nope") {
-            controlButtons += '<button id="SaveButton" class="float-left submit-button" style="width: ' + buttonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="SaveCurrentState()">Save</button>';
+            controlButtons += '<button id="SaveButton" class="float-left submit-button" style="width: ' + buttonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="SaveCurrentState()">Save</button>';
             if (controlButtonPlacement == "RightColumn") {
                 controlButtons += '<br>';
             }
         }
         if (BuyButton != "nope") {
-            controlButtons += '<button id="BuyButton" class="float-left submit-button" style="width: ' + buttonWidth + 'px; background-color: Ivory; border: 4px solid DarkGreen; padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold; " onclick="GoToBuyPage()">Buy</button>';
+            controlButtons += '<button id="BuyButton" class="float-left submit-button" style="width: ' + buttonWidth + 'px; background-color: #fff2cc; color: black; border: 2px solid #7faed2; padding: 5px 5px 5px 10px; text-align: left; margin: 2px 3px; font-size: 110%; font-weight: bold; " onclick="GoToBuyPage()">Buy</button>';
             if (controlButtonPlacement == "RightColumn") {
                 controlButtons += '<br>';
             }
         }
+
         var sizeButtonPlacement = "RightColumn"; // or "Top"
         var sizeButtonWidth = 30;
         var sizeButtons = "";
-        sizeButtons += '<button id="IncreasePreviewSize" class="float-left submit-button" style="width: ' + sizeButtonWidth + 'px; height: ' + sizeButtonWidth + 'px; background-color: Ivory; border: 4px solid grey; padding: 0px; margin: 0 0px; font-size: 200%; font-weight: bold; " onclick="IncreasePreviewScaleMultiple()">+</button>';
+        sizeButtons += '<button id="IncreasePreviewSize" class="float-left submit-button" style="width: ' + sizeButtonWidth + 'px; height: ' + sizeButtonWidth + 'px; background-color: #fff2cc; color: black; border: 4px solid grey; padding: 0px; margin: 0 0px; font-size: 200%; font-weight: bold; " onclick="IncreasePreviewScaleMultiple()">+</button>';
         if (sizeButtonPlacement == "RightColumn") {
             sizeButtons += '<br>';
         }
-        sizeButtons += '<button id="DecreasePreviewSize" class="float-left submit-button" style="width: ' + sizeButtonWidth + 'px; height: ' + sizeButtonWidth + 'px; background-color: Ivory; border: 4px solid grey; padding: 0px; margin: 0 0px; font-size: 200%; font-weight: bold; " onclick="DecreasePreviewScaleMultiple()">-</button>';
+        sizeButtons += '<button id="DecreasePreviewSize" class="float-left submit-button" style="width: ' + sizeButtonWidth + 'px; height: ' + sizeButtonWidth + 'px; background-color: #fff2cc; color: black; border: 4px solid grey; padding: 0px; margin: 0 0px; font-size: 200%; font-weight: bold; " onclick="DecreasePreviewScaleMultiple()">-</button>';
         if (sizeButtonPlacement == "RightColumn") {
             sizeButtons += '<br>';
         }
+
         /* page */
         var topMargin = 20;
         var leftMargin = 120;
         var webFrameScale = currentPreviewScale;
         /* map foundations for display accouterments */
+
         var img = new Image();
+
         img.onload = function () {
             var height = img.height;
             var width = img.width;
+
             // code here to use the dimensions
         };
+
         var webMapStyle = localStorage.MapStyle;
         var webMapStyleAbbrev = localStorage.MapStyleAbbrev;
+
         // 
         var webMapImg = window.Jimaworks.shopifyFilePrefix + (
             /*
@@ -1605,6 +1897,7 @@
                 will be undefined, so we have to put another default.
                 This is to avoid a 404 in the console from the image src being e.g.
                 "https://cdn.shopify.com/s/files/1/1336/0641/files/undefined".
+
                 TODO: RPZ should be broken up into smaller parts so that
                 code that depends on initializeDefaults can run separately.
                 Preventing RPZ from running at all if defaults are not initialized
@@ -1614,7 +1907,9 @@
             || localStorage.getItem("webMapImgDefault")
             || 'EuM-Liner-Pari.png'
         );
+
         var mapImg = webMapImg;
+
         var theGoldenRatio = 1.618;
         var webMapWidth = 400 * webFrameScale;
         var webMapHeight = (webMapWidth / theGoldenRatio) * webFrameScale; /* get the actual height of the map */
@@ -1624,9 +1919,11 @@
             || localStorage.getItem("shipPicDefault")
             || 'jimaworksStPaul640.png'
         );
+
         /* ship */
         var webShipImg = window.Jimaworks.shopifyFilePrefix + shipPic.replace("(", "_").replace(")", "_");
         // var webShipImgQuoted = '\"' + webShipImg + '\"'; // Not necessary
+
         /* frame */
         var webFrameSrcStr;
         var webFrameStyleName;
@@ -1641,6 +1938,7 @@
         var webFrameBottomThickness = webFrameTopThickness;
         var webFrameLeftThickness = webFrameTopThickness;
         var webFrameRightThickness = webFrameTopThickness;
+
         if (showFrame === "showFrame") {
             webFrameStyleName = localStorage.Frame;
             if (
@@ -1711,13 +2009,17 @@
             webFrameLeftOffset = -60 * webFrameScale;
             // console.warn('NoFrame-NoPlaque')
         }
+
         //webFrameTopOffset = -110;
+
         webFrameImg = '\"' + window.Jimaworks.shopifyFilePrefix + 'GoldRatio-Med-' + webFrameAbbrv + '-NoRuler-72ppi.png' + '\"';
         webFrameDivStyle = ' style=\"position: absolute; Top:' + webFrameTopOffset + 'px; left:' + webFrameLeftOffset + 'px; z-index: 10;\">';
         webFrameAttribs = ' class=\"frame\" width=' + webFrameWidth + 'px height=\"auto\"';
         webFrameStyle = ' style=\"width:' + webFrameWidth + 'px; maxwidth: 25%; height: auto\";';
+
         /* ### ?? unused? ## */
         webFrameSrcStr += '<img src=' + webFrameImg + webFrameAttribs + webFrameStyle + '/>';
+
         /* plaque */
         /*       
                 var webFrameTopThickness = 30 * webFrameScale ;
@@ -1813,12 +2115,14 @@
                     webPlaqueText  +=   '<br>'+localStorage.PlaqueLine8+'</p>' ;
                     webPlaqueText  +=   '</div>' ;
         */
+
         /* seascape */
-        var option = "DontAddSeaScape"; //"AddSeaScape" ;// "DontAddSeaScape" ;   
+        var option = "AddSeaScape" ;// "DontAddSeaScape" ;   
         var seaScapeImgName;
         var seaScapeImg;
         var seaScapeHorizonImgName;
         var seaScapeHorizonImg;
+
         var seaScapeWidth, seaScapeHeight;
         var seaScapeTopOffset, seaScapeBottomOffset;
         var seaScapeLeftOffset, seaScapeRightOffset;
@@ -1826,6 +2130,7 @@
         seaScapeHeight = 60 * webFrameScale;
         seaScapeBottomOffset = 0 * webFrameScale;
         seaScapeLeftOffset = 0 * webFrameScale;
+
         var seaScapeHorizonWidth, seaScapeHorizonHeight;
         var seaScapeHorizonTopOffset, seaScapeHorizonBottomOffset;
         var seaScapeHorizonLeftOffset, seaScapeHorizonRightOffset;
@@ -1833,11 +2138,13 @@
         seaScapeHorizonHeight = 20 * webFrameScale;
         seaScapeHorizonBottomOffset = 40 * webFrameScale;
         seaScapeHorizonLeftOffset = 0 * webFrameScale;
+
         var seaScapeHTML;
         if (option === "AddSeaScape") {
             /*seaScapeImg = "https://cdn.shopify.com/s/files/1/1336/0641/files/Ocean7Cropped640W.png?10959405084462869905" ;*/
             /*seaScapeSquashedImg = "https://cdn.shopify.com/s/files/1/1336/0641/files/Ocean7CroppedSquashed500W.png?17942739908704347492" ;*/
             /*seaScapeHorizonImg = "https://cdn.shopify.com/s/files/1/1336/0641/files/Ocean7Horizon500W.png?17942739908704347492" ;*/
+
             seaScapeImgName = "Ocean7CroppedSquashed500W.png";
             seaScapeImg = "\'"
                 + window.Jimaworks.shopifyFilePrefix
@@ -1866,6 +2173,7 @@
             seaScapeHorizonImg = "";
             seaScapeHTML = "";
         };
+
         var shipImgTransparentBackground = (
             // TODO: See comment for webMapImg
             localStorage.getItem("shipImageTransparentBackground")
@@ -1892,16 +2200,20 @@
         localStorage.setItem('shipPicImg', 
                             '\"https://cdn.shopify.com/s/files/1/1336/0641/files/St_Paul-24-640pxW.jpg\" ' ;
                              );
+
         var webMapImg = localStorage.MapStyleImg ;
         var webFrameImg = localStorage.FrameIg ;
         var webShipImgQuoted = localStorage.shipPicImg ;
         */
+
         /* examples...
         var webMapImg =   '\"https://cdn.shopify.com/s/files/1/1336/0641/files/2016-NAtlantic-MayanGlow-640pxW.png\" ' ;
         var webShipImgQuoted =      '\"https://cdn.shopify.com/s/files/1/1336/0641/files/St_Paul-24-640pxW.jpg\" ' ;
         var webFrameImg =     '\"https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Black-NoRuler-640pxW.png\" ' ; 
         */
-        var ImgOverlayHTML = '<p>Testing...</p>';
+
+        var ImgOverlayHTML = '';//'<p>Testing...</p>';
+
         /* map */
         /*       
         
@@ -1921,13 +2233,17 @@
         //webMapTopOffset = topMargin+webFrameTopThickness ;
         webMapTopOffset = topMargin;
         webMapLeftOffset = leftMargin + webFrameLeftThickness;
+
+/*
+agc---4/20
         ImgOverlayHTML += '<div id="preview" style="'
             + 'position: relative;'
-            + ' top: ' + webMapTopOffset + 'px;'
+            + ' top: ' + 60 + 'px;'
             + ' left: ' + webMapLeftOffset + 'px;'
             + ' z-index: 0;'
             + ' text-shadow: 1px 1px 0px Ivory;'
         + '">';
+
         ImgOverlayHTML += '<img'
             + ' src=' + webMapImg
             + ' class="map"'
@@ -1936,22 +2252,36 @@
                 + ' height: ' + webMapHeight
             + ';"'
         + ' />';
+*/
+
+//       	ImgOverlayHTML += '<div id="map"' + 'class="jw-relationships-tour__map"' + '>';
+//             ImgOverlayHTML += '</div>';
+
         /* header text */
+/*
+agc---4/20
         ImgOverlayHTML += '<div style=\"position: absolute; top: -34px; left: -0px; width: 510px; height: 80px; z-index: 25; line-height: 0.9; color red\">';
         ImgOverlayHTML += headerText;
         ImgOverlayHTML += '</div>';
+*/
         /* control buttons...  left offset when column == '+ (webFrameWidth-webFrameLeftOffset)+'  ? */
         var controlButtonOffset = 0;
         if (controlButtonPlacement == "RightColumn") {
             controlButtonOffset = webFrameWidth + (2 * webFrameLeftOffset) + buttonWidth;
-            ImgOverlayHTML += '<div style=\"position: absolute; top: -34px; left: ' + controlButtonOffset + 'px; width: 510px; height: 80px; z-index: 1000; font-size: 8px; line-height: 0.9; color red\">';
+//  agc---4/20            ImgOverlayHTML += '<div style=\"position: absolute; top: -34px; left: ' + controlButtonOffset + 'px; width: 510px; height: 80px; z-index: 1000; font-size: 8px; line-height: 0.9; color: red\">';
         }
         else {
-            ImgOverlayHTML += '<div style=\"position: absolute; top: -34px; left: ' + controlButtonOffset + 'px; width: 510px; height: 80px; z-index: 1000; font-size: 8px; line-height: 0.9; color red\">';
+//  agc---4/20            ImgOverlayHTML += '<div style=\"position: absolute; top: -34px; left: ' + controlButtonOffset + 'px; width: 510px; height: 80px; z-index: 1000; font-size: 8px; line-height: 0.9; color: red\">';
         }
+
         ImgOverlayHTML += controlButtons;
-        ImgOverlayHTML += '</div>';
+
+//  agc---4/20        ImgOverlayHTML += '</div>';
+
         /* size buttons...  left offset when column == '+ (webFrameWidth-webFrameLeftOffset)+'  ? */
+/*
+agc---4/21
+
         var sizeButtonOffset = 0;
         if (sizeButtonPlacement == "RightColumn") {
             sizeButtonOffset = webFrameWidth + (2 * webFrameLeftOffset) + buttonWidth;
@@ -1962,33 +2292,53 @@
         }
         ImgOverlayHTML += sizeButtons;
         ImgOverlayHTML += '</div>';
+*/
+
         /* frame */
+/*
+agc---4/20
+
         ImgOverlayHTML += '<div' + webFrameDivStyle;
+*/
         /*                   <div style="position: absolute; bottom:-130; left:-105; zindex: 10;">
         ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: -85px; left: -60px; z-index: 10;\">' ;
          */
+
+/*
+agc---4/20
         ImgOverlayHTML += '<img src=' + webFrameImg + webFrameAttribs + webFrameStyle + '/>';
         ImgOverlayHTML += '</div>';
+*/
+
         /* Under Construction icon */
         /*
             '<img   src="https://cdn.shopify.com/s/files/1/1336/0641/files/EnobrasUnderConstruction.gif" 
                     alt="Site Under Construction" 
                     style="display: block; position: absolute; top: 0px; left: 0px; width: 60px; height: 60px;" />
         */
+/* 
+agc-4/20       
         ImgOverlayHTML += '<div style=\"position: absolute; top: -34px; left: -40px; z-index: 12;\">';
         ImgOverlayHTML += '<img src=' + '\"https://cdn.shopify.com/s/files/1/1336/0641/files/EnobrasUnderConstruction.gif\"';
         ImgOverlayHTML += ' class=\"UnderConstructionIcon\" width=\"60px\" height=\"auto\"';
         ImgOverlayHTML += ' alt=\"Site Under Construction\"';
         ImgOverlayHTML += ' style=\"width: 60px; maxwidth: 25%; height: auto;\" />';
         ImgOverlayHTML += '</div>';
+*/
         /* Seascape */
+
+/* 
+agc-4/20  
         ImgOverlayHTML += seaScapeHTML;
+*/
+
         /* ship */
         var aPrioriShipWidth = 160;
         var targetShipImageWidth, targetShipImageHeight, targetShipImageArea;
         var shipImageWidth, shipImageHeight;
         var shipImageBottomOffset, shipImageLeftOffset;
         var webShipImgWidth, webShipImgHeight, webShipImgXYRatio, webShipImgXYArea;
+
         getImgWidthAndHeight(
             webShipImg,
             function (width, height) {
@@ -2007,6 +2357,7 @@
         webShipImgXYRatio = webShipImgHeight / webShipImgWidth;
         webShipImgArea = webShipImgHeight * webShipImgWidth;
         console.log("webShipImgWidth =" + webShipImgWidth + "; webShipImgHeight =" + webShipImgHeight + "; webShipImgXYRatio =" + webShipImgXYRatio);
+
         targetShipImageWidth = aPrioriShipWidth * webFrameScale;  // a priori image target width = 160
         targetShipImageHeight = targetShipImageWidth / 1.618;  // golden ratio = 1.618
         targetShipImageArea = targetShipImageWidth * targetShipImageHeight;
@@ -2025,6 +2376,7 @@
         webShipImageArea = webShipImageWidth * webShipImageHeight;
         //console.log("webShipImageWidth ="+webShipImageWidth+"; webShipImageHeight ="+webShipImageHeight+"; webShipImageArea ="+webShipImageArea) ;
         console.log("webShipImageArea ==" + webShipImageArea);
+
         shipImageWidth = webShipImageWidth; //160 * webFrameScale  ;  // image target width = 160
         shipImageHeight = webShipImageHeight; //"auto" ;
         shipImageBottomOffset = 45 * webFrameScale;
@@ -2032,8 +2384,13 @@
         shipImageBottomOffset += (targetShipImageHeight - webShipImageHeight) / 4.0;
         shipImageLeftOffset = 115 * webFrameScale;
         shipImageLeftOffset += (targetShipImageWidth - webShipImageWidth) / 2.0;
+
         /*        ImgOverlayHTML +=   '<div style=\"position: absolute; top: 120px; left: 120px; z-index: 3;\">' ;  */
         //ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 45px; left: 115px; z-index: 3;\">' ;
+
+/*
+agc---4/20
+
         ImgOverlayHTML += '<div id="ship" style="'
             + ' position: absolute;'
             + ' bottom: ' + shipImageBottomOffset + 'px;'
@@ -2041,24 +2398,43 @@
             + ' z-index: 27;'
         + '">';
         ImgOverlayHTML += '<img src="' + webShipImg + '"';
-        //ImgOverlayHTML +=     ' class=\"ship\" width=\"160px\" height=\"auto\"' ;
-        //ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
         ImgOverlayHTML += ' class=\"ship\" width=\"' + shipImageWidth + 'px\" height=\"' + shipImageHeight + '\"';
         ImgOverlayHTML += ' style=\"width: ' + shipImageWidth + 'px maxwidth:25%; height: auto; ';
-        /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
         ImgOverlayHTML += shipBorder;
         ImgOverlayHTML += '\" />';
         ImgOverlayHTML += '</div>';
+*/
         /****** TextBoxes *******/
-        /* title */
+        /* title */ 
+/*
+agc---4/20
+
         ImgOverlayHTML += generateTitleTextBoxHTML(webFrameScale, showTextBoxSVG);
+*/
         /* departure */
+
+/*
+agc---4/20        
         ImgOverlayHTML += generateOriginTextBoxHTML(webFrameScale, showTextBoxSVG);
+*/
+
         /* arrival */
+
+/*
+agc---4/20          
         ImgOverlayHTML += generateDestinationTextBoxHTML(webFrameScale, showTextBoxSVG);
+*/
+
         /* ship info */
+
+/*
+agc---4/20  
         ImgOverlayHTML += generateShipInfoHTML(webFrameScale, showTextBoxSVG);
+*/
+
         /* plaque */
+/*
+agc---4/20          
         ImgOverlayHTML += generatePlaqueHTML(
             webFrameScale,
             webFrameTopOffset,
@@ -2072,26 +2448,43 @@
             window.Jimaworks.shopifyFilePrefix,
             showTextBoxSVG
         );
-        /* wrap up */
+
         ImgOverlayHTML += '</div>';
-        // console.log("ImgOverlayHTML=" + ImgOverlayHTML);
+*/
+
+            console.log("/////////////////////////////////////ImgOverlayHTML = " + ImgOverlayHTML);
         if (!window.overlaysRendered) {
-            window.addEventListener('DOMContentLoaded', function () {
+            
+//agc---4/21             window.addEventListener('DOMContentLoaded', function () {
                 // console.warn('Images:', Array.from(ImgOverlayHTML.matchAll(/<img[^>]+>/g), m => m[0].replace(/.*src="?([^"\s]+)"?.*/, '$1')));
+                
+                console.log("-----------------------------000000--------------------------------");
                 var displayOverlays = document.getElementById("DisplayOverlays");
                 if (displayOverlays) {
+
+                    console.log("ImgOverlayHTML = ...............1.............." + ImgOverlayHTML);
+
                     displayOverlays.innerHTML = ImgOverlayHTML;
                     window.overlaysRendered = true;
                 }
-            });
+//agc---4/21            });
         } else {
+
+            console.log("-----------------------------11111--------------------------------");
+
+
             var displayOverlays = document.getElementById("DisplayOverlays");
             if (displayOverlays) {
-                displayOverlays.innerHTML = ImgOverlayHTML;
+
+                console.log("ImgOverlayHTML = ...............2.............." + ImgOverlayHTML);
+
+                displayOverlays.innerHTML = ImgOverlayHTML; 
             }
         }
         // ]]>
-        console.log("Preview Page:  OriginatingPage =" + OriginatingPage);
+
+
+        console.log("Preview Page    :  OriginatingPage =" + OriginatingPage);
         console.log("               webMapStyle =" + webMapStyle);
         console.log("               webMapImg =" + webMapImg);
         console.log("               webShipImg =" + webShipImg);
@@ -2099,13 +2492,49 @@
         console.log("               webFrameImg =" + webFrameImg);
         console.log("               webFrameAbbrv =" + webFrameAbbrv);
         console.log("               webFrameStyleName =" + webFrameStyleName);
-    } /* function RelationShipsPreviewZ() */
-    /* RelationShipsPreviewZ("initialView", "noFrame") */
+    } 
+    
+    function CloseRelationShipsPreviewZ () {
+        document.getElementById("DisplayOverlays").innerHTML = "";
+    }
+    /* function RelationShipsPreviewZ() */
+
+    /* RelationShipsPreviewZ("initialView", "noFrame") */ 
+ 
     if (localStorage.viewingTextBoxes == "yup") {
         RelationShipsPreviewZ("showTextBoxes", "showFrame");
     }
     else {
         RelationShipsPreviewZ("mockup", "showFrame", "BuyButton", "SaveButton", "ReturnButton");
     }
+
 // ]]></script>
+
+
+<script>
+  $("#tour").css("display","none");
+  
+   $( window ).load(function() {
+     $("#tour").css("display","block");
+     myFunction();
+   });
+   
+     var myFunction = function(){ 
+       
+        widthmap = $(".frame").width();
+       	editbuttonwidth = $("#EditButton").width() + 25;
+      	$("#tour").css("left",  124 + widthmap + editbuttonwidth); 
+     }
+     var myFunction1 = function(){ 
+        widthmap = $(".frame").width();
+       	var	editTitlewidth = $("#editTitle").width() + 25;
+      	$("#tour").css("left",  124 + widthmap + editTitlewidth); 
+     }
+     var myFunction2 = function(){ 
+        widthmap = $(".frame").width();
+       	enterTitleLine1 = $("#enterTitleLine1").width() + 30;
+      	$("#tour").css("left",  124 + widthmap + enterTitleLine1); 
+     }
+     
+</script>
 

@@ -87,6 +87,10 @@ ShipInfoLine1
 ShipInfoLine1Default
 ShipInfoLine2
 ShipInfoLine2Default
+ArtistInfo
+ArtistInfoDefault
+PrintId
+PrintIdDefault
 ShipSort
 ShipSortDefault
 ShowTransportCraftImage
@@ -120,6 +124,8 @@ originsTextBoxL1
 originsTextBoxL1Default
 originsTextBoxL2
 originsTextBoxL2Default
+artistTextBoxDefault
+artistTextBox
 prevRteMapYear
 prevRteMapYearDefault
 seaLaneDepartureCountries

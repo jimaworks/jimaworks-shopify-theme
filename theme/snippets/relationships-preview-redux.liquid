@@ -106,62 +106,6 @@
       border-image-slice: 84;
     }
 
-    /* Frame Sizes */
-    /* Gem */
-
-    .jw-relationships-preview.jw-relationships-preview--size-gem {
-      border-image-width: 4.40934065934066rem;
-/*    padding: 5.625rem 5.625rem 5rem;
-*/    
-    }
-    @media only screen and (min-width: 940px) {
-      .jw-relationships-preview.jw-relationships-preview--size-gem {
-        /* 1.5x the above */
-        margin-left: 7rem;
-        padding: 0.5rem 1rem;
-        border-image-width: 4.61401098901099rem;
-      }
-    }
-
-    /* Small */
-    .jw-relationships-preview.jw-relationships-preview--size-small {
-      border-image-width: 3.825rem;
-    }
-    @media only screen and (min-width: 940px) {
-      .jw-relationships-preview.jw-relationships-preview--size-small {
-        /* 1.5x the above */
-        border-image-width: 3.825rem;
-        margin-left: 4.3rem;
-        padding: 2.2rem 4rem;
-      }
-    }
-
-    /* Medium */
-    /* Scaled padding makes things too crowded at Large size, so Medium and Large share padding and only vary in border width */
-    .jw-relationships-preview.jw-relationships-preview--size-medium{
-      border-image-width: 3.090659340659342rem;
-/*    padding: 4.261363636363636rem 4.261363636363636rem 3.636363636363636rem; /* 1.351351351351351x Gem */
-    }
-    @media only screen and (min-width: 940px) {
-      .jw-relationships-preview.jw-relationships-preview--size-medium {
-        margin-left: 2.2rem;
-        padding: 1rem 2rem; /* 1.5x the above */
-      }
-    }
-
-    /* Large */
-    .jw-relationships-preview.jw-relationships-preview--size-large {
-      border-image-width: 2.554945054945055rem;
-/*      padding: 3.153409090909091rem 3.153409090909091rem 2.528409090909091rem;
-*/
-    }
-    @media only screen and (min-width: 940px) {
-      .jw-relationships-preview.jw-relationships-preview--size-large {
-        margin-left: 0;
-        border-image-width: 2.554945054945055rem; /* 1.5x the above */
-        padding: 0.5rem 1rem; /* 1.5x the above */
-      }
-    }
 
   .jw-relationships-preview__content {
     -webkit-box-flex: 1;
@@ -176,6 +120,10 @@
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
+
+    -webkit-transition: all .5s linear;
+    -o-transition: all .5s linear;
+    transition: all .5s linear;
   }
 
   [class*="__text"] {
@@ -320,6 +268,7 @@
     .jw-ship__image-container {
       width: 100%;
       margin-top: 1rem;
+      z-index: 1;
     } 
     .jw-ship__image {
       margin: 0 auto;
@@ -354,7 +303,7 @@
         width: 55%;
       }
     .jw-ship__info {
-      width: 100%;
+/*      width: 100%;  */
       height: 17%; /* Must match `bottom` of .jw-ship__image-container */
 
       display: -webkit-box;
@@ -637,7 +586,49 @@
   >
     <div class="jw-relationships-preview__content">
       <div id="map-background" class="jw-map jw-map--color-paris-sage">
+
+        <div id="map_image" 
+          class="jw-map map_image jw-map--color-paris-sage" data-tour-spot
+          style="opacity:0; position: absolute;height: 0; visibility: hidden;"></div>
+
+        <div id="country-origin" 
+          class="country-origin" data-tour-spot
+          style="position:absolute;top: 5rem;right: 5rem;z-index: 1; opacity:0">
+          {% include 'tour-map' %}
+        </div>
+
+        <div id="port-departure" 
+          class="port-departure" data-tour-spot
+          style="position:absolute;top: 5rem;right: 5rem;z-index: 2; opacity:0">
+          {% include 'tour-star', width: '30px', height: '30px' %}
+        </div>
+
+        <div id="port-entry" 
+          class="port-entry" data-tour-spot
+          style="position:absolute;top: 12rem;left: 5rem;z-index: 2; opacity:0">
+          {% include 'tour-star', width: '30px', height: '30px' %}
+        </div>
+
+        <div id="country-destination" 
+          class="country-destination" data-tour-spot
+          style="position:absolute;top: 12rem;left: 5rem;z-index: 1; opacity:0">
+          {% include 'tour-map' %}
+        </div>
+
+        <div id="jw-route-custom"
+          class="jw-route-custom" data-tour-spot
+          style="position:absolute;z-index: 1; opacity:0;box-shadow: none;">
+          {% include 'tour-route' %}
+        </div>
+
         <div class="jw-map__group">
+          <img 
+              id="people_photo"  class="people_photo" data-tour-spot
+              src="{{ 'people_photo.png' | asset_url }}"
+              style="position: absolute;width: 100px; margin-left: auto;
+                margin-right: auto;left: 0;right: 0;z-index: 10; opacity:0; visibility:hidden;"
+              >
+
           <hgroup id="title-text-box" class="jw-title jw-map__row" data-tour-spot>
             <h3 id="title-line1" class="jw-title__text">The Family Crossing: First Generation</h3>
             <h3 id="title-line2" class="jw-title__text jw-title__text--line2" role="presentation">A Thread in the Great Tapistry that is America</h3>
@@ -657,15 +648,26 @@
         <div class="jw-ship jw-map__row">
           <div id="ship" class="jw-ship__image-container" data-tour-spot>
             <img id="ship-image" 
-            class="jw-ship__image jw-ship__image--jimaworks-made-steam" 
-            src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" 
-            alt="Ship" />
+              class="jw-ship__image jw-ship__image--jimaworks-made-steam" 
+              src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" 
+              alt="Ship" />
           </div>
-          <div id="ship-info-text-box" class="jw-ship__info" data-tour-spot>
-            <p id="ship-info-line1" class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
-            <p id="ship-info-line2" class="jw-ship__text">Typical Duration of Crossing: Two Weeks</p>
+          <div style="display:flex;">
+            <div id="artist_acknowledgement" class="artist_acknowledgement" data-tour-spot>painting by H R Albrecht</div>
+            <div id="ship-info-text-box" class="jw-ship__info" data-tour-spot>
+              <p id="ship-info-line1" class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
+              <p id="ship-info-line2" class="jw-ship__text">Typical Duration of Crossing: Two Weeks</p>
+            </div>
+            <div id="print_id" class="print_id" data-tour-spot>Jimaworks:203:04182020</div>
           </div>
+          <img id="jw-sign" class="jw-sign" data-tour-spot
+            src="{{ 'jima_sign.png' | asset_url }}"
+            style="position: absolute;right: 0;bottom: 0;width: 50px;">
+          <img id="jw-seascape" class="jw-seascape" data-tour-spot
+            src="{{ 'seascape.png' | asset_url }}"
+            style="position: absolute;width: 100%;bottom: 0;z-index: 0; opacity: 0; visibility: hidden;">
         </div>
+
       </div>
       <div class="jw-plaque-container">
         <div id="webPlaqueTextBoxDiv" class="jw-plaque jw-plaque--size-small" data-tour-spot>
@@ -703,12 +705,13 @@
       },
       "mapBackground": {
         "$element": document.getElementById( 'map-background' ),
+        "$element_tag" : document.getElementById( 'map_image' ),
         "default": ( localStorage.getItem( 'MapStyleDefault' ) || 'ParisSage' ),
         "saved": localStorage.getItem( 'MapStyle' )
       },
       "title": {
         "$element": document.getElementById( 'title-text-box' ),
-        "fields": ["line1", "line2"],
+        "fields": ["line1", "line2", "line3"],
         "line1": {
           "$element": document.getElementById( 'title-line1' ),
           "default": localStorage.getItem( 'TitleLine1Default' ),
@@ -718,6 +721,11 @@
           "$element": document.getElementById( 'title-line2' ),
           "default": localStorage.getItem( 'TitleLine2Default' ),
           "saved": localStorage.getItem( 'TitleLine2' )
+        },
+        "line3": {
+          "$element": document.getElementById( 'title-line3' ),
+          "default": localStorage.getItem( 'TitleLine3Default' ),
+          "saved": localStorage.getItem( 'TitleLine3' )
         }
       },
       "origins": {
@@ -766,6 +774,16 @@
           "default": localStorage.getItem( 'ShipInfoLine2Default' ),
           "saved": localStorage.getItem( 'ShipInfoLine2' )
         }
+      },
+      "artistcredit": {
+          "$element": document.getElementById( 'artist_acknowledgement' ),
+          "default": localStorage.getItem( 'ArtistInfoDefault' ),
+          "saved": localStorage.getItem( 'ArtistInfo' )   
+      },
+      "printid": {
+          "$element": document.getElementById( 'print_id' ),
+          "default": localStorage.getItem( 'PrintIdDefault' ),
+          "saved": localStorage.getItem( 'PrintId' )   
       },
       "plaque": {
         "$element": document.getElementById( 'webPlaqueTextBoxDiv' ),
@@ -1041,7 +1059,7 @@
     };
 
     Jimaworks.Preview.updateMapBackground = function updateMapBackground( mapBackground ) {
-      Jimaworks.Preview._applyMapBackgroundClasses( Jimaworks.Preview.mapElements.mapBackground.$element, mapBackground );
+      Jimaworks.Preview._applyMapBackgroundClasses( Jimaworks.Preview.mapElements.mapBackground.$element, Jimaworks.Preview.mapElements.mapBackground.$element_tag, mapBackground );
     };
 
     Jimaworks.Preview.updateShipImage = function updateShipImage( shipImageFileName ) {
@@ -1106,9 +1124,16 @@
       $shipImage.classList.add( newClassName );
     }
 
-    Jimaworks.Preview._applyMapBackgroundClasses = function _applyMapBackgroundClasses( $mapBackground, mapBackground ) {
+    Jimaworks.Preview._applyMapBackgroundClasses = function _applyMapBackgroundClasses( $mapBackground, $mapBackground_tag, mapBackground ) {
       var classNameModifierBase = 'jw-map--color-';
       var classNameModifierBaseRegex = new RegExp( classNameModifierBase );
+
+      var url = window.Jimaworks.shopifyFilePrefix + (localStorage.getItem("webMapImg")
+            || localStorage.getItem("webMapImgDefault")
+            || 'EuM-Liner-Pari.png'
+        );
+
+      console.log("---------------------------url = " + url);
 
       if ( Jimaworks.Preview.mapBackgroundToClassId.hasOwnProperty( mapBackground ) ) {
         var mapBackgroundClassId = Jimaworks.Preview.mapBackgroundToClassId[mapBackground];
@@ -1119,13 +1144,17 @@
             var className = ( classNameModifierBase + Jimaworks.Preview.mapBackgroundToClassId[currentmapBackground] );
 
             $mapBackground.classList.remove( className );
+            $mapBackground_tag.classList.remove( className );
           }
         }
 
         $mapBackground.classList.add( newClassName );
+        $mapBackground_tag.classList.add( newClassName );
       } else {
         console.error( 'Unsupported map background color scheme:', mapBackground );
       }
+
+
     }
 
     Jimaworks.Preview._applyFrameClasses = function _applyFrameClasses( $frameOrPlaque, frameStyle ) {
@@ -1289,4 +1318,12 @@
     Jimaworks.Preview.alignPreviewWithSavedCustomizations();
     Jimaworks.Preview.executeCallbacks();
   // }, false );
+
+  $(document).ready(function(){
+    var offsetHeight = document.getElementById('map-background').offsetHeight;
+    console.log("................................offsetHeight = " + offsetHeight);
+
+    var style = "opacity:0; position: absolute;top: 0;left: 0;height:" + offsetHeight + "px"
+    document.getElementById('map_image').setAttribute("style", style);
+  });
 </script>

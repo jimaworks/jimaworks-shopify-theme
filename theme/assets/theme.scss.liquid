@@ -2409,6 +2409,14 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
     height: 400px;
     background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg);
 
+    .DisplayOverlays {
+      font-size: 10px;
+    }
+
+    .jw-relationships-tour__sidebar--active .DisplayOverlays {
+      display: none;
+    }
+
     .jw-relationships-tour {
       transform: scale(0.7);
       transform-origin: top center;
@@ -2422,15 +2430,37 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
     .jw-relationships-tour__content--active article.jw-relationships-preview{
       transform: scale(1.35);
       transform-origin: top right;
+      border-image-width: 1rem;
+
+      .jw-relationships-preview__content {
+        transform: scale(0.95);
+      }
     }
   }
-
-
 }
 
 .select_map, .select_frame, .select_size, .relationships_project {
 
+  .artist_acknowledgement {
+    margin: auto auto 5px 5px;
+    width: 33%;
+    text-align: left;
+  }
+
+  .jw-ship__info {
+    width: 33%;
+  }
+
+  .print_id {
+    margin: auto 5px 5px auto;
+    width: 33%;
+  }
+
   .jw-relationships-preview.jw-relationships-preview--size-gem  {
+    margin-left: 7rem;
+    padding: 0.5rem 1rem;
+    border-image-width: 4.61401098901099rem;
+
     .jw-relationships-preview__content {
       transform: scale(0.6);
 
@@ -2442,6 +2472,10 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 
   .jw-relationships-preview.jw-relationships-preview--size-small  {
+    border-image-width: 3.825rem;
+    margin-left: 4.3rem;
+    padding: 2.2rem 4rem;
+
     .jw-relationships-preview__content {
       transform: scale(0.75);
 
@@ -2452,6 +2486,10 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 
   .jw-relationships-preview.jw-relationships-preview--size-medium  {
+    margin-left: 2.2rem;
+    border-image-width: 3.09rem; /* 1.5x the above */
+    padding: 1rem 2rem; /* 1.5x the above */
+
     .jw-relationships-preview__content {
       transform: scale(0.75);
 
@@ -2462,6 +2500,11 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 
   .jw-relationships-preview.jw-relationships-preview--size-large  {
+
+    margin-left: 0;
+    border-image-width: 2.554945054945055rem; /* 1.5x the above */
+    padding: 0.5rem 1rem; /* 1.5x the above */
+
     .jw-relationships-preview__content {
       transform: scale(0.75);
 

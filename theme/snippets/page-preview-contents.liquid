@@ -34,6 +34,10 @@
         cursor: pointer;
       }
     
+      .jw-relationships-tour__navigation a#autoplay {
+        float: right;
+      }
+      
       .--disabled {
           cursor: not-allowed !important;
       }
@@ -72,6 +76,7 @@
             {% include 'init.08-destination-line2' %}
             {% include 'init.09-ship-image-type' %}
             {% include 'init.10-ship-image' %}
+            {% include 'init.11-artist-credit' %}
             {%- comment -%} init.11–14 not needed by Preview {%- endcomment -%}
             <template id="preview-template" style="display:none;">
               {% include 'relationships-preview-redux' %}
@@ -176,9 +181,8 @@
         {%- comment -%}
           {% include 'initialize-shipdb' %}
         {%- endcomment -%}
-        {% include 'define-preview-fn'%}
+        {% include 'define-preview-fn1'%}
     
-
         <!-- ----------------------------- -->
         
         {% if contents != blank %}

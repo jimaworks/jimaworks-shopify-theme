@@ -8,13 +8,22 @@
             <br /> Six Trip Visuals beautifully stage this bit of your history.</p>
     </header>
     <nav class="jw-relationships-tour__actions">
-        <button id="enter-exit-tour" class="jw-relationships-tour__enter-exit" data-enter-tour-text="Tour the Customizations" data-exit-tour-text="Exit the Tour" data-expansion-target="#tour" aria-expanded="false">Tour the Customizations</button> <a href="/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start" class="jw-skip-to-project">Skip to Project</a></nav>
+        <button id="enter-exit-tour" class="jw-relationships-tour__enter-exit" data-enter-tour-text="Tour the Customizations" data-exit-tour-text="Exit the Tour" data-expansion-target="#tour" aria-expanded="false">Tour the Customizations</button> 
+        <button id="edit-button" data-edit-text="Edit"  data-exit-text="Exit"
+        class="jw-relationships-tour__enter-exit">Edit</button>
+        <a href="/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start" class="jw-skip-to-project">Skip to Project</a>
+    </nav>
     <div class="background_map">
         <article class="jw-relationships-tour">
             <div id="relationships-tour-content" class="jw-relationships-tour__content">
                 <div id="map" class="jw-relationships-tour__map"></div>
                 <aside id="sidebar" class="jw-relationships-tour__sidebar">
-                    <nav class="jw-relationships-tour__navigation"><span id="tour-actions" class="jw-tour__actions" hidden=""> <a id="previous" class="jw-tour__action --disabled">Previous</a> <a id="next" class="jw-tour__action">Next</a> </span>
+                    <div id="DisplayOverlays" class="DisplayOverlays"></div>
+                    <nav class="jw-relationships-tour__navigation">
+                        <span id="tour-actions" class="jw-tour__actions" hidden=""> 
+                            <a id="previous" class="jw-tour__action --disabled">Previous</a> 
+                            <a id="next" class="jw-tour__action">Next</a>
+                            <a id="autoplay" class="jw-tour__action">Auto Play</a> </span>
                         <!--/.jw-modal__actions-->
                     </nav>
                     <div id="tour" class="jw-tour">
@@ -61,12 +70,83 @@
                                 </div>
                             </article>
                             <!--/.jw-tour__description-->
-                            <article id="map-background-description" class="jw-tour__description">
-                                <h3 class="jw-tour__heading">Map Background</h3>
+                            <article id="map_image-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Historic Map Background</h3>
                                 <div class="jw-tour__body">
                                     <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
                                 </div>
                             </article>
+
+                            <article id="country-origin-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Country of Origin</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+
+                            <article id="port-departure-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Port of Departure</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+                            
+                            <article id="port-entry-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Port of Entry</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+
+                            <article id="country-destination-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Destination</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+
+                            <article id="jw-route-custom-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Route</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+
+                            <article id="people_photo-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">People</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+                            
+                            <article id="artist_acknowledgement-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Additional Elements</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+
+                            <article id="print_id-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Additional Elements</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+                            
+                            <article id="jw-sign-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Additional Elements</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+
+                            <article id="jw-seascape-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">SeaScape</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+
                             <!--/.jw-tour__description-->
                             <article id="frame-description" class="jw-tour__description">
                                 <h3 class="jw-tour__heading">Frame</h3>
@@ -105,205 +185,226 @@
     </div>
 </div>
 
-<script>// <![CDATA[
-var currentTourSpotIndex = 0;
+<script>
+    var currentTourSpotIndex = 0;
     var $tourSpotsCache;
     var tourSpotDescriptionsPreviouslyActivated = false;
     var tourSpotOriginalClasses = {};
     var $previewTemplate = document.getElementById('preview-template');
     var $previewLayoutContainer = document.getElementById('map');
     var $enterExitTourButton = document.getElementById('enter-exit-tour');
+    var $editButton = document.getElementById('edit-button');
     var $tourActions = document.getElementById('tour-actions');
     var $preview;
+    var autoplay = false;
+    var refreshIntervalId;
 
     function getTourSpots() {
-    if ( $tourSpotsCache ) {
+        if ($tourSpotsCache) {
+            return $tourSpotsCache;
+        }
+
+        $tourSpotsCache = document.querySelectorAll('#map [data-tour-spot][id]');
         return $tourSpotsCache;
     }
 
-    $tourSpotsCache = document.querySelectorAll('#map [data-tour-spot][id]');
-    return $tourSpotsCache;
-    }
-
     function registerFirstGenLastName() {
-    localStorage.setItem('FirstGenLastName', document.getElementById("lastname").value);
-    var TitleLine1 = localStorage.getItem('FirstGenLastName') + ' Atlantic Crossing';
-    localStorage.setItem("TitleLine1", TitleLine1);
-    document.getElementById("lastname").innerHTML = "FirstGen Name provided = " + localStorage.getItem('FirstGenLastName');
+        localStorage.setItem('FirstGenLastName', document.getElementById("lastname").value);
+        var TitleLine1 = localStorage.getItem('FirstGenLastName') + ' Atlantic Crossing';
+        localStorage.setItem("TitleLine1", TitleLine1);
+        document.getElementById("lastname").innerHTML = "FirstGen Name provided = " + localStorage.getItem('FirstGenLastName');
     }
-
-
 
     function enterTour() {
-    var $tourSpots = getTourSpots();
-    var $expansionTarget = document.querySelector( $enterExitTourButton.getAttribute('data-expansion-target') );
-    var $prevNext = document.getElementById('tour-actions');
-    var $sidebar = document.getElementById('sidebar');
+        var $tourSpots = getTourSpots();
+        var $expansionTarget = document.querySelector($enterExitTourButton.getAttribute('data-expansion-target'));
+        var $prevNext = document.getElementById('tour-actions');
+        var $sidebar = document.getElementById('sidebar');
 
-    // for (var i = 0; i < $tourSpots.length; i++) {
-    //   var $tourSpot = $tourSpots[i];
-    //   var tourSpotOriginalClass = ( $tourSpot.getAttribute('class') || '' );
+        // for (var i = 0; i < $tourSpots.length; i++) {
+        //   var $tourSpot = $tourSpots[i];
+        //   var tourSpotOriginalClass = ( $tourSpot.getAttribute('class') || '' );
 
-    //   tourSpotOriginalClasses[$tourSpot.id] = tourSpotOriginalClass;
-    //   // $tourSpot.setAttribute('class', tourSpotOriginalClass + ' jw-info');
-    // }
-    if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
-        highlight($tourSpots[currentTourSpotIndex], false, true);
-    } else if ( isFrame($tourSpots[currentTourSpotIndex]) ) {
-        highlight($tourSpots[currentTourSpotIndex], true, true);
-    } else {
-        highlight($tourSpots[currentTourSpotIndex]);
-    }
+        //   tourSpotOriginalClasses[$tourSpot.id] = tourSpotOriginalClass;
+        //   // $tourSpot.setAttribute('class', tourSpotOriginalClass + ' jw-info');
+        // }
 
-    $sidebar.classList.add( 'jw-relationships-tour__sidebar--active' );
+console.log("-------------------------------------currentTourSpotIndex = " + currentTourSpotIndex);
 
-    $prevNext.hidden = false;
-    $previewLayoutContainer.addEventListener('click', tourActive__onPreviewClick, false);
-    $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-exit-tour-text');
-    $enterExitTourButton.setAttribute('aria-expanded', 'true');
-    $expansionTarget.classList.add('--expanded');
-    activateTourSpotDescriptions();
+        if (isMapBackground($tourSpots[currentTourSpotIndex])) {
+       
+            highlight($tourSpots[currentTourSpotIndex], false, true);
+        } else if (isFrame($tourSpots[currentTourSpotIndex])) {
+
+            highlight($tourSpots[currentTourSpotIndex], true, true);
+        } else {
+
+            highlight($tourSpots[currentTourSpotIndex]);
+        }
+
+        $sidebar.classList.add('jw-relationships-tour__sidebar--active');
+
+        $prevNext.hidden = false;
+        $previewLayoutContainer.addEventListener('click', tourActive__onPreviewClick, false);
+        $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-exit-tour-text');
+        $enterExitTourButton.setAttribute('aria-expanded', 'true');
+        $expansionTarget.classList.add('--expanded');
+        activateTourSpotDescriptions();
     };
 
     function exitTour() {
-    var $tourSpots = getTourSpots();
-    var $expansionTarget = document.querySelector( $enterExitTourButton.getAttribute('data-expansion-target') );
-    var $prevNext = document.getElementById('tour-actions');
-    var $tourContent = document.getElementById('relationships-tour-content');
-    var $sidebar = document.getElementById('sidebar');
+        var $tourSpots = getTourSpots();
+        var $expansionTarget = document.querySelector($enterExitTourButton.getAttribute('data-expansion-target'));
+        var $prevNext = document.getElementById('tour-actions');
+        var $tourContent = document.getElementById('relationships-tour-content');
+        var $sidebar = document.getElementById('sidebar');
 
-    $tourContent.style.maxHeight = $tourContent.height + 'px';
-    setTimeout(function () {
-        $tourContent.style.maxHeight = '';
-    }, 1000);
+        $tourContent.style.maxHeight = $tourContent.height + 'px';
+        setTimeout(function() {
+            $tourContent.style.maxHeight = '';
+        }, 1000);
 
-    // for (var i = 0; i < $tourSpots.length; i++) {
-    //   var $tourSpot = $tourSpots[i];
-    //   $tourSpot.setAttribute('class', tourSpotOriginalClasses[$tourSpot.id]);
-    // }
-    unhighlight($tourSpots[currentTourSpotIndex]);
-    currentTourSpotIndex = 0;
-    $prevNext.hidden = true;
-    $previewLayoutContainer.removeEventListener('click', tourActive__onPreviewClick, false);
-    $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-enter-tour-text');
-    $enterExitTourButton.setAttribute('aria-expanded', 'false');
-    $expansionTarget.classList.remove('--expanded');
-    $sidebar.style.height = '0';
+        // for (var i = 0; i < $tourSpots.length; i++) {
+        //   var $tourSpot = $tourSpots[i];
+        //   $tourSpot.setAttribute('class', tourSpotOriginalClasses[$tourSpot.id]);
+        // }
+        unhighlight($tourSpots[currentTourSpotIndex]);
+        currentTourSpotIndex = 0;
+        $prevNext.hidden = true;
+        $previewLayoutContainer.removeEventListener('click', tourActive__onPreviewClick, false);
+        $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-enter-tour-text');
+        $enterExitTourButton.setAttribute('aria-expanded', 'false');
+        $expansionTarget.classList.remove('--expanded');
+        $sidebar.style.height = '0';
 
-    if ( matchMedia('only screen and (min-width: 940px)').matches ) {
-        $sidebar.style.display = '';
-    } else {
-        setTimeout(function () {
-        $sidebar.style.display = '';
-        $sidebar.classList.remove( 'jw-relationships-tour__sidebar--active' );
-        }, 125);
-    }
-    deactivateTourSpotDescriptionss();
+        if (matchMedia('only screen and (min-width: 940px)').matches) {
+            $sidebar.style.display = '';
+        } else {
+            setTimeout(function() {
+                $sidebar.style.display = '';
+                $sidebar.classList.remove('jw-relationships-tour__sidebar--active');
+            }, 125);
+        }
+        deactivateTourSpotDescriptionss();
     };
 
     function tourActive__onPreviewClick(event) {
-    var $clicked = event.target;
-    var id = $clicked.id;
+        var $clicked = event.target;
+        var id = $clicked.id;
 
-    while ( id === '' ) {
-        $clicked = $clicked.parentNode;
-        id = $clicked.id;
-    }
+        console.log("tourActive__onPreviewClick id == " + id);
+        while (id === '') {
+            $clicked = $clicked.parentNode;
+            id = $clicked.id;
+        }
 
-    switch ( id ) {
-        case 'title-text-box':
-        describeTitleTextBox();
-        break;
+        switch (id) {
+            case 'title-text-box':
+                describeTitleTextBox();
+                break;
 
-        case 'destination-text-box':
-        describeDestinationTextBox();
-        break;
+            case 'destination-text-box':
+                describeDestinationTextBox();
+                break;
 
-        case 'origins-text-box':
-        describeOriginsTextBox();
-        break;
+            case 'origins-text-box':
+                describeOriginsTextBox();
+                break;
 
-        case 'ship':
-        describeShip();
-        break;
+            case 'ship':
+                describeShip();
+                break;
 
-        case 'ship-info-text-box':
-        describeShipInfoTextBox();
-        break;
-        
-        case 'webPlaqueTextBoxDiv':
-        describePlaqueTextBox();
-        break;
-    }
+            case 'ship-info-text-box':
+                describeShipInfoTextBox();
+                break;
+
+            case 'webPlaqueTextBoxDiv':
+                describePlaqueTextBox();
+                break;
+        }
     }
 
     function deactivateTourSpotDescriptionss() {
-    var $tourContent = document.getElementById('relationships-tour-content');
-    var $tourSpotDescriptions = document.querySelectorAll( '.jw-tour__description' );
-    var $next = document.getElementById('next');
-    var $previous = document.getElementById('previous');
-    var $sidebar = document.getElementById('sidebar');
+        var $tourContent = document.getElementById('relationships-tour-content');
+        var $tourSpotDescriptions = document.querySelectorAll('.jw-tour__description');
+        var $next = document.getElementById('next');
+        var $previous = document.getElementById('previous');
+        var $sidebar = document.getElementById('sidebar');
 
-    for (var index = 0; index < $tourSpotDescriptions.length; index++) {
-        var $tourSpotDescription = $tourSpotDescriptions[index];
+        for (var index = 0; index < $tourSpotDescriptions.length; index++) {
+            var $tourSpotDescription = $tourSpotDescriptions[index];
 
-        $tourSpotDescription.classList.remove('jw-tour__description--active');
-    }
+            $tourSpotDescription.classList.remove('jw-tour__description--active');
+        }
 
-    $next.classList.remove('--disabled');
-    $previous.classList.add('--disabled');
-    $tourContent.classList.remove('jw-relationships-tour__content--active');
-    $sidebar.style.height = '';
-    $sidebar.classList.remove('jw-relationships-tour__sidebar--active');
+        $next.classList.remove('--disabled');
+        $previous.classList.add('--disabled');
+        $tourContent.classList.remove('jw-relationships-tour__content--active');
+        $sidebar.style.height = '';
+        $sidebar.classList.remove('jw-relationships-tour__sidebar--active');
     }
 
     function activateTourSpotDescriptions() {
-    // var $tourSpotDescriptions = getTourSpotDescriptions();
-    var $tourContent = document.getElementById('relationships-tour-content');
-    var $tourSpotDescriptions = document.querySelectorAll( '.jw-tour__description' );
-    var $currentHighlight = document.querySelector('.jw-highlighted');
-    var $sidebar = document.getElementById('sidebar');
-    var $tourActions = document.getElementById('tour-actions');
+        // var $tourSpotDescriptions = getTourSpotDescriptions();
+        var $tourContent = document.getElementById('relationships-tour-content');
+        var $tourSpotDescriptions = document.querySelectorAll('.jw-tour__description');
+        var $currentHighlight = document.querySelector('.jw-highlighted');
+        var $sidebar = document.getElementById('sidebar');
+        var $tourActions = document.getElementById('tour-actions');
 
-    for (var index = 0; index < $tourSpotDescriptions.length; index++) {
-        var $tourSpotDescription = $tourSpotDescriptions[index];
+        console.log("........................$currentHighlight id = " + $currentHighlight.id);
 
-        $tourSpotDescription.classList.remove('jw-tour__description--active');
+        for (var index = 0; index < $tourSpotDescriptions.length; index++) {
+            var $tourSpotDescription = $tourSpotDescriptions[index];
 
-        if ( $tourSpotDescription.id.indexOf( $currentHighlight.id + '-description' ) !== -1 ) {
-        $tourSpotDescription.classList.add('jw-tour__description--active');
-        
-        if ( !tourSpotDescriptionsPreviouslyActivated ) {
-            // Give styles enough time to apply to the newly un-hidden DOM before adjusting or the description offsetHeight will be too short
-            setTimeout(function () {
-            $sidebar.style.height = ( $tourSpotDescription.offsetHeight + $tourActions.offsetHeight + 'px' );
-            tourSpotDescriptionsPreviouslyActivated = true;
-            }, 0);
-        } else {
-            $sidebar.style.height = ( $tourSpotDescription.offsetHeight + $tourActions.offsetHeight + 'px' );
+            $tourSpotDescription.classList.remove('jw-tour__description--active');
+
+            if ($tourSpotDescription.id.indexOf($currentHighlight.id + '-description') !== -1) {
+                $tourSpotDescription.classList.add('jw-tour__description--active');
+
+                if (!tourSpotDescriptionsPreviouslyActivated) {
+                    // Give styles enough time to apply to the newly un-hidden DOM before adjusting or the description offsetHeight will be too short
+                    setTimeout(function() {
+                        $sidebar.style.height = ($tourSpotDescription.offsetHeight + $tourActions.offsetHeight + 'px');
+                        tourSpotDescriptionsPreviouslyActivated = true;
+                    }, 0);
+                } else {
+                    $sidebar.style.height = ($tourSpotDescription.offsetHeight + $tourActions.offsetHeight + 'px');
+                }
+            }
         }
-        }
+
+        $tourContent.classList.add('jw-relationships-tour__content--active');
     }
 
-    $tourContent.classList.add('jw-relationships-tour__content--active');
+    function isPlaque($element) {
+        var className = $element.getAttribute('class');
+
+        return (className && (className.indexOf('jw-plaque') !== -1));
     }
 
-    function isPlaque( $element ) {
-    var className = $element.getAttribute('class');
-    
-    return ( className && ( className.indexOf('jw-plaque') !== -1 ) );
+    function isSeaScape($element) {
+        var className = $element.getAttribute('class');
+
+        return (className && (className.indexOf('jw-seascape') !== -1));
     }
 
-    function isMapBackground( $element ) {
-    var className = $element.getAttribute('class');
-
-    return ( className && ( className.indexOf('jw-map') !== -1 ) );
+    function isRoute($element, show) {
+        var className = $element.getAttribute('class');
+        return (className && (className.indexOf('jw-route-custom') !== -1));
     }
 
-    function isFrame( $element ) {
-    var className = $element.getAttribute('class');
 
-    return ( className && ( className.indexOf('jw-relationships-preview') !== -1 ) );
+    function isMapBackground($element) {
+        var className = $element.getAttribute('class');
+        return (className && (className.indexOf('jw-map') !== -1))
+    }
+
+    function isFrame($element) {
+        var className = $element.getAttribute('class');
+
+        return (className && (className.indexOf('jw-relationships-preview') !== -1));
     }
 
     function changeMapBackground() {}
@@ -312,113 +413,231 @@ var currentTourSpotIndex = 0;
 
     initializeDefaults();
 
-    localStorage.setItem('viewingTextBoxes', 'yup');
-    localStorage.setItem('viewingTripVisuals', 'yup');
+//    localStorage.setItem('viewingTextBoxes', 'yup');
+//    localStorage.setItem('viewingTripVisuals', 'yup');
 
-    window.onbeforeunload = function(){
-    localStorage.removeItem("viewingTextBoxes");
-    localStorage.removeItem("viewingTripVisuals");
+    window.onbeforeunload = function() {
+        localStorage.removeItem("viewingTextBoxes");
+        localStorage.removeItem("viewingTripVisuals");
     };
 
     $previewLayoutContainer.innerHTML = $previewTemplate.innerHTML;
-    $previewLayoutContainer.removeChild( $previewLayoutContainer.querySelector( 'script' ) );
+    $previewLayoutContainer.removeChild($previewLayoutContainer.querySelector('script'));
 
-    if ( 'content' in $previewTemplate ) {
-    // Supports HTML5 <template>
-    $previewLayoutContainer.appendChild( $previewTemplate.content.querySelector( 'script' ) );
+    if ('content' in $previewTemplate) {
+        // Supports HTML5 <template>
+        $previewLayoutContainer.appendChild($previewTemplate.content.querySelector('script'));
     } else {
-    $previewLayoutContainer.appendChild( $preview.querySelector( 'script' ) );
+        $previewLayoutContainer.appendChild($preview.querySelector('script'));
     }
 
     $preview = $previewLayoutContainer.querySelector('.jw-relationships-preview');
 
     window.addEventListener("DOMContentLoaded", function yourRelationshipsProject__onDomContentLoaded() {
-    $enterExitTourButton.addEventListener('click', function enterExitTourButton__onClick() {
-        var enterTourText = $enterExitTourButton.getAttribute('data-enter-tour-text');
-        var exitTourText = $enterExitTourButton.getAttribute('data-exit-tour-text');
-        var currentTourText = $enterExitTourButton.textContent;
+        $enterExitTourButton.addEventListener('click', function enterExitTourButton__onClick() {
+            var enterTourText = $enterExitTourButton.getAttribute('data-enter-tour-text');
+            var exitTourText = $enterExitTourButton.getAttribute('data-exit-tour-text');
+            var currentTourText = $enterExitTourButton.textContent;
+            var $autoplay = document.getElementById('autoplay');
 
-        if ( currentTourText === enterTourText ) {
-        enterTour();
-        } else if ( currentTourText === exitTourText ) {
-        exitTour();
-        }
-    });
+            if (currentTourText === enterTourText) {
+                enterTour();
+            } else if (currentTourText === exitTourText) {
+                exitTour();
+            }
 
-    $tourActions.addEventListener('click', function tourActions__onClick(event) {
-        var $clicked = event.target;
-        var $tourSpots = getTourSpots();
-        var $previous = document.getElementById('previous');
-        var $next = document.getElementById('next');
-        var lastTourSpotIndex = ( $tourSpots.length - 1 );
-        var desiredIndex;
-        var proceed = false;
+            if (autoplay) {
+                $autoplay.click();
+            }
+        });
 
-        if ( $clicked.id === 'previous' ) {
-        desiredIndex = ( currentTourSpotIndex - 1 );
+        $editButton.addEventListener('click', function editButton_onClick() {
+            var enterTourText = $editButton.getAttribute('data-edit-text');
+            var exitTourText = $editButton.getAttribute('data-exit-text');
+            var currentTourText = $editButton.textContent;
 
-        if ( desiredIndex < 0 ) {
-            return false;
-        }
+            if (currentTourText === enterTourText) {
+                console.log('..............................11111');
+                $editButton.textContent = exitTourText;
+                RelationShipsPreviewZ("mockup", "showFrame");
 
-        if ( desiredIndex < lastTourSpotIndex ) {
-            $next.classList.remove('--disabled');
-        }
+            } else if (currentTourText === exitTourText) {
+                console.log('..............................22222');
+                $editButton.textContent = enterTourText;
+                CloseRelationShipsPreviewZ();
+            }
+        });
 
-        if ( desiredIndex === 0 ) {
-            $previous.classList.add('--disabled');
-        }
+        $tourActions.addEventListener('click', function tourActions__onClick(event) {
+            var $clicked = event.target;
+            var $tourSpots = getTourSpots();
+            var $previous = document.getElementById('previous');
+            var $next = document.getElementById('next');
+            var $autoplay = document.getElementById('autoplay');
+            var lastTourSpotIndex = ($tourSpots.length - 1);
+            var desiredIndex;
+            var proceed = false;
 
-        unhighlight($tourSpots[currentTourSpotIndex]);
-        currentTourSpotIndex--;
 
-        if ( isPlaque($tourSpots[currentTourSpotIndex]) ) {
-            highlight($tourSpots[currentTourSpotIndex], true);
-        } else if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
-            highlight($tourSpots[currentTourSpotIndex], false, true);
-        } else if ( isFrame($tourSpots[currentTourSpotIndex]) ) {
-            highlight($tourSpots[currentTourSpotIndex], true, true);
-        } else {
-            highlight($tourSpots[currentTourSpotIndex]);
-        }
-        
-        activateTourSpotDescriptions();
-        } else if ( $clicked.id === 'next' ) {
-        desiredIndex = ( currentTourSpotIndex + 1 );
+            if ($clicked.id === 'previous') {
+                desiredIndex = (currentTourSpotIndex - 1);
 
-        if ( desiredIndex > lastTourSpotIndex ) {
-            return false;
-        }
+                if (desiredIndex < 0) {
+                    return false;
+                }
 
-        if ( desiredIndex > 0 ) {
-            $previous.classList.remove('--disabled');
-        }
+                console.log("$tourActions.addEventListener");
 
-        if ( desiredIndex === lastTourSpotIndex ) {
-            $next.classList.add('--disabled');
-        }
+                if (desiredIndex < lastTourSpotIndex) {
+                    $next.classList.remove('--disabled');
+                }
 
-        unhighlight($tourSpots[currentTourSpotIndex]);
-        currentTourSpotIndex++;
+                if (desiredIndex === 0) {
+                    $previous.classList.add('--disabled');
+                }
 
-        if ( isPlaque($tourSpots[currentTourSpotIndex]) ) {
-            highlight($tourSpots[currentTourSpotIndex], true);
-        } else if ( isMapBackground($tourSpots[currentTourSpotIndex]) ) {
-            highlight($tourSpots[currentTourSpotIndex], false, true);
-        } else if ( isFrame($tourSpots[currentTourSpotIndex]) ) {
-            highlight($tourSpots[currentTourSpotIndex], true, true);
-        } else {
-            highlight($tourSpots[currentTourSpotIndex]);
-        }
+                unhighlight($tourSpots[currentTourSpotIndex]);
+                currentTourSpotIndex--;
 
-        activateTourSpotDescriptions();
-        }
-    });
+                if (isPlaque($tourSpots[currentTourSpotIndex])) {
+                    highlight($tourSpots[currentTourSpotIndex], true);
+                } else if (isMapBackground($tourSpots[currentTourSpotIndex])) {
+                    highlight($tourSpots[currentTourSpotIndex], false, true);
+                } else if (isFrame($tourSpots[currentTourSpotIndex])) {
+                    highlight($tourSpots[currentTourSpotIndex], true, true);
+                } else if (isSeaScape($tourSpots[currentTourSpotIndex])) {
+                    highlight($tourSpots[currentTourSpotIndex], true, true);
+                } else if (isRoute($tourSpots[currentTourSpotIndex])) {
+                    highlight($tourSpots[currentTourSpotIndex], true, true);
+                } else {
+                    highlight($tourSpots[currentTourSpotIndex]);
+                }
+
+                activateTourSpotDescriptions();
+            } else if ($clicked.id === 'next') {
+                desiredIndex = (currentTourSpotIndex + 1);
+
+                if (desiredIndex > lastTourSpotIndex) {
+                    return false;
+                }
+
+                if (desiredIndex > 0) {
+                    $previous.classList.remove('--disabled');
+                }
+
+                if (desiredIndex === lastTourSpotIndex) {
+                    $next.classList.add('--disabled');
+
+                    if (autoplay) {
+                        $autoplay.click();
+                    }
+                }
+
+                unhighlight($tourSpots[currentTourSpotIndex]);
+                currentTourSpotIndex++;
+
+                if (isPlaque($tourSpots[currentTourSpotIndex])) {
+                    highlight($tourSpots[currentTourSpotIndex], true);
+                } else if (isMapBackground($tourSpots[currentTourSpotIndex])) {
+                    highlight($tourSpots[currentTourSpotIndex], false, true);
+                } else if (isFrame($tourSpots[currentTourSpotIndex])) {
+                    highlight($tourSpots[currentTourSpotIndex], true, true);
+                } else if (isSeaScape($tourSpots[currentTourSpotIndex])) {
+                    highlight($tourSpots[currentTourSpotIndex], true, true);
+                } else if (isRoute($tourSpots[currentTourSpotIndex])) {
+                    highlight($tourSpots[currentTourSpotIndex], true, true);
+                } else {
+                    highlight($tourSpots[currentTourSpotIndex]);
+                }
+
+                activateTourSpotDescriptions();
+            }
+            else if ($clicked.id === 'autoplay') {
+
+                autoplay = !autoplay;
+                $clicked.textContent = autoplay ? 'Stop' : 'Auto Play';
+
+                if (autoplay) {
+                    console.log("................currentTourSpotIndex = " + currentTourSpotIndex);
+                    console.log("................lastTourSpotIndex = " + lastTourSpotIndex);
+                    if (currentTourSpotIndex === lastTourSpotIndex) {
+                        currentTourSpotIndex = 0;
+                    }
+
+                    refreshIntervalId = setInterval(function(){
+                        
+                    desiredIndex = (currentTourSpotIndex + 1);
+
+                    if (desiredIndex > lastTourSpotIndex) {
+                        if (autoplay) {
+                            $autoplay.click();
+
+                            console.log("----------------------no more next");
+                        }
+
+                        return false;
+                    }
+
+                    if (desiredIndex > 0) {
+                        $previous.classList.remove('--disabled');
+                    }
+
+                    if (desiredIndex === lastTourSpotIndex) {
+                        $next.classList.add('--disabled');
+                        $previous.classList.remove('--disabled');
+                    }
+
+                    $previous.classList.add('--disabled');
+                    $next.classList.add('--disabled');
+
+                    unhighlight($tourSpots[currentTourSpotIndex]);
+                    currentTourSpotIndex++;
+
+                    if (isPlaque($tourSpots[currentTourSpotIndex])) {
+                        highlight($tourSpots[currentTourSpotIndex], true);
+                    } else if (isMapBackground($tourSpots[currentTourSpotIndex])) {
+                        highlight($tourSpots[currentTourSpotIndex], false, true);
+                    } else if (isFrame($tourSpots[currentTourSpotIndex])) {
+                        highlight($tourSpots[currentTourSpotIndex], true, true);
+                    } else if (isSeaScape($tourSpots[currentTourSpotIndex])) {
+                        highlight($tourSpots[currentTourSpotIndex], true, true);
+                    } else if (isRoute($tourSpots[currentTourSpotIndex])) {
+                        highlight($tourSpots[currentTourSpotIndex], true, true);
+                    } else {
+                        highlight($tourSpots[currentTourSpotIndex]);
+                    }
+
+                    activateTourSpotDescriptions();
+
+                    }, 1000);
+                } else {
+                    console.log("....................clear timer");
+
+                    console.log("................currentTourSpotIndex = " + currentTourSpotIndex);
+                        console.log("................lastTourSpotIndex = " + lastTourSpotIndex);
+
+                    if (currentTourSpotIndex === lastTourSpotIndex) {
+
+                        console.log("//////////////currentTourSpotIndex = " + currentTourSpotIndex);
+                        console.log("//////////////lastTourSpotIndex = " + lastTourSpotIndex);
+
+                        $previous.classList.remove('--disabled');
+                        $next.classList.add('--disabled');
+                    }
+                    else {
+                        $previous.classList.remove('--disabled');
+                        $next.classList.remove('--disabled');
+                    }
+                    clearInterval(refreshIntervalId);
+                }
+            }
+        });
     }); // DOMContentLoaded
-// ]]>
+    // ]]>
 
-Jimaworks.Preview.setShipBackgroundBorder();
-// ]]></script>
+    Jimaworks.Preview.setShipBackgroundBorder();
+    // ]]>
+</script>
 
 {% endcapture %}
 
