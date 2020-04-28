@@ -146,6 +146,9 @@ function ProductMockup() {
     
             // var webFrame = "{{product.selected_or_first_available_variant.option2}}" ;
             var webFrame = localStorage.Frame ;
+
+            console.log("...............webframe = " + webFrame);
+
             if (webFrame == "BlackRoped") {
                 webFrameImg = shopifyFilePrefix + "GoldRatio-Med-Black-NoRuler-640pxW.png" + shopifyFileSuffix ;
                 }
@@ -169,9 +172,16 @@ function ProductMockup() {
              alert("previousRegime webFrame=="+webFrame+" vs localStorage.Frame=="+localStorage.Frame+"; webFrameImg=="+webFrameImg+" vs localStorage.FrameImg=="+localStorage.FrameImg) ;
              */
             var webMapImgName = localStorage.webMapImg ;
+
+            console.log("--------------------webMapImgName = " + webMapImgName);
+
+
             var webMapImg =     "\'" + shopifyFilePrefix  + webMapImgName + "\'" ;
     
-            var webShipImgName = localStorage.shipPic ;      
+            var webShipImgName = localStorage.shipPic ;     
+
+            console.log("--------------------localStorage.shipPic = " + localStorage.shipPicgName); 
+
             var webShipImg =    "\'"
                                 + shopifyFilePrefix
                                 + webShipImgName.replace("(","_").replace(")","_")  /* ### (need to formalize these image names) ### */

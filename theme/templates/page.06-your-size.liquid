@@ -35,6 +35,9 @@
         var $sizeSelection = document.getElementById( 'size-selection' );
         var $sizes = $sizeSelection.querySelectorAll( 'option' );
         var savedSizeId = Jimaworks.Preview.mapElements.size.saved;
+
+        console.log("savedSizeId = " + savedSizeId);
+
         var defaultSizeId = Jimaworks.Preview.mapElements.frame.default;
     
         for ( var i = 0; i < $sizes.length; i++ ) {

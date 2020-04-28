@@ -2431,6 +2431,7 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       transform: scale(1.35);
       transform-origin: top right;
       border-image-width: 1rem;
+      padding: 0;
 
       .jw-relationships-preview__content {
         transform: scale(0.95);
@@ -2456,13 +2457,25 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
     width: 33%;
   }
 
+  .jw-relationships-preview__content-container {
+    background-color: #fff8d2;
+    width: 100%;
+  }
+  
+  .jw-plaque-container {
+    -webkit-transition: all .5s linear;
+    -o-transition: all .5s linear;
+    transition: all .5s linear;
+  }
+  
   .jw-relationships-preview.jw-relationships-preview--size-gem  {
-    margin-left: 7rem;
-    padding: 0.5rem 1rem;
+    margin:0;
+/*    margin-left: 5rem;
+*/    padding: 4rem;
     border-image-width: 4.61401098901099rem;
 
     .jw-relationships-preview__content {
-      transform: scale(0.6);
+      transform: scale(0.8);
 
       .jw-plaque-container {
         transform: scale(0.95);
@@ -2473,8 +2486,9 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
 
   .jw-relationships-preview.jw-relationships-preview--size-small  {
     border-image-width: 3.825rem;
-    margin-left: 4.3rem;
-    padding: 2.2rem 4rem;
+    margin:0;
+/*    margin-left: 4.3rem;
+*/    padding: 3.5rem;
 
     .jw-relationships-preview__content {
       transform: scale(0.75);
@@ -2486,9 +2500,10 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 
   .jw-relationships-preview.jw-relationships-preview--size-medium  {
-    margin-left: 2.2rem;
-    border-image-width: 3.09rem; /* 1.5x the above */
-    padding: 1rem 2rem; /* 1.5x the above */
+    margin:0;
+/*    margin-left: 2.2rem;
+*/    border-image-width: 3.09rem; /* 1.5x the above */
+    padding: 2.5rem; /* 1.5x the above */
 
     .jw-relationships-preview__content {
       transform: scale(0.75);
@@ -2500,17 +2515,49 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 
   .jw-relationships-preview.jw-relationships-preview--size-large  {
-
-    margin-left: 0;
-    border-image-width: 2.554945054945055rem; /* 1.5x the above */
-    padding: 0.5rem 1rem; /* 1.5x the above */
+    margin:0;
+/*    margin-left: 0;
+*/    border-image-width: 2.554945054945055rem; /* 1.5x the above */
+    padding: 2rem; /* 1.5x the above */
 
     .jw-relationships-preview__content {
-      transform: scale(0.75);
+      transform: scale(0.8);
 
       .jw-plaque-container{
         transform: scale(0.6);
       }
     }
   }
+
+  /* Gold Trim */
+  .jw-relationships-preview.jw-relationships-preview--frame-gold-trim {
+    border-image-slice: 84;
+    border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/gold-trim-frame-border-10x10.jpg?v=1582079206);
+  }
+
+  /* Light Cherry */
+  .jw-relationships-preview.jw-relationships-preview--frame-light-cherry {
+    border-image-slice: 77;
+    border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/light-cherry-frame-border-10x10.jpg?v=1582077467);
+  }
+
+  /* Black Roped */
+  .jw-relationships-preview.jw-relationships-preview--frame-black-roped {
+    border-image-slice: 65;
+    border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/black-roped-frame-border-10x10.jpg?v=1582079316);
+  }
+
+  /* Black Walnut */
+  /* Comes last to serve as default while other classes are preloaded */
+  .jw-relationships-preview.jw-relationships-preview--frame-black-walnut {
+    border-image-slice: 84;
+    border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/black-walnut-frame-border-10x10.jpg?v=1581997784);
+  }
+
+  .jw-relationships-preview.jw-relationships-preview--frame-no-frame {
+    border-image-slice: 84;
+    border-image-width: 0.0rem!important;
+    border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/No-frame-border-10x10.png?v=1587857527);
+  }
+
 }

@@ -201,7 +201,9 @@ Last name:<br>
 <input type="text" id="ShipName" value="&lt;enter your ship's name&gt;" /> <a href="https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image" a="" onclick="RecordNewShipChoice()"> [Click Here to Submit your Shipname] </a>
 <p> </p>
 <h2>Or... find and image for your ship in the list below</h2>
+
 <script type="text/javascript">// <![CDATA[
+
 function RecordNewShipChoice() {
     /*var newShipName = document.getElementsByName("ShipName").value;*/
     var newShipName = document.getElementById("ShipName").value ;
@@ -214,6 +216,7 @@ function RecordNewShipChoice() {
     localStorage.setItem("shipTotPsgrVolume", -1) ;
     localStorage.setItem("shippingLine", "UNK") ;
 }
+
 /*
     var recordNewShipHTML  = "<p><a href=" ;
         recordNewShipHTML += "\"https://jimaworks.com/collections/step-2-establish-your-look-and-feel-include-a-ship-image\"" ;

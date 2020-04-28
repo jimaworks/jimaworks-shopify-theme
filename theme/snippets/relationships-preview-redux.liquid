@@ -40,7 +40,6 @@
     box-sizing: border-box;    
     
     max-width: 100%;
-    background-color: #fff8d2;
     line-height: 1.25;
     margin-right: auto;
     padding: .625rem;
@@ -77,36 +76,7 @@
       }
     } */
 
-    /* Gold Trim */
-    .jw-relationships-preview.jw-relationships-preview--frame-gold-trim {
-      border-image-slice: 84;
-      border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/gold-trim-frame-border-10x10.jpg?v=1582079206);
-    }
-
-    /* Light Cherry */
-    .jw-relationships-preview.jw-relationships-preview--frame-light-cherry {
-      border-image-slice: 77;
-      border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/light-cherry-frame-border-10x10.jpg?v=1582077467);
-    }
-
-    /* Black Roped */
-    .jw-relationships-preview.jw-relationships-preview--frame-black-roped {
-      border-image-slice: 65;
-      border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/black-roped-frame-border-10x10.jpg?v=1582079316);
-    }
-
-    /* Black Walnut */
-    /* Comes last to serve as default while other classes are preloaded */
-    .jw-relationships-preview.jw-relationships-preview--frame-black-walnut {
-      border-image-slice: 84;
-      border-image-source: url(https://cdn.shopify.com/s/files/1/0263/8148/4080/files/black-walnut-frame-border-10x10.jpg?v=1581997784);
-    }
-
-    .jw-relationships-preview.jw-relationships-preview--frame-no-frame {
-      border-image-slice: 84;
-    }
-
-
+  
   .jw-relationships-preview__content {
     -webkit-box-flex: 1;
     -ms-flex: 1;
@@ -172,6 +142,7 @@
       margin-top: 1rem;
     }
     .jw-route__origin {
+      order: 1;
       text-align: right;
       padding-right: 1rem;
     }
@@ -268,8 +239,16 @@
     .jw-ship__image-container {
       width: 100%;
       margin-top: 1rem;
+      min-height: 150px;
       z-index: 1;
+      position: relative;
     } 
+
+    .jw-ship-image-div {
+      position: absolute;
+      bottom: 0;
+    }
+    
     .jw-ship__image {
       margin: 0 auto;
       display: block;
@@ -359,11 +338,16 @@
     }
 
   .jw-relationships-preview-container [data-tour-spot][id] {
+    -webkit-transition: all .8s linear;
+    -o-transition: all .8s linear;
+    transition: all .8s linear; /* slow unhighlight */
+  }
+
+  .jw-relationships-preview-container .jw-relationships-preview.aspect-ratio {
     -webkit-transition: all .5s linear;
     -o-transition: all .5s linear;
     transition: all .5s linear; /* slow unhighlight */
   }
-
   .jw-info {
     -webkit-box-shadow: 0 0 .625rem #05537a;
     box-shadow: 0 0 .625rem #05537a;
@@ -386,6 +370,7 @@
     line-height: 1.25;
     z-index: 999999;
   }
+
     .jw-highlighted.jw-highlighted--alter-box-style {
       padding: .625rem;
       background-color: rgba(255,255,255,0.75);
@@ -408,7 +393,7 @@
   */
   .jw-skip-to-project {
     display: inline-block;
-    height: 32px;
+/*    height: 32px; */
     padding: 1px 7px 2px;
     /* background-color: white; */
   }
@@ -488,8 +473,9 @@
   }
 
   .jw-relationships-tour__map.scale {
-    transform: scale(1.25);
+    transform: scale(0.925);
     transform-origin: top right;
+
   }
 
   .jw-relationships-tour__sidebar {
@@ -577,108 +563,125 @@
     -o-transition: .125s ease width;
     transition: .125s ease width;
   }
+  .jw-relationships-tour__enter-exit.active {
+    background-color: lightblue;
+  }
 </style>
 <div class="jw-relationships-preview-container">
   <article
     id="frame"
-    class="jw-relationships-preview jw-relationships-preview--frame-black-walnut jw-relationships-preview--size-small aspect-ratio"
-    data-tour-spot
-  >
-    <div class="jw-relationships-preview__content">
-      <div id="map-background" class="jw-map jw-map--color-paris-sage">
-
-        <div id="map_image" 
-          class="jw-map map_image jw-map--color-paris-sage" data-tour-spot
-          style="opacity:0; position: absolute;height: 0; visibility: hidden;"></div>
-
-        <div id="country-origin" 
-          class="country-origin" data-tour-spot
-          style="position:absolute;top: 5rem;right: 5rem;z-index: 1; opacity:0">
-          {% include 'tour-map' %}
-        </div>
-
-        <div id="port-departure" 
-          class="port-departure" data-tour-spot
-          style="position:absolute;top: 5rem;right: 5rem;z-index: 2; opacity:0">
-          {% include 'tour-star', width: '30px', height: '30px' %}
-        </div>
-
-        <div id="port-entry" 
-          class="port-entry" data-tour-spot
-          style="position:absolute;top: 12rem;left: 5rem;z-index: 2; opacity:0">
-          {% include 'tour-star', width: '30px', height: '30px' %}
-        </div>
-
-        <div id="country-destination" 
-          class="country-destination" data-tour-spot
-          style="position:absolute;top: 12rem;left: 5rem;z-index: 1; opacity:0">
-          {% include 'tour-map' %}
-        </div>
-
-        <div id="jw-route-custom"
-          class="jw-route-custom" data-tour-spot
-          style="position:absolute;z-index: 1; opacity:0;box-shadow: none;">
-          {% include 'tour-route' %}
-        </div>
-
-        <div class="jw-map__group">
-          <img 
-              id="people_photo"  class="people_photo" data-tour-spot
+    class="jw-relationships-preview jw-relationships-preview--frame-black-walnut jw-relationships-preview--size-medium aspect-ratio"
+    >
+    <div class="jw-relationships-preview__content-container">
+      <div class="jw-relationships-preview__content">
+        <div id="map-background" class="jw-map jw-map--color-paris-sage">
+  
+          <div id="map_image" 
+            class="jw-map map_image jw-map--color-paris-sage" data-tour-spot
+            style="opacity:0; position: absolute;height: 0; visibility: hidden;"></div>
+  
+          <div id="jw__frame_new" 
+            class="jw__frame_new" data-tour-spot></div>
+          
+          <div id="jw__size" 
+            class="jw__size" data-tour-spot></div>
+  
+          <div class="jw-map__group">
+  
+            <hgroup id="title-text-box" class="jw-title jw-map__row" data-tour-spot data-tour-text>
+              <h3 id="title-line1" class="jw-title__text">The Family Crossing: First Generation</h3>
+              <h3 id="title-line2" class="jw-title__text jw-title__text--line2" role="presentation">A Thread in the Great Tapistry that is America</h3>
+              <h3 id="title-line3" class="jw-title__text jw-title__text--line3" role="presentation"></h3>
+            </hgroup>
+            <div class="jw-route jw-map__row">
+              <div id="origins-text-box" class="jw-route__origin" data-tour-spot data-tour-text>
+                <p id="origin-line1" class="jw-route__text">Origin: The Old World</p>
+                <p id="origin-line2" class="jw-route__text">Crossing: The North Atlantic</p>
+              </div>
+  
+              <div id="destination-text-box" class="jw-route__destination" data-tour-spot data-tour-text>
+                <p id="destination-line1" class="jw-route__text">Arrival: A New World Port</p>
+                <p id="destination-line2" class="jw-route__text">Destiny: An American Lineage</p>
+              </div>
+            </div>
+          </div>
+  
+          <div id="country-origin" 
+            class="country-origin" data-tour-spot data-tour-visual
+            style="position:absolute;top: 5rem;right: 5rem;z-index: 5; opacity:0">
+            <p style="position: absolute;top: 35%;left: -25%;width: 150%;padding: 3px;text-align: center;background-color: white;">Country of Origin</p>
+            {% include 'tour-map' %}
+          </div>
+  
+          <div id="port-departure" 
+            class="port-departure" data-tour-spot data-tour-visual
+            style="position:absolute;top: 5rem;right: 5rem;z-index: 5; opacity:0">
+            {% include 'tour-star', width: '30px', height: '30px' %}
+          </div>
+  
+          <div id="jw-route-custom"
+            class="jw-route-custom" data-tour-spot data-tour-visual
+            style="position:absolute;z-index: 5;width: 100%;height: 75%; 
+                  opacity:0;box-shadow: none;animation: none;">
+            {% include 'tour-route' %}
+          </div>
+  
+          <div id="port-entry" 
+            class="port-entry" data-tour-spot data-tour-visual
+            style="position:absolute;top: 12rem;left: 5rem;z-index: 5; opacity:0">
+            {% include 'tour-star', width: '30px', height: '30px' %}
+          </div>
+  
+          <div id="country-destination" 
+            class="country-destination" data-tour-spot data-tour-visual
+            style="position:absolute;top: 12rem;left: 5rem;z-index: 5; opacity:0">
+            <p style="position: absolute;top: 35%;left: -25%;width: 150%;padding: 3px;text-align: center;background-color: white;">Destination</p>
+            {% include 'tour-map' %}
+          </div>
+  
+          <div class="jw-ship jw-map__row">
+            <div id="ship" class="jw-ship__image-container" data-tour-spot data-tour-visual>
+              <div class="jw-ship-image-div">
+                <img id="ship-image" 
+                  class="jw-ship__image jw-ship__image--jimaworks-made-steam" 
+                  src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" 
+                  alt="Ship" />
+              </div>
+            </div>
+            <img 
+              id="people_photo"  class="people_photo" data-tour-spot data-tour-visual
               src="{{ 'people_photo.png' | asset_url }}"
               style="position: absolute;width: 100px; margin-left: auto;
-                margin-right: auto;left: 0;right: 0;z-index: 10; opacity:0; visibility:hidden;"
+                margin-right: auto;left: 0;right: 0;z-index: 10; opacity:0; visibility:hidden;top:-50%;"
               >
-
-          <hgroup id="title-text-box" class="jw-title jw-map__row" data-tour-spot>
-            <h3 id="title-line1" class="jw-title__text">The Family Crossing: First Generation</h3>
-            <h3 id="title-line2" class="jw-title__text jw-title__text--line2" role="presentation">A Thread in the Great Tapistry that is America</h3>
-            <h3 id="title-line3" class="jw-title__text jw-title__text--line3" role="presentation"></h3>
-          </hgroup>
-          <div class="jw-route jw-map__row">
-            <div id="destination-text-box" class="jw-route__destination" data-tour-spot>
-              <p id="destination-line1" class="jw-route__text">Arrival: A New World Port</p>
-              <p id="destination-line2" class="jw-route__text">Destiny: An American Lineage</p>
+            <div style="display:flex;">
+              <div id="artist_acknowledgement" class="artist_acknowledgement" data-tour-spot>painting by H R Albrecht</div>
+              <div id="ship-info-text-box" class="jw-ship__info" data-tour-spot data-tour-text>
+                <p id="ship-info-line1" class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
+                <p id="ship-info-line2" class="jw-ship__text">Typical Duration of Crossing: Two Weeks</p>
+              </div>
+              <div id="print_id" class="print_id" data-tour-spot>Jimaworks:203:04182020</div>
             </div>
-            <div id="origins-text-box" class="jw-route__origin" data-tour-spot>
-              <p id="origin-line1" class="jw-route__text">Origin: The Old World</p>
-              <p id="origin-line2" class="jw-route__text">Crossing: The North Atlantic</p>
-            </div>
+            <img id="jw-sign" class="jw-sign" data-tour-spot
+              src="{{ 'jima_sign.png' | asset_url }}"
+              style="position: absolute;right: 0;bottom: 0;width: 50px;">
+            <img id="jw-seascape" class="jw-seascape" data-tour-spot data-tour-visual
+              src="{{ 'seascape.png' | asset_url }}"
+              style="position: absolute;width: 100%;bottom: 0;z-index: 0; opacity: 0; visibility: hidden;animation: none;">
           </div>
+  
         </div>
-        <div class="jw-ship jw-map__row">
-          <div id="ship" class="jw-ship__image-container" data-tour-spot>
-            <img id="ship-image" 
-              class="jw-ship__image jw-ship__image--jimaworks-made-steam" 
-              src="https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworksStPaul640.png" 
-              alt="Ship" />
+        <div class="jw-plaque-container">
+          <div id="webPlaqueTextBoxDiv" class="jw-plaque jw-plaque--size-small" data-tour-spot data-tour-text>
+            <p id="plaque-line1" class="jw-plaque__text">In Appreciation of</p>
+            <p id="plaque-line2" class="jw-plaque__text">the Initiative and Courage of</p>
+            <p id="plaque-line3" class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
+            <p id="plaque-line4" class="jw-plaque__text">#4</p>
+            <p id="plaque-line5" class="jw-plaque__text">#5</p>
+            <p id="plaque-line6" class="jw-plaque__text">#6</p>
+            <p id="plaque-line7" class="jw-plaque__text">#7</p>
+            <p id="plaque-line8" class="jw-plaque__text">#8</p>
           </div>
-          <div style="display:flex;">
-            <div id="artist_acknowledgement" class="artist_acknowledgement" data-tour-spot>painting by H R Albrecht</div>
-            <div id="ship-info-text-box" class="jw-ship__info" data-tour-spot>
-              <p id="ship-info-line1" class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
-              <p id="ship-info-line2" class="jw-ship__text">Typical Duration of Crossing: Two Weeks</p>
-            </div>
-            <div id="print_id" class="print_id" data-tour-spot>Jimaworks:203:04182020</div>
-          </div>
-          <img id="jw-sign" class="jw-sign" data-tour-spot
-            src="{{ 'jima_sign.png' | asset_url }}"
-            style="position: absolute;right: 0;bottom: 0;width: 50px;">
-          <img id="jw-seascape" class="jw-seascape" data-tour-spot
-            src="{{ 'seascape.png' | asset_url }}"
-            style="position: absolute;width: 100%;bottom: 0;z-index: 0; opacity: 0; visibility: hidden;">
-        </div>
-
-      </div>
-      <div class="jw-plaque-container">
-        <div id="webPlaqueTextBoxDiv" class="jw-plaque jw-plaque--size-small" data-tour-spot>
-          <p id="plaque-line1" class="jw-plaque__text">In Appreciation of</p>
-          <p id="plaque-line2" class="jw-plaque__text">the Initiative and Courage of</p>
-          <p id="plaque-line3" class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
-          <p id="plaque-line4" class="jw-plaque__text">#4</p>
-          <p id="plaque-line5" class="jw-plaque__text">#5</p>
-          <p id="plaque-line6" class="jw-plaque__text">#6</p>
-          <p id="plaque-line7" class="jw-plaque__text">#7</p>
-          <p id="plaque-line8" class="jw-plaque__text">#8</p>
         </div>
       </div>
     </div>
@@ -686,6 +689,9 @@
   <p class="jw-relationships-preview-disclaimer">Mockup only. Final product may differ in appearance.</p>
 </div>
 <script>
+
+
+
   console.log( 'RelationShips Preview Redux initialized' );
 
   // window.addEventListener( "DOMContentLoaded", function relationshipsPreview__onDomContentLoaded() {
@@ -1325,5 +1331,23 @@
 
     var style = "opacity:0; position: absolute;top: 0;left: 0;height:" + offsetHeight + "px"
     document.getElementById('map_image').setAttribute("style", style);
+
+
+    var start_width = document.getElementById('port-departure').offsetLeft;
+    var start_height = document.getElementById('port-departure').offsetTop;
+    
+    var end_width = document.getElementById('port-entry').offsetLeft + 50;
+    var end_height = document.getElementById('port-entry').offsetTop;
+
+    var trip_width = (start_width - (end_width - 50))/2;
+
+    var newtrip = "M" + start_width + "," + start_height + "Q" + trip_width + "," + "0" + "," + end_width + "," + end_height;
+    
+    console.log("newtrip --------------------- " + newtrip);
+    document.getElementById('motionPath').setAttribute('d', newtrip);
+
+    console.log("start_width ================== " + start_width + ", start_height ================= " + start_height);
+    console.log("end_width ================== " + end_width + ", end_height ================= " + end_height);
+    console.log("trip_width ================== " + trip_width);
   });
 </script>
