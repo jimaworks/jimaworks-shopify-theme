@@ -1,0 +1,205 @@
+{% capture contents %}
+
+<!--
+https://jimaworks.com/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start
+template:  page.initialize-jimaworks
+Title: 1.b In What Part of the World did this Story Start?
+
+localStorage variables used on this page:
+    *None*
+
+localStorage variables set on this page:
+
+    localStorage.RegionOfOrigin
+    localStorage.RegionOfOriginDefault
+    localStorage.RegionOfOriginAbbrev
+    localStorage.RegionOfOriginImageFileName
+
+Feb 08 2019:1637  Change "onclick" fn so that can easily change action per region
+Apr 15 2019:1200  Take out Africa, offer "pre-release" for now...
+Apr 22 2019:1800  Incorporate new timeline and origins/destinations pages w all defaults updated
+Jun 09 2019:1830  Incorporate into TextBox regimen as TextBox0
+Jun 18 2019:0600  Change "this FirstGen" to "your FirstGen"
+Aug 07 2019:1045  Initialize localStorage from here, so use page.initialize-jimaworks and run the initialization function
+Jan 23 2020:1815  Bring all regions except SoAm back online...
+Mar 08 2020:0815  Add First Nations and hover with migration micro-narrative
+Mar 12 2020:1515  Align page styles - display first two Title Lines and explicit next page button
+Mar 20 2020:1515  Swap in to new jimaworks page sequence
+Apr 01 2020:1345  Draw SoAm bounding box w dotted
+Apr 23 2020:1615  No Title Lines on this page.  Eliminate "Update Text Boxes"
+
+Next?  Keep customer on page until explicityly go to When
+--> <!-- Begin stage wrapper -->
+<script>
+// <![CDATA[
+// want to run the localStorage from as early as possible
+        // ### check to make sure not invoked multiple times ###
+        // ### like, if decide to add the introductory page... maybe add a tag that says it has been run? ###
+        initializeDefaults() ;
+// ]]>
+</script>
+
+<style>
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 320px;
+    background-color: #05537a; /* jimaworks top bar blue */
+    /* color: #fff; */
+    color: Cornsilk;
+    text-align: left;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1000;
+    /* top: -5px; */
+    /* left: 105%; */
+    top: 40px;
+    left: 10px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+</style>
+
+<div style="position: relative;">
+
+    <div id = "map_hover_contents" style = "display: none;">
+        <ul id="continents3">
+            {% comment %}
+            <li class="northamerica">
+                <a href="http://en.wikipedia.org/wiki/North_America">
+        
+                    <span>
+                        <strong>North America</strong> 
+                        Population: 528,720,588
+                    </span>
+                </a>
+            </li>
+            {% endcomment %}
+            <li class="southamerica">
+                <a href="https://jimaworks.com/pages/contact-us"
+                    onclick="RecordRegionOfOriginChoice(&quot;SouthAmericaAndTheCaribbean&quot;, &quot;SAm&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SAm-AirTr-Pari.png&quot;)">
+
+                    <span>
+                        <strong>South America</strong>
+                        {% comment %}
+                        17th-19th: Northern Dispersion Absorbtion 19th-21stC: Economics Politics
+                        {% endcomment %}
+                    </span>
+                </a>
+            </li>    
+            <li class="asia">
+                <a href="https://jimaworks.com/pages/contact-us"
+                    onclick="RecordRegionOfOriginChoice(&quot;SouthAsia&quot;, &quot;SoA&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SoA-AirTr-Pari.png&quot;)">
+            
+                    <span>
+                        <strong>Asia</strong>
+                        {% comment %}
+                        20th-21stC: Post 1965 - Economics 
+                        {% endcomment %}
+                    </span>
+                </a>
+            </li>
+            <li class="australia">
+                <a href="https://jimaworks.com/pages/contact-us"
+                    onclick="RecordRegionOfOriginChoice(&quot;PacificRim&quot;, &quot;Pac&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/Pac-AirTr-Pari.png&quot;)">
+    
+                    <span>
+                        <strong>Australia</strong>
+                        {% comment %}
+                        19th-mid20thC: Stories of Persistance <br /> 20th-21stC: Post 1949 Economics &amp; Politics 
+                        {% endcomment %}
+                    </span>
+                </a>
+            </li>
+            <li class="africa">
+                <a href="https://jimaworks.com/pages/contact-us"
+                    onclick="RecordRegionOfOriginChoice(&quot;Africa&quot;, &quot;Afr&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/Afr-AirTr-Pari.png&quot;)"> 
+            
+                <span>
+                    <strong>Africa</strong>
+                    {% comment %}
+                    17th-18thC: Forced Migration <br /> 20th-21stC: Post 1965 - Economics &amp; Politics 
+                    {% endcomment %}
+                </span>
+                </a>
+            </li>
+            <li class="europe">
+                <a href="https://jimaworks.com/pages/contact-us"
+                    onclick="RecordRegionOfOriginChoice(&quot;EuropeAndTheMediterranean&quot;, &quot;EuM&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-AirTr-Pari.png&quot;)">
+        
+                    <span>
+                        <strong>Europe</strong>
+                        {% comment %}
+                        16th-21thC: Population Radiation <br /> Religion, Economics, Politics 
+                        {% endcomment %}
+                    </span>
+                </a>
+            </li>    
+        </ul>    
+    </div>
+</div>
+
+<div class="set_the_stage post-large--two-thirds push--post-large--one-sixth">
+    <article class="jw-relationships-tour">
+        <!-- <nav class="jw-relationships-tour__actions"></nav> -->
+        <div id="relationships-tour-content" class="jw-relationships-tour__content jw-relationships-tour__content--active">
+        <div id="map" class="jw-relationships-tour__map"></div>
+        <aside id="sidebar" class="jw-relationships-tour__sidebar">
+            <div id="donebutton_text">
+                <h4>(Later, choose to customize and change the text boxes to reflect your specific story.)</h4>
+            </div>
+            <div id="doneButton">
+                <button style="color: #05537a; font-weight: bold;" onclick="ContinueToNextPage()"> Continue to "Title: What is this commemoration about?" </button>
+            </div>
+        </aside>
+        </div>
+    </article>
+</div>  
+
+<script type="text/javascript">
+    
+    var nextPage = "https://jimaworks.com/pages/1-title-c-what" ;
+
+    function RecordRegionOfOriginChoice(regionName, regionAbbrev, regionImageFileNm) {
+/*
+        window.location.href="https://jimaworks.com/pages/x1b-time-period-europe-and-the-mediterranean" ;
+*/
+        localStorage.setItem("RegionOfOrigin", regionName) ;
+        localStorage.setItem("RegionOfOriginDefault", "UserProvided") ;
+        localStorage.setItem("RegionOfOriginAbbrev", regionAbbrev) ;
+        localStorage.setItem("RegionOfOriginImageFileName", regionImageFileNm) ;
+    }
+
+    function ContinueToNextPage() {
+        window.location.assign(nextPage) ;
+    }
+
+    Jimaworks.initializePreview();
+
+    $(document).ready(function(){
+
+        var map = document.getElementById('map_image');
+        var continents3 = document.getElementById('continents3');
+        continents3.style.height = map.offsetHeight + "px";        
+
+        var map_hover_contents = document.getElementById('map_hover_contents');
+        var map_background = document.getElementById('map-background');
+        map_background.innerHTML += map_hover_contents.innerHTML;
+        map_hover_contents.innerHTML = '';
+
+    });
+</script>
+  
+{% endcapture %}
+
+{% include 'page-preview-contents', contents : contents %}

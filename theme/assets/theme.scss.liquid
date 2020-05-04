@@ -2385,7 +2385,253 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 }
 
-.select_map, .select_frame, .select_size {
+
+.jw-map.jw-map--color-paris-sage {
+  background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pari.png);
+
+  .set_the_stage & {
+    background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/2016-WholeWorldEu-ParisSage-72ppi.png); 
+
+    ul#continents3 {
+      background: url(https://cdn.shopify.com/s/files/1/1336/0641/files/2016-WholeWorldEu-ParisSage-72ppi.png) no-repeat 0 0;
+      background-size: cover;
+
+      li a{
+        background: url({{ 'full-map-ParisSage-hover.png' | asset_url }}) no-repeat 0 0;
+      }
+    }
+  }
+}
+.jw-map.jw-map--color-empress-teal {
+  background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Empr.png);
+  
+  .set_the_stage & {
+    background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/2016-WholeWorldEu-EmpressTeal-72ppi.png);   
+
+    ul#continents3 {
+      background: url(https://cdn.shopify.com/s/files/1/1336/0641/files/2016-WholeWorldEu-EmpressTeal-72ppi.png) no-repeat 0 0;
+      background-size: cover;
+
+      li a{
+        background: url({{ 'full-map-EmpressTeal-hover.png' | asset_url }}) no-repeat 0 0;
+      }
+    }
+  }
+}
+.jw-map.jw-map--color-palace-rosa {
+  background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Pala.png);
+  
+  .set_the_stage & {
+    background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/2016-WholeWorldEu-PalaceRosa-72ppi.png);  
+
+    ul#continents3 {
+      background: url(https://cdn.shopify.com/s/files/1/1336/0641/files/2016-WholeWorldEu-PalaceRosa-72ppi.png) no-repeat 0 0;
+      background-size: cover;
+
+      li a{
+        background: url({{ 'full-map-PalaceRosa-hover.png' | asset_url }}) no-repeat 0 0;
+      }
+    }
+  }
+}
+.jw-map.jw-map--color-sea-spray-blue {
+  background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-SeaS.png);
+  
+  .set_the_stage & {
+    background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/2016-WholeWorldEu-SeaSprayBlue-72ppi_e64d235b-a56a-44c7-bb80-544ad76d7b44.png);
+    
+    ul#continents3 {
+      background: url(https://cdn.shopify.com/s/files/1/1336/0641/files/2016-WholeWorldEu-SeaSprayBlue-72ppi_e64d235b-a56a-44c7-bb80-544ad76d7b44.png) no-repeat 0 0;
+      background-size: cover;
+
+      li a{
+        background: url({{ 'full-map-SeaSprayBlue-hover.png' | asset_url }}) no-repeat 0 0;
+      }
+    }
+  }
+}
+.jw-map.jw-map--color-mayan-glow {
+  background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-Liner-Maya.png);
+  
+  .set_the_stage & {
+    background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/2016-WholeWorldEu-MayanGlow-72ppi.png);  
+
+    ul#continents3 {
+      background: url(https://cdn.shopify.com/s/files/1/1336/0641/files/2016-WholeWorldEu-MayanGlow-72ppi.png) no-repeat 0 0;
+      background-size: cover;
+
+      li a{
+        background: url({{ 'full-map-MayanGlow-hover.png' | asset_url }}) no-repeat 0 0;
+      }
+    }
+  }
+}
+
+
+.set_the_stage {
+
+  h1 {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000;
+    font: bold 28px Arial, Helvetica, sans-serif;
+    text-align: center;
+    padding-bottom: 5px;
+  }
+
+  h1 a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  ul#continents3 {
+    list-style: none;
+    position: relative;
+    margin: 0;
+
+    li {
+      position: absolute;
+      z-index: 10;
+
+      a {
+        display: block;
+        outline: none;
+        height: 100%;
+        transition: transform .2s;
+        background: url({{ 'hover_map.png' | asset_url }}) no-repeat 0 0;	
+        opacity: 0;
+    
+        opacity:0;
+        transition: opacity .5s ease-out;
+        -moz-transition: opacity .5s ease-out;
+        -webkit-transition: opacity .5s ease-out;
+        -o-transition: opacity .5s ease-out;
+    
+        -webkit-transition: all .5s linear;
+        -o-transition: all .5s linear;
+        transition: all .5s linear;
+
+        span {
+          display: none;
+        }
+
+        &:hover{
+          opacity:1;
+          transform: scale(1.15); 
+          border: 2px dotted purple;
+
+          span {
+            display: block;
+            padding: 5px;
+            width: 150px;
+            background: #000;
+            position: relative;
+            top: 100%;
+            font: 11px Arial, Helvetica, sans-serif;
+            opacity: .75;
+            filter:alpha(opacity=75);
+            color: #FFF;
+
+            strong {
+              display: block;
+              margin-bottom: 2px;
+              font-size: 12px;
+              text-decoration: underline;
+            }      
+          }
+        }
+      }
+    }
+
+    .northamerica {
+      width: 260px;
+      height: 240px;
+      top: 2px;
+      left: 0px;
+
+      a {
+        background-position: 0 -270px!important;
+      }
+    }
+  
+    .southamerica {
+      width: 104px;
+      height: 136px;
+      top: 240px;
+      left: 129px;
+
+      a{
+        background-position: -165px -278px !important;
+      }
+    }
+  
+    .africa {
+      width: 135px;
+      height: 150px;
+      top: 185px;
+      left: 236px;
+
+      a{
+        background-position: -290px -230px !important;
+      }
+    }
+  
+    .europe {
+      width: 122px;
+      height: 122px;
+      top: 98px;
+      left: 250px;
+
+      a{
+        background-position: -300px -115px !important;
+      }
+    }
+  
+    .asia {
+      width: 80px;
+      height: 96px;
+      top: 177px;
+      left: 364px;
+
+      a{
+        background-position: -433px -215px !important;
+      }
+    }
+  
+    .australia {
+      width: 150px;
+      height: 200px;
+      top: 152px;
+      left: 432px;
+
+      a{
+        background-position: -520px -172px !important;
+      }
+    }
+  }
+
+  .jw-relationships-tour {
+    padding-top: 0!important;
+
+    .jw-relationships-preview__content {
+      transform: scale(0.9)!important;
+      margin: auto;
+    }
+  } 
+
+  #donebutton_text {
+    color: cornsilk; 
+    text-shadow: 1px 1px 0px Darkblue; 
+    line-height: 80%; 
+    z-index: 50; 
+  }
+
+  #doneButton {
+    z-index: 22250; 
+    color: #05537a; 
+  }
+}
+
+.set_the_stage, .select_map, .select_frame, .select_size {
   position: relative;
   width: 1000px;
   height: 400px;
@@ -2440,7 +2686,7 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 }
 
-.select_map, .select_frame, .select_size, .relationships_project {
+.set_the_stage, .select_map, .select_frame, .select_size, .relationships_project {
 
   .artist_acknowledgement {
     margin: auto auto 5px 5px;

@@ -83,9 +83,15 @@
             </template>
     
           <!-- Set the Stage. In What Part of the World did this Story Start? -->
-          {% when 'textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start' %}
+<!--
+agc---4/20
+-->
+          {% when '0-set-the-stage' %}
             {% include 'init.02-region-of-origin' %}
-    
+            <template id="preview-template" style="display:none;">
+              {% include 'relationships-preview-redux' %}
+            </template>
+
           <!-- 1. Title. What Is This Story About? -->
           {% when 'textbox1-title-line1-what-is-this-story-about' %}
             {% include 'init.03-title-what' %}
