@@ -77,6 +77,11 @@
           {% include 'relationships-preview-redux' %}
         </template>
 
+      {% when '001-edit-your-relationships' %}
+        <template id="preview-template" style="display:none;">
+          {% include 'relationships-preview-redux' %}
+        </template>
+
       <!-- Set the Stage. In What Part of the World did this Story Start? -->
       {% when 'textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start' %}
         {% include 'init.02-region-of-origin' %}
@@ -111,7 +116,6 @@
 
       <!-- 3: Destination: Where did they end up? -->
       {% when 'textbox3-destination-where-did-they-end-up' %}
-
 
       {%- comment %}
         Most of the following use the regular `page` template.

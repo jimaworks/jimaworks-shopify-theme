@@ -288,6 +288,10 @@
       margin: 1rem auto;
     }
 
+    .jw-plaque-container.add-scale .jw-plaque {
+      overflow-y: unset;
+    }
+
   .jw-plaque {
     border: .1875rem solid #ad4448;
     background-color: #ecc37e;
@@ -297,7 +301,12 @@
     overflow: auto;
     margin: .625rem auto 0;
     padding: .15625rem;
+    overflow-y: hidden;
   }
+  .jw-plaque.jw-highlighted {
+    overflow-y: unset;
+  }
+
     .jw-plaque.aspect-ratio:before {
       padding-top: calc(298/640 * 100%);
     }
@@ -552,6 +561,13 @@
   .jw-relationships-tour__enter-exit.active {
     background-color: lightblue;
   }
+
+  .add-scale {
+    box-shadow: 0 0 0.625rem #05537a;
+    padding: .625rem;
+    background-color: rgba(255,255,255,0.75);
+    border: .0625rem solid #05537a;
+  }
 </style>
 <div class="jw-relationships-preview-container">
   <article
@@ -574,18 +590,18 @@
           {% if page.handle != '0-set-the-stage' %}
           <div class="jw-map__group">
   
-            <hgroup id="title-text-box" class="jw-title jw-map__row" data-tour-spot data-tour-text>
+            <hgroup id="title-text-box" class="jw-title jw-map__row edit-text-scale" data-tour-spot data-tour-text>
               <h3 id="title-line1" class="jw-title__text">The Family Crossing: First Generation</h3>
               <h3 id="title-line2" class="jw-title__text jw-title__text--line2" role="presentation">A Thread in the Great Tapistry that is America</h3>
               <h3 id="title-line3" class="jw-title__text jw-title__text--line3" role="presentation"></h3>
             </hgroup>
-            <div class="jw-route jw-map__row">
-              <div id="origins-text-box" class="jw-route__origin" data-tour-spot data-tour-text>
+            <div class="jw-route jw-map__row" style="z-index: 10;">
+              <div id="origins-text-box" class="jw-route__origin edit-text-scale" data-tour-spot data-tour-text>
                 <p id="origin-line1" class="jw-route__text">Origin: The Old World</p>
                 <p id="origin-line2" class="jw-route__text">Crossing: The North Atlantic</p>
               </div>
   
-              <div id="destination-text-box" class="jw-route__destination" data-tour-spot data-tour-text>
+              <div id="destination-text-box" class="jw-route__destination edit-text-scale" data-tour-spot data-tour-text>
                 <p id="destination-line1" class="jw-route__text">Arrival: A New World Port</p>
                 <p id="destination-line2" class="jw-route__text">Destiny: An American Lineage</p>
               </div>
@@ -608,7 +624,7 @@
           <div id="jw-route-custom"
             class="jw-route-custom" data-tour-spot data-tour-visual
             style="position:absolute;z-index: 5;width: 100%;height: 75%; 
-                  opacity:0;box-shadow: none;animation: none;">
+                  opacity:0;box-shadow: none;animation: none;display:none;">
             {% include 'tour-route' %}
           </div>
   
@@ -642,7 +658,7 @@
               >
             <div style="display:flex;">
               <div id="artist_acknowledgement" class="artist_acknowledgement" data-tour-spot>painting by H R Albrecht</div>
-              <div id="ship-info-text-box" class="jw-ship__info" data-tour-spot data-tour-text>
+              <div id="ship-info-text-box" class="jw-ship__info edit-text-scale" data-tour-spot data-tour-text>
                 <p id="ship-info-line1" class="jw-ship__text">Typical Ship of this Era: 1200 Passengers</p>
                 <p id="ship-info-line2" class="jw-ship__text">Typical Duration of Crossing: Two Weeks</p>
               </div>
@@ -659,7 +675,7 @@
         </div>
 
         <div class="jw-plaque-container">
-          <div id="webPlaqueTextBoxDiv" class="jw-plaque jw-plaque--size-small" data-tour-spot data-tour-text>
+          <div id="webPlaqueTextBoxDiv" class="jw-plaque jw-plaque--size-small edit-text-scale" data-tour-spot data-tour-text>
             <p id="plaque-line1" class="jw-plaque__text">In Appreciation of</p>
             <p id="plaque-line2" class="jw-plaque__text">the Initiative and Courage of</p>
             <p id="plaque-line3" class="jw-plaque__text">Our Forebears Who First Crossed to America</p>
@@ -785,37 +801,37 @@
           "saved":  localStorage.getItem( 'PlaqueLine1' ),
         },
         "line2": {
-          "$element": document.getElementById( 'plaque-line1' ),
+          "$element": document.getElementById( 'plaque-line2' ),
           "default": "the Initiative and Courage of",
           "saved":  localStorage.getItem( 'PlaqueLine2' ),
         },
         "line3": {
-          "$element": document.getElementById( 'plaque-line1' ),
+          "$element": document.getElementById( 'plaque-line3' ),
           "default": "Our Forebears Who First Crossed to America",
           "saved":  localStorage.getItem( 'PlaqueLine3' ),
         },
         "line4": {
-          "$element": document.getElementById( 'plaque-line1' ),
+          "$element": document.getElementById( 'plaque-line4' ),
           "default": "#4",
           "saved":  localStorage.getItem( 'PlaqueLine4' ),
         },
         "line5": {
-          "$element": document.getElementById( 'plaque-line1' ),
+          "$element": document.getElementById( 'plaque-line5' ),
           "default": "#5",
           "saved":  localStorage.getItem( 'PlaqueLine5' ),
         },
         "line6": {
-          "$element": document.getElementById( 'plaque-line1' ),
+          "$element": document.getElementById( 'plaque-line6' ),
           "default": "#6",
           "saved":  localStorage.getItem( 'PlaqueLine6' ),
         },
         "line7": {
-          "$element": document.getElementById( 'plaque-line1' ),
+          "$element": document.getElementById( 'plaque-line7' ),
           "default": "#7",
           "saved":  localStorage.getItem( 'PlaqueLine7' ),
         },
         "line8": {
-          "$element": document.getElementById( 'plaque-line1' ),
+          "$element": document.getElementById( 'plaque-line8' ),
           "default": "#8",
           "saved":  localStorage.getItem( 'PlaqueLine8' ),
         },
@@ -1059,6 +1075,9 @@
       var newShipImageClassification = Jimaworks.Preview.getShipImageClassification( shipImageFileName );
 
       if ( newShipImageClassification ) {
+        if ($shipImage == null)
+          return;
+
         $shipImage.src = ( Jimaworks.shopifyFilePrefix + shipImageFileName );
         $shipImage.addEventListener( 'error', function onShipImageError() {
           if ( Jimaworks.isDev ) {

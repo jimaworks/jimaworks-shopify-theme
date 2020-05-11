@@ -2467,6 +2467,56 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 }
 
+.edit_relationships {
+  nav.vertical{
+    position:relative;
+    width: 150px;
+    
+    ul{
+      list-style: none;
+
+      ul{
+        position:absolute;
+        left:0%;
+        top:0;
+        width:100%;
+        visibility:hidden;
+        opacity:0;
+        transition: transform 0.2s;
+        transform: translateX(50px);
+      }
+    }
+
+    li{
+      position:relative;
+      cursor: pointer;
+
+      &.hover > a{
+        background-color: aquamarine;
+      }
+    }
+    
+    li.hover > ul{
+      left:88%;
+      visibility:visible;
+      opacity:1;
+      transform: translateX(0px);
+      z-index: 10;
+    }
+
+    a{
+      display:block;
+      text-decoration:none;
+      padding:10px 15px;
+      transition:0.2s;
+      border: 2px solid #7faed2;
+      color: black;
+      font-size: 110%;
+      font-weight: bold;
+      background-color: #fff2cc;
+    }
+  }
+}
 
 .set_the_stage {
 
@@ -2491,6 +2541,18 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
     li {
       position: absolute;
       z-index: 10;
+      cursor: pointer;
+
+      &:hover{
+        z-index: 11;
+      }
+
+      strong.title{
+        position: absolute;
+        top: 3px;
+        left: 5px;
+        color: rgb(85, 85, 85);
+      }
 
       a {
         display: block;
@@ -2517,19 +2579,23 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
         &:hover{
           opacity:1;
           transform: scale(1.15); 
-          border: 2px dotted purple;
 
           span {
             display: block;
             padding: 5px;
-            width: 150px;
-            background: #000;
+            width: 185px;
+            background-color: #05537a;
+            color: Cornsilk;
             position: relative;
-            top: 100%;
+
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+
             font: 11px Arial, Helvetica, sans-serif;
             opacity: .75;
             filter:alpha(opacity=75);
-            color: #FFF;
 
             strong {
               display: block;
@@ -2542,69 +2608,97 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       }
     }
 
-    .northamerica {
-      width: 260px;
-      height: 240px;
-      top: 2px;
-      left: 0px;
+    .landbrige {
+      width: 91px;
+      height: 96px;
+      top: 79px;
+      left: 491px;
+      border: 1px solid maroon;
 
       a {
-        background-position: 0 -270px!important;
+        background-position: -571px -108px !important;
+
+        &:hover {
+          border: 1px solid maroon;
+        }
       }
     }
   
     .southamerica {
-      width: 104px;
-      height: 136px;
+      width: 117px;
+      height: 122px;
       top: 240px;
       left: 129px;
+      border: 1px solid purple;
 
       a{
         background-position: -165px -278px !important;
+
+        &:hover {
+          border: 1px solid purple;
+        }
       }
     }
   
     .africa {
-      width: 135px;
-      height: 150px;
-      top: 185px;
-      left: 236px;
+      width: 126px;
+      height: 137px;
+      top: 205px;
+      left: 254px;
+      border: 1px solid green;
 
       a{
-        background-position: -290px -230px !important;
+        background-position: -310px -239px !important;
+
+        &:hover {
+          border: 1px solid green;
+        }
       }
     }
   
     .europe {
-      width: 122px;
-      height: 122px;
-      top: 98px;
+      width: 133px;
+      height: 98px;
+      top: 104px;
       left: 250px;
+      border: 1px solid red;
 
       a{
-        background-position: -300px -115px !important;
+        background-position: -305px -137px !important;
+
+        &:hover {
+          border: 1px solid red;
+        }
       }
     }
   
     .asia {
-      width: 80px;
+      width: 69px;
       height: 96px;
       top: 177px;
-      left: 364px;
+      left: 385px;
+      border: 1px solid blue;
 
       a{
-        background-position: -433px -215px !important;
+        &:hover {
+          border: 1px solid blue;
+        }
+        background-position: -449px -220px !important;
       }
     }
   
     .australia {
-      width: 150px;
-      height: 200px;
-      top: 152px;
-      left: 432px;
+      width: 117px;
+      height: 181px;
+      top: 176px;
+      left: 460px;
+      border: 1px solid orange;
 
       a{
-        background-position: -520px -172px !important;
+        &:hover {
+          border: 1px solid orange;
+        }
+        background-position: -527px -196px !important;
       }
     }
   }
@@ -2628,23 +2722,6 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   #doneButton {
     z-index: 22250; 
     color: #05537a; 
-  }
-}
-
-.set_the_stage, .select_map, .select_frame, .select_size {
-  position: relative;
-  width: 1000px;
-  height: 400px;
-  background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg);
-
-  .jw-relationships-tour {
-    transform: scale(0.7);
-    transform-origin: top center;
-    padding-top: 0.5rem;
-
-    .jw-relationships-preview-disclaimer {
-      display: none;
-    }
   }
 }
 
@@ -2686,7 +2763,24 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 }
 
-.set_the_stage, .select_map, .select_frame, .select_size, .relationships_project {
+.edit_relationships, .set_the_stage, .select_map, .select_frame, .select_size {
+  position: relative;
+  width: 1000px;
+  height: 400px;
+  background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg);
+
+  .jw-relationships-tour {
+    transform: scale(0.7);
+    transform-origin: top center;
+    padding-top: 0.5rem;
+
+    .jw-relationships-preview-disclaimer {
+      display: none;
+    }
+  }
+}
+
+.edit_relationships, .set_the_stage, .select_map, .select_frame, .select_size, .relationships_project {
 
   .artist_acknowledgement {
     margin: auto auto 5px 5px;
@@ -2805,5 +2899,4 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
     border-image-width: 0.0rem!important;
     border-image-source: url(https://cdn.shopify.com/s/files/1/1336/0641/files/No-frame-border-10x10.png?v=1587857527);
   }
-
 }

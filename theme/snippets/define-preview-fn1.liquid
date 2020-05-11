@@ -11,15 +11,20 @@
     {
         if ($element.style.opacity === '1')
         {
-            console.log("$element.style.opacity === 1");
             $element.style.opacity = 0;
             $element.style.visibility = 'hidden';
+
+            if ($element.style.display == 'block')
+                $element.style.display = 'none';
         } 
         else if ($element.style.opacity === '0') {
 
             console.log("$element.style.opacity === 0");
             $element.style.opacity = 1;
             $element.style.visibility = 'visible';
+
+            if ($element.style.display == 'none')
+                $element.style.display = 'block';
         }
     }
     function isBackground($element, highlight)

@@ -30,10 +30,6 @@
             data-expansion-target="#tour" 
             aria-expanded="false">The "Everything" Tour</button> 
         
-        <button id="edit-button" data-edit-text="Edit"  data-exit-text="Exit"
-            class="jw-relationships-tour__enter-exit"
-            style="display:none">Edit</button>
-
         <button>
             <a href="/pages/0-set-the-stage" 
                 class="jw-skip-to-project">Skip to Project</a>
@@ -44,7 +40,6 @@
             <div id="relationships-tour-content" class="jw-relationships-tour__content">
                 <div id="map" class="jw-relationships-tour__map"></div>
                 <aside id="sidebar" class="jw-relationships-tour__sidebar">
-                    <div id="DisplayOverlays" class="DisplayOverlays"></div>
                     <nav class="jw-relationships-tour__navigation">
                         <span id="tour-actions" class="jw-tour__actions" hidden=""> 
                             <a id="previous" class="jw-tour__action --disabled">Previous</a> 
@@ -305,7 +300,14 @@
             <li><a class="float-left submit-button jw-more-info-link" href="/pages/prices" id="PriceLink">Price</a></li>
         </ul>
         <!-- <button onclick="actionOnDone()">Start building your story</button> -->
-        <p><a class="jw-link-button" href="/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start">Start building your story</a></p>
+        <p>
+            <a class="jw-link-button" 
+                href="/pages/0-set-the-stage"
+                {% comment %}
+                href="/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start"
+                {% endcomment %}    
+            >Start building your story</a>
+        </p>
     </div>
 </div>
 
@@ -326,7 +328,7 @@
     var $enterExitTourVisualElementsButton = document.getElementById('enter-exit-tour-visualelements');
     var currentTourPreviewMode = -1;
     var beforeTourPreviewMode = -1;
-    var $editButton = document.getElementById('edit-button');
+
     var $tourActions = document.getElementById('tour-actions');
     var $preview;
     var autoplay = false;
@@ -694,23 +696,6 @@
 
         $enterExitTourVisualElementsButton.addEventListener('click', function enterExitTourVisualElementsButton_onClick() {
             enterExitTourButton__onClick(2);
-        });
-
-        $editButton.addEventListener('click', function editButton_onClick() {
-            var enterTourText = $editButton.getAttribute('data-edit-text');
-            var exitTourText = $editButton.getAttribute('data-exit-text');
-            var currentTourText = $editButton.textContent;
-
-            if (currentTourText === enterTourText) {
-                console.log('..............................11111');
-                $editButton.textContent = exitTourText;
-                RelationShipsPreviewZ("mockup", "showFrame");
-
-            } else if (currentTourText === exitTourText) {
-                console.log('..............................22222');
-                $editButton.textContent = enterTourText;
-                CloseRelationShipsPreviewZ();
-            }
         });
 
         $tourActions.addEventListener('click', function tourActions__onClick(event) {

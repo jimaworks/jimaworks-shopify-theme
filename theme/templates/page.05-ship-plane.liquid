@@ -1,0 +1,2385 @@
+<style>
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      border-bottom: 1px dotted black;
+    }
+    
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 240px;
+      background-color: #05537a; /* jimaworks top bar blue */
+      /* color: #fff; */
+      color: Cornsilk;
+      text-align: left;
+      border-radius: 6px;
+      padding: 5px 0;
+    
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+      /* top: -5px; */
+      /* left: 105%; */
+      top: 40px;
+      left: 10px;
+    }
+    
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }
+</style>
+
+<header class="section-header">
+  <h1 class="section-header__title">{{ page.title }}</h1>
+</header>
+ 
+<div class="rte">
+  <div id="i4c-draggable-container" 
+        style="position: fixed; z-index: 1499; width: 0px; height: 0px;">
+    <div data-reactroot="" class="resolved" style="all: initial;"></div>
+  </div>
+    <!-- https://jimaworks.com/pages/1.g.ii.jimaworks-ship-images
+      1.g: Ship choices
+      1.g.i historic pre-existing ship imagery
+      1.g.ii jimaworks-made ship magery
+      1.g.iii no ship imagery
+      ...
+      1.c: Ship
+      1.c.1 new ship datastructures
+      
+      incremental fixes
+      Mar 14 2019:1105  Take out ShipBucket images and options
+      Mar 30 2019:1300  Restore the "I Nkow My Ship" functionality (lost last week)
+      Mar 30 2019:1400  Remove remaining profile drawings (lost last week)
+      Apr 07 2019:1400  Correct the filter-by-ship-career functionality
+      Apr 23 2019:1400  Incorporate the time-interval functionality and tag ships vs planes
+      May 01 2019:0900  Enforce historically-correct ship/plane choice
+      May 06 2019:1700  Add obj/attrib/value fns for per country percent, departurePortsServed, etc.
+      May 20 2019:0630  Rename "add a ship to your display" or "001.ship" etc to 1.g.i.historical-ship-imagery
+      May 20 2019:0900 Copied from x1.c.Ship (now 1.g.i.HistoricalShipImagery) - make only jimaworks ships available
+      Feb 07 2020:1400 Rebuild to provide choices for all ships...
+      Mar 07 2020:1800 Single image per row, col1=name, col2=img, col3=shipInfo lines
+      Mar 09 2020:1700 Align style w origins pages; Show ShipInfo lines.
+      Mar 25 2020:1800 Change-over to shipInfo-, shipImage-, and ShipsTrips- Arrays
+      Apr 25 2020:1415 standardize both shipInfo lines to other text box entries
+      
+      
+      New: 
+      shipInfoArray[0]
+      (15) ["jimaworksShipID", "Ship Name", "Era", "Operator", "Category", "CareerStart", "CareerEnd", "TotImmigrantsCarried(1000's)", "LOA", "Beam", "Drft", "Psgrs-1stC", "Psgrs-2ndC", "Psgrs-3rdC", "Steerage capacity"]
+      (15) ["Godspeed(1606-1624)", "Godspeed", "ColonialAndEarlyIndependenceEra(1607-1820)", "Virginia Company of London", "", 1606, 1624, 0.4, 88, empty × 3, 39, empty, 100]
+      
+      Old: 
+      shipInfoArray[0]
+      (15) ["jimaworksShipID", "Ship Name", "Era", "Operator", "Category", "CareerStart", "CareerEnd", "TotImmigrantsCarried(1000's)", "LOA", "Beam", "Drft", "Psgrs-1stC", "Psgrs-2ndC", "Psgrs-3rdC", "Steerage capacity"]
+      shipInfoArray[10]
+      (15) ["Atalanta(1868-1871)", "Atalanta", "EraOfModernSail(1800-1900)", "J. A. Køhler & Co.", "Mid19thCSail", 1868, 1871, 0.6, empty × 3, 10, empty, 294, 200]
+      
+      New:
+      shipImageArray[0]
+      (25) ["ImageName", "jimaworksShipID", "Image Format", "Image Type", "ShopifyURL", "sizeX", "sizeY", "[sizeZ]", "CamOrientation-Bearing", "CamOrientation-Roll", "CamOrientation-Tilt", "LeftHorizonYpix", "RightHorizonYpix", "LeftWaterlineYpix", "RightWaterlineYpix", "shipBoundingBoxULX", "shipBoundingBoxULY", "shipBoundingBoxLLX", "shipBoundingBoxLLY", "Artist", "Acknowledgement", "Source", "Rights", "Caution Flag", "Notes"]
+      shipImageArray[10]
+      (25) ["Ryndam-bwpic.jpg", "Rijndam(1951-1970)", ".jpg", "bwpic", "https://cdn.shopify.com/s/files/1/1336/0641/files/Ryndam-bwpic.jpg?v=1530615961", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "jimaworks", "", ""]
+      
+      Old:
+      shipImageArray[0]
+      (24) ["jimaworksShipID", "Source Image Name", "Image Format", "Image Type", "ShopifyURL", "sizeX", "sizeY", "[sizeZ]", "CamOrientation-Bearing", "CamOrientation-Roll", "CamOrientation-Tilt", "LeftHorizonYpix", "RightHorizonYpix", "LeftWaterlineYpix", "RightWaterlineYpix", "shipBoundingBoxULX", "shipBoundingBoxULY", "shipBoundingBoxLLX", "shipBoundingBoxLLY", "Artist", "Acknowledgement", "Source", "Caution Flag", "Notes"]
+      shipImageArray[10]
+      (24) ["Kaiser Wilhelm der Grosse(1897-1914)", "Kaiser Wilhelm Der Grosse-09", ".jpg", "bwpic", "https://cdn.shopify.com/s/files/1/1336/0641/files/Kaiser_Wilhelm_der_Grosse-bwpic3.jpg?v=1530616005", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+      
+      
+      <h2>Here is a typical ship-of-crossing of the era you specified.</h2>
+      -->
+  <div style="color: #0e5478; font-size: x-large; font-weight: bold; line-height: 120%; width: 920px; z-index: 20;">
+    Pick one of the ship images below - or request your 
+    <em>specific</em> ship (or plane) - to represent the experience of this voyage.
+  </div>
+  <div style="color: #0e5478; font-size: large; line-height: 100%; width: 920px; z-index: 20;">
+    <em> Jimaworks has thousands of additional historic ship images and can create “jimaworks-made” images on demand. 
+      <br /> We'll find or make an image of any ship you need. 
+    </em>
+  </div>
+  <!-- ### might want to make the backcground image a global var ### -->
+  <div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+    <!--
+        <div style="position: absolute; z-index: 50; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; line-height: 80%;"><p>***We'll find or make an image of any ship you specify***</p></div>
+    -->
+    <div style="position: absolute; z-index: 25; top: 25px; left: 70px; width: 180px; height: 130px; line-height: 85%;">
+      <button id="typicalShip-ChoiceXX" class="float-left submit-button" style="color: #05537a;" onclick="presentCraftOfCrossingOptions()">Show Ships-of-Crossing </button>
+    </div>
+    <div style="position: absolute; z-index: 25; top: 25px; left: 270px; width: 180px; height: 130px;">
+      <select id="shipFilter" onchange="setFilterCraftMethod()">
+        <option value="" selected="selected" disabled="disabled" hidden="">Filter</option>
+        <option value="filterByYear">Only see craft operating in currently specfied year of crossing</option>
+        <option value="filterByYearInterval">See only ships within your interval of uncertainty.</option>
+        <option value="eraFilter">See only craft of the currently specified era</option>
+        <option value="shipOnlyFilter">Only see ships.</option>
+        <option value="airplaneOnlyFilter">Only see airplanes.</option>
+        <option value="noFilter">See all craft.</option>
+      </select>
+      <!-- ### This idea didn't work too well.  Text too long, etc ###
+        <form action="applySelectedFilters()"><input type="checkbox" id="filter1" name="filter1" value="filterByYear"><label for="filter1"> Only see craft operating in currently specfied year of crossing</label><br><input type="checkbox" id="filter2" name="filter2" value="filterByYearInterval"><label for="filter2"> See only ships within a decade of your year</label><br><input type="checkbox" id="filter3" name="filter3" value="eraFilter"><label for="filter3">See only craft of the era</label><br><input type="checkbox" id="filter4" name="filter4" value="shipOnlyFilter"><label for="filter4">See only ships</label><br><input type="checkbox" id="filter5" name="filter5" value="airplaneOnlyFilter"><label for="filter5">See only airplanes</label><br><input type="checkbox" id="filter6" name="filter6" value="noFilter"><label for="filter6">See all craft</label><br><br><input type="submit" value="Submit"></form>
+    -->
+    </div>
+    <div style="position: absolute; z-index: 25; top: 25px; left: 470px; width: 180px; height: 130px;">
+      <select id="shipSort" onchange="setShipSortMethod()">
+        <option value="" selected="selected" disabled="disabled" hidden="">Sort</option>
+        <option value="passengers">(sort by the number of passengers carried)</option>
+        <option value="year">(sort by year started service)</option>
+        <option value="rev-year">(sort reverse-year started service)</option>
+        <option value="alpha">(sort alphabetically)</option>
+        <option value="rev-alpha">(sort reverse-alphabetically)</option>
+      </select>
+    </div>
+    <div style="position: absolute; z-index: 25; top: 25px; left: 670px; width: 180px; height: 130px; line-height: 85%;">
+      <button id="knownShip" class="float-left submit-button" style="color: #05537a;" onclick="userProvidedShip()">Request a 
+        <em>specific</em> ship 
+      </button>
+    </div>
+    <div id="shipDisplay" style="bottom: 0px; left: 250px;"></div>
+    <div style="position: absolute; z-index: 25; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; line-height: 80%; top: 250px; left: 70px; width: 900px; height: 60px; font-size: x-large;">
+      <h4>
+        <!--
+            Currently chosen region/country of origin =
+            <span id="CurrentSelectionDisplay"></span><br>
+        --> ShipInfo Line 1 = "
+        <span id="shipInfoTextBoxL1" style="color: cornsilk;"></span>" 
+        <br /> ShipInfo Line 2 = "
+        <span id="shipInfoTextBoxL2" style="color: cornsilk;"></span>"
+      </h4>
+    </div>
+    <div style="color: cornsilk; text-shadow: 1px 1px 0px Darkblue; line-height: 80%; position: absolute; z-index: 50; top: 320px; left: 70px;">
+      <h4>(Later, if you choose "Personalize", you can mix in any information you want here.)</h4>
+    </div>
+    <div id="doneButton" style="position: absolute; z-index: 22250; top: 350px; left: 70px;">
+      <button id="typicalShip-Given" 
+            class="float-left submit-button" 
+            style="color: #05537a; font-weight: bold;" 
+            onclick="stickWithCurrentShip()">Continue to Map Background. </button>
+    </div>
+    <div id="shipChoicesDisplay" style="position: absolute; top: 400px; width: 800px;"></div>
+  </div>
+  <div id="i4c-dialogs-container"></div>
+</div>
+   
+<script>
+  // <![CDATA[
+  // ### why localStorage?  Aren't these only used here? ###
+  localStorage.ShipSort = "alpha" ;
+  localStorage.shipFilter='noFilter';
+  // This page only:
+  var selectedFilters = [] ;
+  // ]]>
+
+    if (document.referrer == 'https://jimaworks.com/pages/001-edit-your-relationships')
+    {
+      console.log("(document.referrer == 'https://jimaworks.com/pages/001-edit-your-relationships')");
+        $('#typicalShip-Given').text('Return to Edit page');
+    }else 
+    {
+      console.log("agc-------------------------------");
+    }
+
+// <![CDATA[
+    /* first set up a coordinated set of strings for an associative array */
+    /* on the "era" page...
+    localStorage.setItem("EraOfCrossing", regionName) ;
+    localStorage.setItem("EraOfCrossingAbbrev", eraAbbrevs[regionIndex]) ;
+    localStorage.setItem("EraOfCrossingImageFileName", eraImageFileNm) ;
+    */
+    var matchTarget ;
+    var currentlySpecifiedEra = localStorage.Era;
+    
+    /*
+    var eraStartArray = ["1607", "1800", "1840", "1890", "1945"] ;
+    var eraEndArray = ["1820", "1900", "1915", "1970", "2018"] ;
+    */
+    
+    var erasArray = [   "ColonialAndEarlyIndependenceEra(1607-1840)",
+    "EraOfTheSteamSailShip(1840-1915)",
+    "EraOfThePassengerLiner(1895-1970)",
+    "EraOfAirTravel(1945-Present)"] ;
+    var eraAbbrevs = [  "Early",
+    "StmSl",
+    "Liner",
+    "AirTr"] ;
+    var eraStartArray = [  1607,
+      1840,
+      1895,
+      1945] ;
+    var eraEndArray = [  1840,
+      1915,
+      1970,
+      2100] ;  /* "Present"  - so make it large enough to always be larger than the eraStart */
+    var eraRepresentativeYearArray = [  1720,
+      1870,
+      1910,
+      2016] ;
+    // ]]>
+
+    // <![CDATA[
+    /* Don't understand how this works -
+    function matchEraString(element, eraString) {
+    console.log("matchEraString(element="+element+", eraString="+eraString+")") ;
+    return element == eraString;
+    }
+    */
+    /* define "matchTarget" in the local environment... */
+    function matchArrayString(element) {
+      return element == matchTarget;
+    }
+
+    matchTarget = currentlySpecifiedEra ;
+    var eraIndex = erasArray.findIndex(matchArrayString);
+    console.log("eraIndex==" + eraIndex + "eraIndex==" + eraIndex) ;
+    console.log("currentlySpecifiedEra==" + currentlySpecifiedEra) ;
+
+    var processedShipsArray ;  /* ultimately - clone the shipInfoArray (shallow) without copying header */
+    var filteredArray ;
+    
+    // Addng shipInfoArray DB instances...
+    //DB Example: shipInfoArray.push(["Pretoria", "Pretoria", "EraOfThePassengerLiner(1895-1970)", "Hamburg-America", "PsgLiner", 1897, 1921, 460.8, <GRT>,<Length>,<Width>,<Draft>,<1stC>,<2NDC>,<3RD>,<Steerage>])
+    var shipInfoArray=[["jimaworksShipID","Ship Name","Era","Operator","Category","CareerStart","CareerEnd","TotImmigrantsCarried(1000's)","LOA","Beam","Drft","Psgrs-1stC","Psgrs-2ndC","Psgrs-3rdC","Steerage capacity"]] ;
+    
+    var jimaworksShipIDIndex =  shipInfoArray[0].indexOf("jimaworksShipID") ;
+    var nameIndex =  shipInfoArray[0].indexOf("Ship Name") ;
+    var eraIndex =  shipInfoArray[0].indexOf("Era") ;
+    var operatorIndex =  shipInfoArray[0].indexOf("Operator") ;
+    var classIndex =  shipInfoArray[0].indexOf("Category") ;
+    var careerStartIndex =  shipInfoArray[0].indexOf("CareerStart") ;
+    var careerEndIndex =  shipInfoArray[0].indexOf("CareerEnd") ;
+    var totalPsgrsIndex =  shipInfoArray[0].indexOf("TotImmigrantsCarried(1000's)") ;
+    var LengthIndex =  shipInfoArray[0].indexOf("LOA") ;
+    var WidthIndex =  shipInfoArray[0].indexOf("Beam") ;
+    var DraftIndex =  shipInfoArray[0].indexOf("Drft") ;
+    var NumFirstClassIndex =  shipInfoArray[0].indexOf("Psgrs-1stC") ;
+    var NumSecondClassIndex =  shipInfoArray[0].indexOf("Psgrs-2ndC") ;
+    var NumThirdClassIndex =  shipInfoArray[0].indexOf("Psgrs-3rdC") ;
+    var NumSteerageIndex =  shipInfoArray[0].indexOf("Steerage capacity") ;
+    
+    // Addng shipInfoArray DB instances...
+    shipInfoArray.push(["Maasdam(1952-1968)","Maasdam","EraOfThePassengerLiner(1890-1970)","Holland-America Line","Mid20thCPsgrLiner",1952,1968,45.5,503,69,29,39,734,,]) ;
+    shipInfoArray.push(["Rijndam(1951-1970)","Rijndam","EraOfThePassengerLiner(1890-1970)","Holland-America Line","Mid20thCPsgrLiner",1951,1970,54,503,69,29,39,734,,]) ;
+    shipInfoArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","Kaiser Wilhelm der Grosse","EraOfThePassengerLiner(1890-1970)","North German","Late19thCPsgrLiner",1897,1914,133.8,655,65.8,28,206,226,1074,]) ;
+    // ### ship "Ivernia(1900-1914)" info not registered yet.###
+    // ### ship "Oceanic(1900-1917)" info not registered yet.###
+    // ### ship "Saxonia(1900-1925)" info not registered yet.###
+    // ### ship "Carpathia(1902-1918)" info not registered yet.###
+    shipInfoArray.push(["Vaderland(1900-1917)","Vaderland","EraOfThePassengerLiner(1890-1970)","Red Star","Late19thCPsgrLiner",1900,1917,123.3,560.9,60.1,,342,194,626,]) ;
+    // ### ship "Zeeland(1900-1930)" info not registered yet.###
+    // ### ship "Amerika(1905-1917)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "Empress of Scotland(1921-1930)" info not registered yet.###
+    // ### ship "George Washington(1905-1917)" info not registered yet.###
+    // ### ship "Kaiserina Auguste Victoria(1906-1921)" info not registered yet.###
+    // ### ship "Kroonland(1902-1927)" info not registered yet.###
+    // ### ship "Finland(1901-1927)" info not registered yet.###
+    // ### ship "Campania(1897-1918)" info not registered yet.###
+    // ### ship "Lucania(1897-1909)" info not registered yet.###
+    // ### ship "Pennsylvania(1896-1924)" info not registered yet.###
+    shipInfoArray.push(["Pretoria(1897-1921)","Pretoria","EraOfThePassengerLiner(1890-1970)","Hamburg American Line","Early20thCPsgrCargo",1897,1921,142,560,62,25.75,,,,]) ;
+    // ### ship "Pavia(1898-1899)" info not registered yet.###
+    // ### ship "Graf Waldersee(1899-1922)" info not registered yet.###
+    // ### ship "Patricia(1899-1921)" info not registered yet.###
+    // ### ship "Oceanic(1870-1896)" info not registered yet.###
+    // ### ship "Atlantic(1870-1873)" info not registered yet.###
+    // ### ship "Baltic(1871-1889)" info not registered yet.###
+    // ### ship "Veendam(1889-1898)" info not registered yet.###
+    // ### ship "Republic(1871-1889)" info not registered yet.###
+    // ### ship "Maasdam(1889-1902)" info not registered yet.###
+    // ### ship "Vittoria(1902-1902)" info not registered yet.###
+    // ### ship "Citta` di Napoli(1902-1910)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "Amerika(1893-1899)" info not registered yet.###
+    // ### ship "Celtic(1872-1893)" info not registered yet.###
+    // ### ship "Teutonic(1889-1921)" info not registered yet.###
+    // ### ship "Majestic(1889-1914)" info not registered yet.###
+    // ### ship "Adriatic(1907-1935)" info not registered yet.###
+    // ### ship "Celtic(1901-1928)" info not registered yet.###
+    // ### ship "Cedric(1904-1932)" info not registered yet.###
+    // ### ship "Baltic(1903-1933)" info not registered yet.###
+    // ### ship "Friedrich der Grosse(1896-1917)" info not registered yet.###
+    // ### ship "Barbarossa(1897-1917)" info not registered yet.###
+    // ### ship "Konigin Louise(11896-1921)" info not registered yet.###
+    // ### ship "Bremen(1896-1921)" info not registered yet.###
+    // ### ship "Konig Albert(1899-1915)" info not registered yet.###
+    // ### ship "Grosse Kurfurst(1900-1917)" info not registered yet.###
+    // ### ship "Prinzess Irene(1900-1917)" info not registered yet.###
+    // ### ship "Hamburg(-)" info not registered yet.###
+    // ### ship "Kiautschou(1900-1904)" info not registered yet.###
+    // ### ship "Princess Alice(1904-1917)" info not registered yet.###
+    // ### ship "Blucher(1901-1917)" info not registered yet.###
+    // ### ship "Moltke(1901-1917)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "Persia (1st P-class; US Thompson 1898-1929)(1894-1898)" info not registered yet.###
+    // ### ship "Prussia (1st P-class; US Thompson 1898-1929)(1894-1922)" info not registered yet.###
+    // ### ship "Patria (1st P-class)(1894-1899)" info not registered yet.###
+    // ### ship "Phoenicia (1st P-class)(1895-1905)" info not registered yet.###
+    // ### ship "Palatia (1st P-class)(1895-1905)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "Pennsylvania (2nd P-class)(1897-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "Patricia (2nd P-class)(1899-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "Bulgaria (B-class)(1898-1913)" info not registered yet.###
+    // ### ship "Belgravia (B-class)(1899-1905)" info not registered yet.###
+    // ### ship "Batavia (B-class)(1899-1913)" info not registered yet.###
+    // ### ship "??? (B-class)(-)" info not registered yet.###
+    // ### ship "??? (B-class)(-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "Carmania(1905-1932)" info not registered yet.###
+    // ### ship "Caronia sister of Carmania(1905-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "Bremen(1929-1941)" info not registered yet.###
+    shipInfoArray.push(["Europa(1930-1945)","Europa","EraOfThePassengerLiner(1890-1970)","Norddeutsche Lloyd","Mid20thCPsgrLiner",1930,1945,110.6,936.7,101.7,,860,502,617,305]) ;
+    // ### ship "Liberte'(1946-1962)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    shipInfoArray.push(["StMaryShipsArkAndDove(1634-1640)","StMaryShipsArkAndDove","ColonialAndEarlyIndependenceEra(1607-1820)","","",1634,1640,0.4,,,,,,,]) ;
+    shipInfoArray.push(["Jamestown Fleet(1607-1608)","Jamestown Fleet","ColonialAndEarlyIndependenceEra(1607-1820)","","",1607,1608,0,,,,,,,]) ;
+    shipInfoArray.push(["SusanConstant(1606-1615)","SusanConstant","ColonialAndEarlyIndependenceEra(1607-1820)","Virginia Company of London","",1606,1615,0.2,116,,,71,,,100]) ;
+    shipInfoArray.push(["Godspeed(1606-1624)","Godspeed","ColonialAndEarlyIndependenceEra(1607-1820)","Virginia Company of London","",1606,1624,0.4,88,,,,39,,100]) ;
+    shipInfoArray.push(["Discovery(1602-1611)","Discovery","ColonialAndEarlyIndependenceEra(1607-1820)","Virginia Company of London","",1602,1611,0.2,,,,,21,,100]) ;
+    shipInfoArray.push(["Mayflower(1609-1624)","Mayflower","ColonialAndEarlyIndependenceEra(1607-1820)","Company of Merchant Adventurers of London","",1609,1624,0.4,105,25.5,13,,102,,100]) ;	
+    shipInfoArray.push(["Winthrop Fleet(1630-1680)","Winthrop Fleet","ColonialAndEarlyIndependenceEra(1607-1820)","Massachusetts Bay Company","",1630,1680,10.7,,,,,,,800]) ;
+    shipInfoArray.push(["Arbella(1630-1680)","Arbella","ColonialAndEarlyIndependenceEra(1607-1820)","Massachusetts Bay Company","",1630,1680,2.6,,,,,,,200]) ;
+    // ### ship "Talbot(1630-1680)" info not registered yet.###
+    // ### ship "Jewel(1630-1680)" info not registered yet.###
+    shipInfoArray.push(["Ark(1634-1640)","Ark","ColonialAndEarlyIndependenceEra(1607-1820)","Massachusetts Bay","",1634,1640,0.1,,32,14.5,,128,,100]) ;
+    shipInfoArray.push(["Dove(1634-1640)","Dove","ColonialAndEarlyIndependenceEra(1607-1820)","Massachusetts Bay","",1634,1640,0.1,76,17,7,,,,100]) ;
+    shipInfoArray.push(["KalmerNyckel(1625-1652)","KalmerNyckel","ColonialAndEarlyIndependenceEra(1607-1820)","Massachusetts Bay","",1625,1652,0.7,141,25,12.5,,49,,100]) ;
+    shipInfoArray.push(["Concord(1675-1700)","Concord","ColonialAndEarlyIndependenceEra(1607-1820)","Massachusetts Bay","",1675,1700,0.6,,32,,33,,,100]) ;
+    // ### ship "Dutch Flute(1660-1780)" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    shipInfoArray.push(["Philly MerchanMerchantman US Philly(1720-1850)","Philly MerchanMerchantman US Philly","ColonialAndEarlyIndependenceEra(1607-1820)","Unk","",1720,1850,10.4,,,,,,,150]) ;
+    shipInfoArray.push(["Typical Snow(1700-1840)","Typical Snow","ColonialAndEarlyIndependenceEra(1607-1820)","Unk","",1700,1840,3.7,,,,,,,50]) ;
+    shipInfoArray.push(["Marie Seraphique(1700-1840)","Marie Seraphique","ColonialAndEarlyIndependenceEra(1607-1820)","Unk","Mid18thCSail",1700,1840,11.3,,,,,,,150]) ;
+    shipInfoArray.push(["Tynemouth GB Merchantman-Dodd(1700-1840)","Tynemouth GB Merchantman-Dodd","ColonialAndEarlyIndependenceEra(1607-1820)","Unk","Mid19thCSail",1700,1840,11.3,,,,,,,150]) ;
+    shipInfoArray.push(["Gale(1740-1860)","Gale","ColonialAndEarlyIndependenceEra(1607-1820)","Unk","Mid19thCSail",1740,1860,9.6,,,,,,,150]) ;
+    shipInfoArray.push(["Merchantman-Friedreich(1740-1860)","Merchantman-Friedreich","ColonialAndEarlyIndependenceEra(1607-1820)","Unk","Late19thCSail",1740,1860,9.6,,,,,,,150]) ;
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "TyicalShipPlaceHolder(1840-1900)" info not registered yet.###
+    // ### ship "TyicalShip-Clipper(1840-1900)" info not registered yet.###
+    shipInfoArray.push(["Atalanta(1868-1871)","Atalanta","EraOfModernSail(1800-1900)","J. A. Køhler & Co.","Mid19thCSail",1868,1871,0.6,,,,10,,294,200]) ;
+    shipInfoArray.push(["EastIndiaman(1760-1830)","EastIndiaman","EraOfModernSail(1800-1900)","British East India Company","Late18thCSail",1760,1830,15,175,43,17,,,,200]) ;
+    shipInfoArray.push(["Grossegler(1780-1870)","Grossegler","EraOfModernSail(1800-1900)","Polish","Early19thCSail",1780,1870,19.3,,,,,,,200]) ;
+    shipInfoArray.push(["Stad Amsterdam(1820-1915)","Stad Amsterdam","EraOfModernSail(1800-1900)","Randstad Holding","Mid19thCSail",1820,1915,20.4,250,34,15,28,,,200]) ;
+    shipInfoArray.push(["Manai Straits(1820-1915)","Manai Straits","EraOfModernSail(1800-1900)","Brit","Mid19thCSail",1820,1915,20.4,,,,,,,200]) ;
+    shipInfoArray.push(["Europa(1760-1830)","Europa","EraOfModernSail(1800-1900)","Polish","Late18thCSail",1760,1830,15,,,,,,,200]) ;
+    // ### ship "Athens(1820-1880)" info not registered yet.###
+    // ### ship "(Additional Notable ModernSail Ships)" info not registered yet.###
+    // ### ship "James Monroe(1815-1850)" info not registered yet.###
+    // ### ship "Amity(1816-1824)" info not registered yet.###
+    // ### ship "Montezuma(1843-1854)" info not registered yet.###
+    // ### ship "Charles H Marshall(1845-1891)" info not registered yet.###
+    // ### ship "Meteor(1819-1862)" info not registered yet.###
+    // ### ship "Deutschland(1848-1857)" info not registered yet.###
+    // ### ship "Nord Amerika(1848-1868)" info not registered yet.###
+    // ### ship "Donau(1853-1867)" info not registered yet.###
+    // ### ship "Elbe(1849-1964)" info not registered yet.###
+    // ### ship "Rhein(1849-1858)" info not registered yet.###
+    // ### ship "Oder(1851-1868)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    shipInfoArray.push(["Brittania(1840-1880)","Brittania","EraOfTheSteamSailShip(1840-1915)","British and North American Royal Mail Steam Packet Company","Mid19thCPaddleSteamer",1840,1880,7.4,207,34,16.8,115,,,115]) ;
+    shipInfoArray.push(["President(1840-1880)","President","EraOfTheSteamSailShip(1840-1915)","British and American Steam Navigation Company","Mid19thCPaddleSteamer",1840,1880,25.8,243,41,,154,,,400]) ;
+    shipInfoArray.push(["Great Britain(1850-1910)","Great Britain","EraOfTheSteamSailShip(1840-1915)","Great Western Steamship Company","Mid19thCSteamSail",1850,1910,38.7,322,50.5,16,360,,,400]) ;
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    shipInfoArray.push(["The County of Sutherland(1850-1910)","The County of Sutherland","EraOfTheSteamSailShip(1840-1915)","Brit","Mid19thCSteamSail",1850,1910,0,333.8,38.3,,,,,400]) ;
+    // ### ship "(Additional Notable SteamSail Ships)" info not registered yet.###
+    // ### ship "Serius(1837-1847)" info not registered yet.###
+    // ### ship "Acadia(1840-1858)" info not registered yet.###
+    // ### ship "Caledonia(1840-1851)" info not registered yet.###
+    // ### ship "Columbia(1841-1843)" info not registered yet.###
+    // ### ship "Hibernia(1843-1850)" info not registered yet.###
+    // ### ship "Cambria(1845-1860)" info not registered yet.###
+    // ### ship "America(1848-1866)" info not registered yet.###
+    // ### ship "Niagara(1848-1875)" info not registered yet.###
+    // ### ship "Europe(1849-1867)" info not registered yet.###
+    // ### ship "Canada(1848-1883)" info not registered yet.###
+    // ### ship "Great Western(1837-1847)" info not registered yet.###
+    // ### ship "Great Eastern(1859-1889)" info not registered yet.###
+    shipInfoArray.push(["Savannah(1818-1821)","Savannah","EraOfTheSteamSailShip(1840-1915)","Savannah Steam Ship Company","Mid19thCPaddleSteamer",1818,1821,0,,,,,,,]) ;
+    // ### ship "Royal William(1831-1860)" info not registered yet.###
+    // ### ship "Curacao(1827-1827)" info not registered yet.###
+    // ### ship "Atlantic(1827-1827)" info not registered yet.###
+    // ### ship "Baltic(1827-1827)" info not registered yet.###
+    // ### ship "Arctic(1827-1827)" info not registered yet.###
+    // ### ship "Pacific(1827-1827)" info not registered yet.###
+    // ### ship "Hammonia(1854-1864)" info not registered yet.###
+    // ### ship "Borussia(1854-1879)" info not registered yet.###
+    // ### ship "Saxonia(1854-1879)" info not registered yet.###
+    // ### ship "Austria(1857-1858)" info not registered yet.###
+    // ### ship "Bavaria(1857-1877)" info not registered yet.###
+    // ### ship "Teutonia(1854-1873)" info not registered yet.###
+    // ### ship "Rotterdam(1872-1883)" info not registered yet.###
+    // ### ship "Maas(1872-1883)" info not registered yet.###
+    // ### ship "Maasdam(1883-1884)" info not registered yet.###
+    // ### ship "Oceanic(1871-1895)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "Celtic(1871-1884)" info not registered yet.###
+    // ### ship "Adriatic(1871-1884)" info not registered yet.###
+    // ### ship "Veendam(1888-1898)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    shipInfoArray.push(["Petersburg(1870-1910)","Petersburg","EraOfThePassengerLiner(1890-1970)","Russia Volunteer Fleet","Late19thCPsgrCargo",1870,1910,60.2,350.3,40,,,,,800]) ;
+    shipInfoArray.push(["(-)","","EraOfThePassengerLiner(1890-1970)","Hamburg-America","Early20thCPsgrCargo",,,0,560,62,25.75,,,,2000]) ;
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    // ### ship "Laconia(1912-1917)" info not registered yet.###
+    // ### ship "(Additional Notable SteamSail Ships)" info not registered yet.###
+    // ### ship "Rotterdam(1908-1940)" info not registered yet.###
+    shipInfoArray.push(["NieuwAmsterdam(1905-1932)","NieuwAmsterdam","EraOfThePassengerLiner(1890-1970)","Holland-America Line","",1905,1932,0,,,,174,,,800]) ;
+    // ### ship "Maasdam(1921-1941)" info not registered yet.###
+    // ### ship "Leerdam(1921-1943)" info not registered yet.###
+    // ### ship "Edam(1921-1953)" info not registered yet.###
+    // ### ship "Spaarndam(1922-1939)" info not registered yet.###
+    // ### ship "Statendam(1956-1982)" info not registered yet.###
+    // ### ship "Rotterdam(1959-1997)" info not registered yet.###
+    // ### ship "(-)" info not registered yet.###
+    shipInfoArray.push(["Airbus330(1994-2018)","Airbus330","EraOfAirTravel(1945-Present)","NorthWest","Late20thCAirship",1994,2018,685.8,,,,35,300,,]) ;
+    shipInfoArray.push(["Boeing 707-320B(1958-1995)","Boeing 707-320B","EraOfAirTravel(1945-Present)","TWA","Late20thCAirship",1958,1995,241.1,,,,20,120,,]) ;
+    shipInfoArray.push(["Boeing-377(1949-1963)","Boeing-377","EraOfAirTravel(1945-Present)","PanAm","Mid20thCAirship",1949,1963,25.7,,,,14,100,,]) ;
+    shipInfoArray.push(["LockheedC21Constellation(1945-1992)","LockheedC21Constellation","EraOfAirTravel(1945-Present)","American","Mid20thCAirship",1945,1992,60.7,,,,80,,,]) ;
+    shipInfoArray.push(["McDonnell-DouglasMD-83(DC10)(1971-2002)","McDonnell-DouglasMD-83(DC10)","EraOfAirTravel(1945-Present)","AeroFlot","Late20thCAirship",1971,2002,555.3,,,,42,168,,]) ;
+    shipInfoArray.push(["Sukhoi-Superjet100(2008-2018)","Sukhoi-Superjet100","EraOfAirTravel(1945-Present)","AeroFlot","Late20thCAirship",2008,2018,102.3,,,,,120,,]) ;
+    // ### ship "" info not registered yet.###
+    shipInfoArray.push(["St.Paul(1895-1923)","St.Paul","EraOfThePassengerLiner(1890-1970)","American","Late19thCPsgrLiner",1895,1923,166.9,553.1,63,28,320,200,900,]) ;
+    // ### ship "" info not registered yet.###
+    shipInfoArray.push(["Known Ship placeholder (1585-1790)","Known Ship placeholder ","ColonialAndEarlyIndependenceEra(1607-1840)","Various","",1585,1790,5.5,,,,,,,]) ;
+    shipInfoArray.push(["Known Ship placeholder (1791-1850)","Known Ship placeholder ","EraOfModernSail(1790-1890)","Various","",1791,1850,6.3,,,,,,,]) ;
+    shipInfoArray.push(["Known Ship placeholder (1851-1890)","Known Ship placeholder ","EraOfTheSteamSailShip(1840-1915)","Various","",1851,1890,15.7,,,,,,,]) ;
+    shipInfoArray.push(["Known Ship placeholder (1891-1918)","Known Ship placeholder ","EraOfThePassengerLiner(1890-1920)","Various","",1891,1918,58.1,,,,,,,]) ;
+    shipInfoArray.push(["Known Ship placeholder (1919-1964)","Known Ship placeholder ","EraOfThePassengerLiner(1920-1970)","Various","",1919,1964,110.1,,,,,,,]) ;
+    shipInfoArray.push(["Known Plane placeholder (1965-2020)","Known Plane placeholder ","EraOfAirTravel(1945-Present)","Various","",1965,2020,384,,,,,,,]) ;
+    // ### ship "" info not registered yet.###
+    // ### ship "Speedwell" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    // ### ship "" info not registered yet.###
+    // ### ship "" info not registered yet.###
+
+    //Ship Images
+    var selectedShipImageSet ;
+    
+    // DB Example: shipInfoArray.push(["Pretoria", "Pretoria", "EraOfThePassengerLiner(1895-1970)", "Hamburg-America", "PsgLiner", 1897, 1921, 460.8, <GRT>,<Length>,<Width>,<Draft>])					
+    var shipImageArray = [["jimaworksShipID","Source Image Name","Image Format","Image Type","ShopifyURL","sizeX","sizeY","[sizeZ]","CamOrientation-Bearing","CamOrientation-Roll","CamOrientation-Tilt","LeftHorizonYpix","RightHorizonYpix","LeftWaterlineYpix","RightWaterlineYpix","shipBoundingBoxULX","shipBoundingBoxULY","shipBoundingBoxLLX","shipBoundingBoxLLY","Artist","Acknowledgement","Source","Caution Flag","Notes"]]  ;					
+                        
+    
+    
+    var imageArrayImgNameIndex =  shipImageArray[0].indexOf("Source Image Name") ;
+    var imageArrayjimaworksShipIDIndex =  shipImageArray[0].indexOf("jimaworksShipID") ;
+    var imageArrayImgFormatIndex =  shipImageArray[0].indexOf("Image Format") ;
+    var imageArrayImgTypeIndex =  shipImageArray[0].indexOf("Image Type") ;
+    var imageArrayShopifyURLIndex =  shipImageArray[0].indexOf("ShopifyURL") ;
+    var imageArraySizeXIndex =  shipImageArray[0].indexOf("sizeX") ;
+    var imageArraySizeYIndex =  shipImageArray[0].indexOf("sizeY") ;
+    var imageArraySizeZIndex =  shipImageArray[0].indexOf("size[Z]") ;
+    var imageArrayLeftWaterlineIndex =  shipImageArray[0].indexOf("LeftWaterlineYpix") ;
+    var imageArrayRightWaterlineIndex =  shipImageArray[0].indexOf("RightWaterlineYpix") ;
+    var imageArrayArtistIndex =  shipImageArray[0].indexOf("Artist") ;
+    var imageArrayAckIndex =  shipImageArray[0].indexOf("Acknowledgement") ;
+    var imageArraySourceIndex =  shipImageArray[0].indexOf("Source") ;
+    var imageArrayRightsIndex =  shipImageArray[0].indexOf("Rights") ;
+    
+    
+    // ### ship "Maasdam(1952-1968)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Maasdam(1952-1968)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Rijndam(1951-1970)","MS_Ryndam_HAL_Postcard_WorldShipSocNY.png",".png","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/MS_Ryndam_HAL_Postcard_WorldShipSocNY.png?v=1559253031","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Rijndam(1951-1970)","Ryndam_Maiden.png",".png","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Ryndam_Maiden.png?v=1559253027","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Rijndam(1951-1970)","Ryndam_1951-1970_-mdlrend.png",".png","2Drend","https://cdn.shopify.com/s/files/1/1336/0641/files/Ryndam_1951-1970_-mdlrend.png?v=1559253027","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Rijndam(1951-1970)","Ryndam-colpic.jpg",".jpg","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Ryndam-colpic.jpg?v=1530615975","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Rijndam(1951-1970)","Ryndam-bwpic.jpg",".jpg","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Ryndam-bwpic.jpg?v=1530615961","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","Kaiser_Wilhelm_der_Grosse-405x600-poster.png",".png","poster","https://cdn.shopify.com/s/files/1/1336/0641/files/Kaiser_Wilhelm_der_Grosse-405x600-poster.png?v=1536348788","405","600","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Kaiser Wilhelm der Grosse(1897-1914)"'s image "Kaiser_Wilhelm_der_Grosse-640x180-illustr.png" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","Kaiser_Wilhelm_der_Grosse-640x404-postcd.png",".png","postcd","https://cdn.shopify.com/s/files/1/1336/0641/files/Kaiser_Wilhelm_der_Grosse-640x404-postcd.png?v=1536347371","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","Kaiser_Wilhelm_der_Grosse-640x371-bwpic.png",".png","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Kaiser_Wilhelm_der_Grosse-640x371-bwpic.png?v=1536287044","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","Kaiser_Wilhelm_der_Grosse-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/Kaiser_Wilhelm_der_Grosse-painting.jpg?v=1530619656","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","Kaiser_Wilhelm_der_Grosse-bwpic3.jpg",".jpg","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Kaiser_Wilhelm_der_Grosse-bwpic3.jpg?v=1530616005","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","Kaiser_Wilhelm_der_Grosse-bwpic2.jpg",".jpg","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Kaiser_Wilhelm_der_Grosse-bwpic2.jpg?v=1530616004","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Kaiser Wilhelm der Grosse(1897-1914)"'s image "Kaiser_Wilhelm_der_Grosse-bwpic.jpg" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","Kaiser_Wilhelm_der_Grosse-postcd.jpg",".jpg","postcd","https://cdn.shopify.com/s/files/1/1336/0641/files/Kaiser_Wilhelm_der_Grosse-postcd.jpg?v=1530616003","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","Kaiser_Wilhelm_der_Grosse-bwpic4.jpg",".jpg","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Kaiser_Wilhelm_der_Grosse-bwpic4.jpg?v=1530616001","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","Kaiser_Wilhelm_der_Grosse-poster.jpg",".jpg","poster","https://cdn.shopify.com/s/files/1/1336/0641/files/Kaiser_Wilhelm_der_Grosse-poster.jpg?v=1529962841","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Ivernia(1900-1914)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Ivernia(1900-1914)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Ivernia(1900-1914)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Ivernia(1900-1914)","StdShipImgWikiCunard_Liner_Ivernia.png",".png","postcd","https://cdn.shopify.com/s/files/1/1336/0641/files/StdShipImgWikiCunard_Liner_Ivernia.png","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Ivernia(1900-1914)","Ivernia-colpic.jpg",".jpg","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Ivernia-colpic.jpg?v=1530616064","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Ivernia(1900-1914)","Ivernia-bwpic.jpg",".jpg","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Ivernia-bwpic.jpg?v=1530616063","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Ivernia(1900-1914)","Ivernia-postcd.jpg",".jpg","postcd","https://cdn.shopify.com/s/files/1/1336/0641/files/Ivernia-postcd.jpg?v=1530616063","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Ivernia(1900-1914)","Ivernia-postcd2.jpg",".jpg","postcd","https://cdn.shopify.com/s/files/1/1336/0641/files/Ivernia-postcd2.jpg?v=1530616061","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Oceanic(1900-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Saxonia(1900-1925)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Carpathia(1902-1918)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Vaderland(1900-1917)"'s image "aderland_1900-1917_-poster.png" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Zeeland(1900-1930)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Amerika(1905-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Empress of Scotland(1921-1930)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "George Washington(1905-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Kaiserina Auguste Victoria(1906-1921)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Kroonland(1902-1927)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Finland(1901-1927)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Campania(1897-1918)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Lucania(1897-1909)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Pennsylvania(1896-1924)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Pretoria(1897-1921)","Pretoria(1897-1921)-bwpic.jpg",".jpg","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Pretoria_1897-1921_-bwpic.jpg?v=1531318977","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Pavia(1898-1899)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Graf Waldersee(1899-1922)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Patricia(1899-1921)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Oceanic(1870-1896)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Atlantic(1870-1873)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Baltic(1871-1889)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Veendam(1889-1898)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Republic(1871-1889)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Maasdam(1889-1902)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Vittoria(1902-1902)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Citta` di Napoli(1902-1910)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Amerika(1893-1899)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Celtic(1872-1893)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Teutonic(1889-1921)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Majestic(1889-1914)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Adriatic(1907-1935)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Celtic(1901-1928)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Cedric(1904-1932)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Baltic(1903-1933)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Friedrich der Grosse(1896-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Barbarossa(1897-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Konigin Louise(11896-1921)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Bremen(1896-1921)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Konig Albert(1899-1915)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Grosse Kurfurst(1900-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Prinzess Irene(1900-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Hamburg(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Kiautschou(1900-1904)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Princess Alice(1904-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Blucher(1901-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Moltke(1901-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Persia (1st P-class; US Thompson 1898-1929)(1894-1898)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Prussia (1st P-class; US Thompson 1898-1929)(1894-1922)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Patria (1st P-class)(1894-1899)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Phoenicia (1st P-class)(1895-1905)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Palatia (1st P-class)(1895-1905)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Pennsylvania (2nd P-class)(1897-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Patricia (2nd P-class)(1899-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Bulgaria (B-class)(1898-1913)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Belgravia (B-class)(1899-1905)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Batavia (B-class)(1899-1913)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "??? (B-class)(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "??? (B-class)(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Carmania(1905-1932)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Caronia sister of Carmania(1905-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Bremen(1929-1941)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Europa(1930-1945)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Liberte'(1946-1962)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["StMaryShipsArkAndDove(1634-1640)","StMaryShipsArkAndDove_1634-1635_-postcd.png",".png","postcd","https://cdn.shopify.com/s/files/1/1336/0641/files/StMaryShipsArkAndDove_1634-1635_-postcd.png?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Jamestown Fleet(1607-1608)","jamestownLanding-drw.png",".png","drawing","https://cdn.shopify.com/s/files/1/1336/0641/files/jamestownLanding-drw.png?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Jamestown Fleet(1607-1608)","JamestownShips-postcd.png",".png","postcd","https://cdn.shopify.com/s/files/1/1336/0641/files/JamestownShips-postcd.png?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["SusanConstant(1606-1615)","SusanConstant_1606-1615_-colpic.jpg",".png","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/SusanConstant_1606-1615_-colpic.jpg?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Godspeed(1606-1624)","Godspeed_1606-1624_-colpic.jpg",".png","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Godspeed_1606-1624_-colpic.jpg?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Discovery(1602-1611)","Discover_1606-1611_-colpic.jpg",".jpg","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Discover_1606-1611_-colpic.jpg?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Mayflower(1609-1624)","Mayflower_1604-1624_jimaworksMade-JenV-300ppi.png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/Mayflower_1604-1624_jimaworksMade-JenV-300ppi.png?v=1558968092","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Mayflower(1609-1624)"'s image "Mayflower_1609-1624_-colpic.jpg" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Mayflower(1609-1624)","Mayflower_1609-1624_-illust2.png",".png","poster","https://cdn.shopify.com/s/files/1/1336/0641/files/Mayflower_1609-1624_-illust2.png?v=1532191479","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Mayflower(1609-1624)","Mayflower_1609-1624_-mdlrend.png",".jpg","2Drend","https://cdn.shopify.com/s/files/1/1336/0641/files/Mayflower_1609-1624_-mdlrend.png?v=1532191478","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Mayflower(1609-1624)"'s image "Mayflower_1609-1624_-colpic2.png" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Mayflower(1609-1624)"'s image "Mayflower_1609-1624_-illust.png" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Mayflower(1609-1624)","Mayflower_1609-1624_-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/Mayflower_1609-1624_-painting.jpg?v=1532191477","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Winthrop Fleet(1630-1680)","WinthropFleet-painting.png",".png","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/WinthropFleet-painting.png?v=1531312963","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Arbella(1630-1680)","The_Arbella_1630-1680_-postcd.jpg",".png","postcd","https://cdn.shopify.com/s/files/1/1336/0641/files/The_Arbella_1630-1680_-postcd.jpg?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Talbot(1630-1680)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Jewel(1630-1680)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Ark(1634-1640)","Ark_1634-1640-drw.png",".png","drawing","https://cdn.shopify.com/s/files/1/1336/0641/files/Ark_1634-1640-drw.png?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Dove(1634-1640)","StMaryShipsArkAndDove_1634-1635_-lith.png",".png","lithograph","https://cdn.shopify.com/s/files/1/1336/0641/files/StMaryShipsArkAndDove_1634-1635_-lith.png?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["KalmerNyckel(1625-1652)","Kalmar_Nyckel_1625-1644_-colpic.jpg",".jpg","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Kalmar_Nyckel_1625-1644_-colpic.jpg?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["KalmerNyckel(1625-1652)","Kalmar_Nyckel_1625-1644_-painting.jpg",".png","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/KalmerNyckel_1625-1644_-painting.jpg?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Concord(1675-1700)","Concord_1675-1700_-lith.png",".png","lithograph","https://cdn.shopify.com/s/files/1/1336/0641/files/Concord_1675-1700_-lith.png?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Dutch Flute(1660-1780)","DutchFlute-illust.png",".png","silou","https://cdn.shopify.com/s/files/1/1336/0641/files/DutchFlute-illust.png?v=1531312964","","","","","","","","","","","","","","","","","","","Caution"]) ;
+    shipImageArray.push(["Dutch Flute(1660-1780)","DutchFlute_1540-1710_-533x640-illustr2.jpg",".jpg","silou","https://cdn.shopify.com/s/files/1/1336/0641/files/DutchFlute_1540-1710_-533x640-illustr2.jpg?v=1536507747","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Dutch Flute(1660-1780)","DutchFlute_1540-1710_-670x518-painting2.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/DutchFlute_1540-1710_-670x518-painting2.jpg?v=1536507720","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Dutch Flute(1660-1780)","DutchFlute_1540-1710_-518x398-painting.png",".png","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/DutchFlute_1540-1710_-518x398-painting.png?v=1536507706","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Dutch Flute(1660-1780)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Philly MerchanMerchantman US Philly(1720-1850)","PhillyMerchant-painting.jpg",".jpg","","PhillyMerchant-painting.jpg","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Typical Snow(1700-1840)","Typical_Snow-519x640-illustr.png",".png","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/Typical_Snow-519x640-illustr.png?v=1536518401","519","640","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Typical Snow(1700-1840)","A_naval_snow-640x529-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/A_naval_snow-640x529-painting.jpg?v=1536518243","640","529","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Marie Seraphique(1700-1840)","MarieSeraphique-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/MarieSeraphique-painting.jpg?v=1531312961","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Tynemouth GB Merchantman-Dodd(1700-1840)","3_Master_Brit_Merchant_1700-1840.png",".png","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/3_Master_Brit_Merchant_1700-1840.png?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Gale(1740-1860)","Gale_1750-1840_-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/Gale_1750-1840_-painting.jpg?v=1588456436","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Merchantman-Friedreich(1740-1860)","ScandinavianMerchant3Master-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/ScandinavianMerchant3Master-painting.jpg?v=1531312957","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "TyicalShipPlaceHolder(1840-1900)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "TyicalShip-Clipper(1840-1900)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Atalanta(1868-1871)","Atalanta-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/Atalanta-painting.jpg?v=1531313338","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["EastIndiaman(1760-1830)","East_Indian-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/East_Indian-painting.jpg?v=1531313327","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "EastIndiaman(1760-1830)"'s image "EastIndiamanGotheborg_1643-1645_NoBackgrnd.png" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Grossegler(1780-1870)","Grosssegler-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/Grosssegler-painting.jpg?v=1531313341","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Stad Amsterdam(1820-1915)","StadtAmsterdam-illust.png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/StadtAmsterdam-illust.png?v=1531400473","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Manai Straits(1820-1915)","MenaiStraits-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/MenaiStraits-painting.jpg?v=1531313325","","","","","","","","","","","","","","Caution","","","","",""]) ;
+    shipImageArray.push(["Europa(1760-1830)","Europa-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/Europa-painting.jpg?v=1531313339","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Athens(1820-1880)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(Additional Notable ModernSail Ships)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "James Monroe(1815-1850)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Amity(1816-1824)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Montezuma(1843-1854)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Charles H Marshall(1845-1891)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Meteor(1819-1862)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Deutschland(1848-1857)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Nord Amerika(1848-1868)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Donau(1853-1867)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Elbe(1849-1964)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Rhein(1849-1858)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Oder(1851-1868)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Brittania(1840-1880)","Britannia-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/Britannia-painting.jpg?v=1531315308","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["President(1840-1880)","The President-painting.png",".png","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/The_President-painting.png?v=1531315338","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["President(1840-1880)","Great Britain-bwpic.jpg",".jpg","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Great_Britain-bwpic.jpg?v=1531315310","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["President(1840-1880)","Great Britain-illust4.png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/Great_Britain-illust4.png?v=1531315314","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["(-)","Great Britain-painting2.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/Great_Britain-painting2.jpg?v=1531315311","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["The County of Sutherland(1850-1910)","County_of_Sutherland-painting.jpg",".jpg","painting","https://cdn.shopify.com/s/files/1/1336/0641/files/County_of_Sutherland-painting.jpg?v=1531315331","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "(Additional Notable SteamSail Ships)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Serius(1837-1847)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Acadia(1840-1858)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Caledonia(1840-1851)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Columbia(1841-1843)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Hibernia(1843-1850)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Cambria(1845-1860)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "America(1848-1866)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Niagara(1848-1875)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Europe(1849-1867)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Canada(1848-1883)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Great Western(1837-1847)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Great Eastern(1859-1889)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Savannah(1818-1821)","Savannah_1818-1821_jimaworksmade300ppi.png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/Savannah_1818-1821_jimaworksmade300ppi.png?v=1558401652","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Royal William(1831-1860)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Curacao(1827-1827)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Atlantic(1827-1827)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Baltic(1827-1827)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Arctic(1827-1827)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Pacific(1827-1827)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Hammonia(1854-1864)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Borussia(1854-1879)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Saxonia(1854-1879)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Austria(1857-1858)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Bavaria(1857-1877)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Teutonia(1854-1873)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Rotterdam(1872-1883)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Maas(1872-1883)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Maasdam(1883-1884)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Oceanic(1871-1895)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Celtic(1871-1884)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Adriatic(1871-1884)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Veendam(1888-1898)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Petersburg(1870-1910)","Petersburg-bwpic.jpg",".jpg","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Petersburg-bwpic.jpg?v=1531318976","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Pretoria(1897-1921)"'s image "Pretoria(1897-1921)-bwpic.jpg" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Vaderland(1900-1917)"'s image "Vaderland(1900-1917)-poster.png" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Europa(1930-1945)"'s image "Europa(1920-1960)-postcd.jpg" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Maasdam(1952-1968)","Maasdam_1952-1968_-640x177-mdlrend.png",".png","2Drend","https://cdn.shopify.com/s/files/1/1336/0641/files/Maasdam_1952-1968_-640x177-mdlrend.png?v=1536419750","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Maasdam(1952-1968)","Maasdam_1952-1968_-499x303-colpic.png",".png","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Maasdam_1952-1968_-499x303-colpic.png?v=1536419162","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Maasdam(1952-1968)","Maasdam_1952-1968_-640x413-b_wpic.png",".png","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Maasdam_1952-1968_-640x413-b_wpic.png?v=1536418227","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Maasdam(1952-1968)","Maasdam-bwpic.jpg",".jpg","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Maasdam-bwpic.jpg?v=1530615938","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Maasdam(1952-1968)","Maasdam-colpic.jpg",".jpg","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Maasdam-colpic.jpg?v=1529962876","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Laconia(1912-1917)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(Additional Notable SteamSail Ships)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Rotterdam(1908-1940)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["NieuwAmsterdam(1905-1932)","NieuwAmsterdam_1905-1932_jimaworksmade300ppi.png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/NieuwAmsterdam_1905-1932_jimaworksmade300ppi.png?v=1558401648","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "Maasdam(1921-1941)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Leerdam(1921-1943)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Edam(1921-1953)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Spaarndam(1922-1939)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Statendam(1956-1982)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Rotterdam(1959-1997)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "(-)"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Airbus330(1994-2018)"'s image "Airbus330-illust.png" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Airbus330(1994-2018)"'s image "Boeing_707-320B-illust.png" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Boeing 707-320B(1958-1995)","Boeing_707-321B_-_Pan_Am_USA.png",".png","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Boeing_707-321B_-_Pan_Am_USA.png?v=1552579701","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Boeing-747","Boeing-377-bwpic.jpg",".jpg","poster","https://cdn.shopify.com/s/files/1/1336/0641/files/Boeing-377-bwpic.jpg?v=1531320065","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Boeing-377(1949-1963)","Pan_Am_Boeing_747-121_N732PA_Bidini.jpg",".jpg","poster","https://cdn.shopify.com/s/files/1/1336/0641/files/Pan_Am_Boeing_747-121_N732PA_Bidini.jpg?v=1552580751","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["LockheedC21Constellation(1945-1992)","LockheedC21Constellation-colpic.jpg",".jpg","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/LockheedC21Constellation-colpic.jpg?v=1531399846","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["LockheedC21Constellation(1945-1992)","Douglas_C-47A_Skytrain__DC-3__KLM_-_Royal_Dutch_Airlines__DDA_Classic_Airlines__AN2107554.jpg",".jpg","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/Douglas_C-47A_Skytrain__DC-3__KLM_-_Royal_Dutch_Airlines__DDA_Classic_Airlines__AN2107554.jpg?v=1552581402","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "McDonnell-DouglasMD-83(DC10)(1971-2002)"'s image "McDonnell-DouglasMD-83_DC10_-illust.png" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Sukhoi-Superjet100(2008-2018)"'s image "Sukhoi-Superjet100-illust.png" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship ""'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["St.Paul(1895-1923)","St_Paul_1895-1923_-640x415-colpic.png",".png","colpic","https://cdn.shopify.com/s/files/1/1336/0641/files/St_Paul_1895-1923_-640x415-colpic.png?v=1536429812","640","415","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["St.Paul(1895-1923)","St_Paul_1895-1923_-640x415-bwpic.png",".png","bwpic","https://cdn.shopify.com/s/files/1/1336/0641/files/St_Paul_1895-1923_-640x415-bwpic.png?v=1536429676","640","415","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "St.Paul(1895-1923)"'s image "jimaworksStPaul640.png" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    shipImageArray.push(["Known Ship placeholder (1585-1790)","EarlySailKnownShipIconLabeled.png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/EarlySailKnownShipIconLabeled.png?v=1536429676","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Known Ship placeholder (1791-1850)","ModernSailKnownShipIconLabeled.png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/ModernSailKnownShipIconLabeled.png?v=1536429676","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Known Ship placeholder (1851-1890)","SteamSailKnownShipIconLabeled.png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/SteamSailKnownShipIconLabeled.png?v=1536429676","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Known Ship placeholder (1891-1918)","ClassicPssgrLinerKnownShipIconLabeled.png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/ClassicPssgrLinerKnownShipIconLabeled.png?v=1536429676","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Known Ship placeholder (1919-1964)","PssgrLinerKnownShipIconLabeled.png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/PssgrLinerKnownShipIconLabeled.jpg?v=1536429676","","","","","","","","","","","","","","","","","","",""]) ;
+    shipImageArray.push(["Known Plane placeholder (1965-2020)","Known Ship placeholder (1945-Present).png",".png","colprfl","https://cdn.shopify.com/s/files/1/1336/0641/files/AgeOfAirTravelKnownPlaneIconLabeled.png?v=1536429676","","","","","","","","","","","","","","","","","","",""]) ;
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "Speedwell"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "0"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship ""'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship "EastIndiamanGotheborg_1643-1645_NoBackgrnd.png"'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+    // ### ship ""'s image "" not entered onto www.jimaworks.com Ship pages yet.###
+
+    //Ship Trips
+    //#### ShipIDs ? ###
+    var shipsTripsArray = [["jimaworksShipID","Operator","StartDate-YYYY","StartDate-MM","StartDate-DD","EndDate-YYYY","EndDate-MM","EndDate-DD","TotNumTrips","AvgTripDuration (days)","AvgShipReFit(days)","1stClass","2ndClass","3rdClass","Steerage","Births","Deaths","Migration","OriginsTop","OriginsTop%","Origins2nd","Origins2nd%","Origins3rd","Origns3rd%"]]  ;
+    
+    var tripsArrayjimaworksShipIDIndex =  shipsTripsArray[0].indexOf("jimaworksShipID") ;
+    var tripsArrayOperatorIndex =  shipsTripsArray[0].indexOf("Operator") ;
+    var tripsArrayStartDateYYYYIndex =  shipsTripsArray[0].indexOf("StartDate-YYYY") ;
+    var tripsArrayEndDateYYYYIndex =  shipsTripsArray[0].indexOf("EndDate-YYYY") ;
+    var tripsArrayTotNumTripsIndex =  shipsTripsArray[0].indexOf("TotNumTrips") ;
+    var tripsArrayAvgTripDurationIndex =  shipsTripsArray[0].indexOf("AvgTripDuration (days)") ;
+    var tripsArrayArtistIndex =  shipsTripsArray[0].indexOf("Births") ;
+    var tripsArrayAckIndex =  shipsTripsArray[0].indexOf("Deaths") ;
+    var tripsArrayMigrationIndex =  shipsTripsArray[0].indexOf("Migration") ;
+    var tripsArrayOriginsTopIndex =  shipsTripsArray[0].indexOf("OriginsTop") ;
+    var tripsArrayOriginsTopPercentIndex =  shipsTripsArray[0].indexOf("OriginsTop%") ;
+    var tripsArrayOriginsTopIndex =  shipsTripsArray[0].indexOf("Origins2nd") ;
+    var tripsArrayOriginsTopPercentIndex =  shipsTripsArray[0].indexOf("Origins2nd%") ;
+    var tripsArrayOriginsTopIndex =  shipsTripsArray[0].indexOf("Origins3rd") ;
+    var tripsArrayOriginsTopPercentIndex =  shipsTripsArray[0].indexOf("Origins3rd%") ;
+    
+    // DB Example…
+    shipsTripsArray.push(["Maasdam(1952-1968)","NL.RTM-US.NYC-1","Holland-America Line","1952","","","1968","","","192","8.4","9.1","7488","6165.6","0","0","","","PostWWIIEuropeanMigration","","","","","",""]) ;
+    shipsTripsArray.push(["Rijndam(1951-1970)","NL.RTM-US.NYC-1","Holland-America Line","1951","","","1970","","","228","8.4","9.1","8892","6165.6","0","0","","","PostWWIIEuropeanMigration","","","","","",""]) ;
+    shipsTripsArray.push(["Kaiser Wilhelm der Grosse(1897-1914)","DE.BRE-US.NYC-1","North German","1897","","","1914","","","187","9.31","10.5","38522","2104.06","11277","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Ivernia(1900-1914)","GB.LIV-US.NYC-1","Cunard","1900","","","1914","","","154","9.31","10.5","25256","1862","16800","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Oceanic(1900-1917)","GB.LIV-US.NYC-1","White Star","1900","","","1917","","","187","9.31","10.5","76670","2793","10500","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Saxonia(1900-1925)","GB.LIV-US.BOS-1","Cunard","1900","","","1925","","","275","9.31","10.5","45100","1862","16800","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Carpathia(1902-1918)","GB.LIV-US.BOS-1","Cunard","1902","","","1918","","","176","9.31","10.5","17600","1862","23625","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Vaderland(1900-1917)","BE.ANR-US.NYC-1","Red Star","1900","","","1917","","","187","9.31","10.5","63954","1806.14","6573","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Zeeland(1900-1930)"'s trips "Red Star" returned in error.###
+    shipsTripsArray.push(["Amerika(1905-1917)","DE.HAM-US.NYC-1","Hamburg American Line","1905","","","1917","","","132","9.31","10.5","50952","1396.5","2331","89166000","","","","","","","","",""]) ;
+    // ### WARNING: ship "Kaiserina Auguste Victoria(1905-1921+)"'s trips "Hamburg American Line" returned in error.###
+    shipsTripsArray.push(["Empress of Scotland(1921-1930)","GB.SOU-US.NYC-1","Hamburg American Line","1921","","","1930","","","99","9.31","10.5","45441","4450.18","10080","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "George Washington(1905-1917+?)"'s trips "NordDeutscher Lloyd" returned in error.###
+    shipsTripsArray.push(["Kaiserina Auguste Victoria(1906-1921)","DE.HAM-US.NYC-1","Hamburg American Line","1906","","","1921","","","165","9.31","10.5","77880","1619.94","2226","125231040","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Kroonland(1902-1927)","BE.ANR-US.NYC-1","Red Star","1902","","","1927","","","275","9.31","10.5","66550","2886.1","9198","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Finland(1901-1927)","BE.ANR-US.NYC-1","Red Star","1901","","","1927","","","286","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Campania(1897-1918)","GB.LIV-US.NYC-1","Cunard","1897","","","1918","","","231","9.31","10.5","138600","3724","10500","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Lucania(1897-1909)","GB.LIV-US.NYC-1","Cunard","1897","","","1909","","","132","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Pennsylvania(1896-1924)","DE.HAM-US.NYC-1","Hamburg American Line","1896","","","1924","","","308","9.31","10.5","19096","1834.07","25011","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Pretoria(1897-1921)","DE.HAM-US.NYC-1","Hamburg American Line","1897","","","1921","","","264","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Pavia(1898-1899+)"'s trips "Hamburg American Line" returned in error.###
+    shipsTripsArray.push(["Graf Waldersee(1899-1922)","DE.HAM-US.NYC-1","Hamburg American Line","1899","","","1922","","","253","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Patricia(1899-1921)","DE.HAM-US.NYC-1","Hamburg American Line","1899","","","1921","","","242","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Oceanic(1870-1896)","GB.LIV-US.NYC-1","White Star","1870","","","1896","","","286","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Atlantic(1870-1873)","GB.LIV-US.NYC-1","White Star","1870","","","1873","","","33","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Baltic(1871-1889+)"'s trips "White Star" returned in error.###
+    shipsTripsArray.push(["Veendam(1889-1898)","NL.RTM-US.NYC-1","Holland-America Line","1889","","","1898","","","99","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Republic(1871-1889+)"'s trips "White Star" returned in error.###
+    // ### WARNING: ship "Maasdam(1889-1902+)"'s trips "Holland-America Line" returned in error.###
+    // ### WARNING: ship "Vittoria(1902-1902+)"'s trips "La Veloce" returned in error.###
+    shipsTripsArray.push(["Citta` di Napoli(1902-1910)","","La Veloce","1902","","","1910","","","88","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Adriatic(1871-1893+)"'s trips "White Star" returned in error.###
+    shipsTripsArray.push(["Amerika(1893-1899)","","Thingvalla","1893","","","1899","","","66","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Celtic(1872-1893+)"'s trips "White Star" returned in error.###
+    shipsTripsArray.push(["Teutonic(1889-1921)","GB.LIV-US.NYC-1","White Star","1889","","","1921","","","352","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Majestic(1889-1914)","GB.LIV-US.NYC-1","White Star","1889","","","1914","","","275","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Adriatic(1907-1935)","GB.LIV-US.NYC-1","White Star","1907","","","1935","","","308","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Celtic(1901-1928)","GB.LIV-US.NYC-1","White Star","1901","","","1928","","","297","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Cedric(1904-1932)","GB.LIV-US.NYC-1","White Star","1904","","","1932","","","308","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Baltic(1903-1933)","GB.LIV-US.NYC-1","White Star","1903","","","1933","","","330","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Friedrich der Grosse(1896-1917+)"'s trips "Norddeutsche Lloyd" returned in error.###
+    // ### WARNING: ship "Barbarossa(1897-1917+)"'s trips "Norddeutsche Lloyd" returned in error.###
+    // ### WARNING: ship "Konigin Louise(11896-1921+)"'s trips "Norddeutsche Lloyd" returned in error.###
+    // ### WARNING: ship "Bremen(1896-1921+)"'s trips "Norddeutsche Lloyd" returned in error.###
+    // ### WARNING: ship "Konig Albert(1899-1915+)"'s trips "Norddeutsche Lloyd" returned in error.###
+    // ### WARNING: ship "Grosse Kurfurst(1900-1917)"'s trips "Norddeutsche Lloyd" returned in error.###
+    // ### WARNING: ship "Prinzess Irene(1900-1917)"'s trips "Norddeutsche Lloyd" returned in error.###
+    shipsTripsArray.push(["Hamburg(-)","DE.HAM-US.NYC-1","HAPAG","0","","","0","","","0","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Kiautschou(1900-1904+)"'s trips "HAPAG" returned in error.###
+    // ### WARNING: ship "Princess Alice(1904-1917+)"'s trips "Norddeutsche Lloyd" returned in error.###
+    // ### WARNING: ship "Blucher(1901-1917+)"'s trips "HAPAG" returned in error.###
+    // ### WARNING: ship "Moltke(1901-1917+)"'s trips "HAPAG" returned in error.###
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Persia (1st P-class; US Thompson 1898-1929)(1894-1898+)"'s trips "Hapag" returned in error.###
+    shipsTripsArray.push(["Prussia (1st P-class; US Thompson 1898-1929)(1894-1922)","DE.HAM-US.NYC-1","Hapag","1894","","","1922","","","308","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Patria (1st P-class)(1894-1899)","DE.HAM-US.NYC-1","Hapag","1894","","","1899","","","55","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Phoenicia (1st P-class)(1895-1905+)"'s trips "Hapag" returned in error.###
+    // ### WARNING: ship "Palatia (1st P-class)(1895-1905+)"'s trips "Hapag" returned in error.###
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Pennsylvania (2nd P-class)(1897-)","DE.HAM-US.NYC-1","Hapag","1897","","","0","","","-20867","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Pretoria (2nd P-class)(1898-1921)","DE.HAM-US.NYC-1","Hamburg American Line","1898","","","1921","","","253","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Pavia/Graf Wandersee (2nd P-class)(1899-)","DE.HAM-US.NYC-1","Hapag","1899","","","0","","","-20889","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Patricia (2nd P-class)(1899-)","DE.HAM-US.NYC-1","Hapag","1899","","","0","","","-20889","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    // ### WARNING: ship "Bulgaria (B-class)(1898-1913+)"'s trips "Hapag" returned in error.###
+    // ### WARNING: ship "Belgravia (B-class)(1899-1905+)"'s trips "Hapag" returned in error.###
+    // ### WARNING: ship "Batavia (B-class)(1899-1913+)"'s trips "Hapag" returned in error.###
+    shipsTripsArray.push(["??? (B-class)(-)","","Hapag","0","","","0","","","0","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["??? (B-class)(-)","","Hapag","0","","","0","","","0","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","0","7","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Carmania(1905-1932)","GB.LIV-US.NYC-1","Cunard","1905","","","1932","","","297","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Caronia sister of Carmania(1905-)","GB.LIV-US.NYC-1","Cunard","1905","","","0","","","-20955","9.31","10.5","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","0","7","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Bremen(1929-1941)","","Norddeutsche Lloyd","1929","","","1941","","","144","8.4","9.1","0","0","0","0","","","BetweenTheWarsEuropean","","","","","",""]) ;
+    shipsTripsArray.push(["Europa(1930-1945)","","Germany","1930","","","1945","","","180","8.4","9.1","154800","4216.8","5614.7","47214000","","","BetweenTheWarsEuropean","","","","","",""]) ;
+    shipsTripsArray.push(["Liberte'(1946-1962)","","France","1946","","","1962","","","192","8.4","9.1","165120","4216.8","5614.7","50361600","","","PostWWIIEuropeanMigration","","","","","",""]) ;
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["SusanConstant(1606-1615)","","Virginia Company of London","1606","","","1615","","","9","56","84","639","0","0","63900","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Godspeed(1606-1624)","","Virginia Company of London","1606","","","1624","","","18","56","84","0","2184","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Discovery(1602-1611)","","Virginia Company of London","1602","","","1611","","","9","56","84","0","1176","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Mayflower(1609-1624)","","Company of Merchant Adventurers of London","1609","","","1624","","","15","56","84","0","5712","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Winthrop Fleet(1630-1680)","","Massachusetts Bay Company","1630","","","1680","","","50","56","84","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Arbella(1630-1680)","","Massachusetts Bay Company","1630","","","1680","","","50","56","84","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Talbot(1630-1680)","","Massachusetts Bay Company","1630","","","1680","","","50","56","84","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Jewel(1630-1680)","","Massachusetts Bay Company","1630","","","1680","","","50","56","84","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Ark(1634-1640)","","Massachusetts Bay","1634","","","1640","","","6","56","84","0","7168","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Dove(1634-1640)","","Massachusetts Bay","1634","","","1640","","","6","56","84","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["KalmerNyckel(1625-1652)","","Massachusetts Bay","1625","","","1652","","","27","56","84","0","2744","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Concord(1675-1700)","","Massachusetts Bay","1675","","","1700","","","25","56","84","825","0","0","82500","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Dutch Flute(1660-1780)","","Unk","1660","","","1780","","","120","56","84","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["0","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Philly MerchanMerchantman US Philly(1720-1850)","","Unk","1720","","","1850","","","260","42","56","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Typical Snow(1700-1840)","","Unk","1700","","","1840","","","280","42","56","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Marie Seraphique(1700-1840)","","Unk","1700","","","1840","","","280","42","56","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Tynemouth GB Merchantman-Dodd(1700-1840)","","Unk","1700","","","1840","","","280","42","56","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Gale(1740-1860)","","Unk","1740","","","1860","","","240","42","56","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Merchantman-Friedreich(1740-1860)","","Unk","1740","","","1860","","","240","42","56","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["TyicalShipPlaceHolder(1840-1900)","","Unk","1840","","","1900","","","240","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["TyicalShip-Clipper(1840-1900)","","Unk","1840","","","1900","","","240","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Atalanta(1868-1871)","","J. A. Køhler & Co.","1868","","","1871","","","12","28","21","120","0","6174","24000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["EastIndiaman(1760-1830)","","British East India Company","1760","","","1830","","","280","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Grossegler(1780-1870)","","Polish","1780","","","1870","","","360","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Stad Amsterdam(1820-1915)","","Randstad Holding","1820","","","1915","","","380","28","21","10640","0","0","2128000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Manai Straits(1820-1915)","","Brit","1820","","","1915","","","380","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Europa(1760-1830)","","Polish","1760","","","1830","","","280","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Athens(1820-1880)","","US","1820","","","1880","","","240","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["(Additional Notable ModernSail Ships)","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["James Monroe(1815-1850)","","Black Ball Line","1815","","","1850","","","140","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Amity(1816-1824)","","Black Ball Line","1816","","","1824","","","32","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Montezuma(1843-1854)","","Black Ball Line","1843","","","1854","","","44","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Charles H Marshall(1845-1891)","","Black Ball Line","1845","","","1891","","","184","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Meteor(1819-1862)","","Red Star Line","1819","","","1862","","","172","28","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Deutschland(1848-1857)","DE.HAM-US.BAL-1","Hamburg-America Line","1848","","","1857","","","36","28","21","720","0","0","144000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Nord Amerika(1848-1868)","DE.HAM-US.BAL-1","Hamburg-America Line","1848","","","1868","","","80","28","21","1600","0","0","320000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Donau(1853-1867)","DE.HAM-US.BAL-1","Hamburg-America Line","1853","","","1867","","","56","28","21","1120","0","0","224000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Elbe(1849-1964)","DE.HAM-US.BAL-1","Hamburg-America Line","1849","","","1964","","","460","28","21","9200","0","0","1840000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Rhein(1849-1858)","DE.HAM-US.BAL-1","Hamburg-America Line","1849","","","1858","","","36","28","21","720","0","0","144000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Oder(1851-1868)","DE.HAM-US.BAL-1","Hamburg-America Line","1851","","","1868","","","68","28","21","1360","0","0","272000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Brittania(1840-1880)","","British and North American Royal Mail Steam Packet Company","1840","","","1880","","","240","21","14","27600","0","0","3174000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["President(1840-1880)","","British and American Steam Navigation Company","1840","","","1880","","","240","21","14","36960","0","0","14784000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Great Britain(1850-1910)","","Great Western Steamship Company","1850","","","1910","","","360","21","14","129600","0","0","51840000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Great Britain(1850-1910)","","Great Western Steamship Company","1850","","","1910","","","360","21","14","129600","0","0","51840000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Great Britain(1850-1910)","","Great Western Steamship Company","1850","","","1910","","","360","21","14","129600","0","0","51840000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["The County of Sutherland(1850-1910)","","Brit","1850","","","1910","","","360","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["(Additional Notable SteamSail Ships)","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Serius(1837-1847)","","0","1837","","","1847","","","60","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Acadia(1840-1858)","","Brit","1840","","","1858","","","108","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Caledonia(1840-1851)","","Brit","1840","","","1851","","","66","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Columbia(1841-1843)","","Brit","1841","","","1843","","","12","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Hibernia(1843-1850)","","Brit","1843","","","1850","","","42","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Cambria(1845-1860)","","Brit","1845","","","1860","","","90","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["America(1848-1866)","","Brit","1848","","","1866","","","108","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Niagara(1848-1875)","","Brit","1848","","","1875","","","162","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Europe(1849-1867)","","Brit","1849","","","1867","","","108","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Canada(1848-1883)","","Brit","1848","","","1883","","","210","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Great Western(1837-1847)","","0","1837","","","1847","","","60","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Great Eastern(1859-1889)","","0","1859","","","1889","","","180","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Savannah(1818-1821)","","Savannah Steam Ship Company","1818","","","1821","","","18","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Royal William(1831-1860)","","0","1831","","","1860","","","174","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Curacao(1827-1827)","","0","1827","","","1827","","","0","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Atlantic(1827-1827)","","Collins Line","1827","","","1827","","","0","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Baltic(1827-1827)","","Collins Line","1827","","","1827","","","0","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Arctic(1827-1827)","","Collins Line","1827","","","1827","","","0","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Pacific(1827-1827)","","Collins Line","1827","","","1827","","","0","21","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Hammonia(1854-1864)","DE.HAM-US.BAL-1","Hamburg-America Line","1854","","","1864","","","60","21","14","1200","0","0","240000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Borussia(1854-1879)","DE.HAM-US.BAL-1","Hamburg-America Line","1854","","","1879","","","150","21","14","3000","0","0","600000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Saxonia(1854-1879)","DE.HAM-US.BAL-1","Hamburg-America Line","1854","","","1879","","","150","21","14","3000","0","0","600000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Austria(1857-1858)","DE.HAM-US.BAL-1","Hamburg-America Line","1857","","","1858","","","6","21","14","120","0","0","24000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Bavaria(1857-1877)","DE.HAM-US.BAL-1","Hamburg-America Line","1857","","","1877","","","120","21","14","2400","0","0","480000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Teutonia(1854-1873)","DE.HAM-US.BAL-1","Hamburg-America Line","1854","","","1873","","","114","21","14","2280","0","0","456000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Rotterdam(1872-1883)","NL.RTM-US.NYC-1","Holland-America Line","1872","","","1883","","","88","14","12.6","704","0","0","202752","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Maas(1872-1883)","NL.RTM-US.NYC-1","Holland-America Line","1872","","","1883","","","88","14","12.6","1760","0","0","352000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Maasdam(1883-1884)","NL.RTM-US.NYC-1","Holland-America Line","1883","","","1884","","","8","14","12.6","160","0","0","32000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Oceanic(1871-1895)","GB.LIV-US.NYC-1","White Star Line","1871","","","1895","","","192","14","12.6","31872","0","0","31872000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Baltic(1871-1888)","GB.LIV-US.NYC-1","White Star Line","1871","","","1888","","","136","14","12.6","22576","0","0","22576000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Republic(1871-1889)","GB.LIV-US.NYC-1","White Star Line","1871","","","1889","","","144","14","12.6","23904","0","0","23904000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Celtic(1871-1884)","GB.LIV-US.NYC-1","White Star Line","1871","","","1884","","","104","14","12.6","17264","0","0","17264000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Adriatic(1871-1884)","GB.LIV-US.NYC-1","White Star Line","1871","","","1884","","","104","14","12.6","17264","0","0","17264000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Veendam(1888-1898)","NL.RTM-US.NYC-1","Holland-America Line","1888","","","1898","","","80","14","12.6","13280","0","0","13280000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Maasdam(1889-1902)","NL.RTM-US.NYC-1","Holland-America Line","1889","","","1902","","","104","14","12.6","17264","0","0","17264000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Vittoria(1902-1902)","","La Veloce' Navigazione Italiana","1902","","","1902","","","0","14","12.6","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Citta` di Napoli(1902-1909)","","La Veloce' Navigazione Italiana","1902","","","1909","","","56","14","12.6","9296","0","0","13237504","","","","","","","","",""]) ;
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["0","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Petersburg(1870-1910)","","Russia Volunteer Fleet","1870","","","1910","","","280","14","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Pretoria(1897-1921)","DE.HAM-US.BAL-1","Hamburg-America","1897","","","1921","","","168","14","14","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Vaderland(1900-1917)","","Belgium Red Star","1900","","","1917","","","119","14","14","40698","2716","8764","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Europa(1930-1945)","","Italy","1930","","","1945","","","105","14","14","90300","7028","8638","27541500","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Maasdam(1952-1968)","","Russia","1952","","","1968","","","112","14","14","4368","11788","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Laconia(1912-1917)","GB.LIV-US.BOS-1","Cunard","1912","","","1917","","","35","14","14","2800","4200","4900","6160000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["(Additional Notable SteamSail Ships)","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Rotterdam(1908-1940)","NL.RTM-US.NYC-1","Holland-America Line","1908","","","1940","","","224","14","14","38976","0","0","31180800","","","","","","","","",""]) ;
+    shipsTripsArray.push(["NieuwAmsterdam(1905-1932)","NL.RTM-US.NYC-1","Holland-America Line","1905","","","1932","","","189","14","14","32886","0","0","26308800","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Maasdam(1921-1941)","NL.RTM-US.NYC-1","Holland-America Line","1921","","","1941","","","140","14","14","24360","0","0","19488000","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Leerdam(1921-1943)","NL.RTM-US.NYC-1","Holland-America Line","1921","","","1943","","","154","14","14","26796","0","0","21436800","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Edam(1921-1953)","NL.RTM-US.NYC-1","Holland-America Line","1921","","","1953","","","224","14","14","38976","0","0","31180800","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Spaarndam(1922-1939)","NL.RTM-US.NYC-1","Holland-America Line","1922","","","1939","","","119","14","14","20706","0","0","16564800","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Statendam(1956-1982)","NL.RTM-US.NYC-1","Holland-America Line","1956","","","1982","","","182","14","14","0","0","0","0","","","PostWWIIEuropeanMigration","","","","","",""]) ;
+    shipsTripsArray.push(["Rotterdam(1959-1997)","NL.RTM-US.NYC-1","Holland-America Line","1959","","","1997","","","266","14","14","0","0","0","0","","","PostWWIIEuropeanMigration","","","","","",""]) ;
+    shipsTripsArray.push(["(-)","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Airbus330(1994-2018)","","NorthWest","1994","","","2018","","","7608","0.574","0.574","266280","172.2","0","0","","","EraOfAirTravel","","","","","",""]) ;
+    shipsTripsArray.push(["Boeing 707-320B(1958-1995)","","TWA","1958","","","1995","","","6401","0.7","1.4","128020","84","0","0","","","EraOfAirTravel","","","","","",""]) ;
+    shipsTripsArray.push(["Boeing-377(1949-1963)","","PanAm","1949","","","1963","","","840","0.84","2.8","11760","84","0","0","","","EraOfAirTravel","","","","","",""]) ;
+    shipsTripsArray.push(["LockheedC21Constellation(1945-1992)","","American","1945","","","1992","","","2820","0.84","2.8","225600","0","0","0","","","EraOfAirTravel","","","","","",""]) ;
+    shipsTripsArray.push(["McDonnell-DouglasMD-83(DC10)(1971-2002)","","AeroFlot","1971","","","2002","","","9827","0.574","0.574","412734","96.432","0","0","","","EraOfAirTravel","","","","","",""]) ;
+    shipsTripsArray.push(["Sukhoi-Superjet100(2008-2018)","","AeroFlot","2008","","","2018","","","3170","0.574","0.574","0","68.88","0","0","","","EraOfAirTravel","","","","","",""]) ;
+    shipsTripsArray.push(["0","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["St.Paul(1895-1923)","","American","1895","","","1923","","","224","14","12.6","71680","2800","11340","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["0","","0","0","","","0","","","0","0","0","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Known Ship placeholder (1585-1790)","","Various","1585","","","1790","","","205","70","84","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Known Ship placeholder (1791-1850)","","Various","1791","","","1850","","","118","42","56","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Known Ship placeholder (1851-1890)","","Various","1851","","","1890","","","195","21","42","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Known Ship placeholder (1891-1918)","","Various","1891","","","1918","","","216","14","28","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Known Ship placeholder (1919-1964)","","Various","1919","","","1964","","","585","7","21","0","0","0","0","","","","","","","","",""]) ;
+    shipsTripsArray.push(["Known Ship placeholder (1965-2020)","","Various","1965","","","2020","","","9515","0.7","1.4","0","0","0","0","","","","","","","","",""]) ;
+
+    // ### setting for search DB by name... ###
+    var searchShipName = localStorage.shipName ;
+    
+    function shipRepresentativeOfYear(currTimelineYear) {
+    /*
+    "https://cdn.shopify.com/s/files/1/1336/0641/files/EarlySailKnownShipIconLabeled.png" ;
+    "https://cdn.shopify.com/s/files/1/1336/0641/files/ModernSailKnownShipIconLabeled.png" ;
+    "https://cdn.shopify.com/s/files/1/1336/0641/files/SteamSailKnownShipIconLabeled.png" ;
+    "https://cdn.shopify.com/s/files/1/1336/0641/files/ClassicPssgrLinerKnownShipIconLabeled.png" ;
+    "https://cdn.shopify.com/s/files/1/1336/0641/files/PssgrLinerKnownShipIconLabeled.png" ;
+    Ryndam_1951-1970_-mdlrend.png
+    "https://cdn.shopify.com/s/files/1/1336/0641/files/AgeOfAirTravelKnownPlaneIconLabeled.png" ;
+    */
+        var shipFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+        var shipImage ;
+        var shipImageSize = 200 ;
+        var shipSizeSuffix = '_'+shipImageSize+'x'+shipImageSize ;
+        var shipImageAlt ;
+        if      (Number(currTimelineYear)<=1619) {
+          shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "EarlySail(1585?-1607)" ;
+        } //
+        else if (Number(currTimelineYear)<=1630) {
+          shipImage = "Mayflower_1604-1624_jimaworksMade-JenV-300ppi"+shipSizeSuffix+".png" ;
+          shipImageAlt = "Mayflower(1609?-1624?)" ;
+        }
+        else if (Number(currTimelineYear)<=1645) {
+          shipImage = "The_Arbella_1610-1640_-640x391-postcd"+shipSizeSuffix+".png" ;
+          shipImageAlt = "Arabella(1625?-1640?)" ;
+        }
+        else if (Number(currTimelineYear)<=1675) {
+          shipImage = "WinthropFleet-painting"+shipSizeSuffix+".png" ;
+          shipImageAlt = "WinthropFleet(1630-1640)" ;
+        }
+        else if (Number(currTimelineYear)<=1675) {
+          shipImage = "MarieSeraphique-painting"+shipSizeSuffix+".jpg" ;
+          shipImageAlt = "Marie Seraphique (1720-1820)" ;
+        }
+        else if (Number(currTimelineYear)<=1700) {
+          shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1725) {
+          shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1750) {
+          shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1784) {
+          shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1800) {
+          shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1815) {
+          shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1825) {
+          shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1835) {
+          shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1840) {
+          shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1845) {
+          shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1850) {
+          shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1855) {
+          shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1860) {
+          shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1865) {
+          shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1870) {
+          shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1875) {
+          shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1880) {
+          shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1885) {
+          shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1890) {
+          shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1895) {
+          shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1900) {
+          shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1905) {
+          shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1910) {
+          shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1914) {
+          shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1919) {
+          shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1923) {
+          shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1938) {
+          shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1946) {
+          shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1950) {
+          shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1960) {
+          shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1970) {
+          shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1980) {
+          shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=1990) {
+          shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=2000) {
+          shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=2010) {
+          shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+        }
+        else if (Number(currTimelineYear)<=2016) {
+          shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+        }
+        else if (currTimelineYear=="Present") {
+          shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+        }
+        else {
+          shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+          shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+        }
+    
+        return [shipFilePrefix+shipImage, shipImageAlt] ;
+    }
+    
+    
+    function displayCurrentShip(webShipImg) {
+      console.log("displayCurrentShip(webShipImg=="+webShipImg+")") ;
+      var shopifyFilePreFix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+      var shopifyFileSufFix = "?16338137725744926710" ; // ### don't think this is ever needed ###
+      var shopifiedShipImg ;
+    
+      //var ImgOverlayHTML = '<div style=\"position: relative; top: 60px; left: 100px; z-index: 0; text-shadow: 1px 1px 0px Ivory;\">' ;
+      var ImgOverlayHTML = "";
+    
+      /* map */
+      //   ImgOverlayHTML +=   '<img src=' + webMapImg ;
+      //   ImgOverlayHTML +=   'class=\"map\" style=\"width: 400px; height: auto;\" />' ;
+    
+    
+      /* ship */
+      //  ### okay, so here, need to get the years for the current ship and compare to the earlies-latest year of voyage ###
+      //  ### may also want to check for the geographical area ###
+      //  ### then ask if want to keep or change (One? Both? )  List as warnings? ###
+    
+      if (!webShipImg) {
+        if(localStorage.shipPics == undefined) {
+          if(localStorage.YearOfCrossing == undefined) {
+            shopifiedShipImg = shipRepresentativeOfYear(1907)[0] ;
+            //alert("1.shopifiedShipImg="+shopifiedShipImg) ;
+          }
+          else {
+            shopifiedShipImg = shipRepresentativeOfYear(localStorage.YearOfCrossing)[0] ;
+            //alert("2.shopifiedShipImg="+shopifiedShipImg) ;
+          }
+        }
+        else {
+          shopifiedShipImg = localStorage.shipPics ;
+          //alert("3.shopifiedShipImg="+shopifiedShipImg) ;
+        }
+      }
+      else {
+        shopifiedShipImg = '\"' + shopifyFilePreFix + webShipImg.replace("(", "_").replace(")", "_") + '\"';
+        //alert("4.shopifiedShipImg="+shopifiedShipImg) ;
+      }
+    
+      var ImgOverlayHTML = '' ;
+    
+      /* map */
+    
+      /* ship display */
+      /*        ImgOverlayHTML +=   '<div style=\"position: absolute; top: 120px; left: 120px; z-index: 3;\">' ;  */
+      ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 100px; left: 280px; z-index: 3;\">' ;
+      ImgOverlayHTML +=     '<img src=' + shopifiedShipImg ;
+      ImgOverlayHTML +=     ' class=\"ship\" width=\"400px\" height=\"auto\"' ;
+      ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
+      /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
+      ImgOverlayHTML +=     '\" />' ;
+      ImgOverlayHTML +=   '</div>' ;
+    
+      /* ship info */
+      ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 130px; left: 115px; z-index: 25; line-height: 0.8;  font-size: 8px; text-align: center; \">' ;
+      ImgOverlayHTML +=   '<p>'+localStorage.ShipInfoLine1 ;
+      ImgOverlayHTML +=   '<br>'+localStorage.ShipInfoLine2+'</p>' ;
+      ImgOverlayHTML +=   '</div>' ;
+    
+      //ImgOverlayHTML += '</div>' ;
+    
+      /*
+      console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
+      alert("ImgOverlayHTML="+ImgOverlayHTML) ;
+      */
+      document.getElementById("shipDisplay").innerHTML = ImgOverlayHTML;
+    }
+    
+    displayCurrentShip("") ;
+    // ]]>
+
+    // need to be able to look up ship info or image or routes by ship name...
+    // must set local var "searchShipName" first...
+    
+    function shipLookup(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      /*
+      var currentEraIndex = eraIndex ;
+      var eraStartYr = eraStartArray[currentEraIndex] ;
+      var eraEndYr = eraEndArray[currentEraIndex] ;
+      */
+      var shipName = shipInfo[nameIndex] ;
+      var savePrevMatchTgt = matchTarget ;
+      matchTarget = searchShipName ;
+      matchResult = (shipName == matchTarget) ;
+      console.log("(shipName["+shipName+"] == matchTarget["+matchTarget+"])=="+matchResult) ;
+      matchTarget = savePrevMatchTgt ;
+      return (matchResult) ;
+    }
+
+    /*
+    jimaworksShipIDIndex =  shipInfoArray[0].indexOf("jimaworksShipID") ;
+    nameIndex =  shipInfoArray[0].indexOf("Ship Name") ;
+    eraIndex =  shipInfoArray[0].indexOf("Era") ;
+    operatorIndex =  shipInfoArray[0].indexOf("Operator") ;
+    classIndex =  shipInfoArray[0].indexOf("Category") ;
+    careerStartIndex =  shipInfoArray[0].indexOf("CareerStart") ;
+    careerEndIndex =  shipInfoArray[0].indexOf("CareerEnd") ;
+    totalPsgrsIndex =  shipInfoArray[0].indexOf("TotImmigrantsCarried(1000's)") ;
+    LengthIndex =  shipInfoArray[0].indexOf("LOA") ;
+    WidthIndex =  shipInfoArray[0].indexOf("Beam") ;
+    DraftIndex =  shipInfoArray[0].indexOf("Drft") ;
+    NumFirstClassIndex =  shipInfoArray[0].indexOf("Psgrs-1stC") ;
+    NumSecondClassIndex =  shipInfoArray[0].indexOf("Psgrs-2ndC") ;
+    NumThirdClassIndex =  shipInfoArray[0].indexOf("Psgrs-3rdC") ;
+    NumSteerageIndex =  shipInfoArray[0].indexOf("Steerage capacity") ;
+    */
+    function updateShipInfoTextBox() {
+      var prevSearchShipName = searchShipName ;
+      var selectedShipInfo ;
+      var num1stClassPsgrs ;
+      var Num2ndClassCPsgrs ;
+      var Num3rdClassCPsgrs ;
+      var numSteeragePsgrs ;
+      var totPsgrs ;
+      var estDuration ;
+    
+      searchShipName = localStorage.shipName ;
+      selectedShipInfo = shipInfoArray.filter(shipLookup) ;
+    
+      console.log("--------------------------------------- + " + NumFirstClassIndex );
+
+      num1stClassPsgrs = selectedShipInfo[0][NumFirstClassIndex] ;
+      num2ndClassPsgrs = selectedShipInfo[0][NumSecondClassIndex] ;
+      num3rdClassPsgrs = selectedShipInfo[0][NumThirdClassIndex] ;
+      numSteeragePsgrs = selectedShipInfo[0][NumSteerageIndex] ;
+    
+      if((num1stClassPsgrs == undefined)
+         &(num2ndClassPsgrs == undefined)
+         &(num3rdClassPsgrs == undefined)
+         &(numSteeragePsgrs == undefined)) {
+           totPsgrs = undefined ;
+         }
+      else {
+        
+          if(num1stClassPsgrs == undefined) {
+            num1stClassPsgrs = 0 ;
+          }
+          else if(Number(num1stClassPsgrs)) {
+            num1stClassPsgrs = Number(num1stClassPsgrs) ;
+          }
+          else {
+              num1stClassPsgrs = 0 ;  // ### but are there textual numberic signals in this var? ###
+          }
+          console.log("selectedShipInfo[0][NumFirstClassIndex]"+selectedShipInfo[0][NumFirstClassIndex]+" num1stClassPsgrs="+num1stClassPsgrs) ;
+    
+          if(num2ndClassPsgrs == undefined) {
+            num2ndClassPsgrs = 0 ;
+          }
+          else if(Number(num2ndClassPsgrs)) {
+            num2ndClassPsgrs = Number(num2ndClassPsgrs) ;
+          }
+          else {
+              num2ndClassPsgrs = 0 ;  // ### but are there textual numberic signals in this var? ###
+          }
+          console.log("selectedShipInfo[0][NumSecondClassIndex]"+selectedShipInfo[0][NumSecondClassIndex]+" num2ndClassPsgrs="+num2ndClassPsgrs) ;
+    
+          if(num3rdClassPsgrs == undefined) {
+            num3rdClassPsgrs = 0 ;
+          }
+          else if(Number(num3rdClassPsgrs)) {
+            num3rdClassPsgrs = Number(num3rdClassPsgrs) ;
+          }
+          else {
+              num3rdClassPsgrs = 0 ;  // ### but are there textual numberic signals in this var? ###
+          }
+          console.log("selectedShipInfo[0][NumThirdClassIndex]"+selectedShipInfo[0][NumThirdClassIndex]+" num3rdClassPsgrs="+num3rdClassPsgrs) ;
+    
+          if(numSteeragePsgrs == undefined) {
+            numSteeragePsgrs = 0 ;
+          }
+          else if(Number(numSteeragePsgrs)) {
+            numSteeragePsgrs = Number(numSteeragePsgrs) ;
+          }
+          else {
+              numSteeragePsgrs = 0 ;  // ### but are there textual numberic signals in this var? ###
+          }
+          console.log("selectedShipInfo[0][NumThirdClassIndex]"+selectedShipInfo[0][NumSteerageIndex]+" umSteeragePsgrs="+numSteeragePsgrs) ;
+    
+          totPsgrs =  num1stClassPsgrs
+                      + num2ndClassPsgrs
+                      + num3rdClassPsgrs
+                      + numSteeragePsgrs ;    
+      }
+      estDuration = "1-2 Weeks" ;
+      selectedShipInfoL1 = localStorage.shipName+', '+ localStorage.shippingLine;
+      if (selectedShipInfo[0][LengthIndex]!=undefined){
+        selectedShipInfoL2  = "Length "+selectedShipInfo[0][LengthIndex]; 
+        if(totPsgrs!=undefined) {
+          selectedShipInfoL2 += ", Psgrs  "+totPsgrs ;      
+        }
+        selectedShipInfoL2 += ", Voyage "+ estDuration ;
+      }
+      else {
+        if(totPsgrs!=undefined) {
+          selectedShipInfoL2 = "Psgrs  "+totPsgrs ;
+          selectedShipInfoL2 += ", Voyage "+ estDuration ;      
+        }
+        else {
+          selectedShipInfoL2 = "Voyage "+ estDuration ;      
+        }
+      }
+    
+      //alert("selectedShipInfoL1=="+selectedShipInfoL1) ;
+      //alert("selectedShipInfoL2: L==" + selectedShipInfo[0][LengthIndex] + " totPsgrs==" + totPsgrs + " estDuration==" + estDuration) ;
+      document.getElementById("shipInfoTextBoxL1").innerHTML = selectedShipInfoL1 ;
+      document.getElementById("shipInfoTextBoxL2").innerHTML = selectedShipInfoL2 ;
+      //'Career Passengers: '+localStorage.shipTotPsgrsVolume ;
+    }
+    updateShipInfoTextBox() ;
+    
+    /*
+    RecordNewShipChoice(
+          thisShipsjimaworksShipID,
+          thisShipIndex,
+          currentImageName,
+          shipImageURL,
+          shipImageType,
+          shipImageBackground,
+          jimaworksMade,
+          eraIndex) ;
+    
+          function RecordNewShipChoice(selectedShipInfo, shipIndex, shipImageIndex, shipImageArray, shipImageBackground, eraIndex) {
+    */
+    function RecordNewShipChoice(
+          thisShipsjimaworksShipID,
+          thisShipIndex,
+          currentImageName,
+          shipImageURL,
+          shipImageType,
+          shipImageBackground,
+          jimaworksMade,
+          eraIndex) {
+    
+      var selectedShipInfo = filteredArray[thisShipIndex] ;
+    
+      console.log(  "RecordNewShipChoice:" +
+      " thisShipsjimaworksShipID=="+ thisShipsjimaworksShipID +
+      " thisShipIndex=="+ thisShipIndex +
+      " shipName==selectedShipInfo[nameIndex]=="+ selectedShipInfo[nameIndex] +
+      " shippingLine==selectedShipInfo[operatorIndex]=="+ selectedShipInfo[operatorIndex] +
+      " shipTotPsgrVolume==selectedShipInfo[totalPsgrsIndex]=="+ selectedShipInfo[totalPsgrsIndex] +
+      " shipCareerStart==selectedShipInfo[careerStartIndex]=="+ selectedShipInfo[careerStartIndex] +
+      " shipCareerEnd==selectedShipInfo[careerEndIndex]=="+ selectedShipInfo[careerEndIndex]) ;
+    
+      console.log(  "  shipImage:" +
+      " currentImageName=="+ currentImageName +
+      " shipImageURL=="+ shipImageURL +
+      " shipImageType=="+ shipImageType +
+      " shipImageBackground=="+ shipImageBackground +
+      " jimaworksMade=="+ jimaworksMade +
+      " eraIndex=="+ eraIndex) ;
+    
+      localStorage.currentShipArrayIndex = thisShipIndex ; // ### Ay!  ANOTHER localStorage var! ###
+      localStorage.setItem("TransportCraft", selectedShipInfo[jimaworksShipIDIndex]) ;
+      localStorage.setItem("shipName", selectedShipInfo[nameIndex]) ;
+      localStorage.setItem("shippingLine", selectedShipInfo[operatorIndex]) ;
+      localStorage.setItem("shipTotPsgrVolume", selectedShipInfo[totalPsgrsIndex]) ;
+      localStorage.setItem("shipCareerStart", selectedShipInfo[careerStartIndex]) ; /*  ### shipCareerBegin? ### */
+      localStorage.setItem("shipCareerEnd", selectedShipInfo[careerEndIndex]) ; /*  ### shipCareerBegin? ### */
+      //### localStorage.setItem("shipImageIndex", shipImageIndex) ; fixups...###
+      localStorage.setItem("shipImageName", currentImageName) ;
+      localStorage.setItem("shipPic", currentImageName) ;
+      //localStorage.setItem("shipPic", shipImageURL) ;
+      // ### note that if transparent background, this is a jimaworks-made ship ###
+      localStorage.setItem("shipImageTransparentBackground", shipImageBackground) ;
+    
+      localStorage.userProvidedShipName = false ;
+    
+      console.log("shipImageTransparentBackground=="+shipImageBackground) ;
+      scroll(0,0) ;
+      displayCurrentShip(localStorage.shipPic) ;
+    
+      updateShipInfoTextBox() ;
+    
+      /*
+      window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
+      */
+    }
+
+    // ### This should be set by a checkbox
+    // and all checked filters should be applied ###
+    function setFilterCraftMethod() {
+      methodName=document.getElementById("shipFilter").value ;
+      if (methodName=="airplaneOnlyFilter") {
+        localStorage.shipFilter='airplaneOnlyFilter';
+      }
+      else if (methodName=="shipOnlyFilter") {
+        localStorage.shipFilter='shipOnlyFilter';
+      }
+      else if (methodName=="noFilter") {
+        localStorage.shipFilter='noFilter';
+      }
+      else if (methodName=="eraFilter") {
+        localStorage.shipFilter='eraFilter';
+      }
+      else if (methodName=="filterByYearInterval") {
+        localStorage.shipFilter='filterByYearInterval';
+      }
+      else if (methodName=="filterByYear") {
+        localStorage.shipFilter='filterByYear';
+      }
+      else {
+        alert("unrecognized filter option in setShipFilterMethod(methodName=="+methodName+")") ;
+      } ;
+      presentCraftOfCrossingOptions () ;
+    }
+    
+    // ### This should be set by a checkbox
+    // and all checked filters should be applied ###
+    function applySelectedFilters() {
+      methodName=document.getElementById("shipFilter").value ;
+      selectedFilters=[];
+      if (methodName=="airplaneOnlyFilter") {
+        selectedFilters.push('airplaneOnlyFilter');
+      }
+      else if (methodName=="shipOnlyFilter") {
+        selectedFilters.push('shipOnlyFilter') ;
+      }
+      else if (methodName=="noFilter") {
+        selectedFilters.push('noFilter') ;
+      }
+      else if (methodName=="eraFilter") {
+        selectedFilters.push('eraFilter') ;
+      }
+      else if (methodName=="filterByYearInterval") {
+        selectedFilters.push('filterByYearInterval') ;
+      }
+      else if (methodName=="filterByYear") {
+        selectedFilters.push('filterByYear') ;
+      }
+      else {
+        alert("unrecognized filter option in setShipFilterMethod(methodName=="+methodName+")") ;
+      } ;
+      presentCraftOfCrossingOptions () ;
+    }
+    
+    function setShipSortMethod() {
+      methodName=document.getElementById("shipSort").value ;
+      if (methodName=="lexical-closeness") {
+        localStorage.ShipSort='lexical-closeness';
+      }
+      else if (methodName=="alpha") {
+        localStorage.ShipSort='alpha';
+      }
+      else if (methodName=="rev-alpha") {
+        localStorage.ShipSort='rev-alpha';
+      }
+      else if (methodName=="passengers") {
+        localStorage.ShipSort='passengers';
+      }
+      else if (methodName=="year") {
+        localStorage.ShipSort='year';
+      }
+      else if (methodName=="rev-year") {
+        localStorage.ShipSort='rev-year';
+      }
+      else {
+        alert("unrecognized sort option in setShipSortMethod(methodName=="+methodName+")") ;
+      } ;
+      /*
+      location.reload();
+      */
+      presentCraftOfCrossingOptions () ;
+    }
+
+    function sortByName(ship1Info, ship2Info) {
+      var comparison = 0;
+      var ship1Name = ship1Info[nameIndex] ;
+      var ship2Name = ship2Info[nameIndex] ;
+      if (ship1Name > ship2Name) {
+        comparison = 1; /* note:  want ordered by the most to least */
+      } else if (ship2Name > ship1Name) {
+        comparison = -1; /* note:  want ordered by the most to least */
+      }
+      return comparison;
+    } ;
+
+    function sortByTotPsgrs(ship1Info, ship2Info) {
+      var comparison = 0;
+      var ship1TotPsgrs = Number(ship1Info[totalPsgrsIndex]) ;
+      var ship2TotPsgrs = Number(ship2Info[totalPsgrsIndex]) ;
+      if (ship1TotPsgrs > ship2TotPsgrs) {
+        comparison = -1; /* note:  want ordered by the most to least */
+      } else if (ship2TotPsgrs > ship1TotPsgrs) {
+        comparison = 1; /* note:  want ordered by the most to least */
+      }
+      return comparison;
+    } ;
+
+    function sortByCareerStart(ship1Info, ship2Info) {
+      var comparison = 0;
+      var ship1StartYr = Number(ship1Info[careerStartIndex]) ;
+      var ship2StartYr = Number(ship2Info[careerStartIndex]) ;
+      if (ship1StartYr > ship2StartYr) {
+        comparison = 1;
+      } else if (ship2StartYr > ship1StartYr) {
+        comparison = -1;
+      }
+      return comparison;
+    } ;
+
+    /* this requires the target string "localStorage.userProvidedShipName" to be set up first */
+    function sortByNearnessToNameStart(ship1Info, ship2Info) {
+      var tgtShipName = localStorage.userProvidedShipName;
+      var ship1NameMatch = levenshteinProbEst(tgtShipName, ship1Info[nameIndex]) ;
+      var ship2NameMatch = levenshteinProbEst(tgtShipName, ship2Info[nameIndex]) ;
+      if (ship1NameMatch > ship2NameMatch) {
+        comparison = -1;
+      } else if (ship2NameMatch > ship1NameMatch) {
+        comparison = 1;
+      }
+      return comparison;
+    } ;
+    
+    // helper functions
+    var levenshteinProbEst = function(str1, str2) {
+      var levenshteinScore = levenshtein(str1, str2);
+      var targetStrLn = str1.length ;
+      var matchStrLn = str2.length ;
+      if (targetStrLn>=matchStrLn) {
+        return 1.0-(levenshteinScore/targetStrLn) ;
+      }
+      else {
+        return 1.0-(levenshteinScore/matchStrLn) ;
+      }
+    } ;
+    
+    var levenshtein = function(str1, str2) {
+      var current = [], prev, value;
+      for (var i = 0; i <= str2.length; i++) {
+        for (var j = 0; j <= str1.length; j++) {
+          if (i && j)
+          if (str1.charAt(j - 1) === str2.charAt(i - 1))
+          value = prev;
+          else
+          value = Math.min(current[j], current[j - 1], prev) + 1;
+          else
+          value = i + j;
+    
+          prev = current[j];
+          current[j] = value;
+        }
+      }
+      return current.pop();
+    };
+    
+    var testLevScores = function(tgtStr) {
+      var current = [] ;
+      for (var i = 1; i < shipInfoArray.length; i++) {
+        current[i] = levenshteinProbEst(tgtStr, shipInfoArray[i][nameIndex]) ;
+        console.log(i+": levenshteinProbEst("+tgtStr+","+shipInfoArray[i][nameIndex]+")="+current[i]) ;
+      }
+      return current;
+    };
+
+    function filterByEra(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+    
+      var currentEra = localStorage.Era ;
+      var shipEra = shipInfo[eraIndex] ;
+      return (shipEra==currentEra) ;
+    
+    }
+
+    function filterByRoute(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      var portsVisitedByShip = getListOfPorts(getListOfRoutes(shipInfo[shipsRoutesIndex])) ;
+      return(portsVisitedByShip.includes(localStorage.arrivalPort)
+      &&
+      portsVisitedByShip.includes(localStorage.departurePort)) ;
+    }
+
+    // ### this is OBE since now working with intervals ###
+    function filterByYear(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      var comparison = 0;
+      var crossingYr = localStorage.YearOfCrossing ;
+      var shipStartYr = Number(shipInfo[careerStartIndex]) ;
+      var shipEndYr = Number(shipInfo[careerEndIndex]) ;
+    
+      return ((shipStartYr <= crossingYr) && (crossingYr <= shipEndYr)) ;
+    }
+
+    // now working with user-specified interval vs begin to end of era
+    function filterByYearInterval(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      /*
+      var currentEraIndex = eraIndex ;
+      var eraStartYr = eraStartArray[currentEraIndex] ;
+      var eraEndYr = eraEndArray[currentEraIndex] ;
+      */
+      var shipStartYr = Number(shipInfo[careerStartIndex]) ;
+      var shipEndYr = Number(shipInfo[careerEndIndex]) ;
+      var EarliestPossYr = Number(localStorage.EarliestPossibleYearOfCrossing) ;
+      var LatestPossYr = Number(localStorage.LatestPossibleYearOfCrossing) ;
+      //return ((shipEndYr >= eraStartYr) && (shipEndYr <= eraEndYr)) ;  <<< ### error ###
+      return ((shipEndYr >= EarliestPossYr) && (shipStartYr <= LatestPossYr)) ;
+    }
+
+    function shipOnlyFilter(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      var shipEra = shipInfo[eraIndex] ;
+      return (!(shipEra=="EraOfAirTravel(1945-Present)")) ;
+    }
+
+    function airplaneOnlyFilter(shipInfo) {  /* 1994-2018  vs 1895-1970 */
+      var shipEra = shipInfo[eraIndex] ;
+      return ((shipEra=="EraOfAirTravel(1945-Present)")) ;
+    }
+
+    /*
+        * Add functions that implement Obj-Attrib-Value model for ships
+        */
+    
+        /*
+        * Access functions etc for shipsRoutes.
+        * Route representation as the value of attribute "shipsRoutes":
+        * "startYr-endYr[DepPort>Port2>...ArrivalPort>DepPort]&&...startYrK-endYrK[DepPortK>PortK2>...ArrivalPortK>DepPortK]"
+        * "startYr-endYr[DepPortA++DepPortB>Port2>...ArrivalPort>DepPort]&&...startYrK-endYrK[DepPortK>PortK2>...ArrivalPortK>DepPortK]"
+        * >>adding: "startYr-endYr[@OperatorLineName#1]&&...startYrK-endYrK[DepPortK>PortK2>...ArrivalPortK>DepPortK]"
+        * >>adding: "startYr-endYr[*Any]&&...startYrK-endYrK[DepPortK>PortK2>...ArrivalPortK>DepPortK]"
+        * A ship with no pr empty "shipsRoutes" is available for any routes, any times.
+        */
+    
+        var testRoute1 = "1895-1900[Liverpool>Dublin>Halifax>NYC>Liverpool]" ;
+        var testRoute2 = "1900-1915[Liverpool>Dublin>leHavre>Halifax>NYC>Liverpool]" ;
+        var testRoute3 = "1919-1931[Liverpool>Dublin>Southampton>leHavre>Halifax>NYC>Liverpool]" ;
+        var testRouteHist = testRoute1 + "&&" + testRoute2 + "&&" + testRoute3 ;
+        function getListOfRoutes(routeHistoryStruct) {
+          var listOfRouteEpochs = routeHistoryStruct.split("&&") ;
+          return(listOfRouteEpochs) ;
+        }
+    
+        function getListOfPorts(routeEpoch) {
+          var route = splitYrStartEndFromRouteEpochStruct(routeEpoch) ;
+          var routeMinusBrackets = route.slice(1,-1) ;
+          var listOfStations = routeMinusBrackets.split(">") ;
+          var listOfPortsInStation = "" ;
+          var listOfPorts = Array() ;
+          for(i=0; i<listOfStations.length; i++) {
+            listOfPortsInStation = listOfStations[i].split("++") ;
+            for(j=0; j<listOfPortsInStation.length; j++) {
+              if (listOfPorts.includes(listOfPortsInStation[j])) {
+                continue ;
+              }
+              else {
+                listOfPorts.push(listOfPortsInStation[j]) ;
+              }
+            }
+          }
+          return(listOfPorts) ;
+        }
+    
+        function splitYrStartEndFromRouteEpochStruct(routeEpoch) {
+          var bracketedRoute = routeEpoch.replace(/[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]\[/,"[") ;
+          return(bracketedRoute) ;
+          var route = bracketedRoute.slice(1,-1) ;
+          return(route) ;
+        }
+    
+        function startYearOfRouteEpochStruct(routeEpoch) {
+          var routeStartYear = routeEpoch.match(/[0-9][0-9][0-9][0-9]/) ;
+          return(routeStartYear[0]) ;
+        }
+    
+        function endYearOfRouteEpochStruct(routeEpoch) {
+          var routeEndYearTrailer = routeEpoch.match(/-[0-9][0-9][0-9][0-9]/) ;
+          var routeEndYear = routeEndYearTrailer[0].match(/[0-9][0-9][0-9][0-9]/) ;
+          return(routeEndYear[0]) ;
+        }
+
+    var knownShipPlaceholderArray =  [
+      ["ID","name","era", "operator", "class", "careerStart","careerEnd","totalPsgrs",
+      "imagery",
+      "background"]
+    ] ;
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1565-1790)", "Known Ship placeholder (1565-1790)", "ColonialAndEarlyIndependenceEra(1607-1840)", "Unk", "Flute", 1585, 1790, 300, "EarlySailKnownShipIconLabeled.png", "transparent"]);
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1790-1850)", "Known Ship placeholder (1790-1850)", "EraOfModernSail(1790-1890)", "Unk", "3MastedMerchant", 1790, 1850, 800, "ModernSailKnownShipIconLabeled.png", "transparent"]);
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1850-1890)", "Known Ship placeholder (1850-1890)", "EraOfTheSteamSailShip(1840-1915)", "Unk", "SteamSail", 1850, 1890, 1000, "SteamSailKnownShipIconLabeled.png", "transparent"]);
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1890-1920)", "Known Ship placeholder (1890-1920)", "EraOfThePassengerLiner(1890-1920)", "Unk", "SteamShip", 1890, 1920, 2500, "ClassicPssgrLinerKnownShipIcon.png", "transparent"]);
+      knownShipPlaceholderArray.push(["Known Ship placeholder (1920-1970)", "Known Ship placeholder (1920-1970)", "EraOfThePassengerLiner(1920-1970)", "Unk", "MotorShip", 1920, 1970, 800, "PssgrLinerKnownShipIconLabeled.png", "transparent"]);
+    knownShipPlaceholderArray.push(["Known Ship placeholder (1945-Present)", "Known Plane placeholder (1945-Present)", "EraOfAirTravel(1945-Present)", "Unk", "Airplane", 1945, 2020, 1500, "AgeOfAirTravelKnownPlaneIconLabeled.png", "transparent"]);
+    
+    /*
+    * Structures for port sets
+    */
+    var AllKnownShipPorts  = "" ;
+    AllKnownShipPorts += "1600-2020" ;
+    AllKnownShipPorts += "[1600-2020]" ;
+
+    var shipImgNoBackgroundTypes = ['colprfl', '2Drend', 'halfmdl', 'fullmdl'] ;
+    function shipImageHasBackground(shipsImageArray){
+      // no background if img type is colprfl, 2Drend, halfmdl, or fullmdl
+      console.log("shipImageHasBackground(shipsImageArray=="+shipsImageArray+")") ;
+      if(shipImgNoBackgroundTypes.includes(shipsImageArray[imageArrayImgTypeIndex])) {
+        return false ;
+      }
+      else {
+        return true ;
+      }
+    }
+
+    function jimaworksMadeShipImage(shipsImageArray){
+      // no background if img type is colprfl, 2Drend, halfmdl, or fullmdl
+      console.log("jimaworksMadeShipImage(shipsImageArray=="+shipsImageArray+")") ;
+      if(shipImgNoBackgroundTypes.includes(shipsImageArray[imageArrayImgTypeIndex])&
+         shipsImageArray[imageArraySourceIndex]=='jimaworks' &
+         shipsImageArray[imageArrayRightsIndex]=='jimaworks') {
+           //localStorage.jimaworksMade = true ;
+           return true ;
+      }
+      else {
+        return false ;
+      }
+    }
+
+    function stickWithCurrentShip(){
+      console.log("stickWithCurrentShip()") ;
+      //  var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+      // var nextPage = "https://jimaworks.com/pages/0-0-look-feel-map-background" ;
+      if(localStorage.userProvidedShipName) {  // ### CARE!  What about "NoShip"?
+        localStorage.Personalize = true ;
+      }
+      
+      var nextPage = "https://jimaworks.com/pages/6-a-choose-map" ;
+      if (document.referrer == 'https://jimaworks.com/pages/001-edit-your-relationships')
+      {
+        var nextPage = "https://jimaworks.com/pages/001-edit-your-relationships" ;
+      }
+      window.location.assign(nextPage);
+    }
+    
+    function userProvidedShip (){
+      console.log("userProvidedShip()") ;
+    
+      var crossingYear = localStorage.YearOfCrossing ;
+      var prevUserProvidedShipName = localStorage.userProvidedShipName ;
+      var userProvidedShipDefault ;
+      if ((prevUserProvidedShipName != "null") && (prevUserProvidedShipName != null)) {
+        userProvidedShipDefault = prevUserProvidedShipName ;
+      }
+      else {
+        userProvidedShipDefault = getDefaultShip(crossingYear) ;
+      }
+      var userProvidedShipNameStr = prompt("Please enter the name of your ship", userProvidedShipDefault) ; //getDefaultShip(localStorage.YearOfCrossing)) ;
+      //var userPovidedShipStr = "Specified ship: "+userProvidedShipNameStr ;
+      localStorage.userProvidedShipName = userProvidedShipNameStr ;
+      document.getElementById("knownShip").innerHTML = "A New Specific Ship Please" ;
+      /*
+      var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+      window.location.assign(nextPage);
+      */
+    
+      /*
+      ###  use of knownShipPlaceholderArray[1] seems a bit squirrelly ###
+      */
+      var knownShipPlaceholderStruct ;
+      var shipIndex ;
+      if(crossingYear<1790) {
+        shipIndex = 1 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[1] ;
+      }
+      else if (crossingYear<1850) {
+        shipIndex = 2 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[2] ;
+      }
+      else if (crossingYear<1890) {
+        shipIndex = 3 ;
+          knownShipPlaceholderStruct = knownShipPlaceholderArray[3] ;
+      }
+      else if (crossingYear<1920) {
+        shipIndex = 4 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[4] ;
+      }
+      else if (crossingYear<1970) {
+        shipIndex = 5 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[5] ;
+      }
+      else {
+        shipIndex = 6 ;
+        knownShipPlaceholderStruct = knownShipPlaceholderArray[6] ;
+      }
+    
+      var thisShipInfoStr = '"'+knownShipPlaceholderStruct+'"' ;
+      //var thisShipInfoStr = knownShipPlaceholderStruct ;
+      var shipImageIndex = 0 ;
+      // ### var thisShipsImageFile = knownShipPlaceholderStruct[###imageryIndex###] ;
+      var thisShipsImageFile = shipImageArray[24] ;
+      // previous background  representation: "background|background|background|transparent|background|transparent"
+      var eraIndex ;
+      var shipImageBackground ;
+    
+      if (shipImageHasBackground(thisShipsImageFile)) {
+        shipImageBackground = "background" ;
+      }
+      else {
+        shipImageBackground = "transparent" ;
+      }
+      console.log("shipImageBackground =="+shipImageBackground) ;
+    
+      localStorage.setItem("TransportCraft", knownShipPlaceholderStruct[jimaworksShipIDIndex]) ;
+      localStorage.setItem("shipName", knownShipPlaceholderStruct[nameIndex]) ;
+      localStorage.setItem("shipImageIndex", shipImageIndex) ;
+      localStorage.setItem("shipPic", thisShipsImageFile) ;
+      localStorage.setItem("shipCareerEnd", eraEndArray[eraIndex]) ;
+      localStorage.setItem("shipTotPsgrVolume", knownShipPlaceholderStruct[totalPsgrsIndex]) ;
+      localStorage.setItem("shippingLine", knownShipPlaceholderStruct[operatorIndex]) ;
+      localStorage.setItem("shipImageTransparentBackground", shipImageBackground) ;
+    
+      localStorage.setItem("userProvidedShipName", false) ;
+    
+      RecordNewShipChoice(thisShipInfoStr,
+        shipIndex, //??
+        shipImageIndex,
+        thisShipsImageFile,
+        shipImageBackground,
+        eraIndex) ;
+      }
+    
+      function noShip (){
+        console.log("noShip()") ;
+        localStorage.setItem("userProvidedShipName", "noShip") ;
+        var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+        window.location.assign(nextPage);
+      }
+
+    function getDefaultShip(crossingYear) {
+      var defaultShipName ;
+      if(crossingYear<1790) {
+        defaultShipName = "Dutch Flute(1600-1750)" ;
+      }
+      else if (crossingYear<1850) {
+        defaultShipName = "Manai Straits" ;
+      }
+      else if (crossingYear<1890) {
+        defaultShipName = "The County of Sutherland" ;
+      }
+      else if (crossingYear<1920) {
+        defaultShipName = "Kaiser Wilhelm der Grosse" ;
+      }
+      else if (crossingYear<1970) {
+        defaultShipName = "Europa" ;
+    
+      }
+      else {
+        defaultShipName = "Boeing 707-321B" ;
+      }
+      return defaultShipName ;
+    }
+
+    function shipInServiceDuringCrossingDate (singleShipInfoArray) {
+      startCareerIndex = shipInfoArray[0].indexOf("CareerStart") ;
+      endCareerIndex = shipInfoArray[0].indexOf("CareerEnd") ;
+      shipStartCareerYear= singleShipInfoArray[startCareerIndex] ;
+      shipEndCareerYear = singleShipInfoArray[endCareerIndex] ;
+      if (shipStartCareerYear<=localStorage.YearOfCrossing &
+          localStorage.YearOfCrossing<=shipEndCareerYear) {
+        return true ;
+      }
+      else {
+        return false ;
+      }
+    }
+
+    var selectedShip ;
+    // for: shipImageArray.filter(is_selectedShip) for selectedShip
+    function is_selectedShip (singleShipImageArray) {
+      if (singleShipImageArray.indexOf(selectedShip)==-1) {
+        return false ;
+      }
+      else {
+        return true ;
+      }
+    }
+
+    function presentCraftOfCrossingOptions (){
+      console.log("entering presentCraftOfCrossingOptions() with localStorage.ShipSort=="+localStorage.ShipSort) ;
+      var selectShipPage= "";
+      var selectShipTable= "<table>";
+      /*
+      selectShipTable+="<h2>Find your ship below, or enter the name of the ship you want (we have 1000's of additional ships)</h2>";
+      selectShipTable+="<button style= \"background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;\" onclick=\"getNewShipName()\">Provide a ship name</button>";
+      */
+    
+      console.log("1d") ;
+      /*
+      thisShipsAltString = erasArray[thisMapChoiceIndex]
+      + " is not currently available" ;
+      */
+      /* product page example: https://jimaworks.com/products/noship-palacerosamap */
+      nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+      console.log("2b. nextPage = " + nextPage) ;
+    
+    
+      /*
+      <input type="text" id="ShipName" value="&lt;enter your ship's name&gt;" />
+      <a href="https://jimaworks.com/pages/1-c-map-background"
+      a="" onclick="###RecordNewShipChoice()###"> [Click Here to Submit your Shipname] </a>
+      <p> </p>
+      <h2>Or... find and image for your ship in the list below</h2>
+    
+      filterByYearInterval
+    
+      */
+    
+      processedShipsArray = shipInfoArray.slice(1) ;  /* clone the array (shallow) without copying header */
+      filteredArray ;
+    
+      //var currentShipFilterMethod = "filterByYearInterval"  ; /* localStorage.ShipFilter ; */
+        var currentShipFilterMethod = localStorage.shipFilter ;
+      console.log("Before filter.  currentShipFilterMethod="+currentShipFilterMethod) ;
+    
+      /*
+      if (localStorage.Era=="EraOfAirTravel(1945-Present)") {
+      console.log("currentShipFilterMethod==airplaneOnlyFilter") ;
+      processedShipsArray=processedShipsArray.filter(airplaneOnlyFilter) ;
+      }
+      else {
+      console.log("currentShipFilterMethod!=airplaneOnlyFilter") ;
+      processedShipsArray=processedShipsArray.filter(shipOnlyFilter) ;
+      }
+      console.log("After filtering for planes-only.  processedShipsArray="+processedShipsArray) ;
+      */
+      if (currentShipFilterMethod=="noFilter") {
+        console.log("currentShipFilterMethod== *no* Filter") ;
+        // no-op: processedShipsArray=processedShipsArray ;
+        filteredArray=processedShipsArray ;
+      }
+      else if (currentShipFilterMethod=="airplaneOnlyFilter") {
+        console.log("currentShipFilterMethod==airplaneOnlyFilter") ;
+        filteredArray=processedShipsArray.filter(airplaneOnlyFilter) ;
+      }
+      else if (currentShipFilterMethod=="shipOnlyFilter") {
+        console.log("currentShipFilterMethod==shipOnlyFilter") ;
+        filteredArray=processedShipsArray.filter(shipOnlyFilter) ;
+      }
+      else if (currentShipFilterMethod=="eraFilter") {
+        console.log("currentShipFilterMethod==eraFilter") ;
+        filteredArray=processedShipsArray.filter(filterByEra) ;
+      }
+      else if (currentShipFilterMethod=="filterByYearInterval") {
+        console.log("currentShipFilterMethod==filterByYearInterval") ;
+        filteredArray=processedShipsArray.filter(filterByYearInterval) ;
+      }
+      else if (currentShipFilterMethod=="filterByYear") {
+        console.log("currentShipFilterMethod==filterByYear") ;
+        filteredArray=processedShipsArray.filter(filterByYear) ;
+      }
+      else {
+        console.log("currentFilterMethod is none of above") ;
+        filteredArray=processedShipsArray ;
+      } ;
+      //### why this>> processedShipsArray=filteredArray; ? ###
+      var currentShipSortMethod = localStorage.ShipSort ;
+      /*
+      console.log("filter method=="+currentShipFilterMethod+"  After filter, filteredArray="+filteredArray) ;
+      console.log("in presentCraftOfCrossingOptions ***Before sort***  currentShipSortMethod =="+currentShipSortMethod+" processedShipsArray="+processedShipsArray) ;
+      */
+      if (false) {  // do nothing if true
+      }
+      else if (currentShipSortMethod=="alpha") {
+        console.log("currentShipSortMethod==alpha") ;
+        processedShipsArray.sort(sortByName) ;
+      }
+      else if (currentShipSortMethod=="rev-alpha") {
+        console.log("currentShipSortMethod==rev-alpha") ;
+        processedShipsArray.sort(sortByName).reverse() ;
+      }
+      else if (currentShipSortMethod=="passengers") {
+        console.log("currentShipSortMethod==passengers") ;
+        processedShipsArray.sort(sortByTotPsgrs) ;
+      }
+      else if (currentShipSortMethod=="year") {
+        console.log("currentShipSortMethod==year") ;
+        processedShipsArray.sort(sortByCareerStart) ;
+      }
+      else if (currentShipSortMethod=="rev-year") {
+        console.log("currentShipSortMethod==rev-year") ;
+        processedShipsArray.sort(sortByCareerStart).reverse() ;
+      }
+      else if (currentShipSortMethod=="lexical-closeness") {
+        console.log("currentShipSortMethod==lexical-closeness") ;
+        // ??            localStorage.userProvidedShipName = prompt("Please enter the name of the ship you're looking for", getDefaultShip(localStorage.YearOfCrossing)) ;
+        processedShipsArray.sort(sortByNearnessToNameStart) ;
+      }
+      else {
+        alert("***unrecognized sort method***  currentShipSortMethod =="+currentShipSortMethod) ;
+        console.log("currentSortMethod is none of above") ;
+      } ;
+      /*
+      console.log("***After sort***.  sort method=="+currentShipSortMethod+"  After sort.  processedShipsArray="+processedShipsArray) ;
+      */
+      var thisShipInfo ;
+      var thisShipsjimaworksShipID ;
+      var thisShipsName ;
+      var shipLength ;
+      var shipWidth ;
+      var shipDraught ;
+      var shipTotTrips ;
+      var ship1stClass ;
+      var ship2ndClass ;
+      var ship3rdClass ;
+      var shipSteerage ;
+      var borderSpec ;
+      var thisShipsImages ;
+      var currentImageInfoArray ;
+      var thisImageExpensivenessLevel ;
+      console.log("Before loop through ships: filteredArray.length="+filteredArray.length) ;
+      for (var thisShipIndex=0; thisShipIndex<filteredArray.length; thisShipIndex++) {
+        /* ### subtract 1 from sorting results for javascript zero-start indices ### */
+        thisShipInfo = filteredArray[thisShipIndex] ;
+        //thisShipsjimaworksShipID = thisShipInfo[shipInfoArray[0].indexOf("jimaworksShipID")];
+        thisShipsName = thisShipInfo[nameIndex];
+        thisShipsjimaworksShipID = thisShipInfo[jimaworksShipIDIndex];
+        selectedShip = thisShipsjimaworksShipID ;
+        if(selectedShip=="Known Ship placeholder (1565-1790)"){
+          alert('selectedShip=="Known Ship placeholder (1565-1790)"');
+          alert('thisShipsImages = shipImageArray.filter(is_selectedShip)='+ shipImageArray.filter(is_selectedShip));
+        }
+        else if(thisShipsName=="EarlySailKnownShip"){
+          alert('thisShipsName=="EarlySailKnownShip"');
+          alert('thisShipsImages = shipImageArray.filter(is_selectedShip)='+ shipImageArray.filter(is_selectedShip));
+        }
+        thisShipsImages = shipImageArray.filter(is_selectedShip);
+        selectedShipImageSet = thisShipsImages ;
+    //    shipImageBackgroundArray = thisShipInfo[backgroundIndex].split("|");
+        numShipImages = thisShipsImages.length;
+        console.log("Ship:"+thisShipsjimaworksShipID+"  "+numShipImages+" Images:"+thisShipsImages) ;
+          shipLength = thisShipInfo[LengthIndex] ;
+        shipWidth = thisShipInfo[WidthIndex] ;
+        shipDraught = thisShipInfo[DraftIndex] ;
+        shipTotTrips = thisShipInfo[tripsArrayTotNumTripsIndex]
+        ship1stClass = thisShipInfo[NumFirstClassIndex] ;
+        ship2ndClass = thisShipInfo[NumSecondClassIndex] ;
+        ship3rdClass = thisShipInfo[NumThirdClassIndex] ;
+        shipSteerage = thisShipInfo[NumSteerageIndex] ;
+    
+        var currentImageName ;
+        var currentImageIndex ;
+        var shipImageBackground ;
+        var shipImageURL ;
+        var shipImageType ;
+        var jimaworksMade ;
+        var shipInfoSummary ;
+        for (var shipImageIndex=0; shipImageIndex<numShipImages; shipImageIndex++) {
+          currentImageInfoArray = thisShipsImages[shipImageIndex] ;
+          currentImageName = currentImageInfoArray[imageArrayImgNameIndex] ;
+          // previous background  representation: "background|background|background|transparent|background|transparent"
+          if (shipImageHasBackground(currentImageInfoArray)) {
+            shipImageBackground = "background" ;
+          }
+          else {
+            shipImageBackground = "transparent" ;
+          }
+    
+          shipImageURL = currentImageInfoArray[imageArrayShopifyURLIndex] ; // ###unused?
+          shipImageType = currentImageInfoArray[imageArrayImgTypeIndex] ;
+          if ((currentImageInfoArray[shipImageArray[0].indexOf("Source")]=="jimaworks") |
+              (currentImageInfoArray[shipImageArray[0].indexOf("Rights")]=="jimaworks")) {
+            jimaworksMade = true ;
+          }
+          else {
+            jimaworksMade = false ;
+          }
+          if(jimaworksMade) {
+            if (currentImageInfoArray[shipImageArray[0].indexOf("Image Type")]=="colprfl") {
+              thisImageExpensivenessLevel = "$$" ;
+            }
+            else if (currentImageInfoArray[shipImageArray[0].indexOf("Image Type")]=="2Drend") {
+              thisImageExpensivenessLevel = "$$" ;
+            }
+            else if (currentImageInfoArray[shipImageArray[0].indexOf("Image Type")]=="halfmdl") {
+              thisImageExpensivenessLevel = "$$$" ;
+            }
+            else if (currentImageInfoArray[shipImageArray[0].indexOf("Image Type")]=="fullmdl") {
+              thisImageExpensivenessLevel = "$$$$" ;
+            }
+          }
+          else {
+            thisImageExpensivenessLevel = "$" ;
+          }
+          console.log("presentCraftOfCrossingOptions (): currentShipImage =="+currentImageInfoArray) ;
+          console.log("  currentShipImage background =="+shipImageBackground) ;
+          console.log("  thisImageExpensivenessLevel == "+thisImageExpensivenessLevel) ;
+    
+          // change background tint at each new ship...
+          if (thisShipIndex%2) {
+            selectShipTable+="<tr style=\"background-color: #ffff;\">";
+          }
+          else {
+            selectShipTable+="<tr style=\"background-color: #eeee;\">";
+          }
+          // set a dark blue border around full images (and no border for no-background images)
+          if ((shipImageType == "colprfl") | (shipImageType == "2Drend") | (shipImageType == "halfmdl") | (shipImageType == "fullmdl") | (shipImageType == "silou")) {
+            borderSpec = "" ;
+          }
+          else {
+            borderSpec = " border: 5px solid darkblue;" ;
+          }
+          // Left-most column = ship name and dates of service
+          selectShipTable+="<td style='text-align: left;'>"
+          //+"<small>"+ thisShipsName+"</small>"
+          if(shipImageIndex==0) {
+            selectShipTable+=thisShipsName
+                              + "<br>"
+                              + "(" + thisShipInfo[careerStartIndex] + "-" + thisShipInfo[careerEndIndex] + ")"
+                              + "<br>"
+                              + "Total Passengers Est=" + 1000*thisShipInfo[totalPsgrsIndex]
+                              + "<br>"
+                              + "This image: " + thisImageExpensivenessLevel ;
+          }
+          else {
+            selectShipTable+="<br>"
+            + "<br>"
+            + "This image: " + thisImageExpensivenessLevel ;
+          }
+          selectShipTable+= "</td>" ;
+    
+          // Center column = ship image
+          selectShipTable+="<td style='text-align: left;'>"
+          + "<img src="
+          + "\""
+          + currentImageInfoArray[imageArrayShopifyURLIndex]
+    //      + "https://cdn.shopify.com/s/files/1/1336/0641/files/"
+    //      + currentImageInfoArray[imageArrayImgNameIndex].replace(" ","_").replace("(","_").replace(")","_").replace(".","_256x256.")
+          + "\""
+          + " alt=" + "\"" + currentImageInfoArray[imageArrayImgNameIndex] + "\""
+          + " onclick="
+          /*
+          + "\'displayCurrentShip(\""+currentImageInfoArray+"\")\'"
+          */
+          + "\'RecordNewShipChoice("
+    //      +"\"" + thisShipInfo + "\", "
+    //      +"\"[" + thisShipInfo + "]\", "
+          +"\"" + thisShipsjimaworksShipID + "\", " // the jimaworks identifier - a string
+          +thisShipIndex + ", " // the index of the ship in the shipInfo array - a number
+          +"\"" + currentImageName + "\", " // this image's name - a string
+          +"\"" + currentImageInfoArray[imageArrayShopifyURLIndex] + "\", " // the image's Shopify URL - a string
+          +"\"" + shipImageType + "\", " // which of the jimaworks image types is this image - a string
+          +"\"" + shipImageBackground + "\", " // the image's background fill - a string
+          +"\"" + jimaworksMade + "\", " // whether the image is a jimaworks-made image - a string
+          +eraIndex
+          +")\'"
+          + " />"
+          + "</a>"
+          + "<br>"+currentImageName
+          + "</td>";
+          
+          // Right-most column = ship characteristics
+          selectShipTable+="<td style='text-align: left; width=150%'>" ;
+    
+          shipInfoSummary = "" ;
+          if(shipImageIndex==0) {
+            if(shipLength == undefined) {
+              selectShipTable+= "Length unkown" ;       
+              selectShipTable+= "<br>" ;
+            }
+            else {
+              selectShipTable+= "Length: " + shipLength ;
+              if(shipWidth != undefined) {
+                selectShipTable+= " Width: " + shipWidth ;
+              }
+              if(shipDraught != undefined) {
+                selectShipTable+= " Draught: " + shipDraught ;
+              }
+              selectShipTable+= "<br>" ;
+            }
+            selectShipTable+= "Carrying Capacity: ";
+            if((ship1stClass == undefined)
+              &(ship2ndClass == undefined) 
+              &(ship3rdClass == undefined)
+              &(shipSteerage == undefined)) {
+              selectShipTable+= " Unknown " ;
+              }
+              else {
+                if(ship1stClass != undefined) {
+                  selectShipTable+= " 1stClass: " + ship1stClass ;
+                  }
+                if(ship2ndClass != undefined) {
+                  selectShipTable+= " 2ndClass: " + ship2ndClass ;
+                }
+                if(ship3rdClass != undefined) {
+                  selectShipTable+= " 3rdClass: " + ship3rdClass ;
+                }
+                if(shipSteerage != undefined) {
+                  selectShipTable+= " Steerage: " + shipSteerage ;
+                }
+              }
+              selectShipTable+= "<br>" ;
+          }
+          else {
+            selectShipTable+="<br>" ;
+          }
+          selectShipTable+= "</td>" ;
+        }
+        selectShipTable+="</tr>";
+      }
+      selectShipTable+="</table>" ;
+    //  selectShipPage+=pagePrologue+selectShipTable+pagePostlogue ;
+      selectShipPage+=selectShipTable ;
+    
+      console.log('selectShipTable=='+selectShipTable);
+      /*document.write(selectShipPage) ;*/
+      //document.getElementById("shipChoicesDisplay").innerHTML = selectShipPage;
+      document.getElementById("shipChoicesDisplay").innerHTML = selectShipTable;
+    }
+
+    function getMostLikelyShipForTimeAndPlace() {
+      console.log("###getMostLikelyShipForTimeAndPlace()###") ;
+      var thisShipInfo ;
+      var thisShipInfoStr ;
+      var thisShipsjimaworksShipID ;
+      var thisShipsImages ;
+      var currentImageInfoArray ;
+      var shipImageBackgroundArray ;
+      var processedShipsArray = shipInfoArray.slice(1) ;  /* clone the array (shallow) without copying header */
+      //var tempShipFilterMethod = "filterByYearInterval"  ; /* localStorage.ShipFilter ; */
+      var tempShipFilterMethod = "shipInServiceDuringCrossingDate"  ; /* localStorage.ShipFilter ; */
+      var currentShipSortMethod = "passengers" ;
+      var NForShowTopN = 1 ;
+    
+      if (localStorage.Era=="EraOfAirTravel(1945-Present)") {
+        processedShipsArray=processedShipsArray.filter(airplaneOnlyFilter) ;
+      }
+      else {
+        processedShipsArray=processedShipsArray.filter(shipOnlyFilter) ;
+      }
+      // processedShipsArray=processedShipsArray.filter(tempShipFilterMethod) ;
+      processedShipsArray=processedShipsArray.filter(filterByYearInterval) ;
+      /*
+      console.log("in presentCraftOfCrossingOptions ***Before sort***  currentShipSortMethod =="+currentShipSortMethod+" processedShipsArray="+processedShipsArray) ;
+      */
+      if (currentShipSortMethod=="alpha") {
+        console.log("currentShipSortMethod==alpha") ;
+        processedShipsArray.sort(sortByName) ;
+      }
+      else if (currentShipSortMethod=="rev-alpha") {
+        console.log("currentShipSortMethod==rev-alpha") ;
+        processedShipsArray.sort(sortByName).reverse() ;
+      }
+      else if (currentShipSortMethod=="passengers") {
+        console.log("currentShipSortMethod==passengers") ;
+        processedShipsArray.sort(sortByTotPsgrs) ;
+      }
+      else if (currentShipSortMethod=="year") {
+        console.log("currentShipSortMethod==year") ;
+        processedShipsArray.sort(sortByCareerStart) ;
+      }
+      else if (currentShipSortMethod=="rev-year") {
+        console.log("currentShipSortMethod==rev-year") ;
+        processedShipsArray.sort(sortByCareerStart).reverse() ;
+      }
+      else if (currentShipSortMethod=="lexical-closeness") {
+        console.log("currentShipSortMethod==lexical-closeness") ;
+        // ??            localStorage.userProvidedShipName = prompt("Please enter the name of the ship you're looking for", getDefaultShip(localStorage.YearOfCrossing)) ;
+        processedShipsArray.sort(sortByNearnessToNameStart) ;
+      }
+      else {
+        alert("***unrecognized sort method***  currentShipSortMethod =="+currentShipSortMethod) ;
+        console.log("currentSortMethod is none of above") ;
+      } ;
+    
+      //  for (var thisShipIndex=0; thisShipIndex<processedShipsArray.length; thisShipIndex++) {
+      for (var thisShipIndex=0; thisShipIndex < NForShowTopN ; thisShipIndex++ ) {
+        /* ### subtract 1 from sorting results for javascript zero-start indices ### */
+    //    thisShipInfo = processedShipsArray[thisShipIndex] ;
+    //    thisShipInfoStr="\"" + thisShipInfo + "\"" ;
+    //    thisShipsName = thisShipInfo[nameIndex];
+    //    thisShipsImages = thisShipInfo[imageryIndex].split("|");
+      thisShipInfo = processedShipsArray[thisShipIndex] ;
+      thisShipInfoStr="\"" + thisShipInfo + "\"" ;
+      thisShipsjimaworksShipID = thisShipInfo[shipInfoArray[0].indexOf("jimaworksShipID")];
+        selectedShip = thisShipsName ;
+        thisShipsImages = shipImageArray.filter(is_selectedShip);
+        //shipImageBackgroundArray = thisShipInfo[backgroundIndex].split("|");
+        shipImageBackgroundArray = [];
+        numShipImages = thisShipsImages.length;
+        console.log("thisShipIndex: " + thisShipIndex
+        + "   thisShipsName=" + thisShipsName
+        + "   thisShipsImages=" + thisShipsImages
+        + "   shipImageBackgroundArray=" + shipImageBackgroundArray ) ;
+        //        RecordNewShipChoice(shipInfoStr, shipIndex, shipImageIndex, shipImageFile, shipImageBackground, eraIndex) {  /*  (shipName, shipIndex, shipImage) {  */
+        for (var shipImageIndex=0; shipImageIndex<numShipImages; shipImageIndex++) {
+          currentImageInfoArray = thisShipsImages[shipImageIndex] ;
+          console.log("currentImageInfoArray =="+currentImageInfoArray) ;
+          thisShipsImageFile = thisShipsImages[shipImageIndex] ;
+          console.log("thisShipsImageFile =="+currentImageInfoArray) ;
+          // previous background  representation: "background|background|background|transparent|background|transparent"
+          if (shipImageHasBackground(thisShipsImageFile)) {
+            shipImageBackground = "background" ;
+          }
+          else {
+            shipImageBackground = "transparent" ;
+          }
+          //shipImageBackground = shipImageBackgroundArray[shipImageIndex] ;
+          console.log("shipImageBackground =="+shipImageBackground) ;
+    
+    /*New*/
+      RecordNewShipChoice(
+            thisShipsjimaworksShipID,
+            thisShipIndex,
+            currentImageName,
+            shipImageURL,
+            shipImageType,
+            shipImageBackground,
+            jimaworksMade,
+            eraIndex) ;
+    /*
+          RecordNewShipChoice(thisShipInfoStr,
+            thisShipIndex, //??
+            shipImageIndex,
+            thisShipsImageFile,
+            shipImageBackground,
+            eraIndex) ;
+    */
+          }
+        }
+      }
+      //getMostLikelyShipForTimeAndPlace() ;
+    // ]]>
+    </script>

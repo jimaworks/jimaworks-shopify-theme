@@ -86,6 +86,11 @@
 <!--
 agc---4/20
 -->
+          {% when '001-edit-your-relationships' %}
+            <template id="preview-template" style="display:none;">
+              {% include 'relationships-preview-redux' %}
+            </template>
+
           {% when '0-set-the-stage' %}
             {% include 'init.02-region-of-origin' %}
             <template id="preview-template" style="display:none;">

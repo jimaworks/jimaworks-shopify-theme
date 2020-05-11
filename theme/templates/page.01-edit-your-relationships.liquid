@@ -1,0 +1,210 @@
+
+{% capture contents %}
+
+<div class="edit_relationships post-large--two-thirds push--post-large--one-sixth">
+    <article class="jw-relationships-tour">        
+        <div id="relationships-tour-content" class="jw-relationships-tour__content jw-relationships-tour__content--active">
+            <div id="map" class="jw-relationships-tour__map"></div>
+                <aside id="sidebar" class="jw-relationships-tour__sidebar jw-relationships-tour__sidebar--active">
+                    <div class="jw-tour__descriptions" style="position: absolute;">
+                        <div id="DisplayOverlays" class="DisplayOverlays"></div>
+                        <div>
+                            
+                        <nav class="vertical">
+                        <ul>
+                            <li><a onclick="openTour()">Tour</a></li>
+                            <li><a >Choose</a></li>
+                            <li><a >Edit +</a>
+                            <ul>
+                                <li class="textboxes">
+                                    <a >TextBoxes + </a>
+                                    <ul>
+                                    <li><a>Title</a></li>
+                                    <li data-textboxes = true><a >Origins</a></li>
+                                    <li data-textboxes = true><a >Destination</a></li>
+                                    <li><a >Ship Info</a></li>
+                                    <li><a >Plaque</a></li>
+                                    </ul>
+                                </li>
+                                <li class="visuals">
+                                    <a >Visuals +</a>
+                                    <ul>
+                                    <li><a >Ship</a></li>
+                                    <li data-visuals = true><a >Origins</a></li>
+                                    <li data-visuals = true><a >Destination</a></li>
+                                    <li><a >Route</a></li>
+                                    <li><a >People</a></li>
+                                    <li><a>SeaScape</a></li>
+                                    </ul>
+                                </li>
+                                </ul>
+                            </li>
+                            <li><a onclick="saveChanges()">Save</a></li>
+                            <li><a >Buy</a></li>
+                        </ul>
+                        </nav>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </article>
+</div>
+
+<script>
+
+    $(document).ready(function(){
+        $('.textboxes li, .visuals li').click(function(){
+            refresh();
+
+            var text = $(this, "a").text();
+
+            switch(text) {
+                case "Title":
+                    editTitle();
+                    break;
+                case "Origins":
+                    
+                    if ($(this).data("textboxes") == true) {
+                        editOrigins_Text();
+                    } else if ($(this).data("visuals") == true) {
+                        changeOrigins();
+                    }               
+                    break;
+                case "Destination":
+
+                    if ($(this).data("textboxes") == true) {
+                        editDestination_Text();
+                    } else if ($(this).data("visuals") == true) {
+                        changeDestination();
+                    }  
+                    break;
+                case "Ship Info":
+                    editShipInfo();
+                    break;
+                case "Plaque":
+                    editPlaque();
+                    break;
+
+                case "Ship":
+                    changeShip();
+                    break;
+                case "Route":
+                    changeRoute();
+                    break;
+                case "People":
+                    changePeople();
+                    break;
+                case "SeaScape":
+                    changeSeaScape();
+                    break;
+            default:
+                // code block
+            }
+        });
+
+        $('.vertical li').hover(
+            function(){ $(this).addClass('hover') },
+            function(){ $(this).removeClass('hover') }
+        )
+    });
+
+    function openTour() {
+        window.location.href = '/pages/001-your-relationships-project';
+    }
+
+    function editTitle() {
+        $("#title-text-box").addClass("add-scale");
+        $("#title-text-box h3").addClass("contenteditable");
+        $("#title-text-box h3").attr('contenteditable','true');
+    }
+
+    function editOrigins_Text() {
+        $("#origins-text-box").addClass("add-scale");
+        $("#origins-text-box p").addClass("contenteditable");
+        $("#origins-text-box p").attr('contenteditable','true');
+    }
+
+    function editDestination_Text() {
+        $("#destination-text-box").addClass("add-scale");
+        $("#destination-text-box p").addClass("contenteditable");
+        $("#destination-text-box p").attr('contenteditable','true');
+    }
+    
+    function editShipInfo() {
+        $("#ship-info-text-box").addClass("add-scale");
+        $("#ship-info-text-box p").addClass("contenteditable");
+        $("#ship-info-text-box p").attr('contenteditable','true');
+    }
+    
+    function editPlaque() {
+        $(".jw-plaque-container").addClass("add-scale");
+        $("#webPlaqueTextBoxDiv p").addClass("contenteditable");
+        $("#webPlaqueTextBoxDiv p").attr('contenteditable','true');
+    }
+
+    function changeShip(){
+        window.location.href = '/pages/5-ship-or-plane';
+    }
+
+    function changeOrigins(){
+        window.location.href = '/pages/3-origins-a-country-of-origin';                
+    }
+    
+    function changeDestination(){
+        window.location.href = '/pages/4-b-destination-in-new-world';
+    }
+
+    function changeRoute(){
+        alert('Under Development');
+    }
+    function changePeople(){
+        alert('Under Development');
+    }
+    function changeSeaScape(){
+        alert('Under Development');
+    }
+
+    function saveChanges() {
+        console.log("saveChanges");
+        refresh();
+
+        localStorage.TitleLine1 =  $("#title-line1") == null ? '' : $("#title-line1").text();
+        localStorage.TitleLine2 = $("#title-line2") == null ? '' : $("#title-line2").text();
+        localStorage.TitleLine3 = $("#title-line3") == null ? '' : $("#title-line3").text();
+
+        localStorage.originsTextBoxL1 = $("#origin-line1") == null ? '' : $("#origin-line1").text();
+        localStorage.originsTextBoxL2 = $("#origin-line2") == null ? '' : $("#origin-line2").text();
+
+        localStorage.DestinyLine1 = $("#destination-line1") == null ? '' : $("#destination-line1").text();
+        localStorage.DestinyLine2 = $("#destination-line2") == null ? '' : $("#destination-line2").text();
+
+        localStorage.ShipInfoLine1 = $("#ship-info-line1") == null ? '' : $("#ship-info-line1").text();
+        localStorage.ShipInfoLine2 = $("#ship-info-line2") == null ? '' : $("#ship-info-line2").text();
+
+        localStorage.PlaqueLine1 = $("#plaque-line1") == null ? '' : $("#plaque-line1").text();
+        localStorage.PlaqueLine2 = $("#plaque-line2") == null ? '' : $("#plaque-line2").text();
+        localStorage.PlaqueLine3 = $("#plaque-line3") == null ? '' : $("#plaque-line3").text();
+        localStorage.PlaqueLine4 = $("#plaque-line4") == null ? '' : $("#plaque-line4").text();
+        localStorage.PlaqueLine5 = $("#plaque-line5") == null ? '' : $("#plaque-line5").text();
+        localStorage.PlaqueLine6 = $("#plaque-line6") == null ? '' : $("#plaque-line6").text();
+        localStorage.PlaqueLine7 = $("#plaque-line7") == null ? '' : $("#plaque-line7").text();
+        localStorage.PlaqueLine8 = $("#plaque-line8") == null ? '' : $("#plaque-line8").text();
+    }
+
+    function refresh(){
+        $('li').removeClass("hover");
+        $(".contenteditable").attr('contenteditable','false');
+        $(".add-scale").removeClass("add-scale");
+        $(".contenteditable").removeClass("contenteditable");
+    }
+
+    window.addEventListener( "DOMContentLoaded", function pickYourmapBackground__onDomContentLoaded() {
+        Jimaworks.initializePreview();
+        Jimaworks.Preview.setShipBackgroundBorder();
+//        RelationShipsPreviewZ("mockup", "showFrame");
+    } );
+</script>
+{% endcapture %}
+
+{% include 'page-preview-contents', contents : contents %}
