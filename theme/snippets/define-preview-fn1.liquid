@@ -33,8 +33,13 @@
         if (className && (className.indexOf('map_image') !== -1))
         {
             if (highlight){
-                $element.style.top = '-50px';
-                $element.style.left = '-100px';
+                if (window.screen.height >= 768) {
+                    $element.style.top = '-50px';
+                    $element.style.left = '-100px';
+                }
+                else {
+                    $element.style.top = '50px';
+                }
             }
             else
             {

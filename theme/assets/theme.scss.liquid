@@ -2468,10 +2468,15 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
 }
 
 .edit_relationships {
+ 
   nav.vertical{
     position:relative;
     width: 150px;
     
+    @include at-query ($max, $medium) {
+      width: 100px;
+    }
+
     ul{
       list-style: none;
 
@@ -2502,6 +2507,10 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       opacity:1;
       transform: translateX(0px);
       z-index: 10;
+
+      @include at-query ($max, $medium) {
+        left:82%;
+      }
     }
 
     a{
@@ -2511,9 +2520,13 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       transition:0.2s;
       border: 2px solid #7faed2;
       color: black;
-      font-size: 110%;
       font-weight: bold;
       background-color: #fff2cc;
+
+      @include at-query ($max, $medium) {
+        padding: 3px 5px;
+        font-size: 12px;
+      }
     }
   }
 }
@@ -2531,6 +2544,12 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   h1 a {
     color: #000;
     text-decoration: none;
+  }
+
+  .jw-map {
+    @include at-query ($max, $medium) {
+      min-height: 12.5rem;
+    }
   }
 
   ul#continents3 {
@@ -2608,7 +2627,7 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       }
     }
 
-    .landbrige {
+    #landbrige_rect {
       width: 91px;
       height: 96px;
       top: 79px;
@@ -2624,7 +2643,7 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       }
     }
   
-    .southamerica {
+    #southamerica_rect {
       width: 117px;
       height: 122px;
       top: 240px;
@@ -2640,7 +2659,7 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       }
     }
   
-    .africa {
+    #africa_rect {
       width: 126px;
       height: 137px;
       top: 205px;
@@ -2656,7 +2675,7 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       }
     }
   
-    .europe {
+    #europe_rect {
       width: 133px;
       height: 98px;
       top: 104px;
@@ -2672,7 +2691,7 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       }
     }
   
-    .asia {
+    #asia_rect {
       width: 69px;
       height: 96px;
       top: 177px;
@@ -2687,7 +2706,7 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       }
     }
   
-    .australia {
+    #australia_rect {
       width: 117px;
       height: 181px;
       top: 176px;
@@ -2725,12 +2744,18 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 }
 
-.relationships_project {
+.viewTour_container {
   .background_map {
     position: relative;
     width: 1000px;
     height: 400px;
     background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg);
+
+    
+    @include at-query ($max, $medium) {
+      width: 100%;
+      height: auto;
+    }
 
     .DisplayOverlays {
       font-size: 10px;
@@ -2740,21 +2765,16 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       display: none;
     }
 
-    .jw-relationships-tour {
-      transform: scale(0.7);
-      transform-origin: top center;
-      padding-top: 0.5rem;
-
-      .jw-relationships-preview-disclaimer {
-        display: none;
-      }
-    }
-
     .jw-relationships-tour__content--active article.jw-relationships-preview{
       transform: scale(1.35);
       transform-origin: top right;
       border-image-width: 1rem;
       padding: 0;
+
+      @include at-query ($max, $medium) {
+        transform: none;
+        transform-origin: unset;
+      }
 
       .jw-relationships-preview__content {
         transform: scale(0.95);
@@ -2763,11 +2783,23 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
   }
 }
 
-.edit_relationships, .set_the_stage, .select_map, .select_frame, .select_size {
+.preview_container {
   position: relative;
   width: 1000px;
   height: 400px;
   background-image: url(https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg);
+
+  @include at-query ($max, $medium) {
+    width: 100%;
+    height: auto;
+
+    .jw-tour__description {
+      position: unset!important;
+    }
+  }
+}
+
+.preview_container, .viewTour_container {
 
   .jw-relationships-tour {
     transform: scale(0.7);
@@ -2777,10 +2809,12 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
     .jw-relationships-preview-disclaimer {
       display: none;
     }
-  }
-}
 
-.edit_relationships, .set_the_stage, .select_map, .select_frame, .select_size, .relationships_project {
+    @include at-query ($max, $medium) {
+      transform: none;
+      transform-origin: unset;
+    }
+  }
 
   .artist_acknowledgement {
     margin: auto auto 5px 5px;
@@ -2794,7 +2828,8 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
 
   .print_id {
     margin: auto 5px 5px auto;
-    width: 33%;
+    width: 33%;    
+    overflow: auto;
   }
 
   .jw-relationships-preview__content-container {
@@ -2808,6 +2843,7 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
     transition: all .5s linear;
   }
   
+
   .jw-relationships-preview.jw-relationships-preview--size-gem  {
     margin:0;
 /*    margin-left: 5rem;
@@ -2821,6 +2857,10 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
         transform: scale(0.95);
         transform-origin: bottom;
       }
+    }
+
+    @include at-query ($max, $medium) {
+      padding: 1.4rem;
     }
   }
 
@@ -2837,6 +2877,9 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
         transform: scale(0.8);
       }
     }
+    @include at-query ($max, $medium) {
+      padding: 1.3rem;
+    }
   }
 
   .jw-relationships-preview.jw-relationships-preview--size-medium  {
@@ -2852,6 +2895,10 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
         transform: scale(0.7);
       }
     }
+
+    @include at-query ($max, $medium) {
+      padding: 1.2rem;
+    }
   }
 
   .jw-relationships-preview.jw-relationships-preview--size-large  {
@@ -2866,6 +2913,9 @@ div#shopify-section-rich-text.shopify-section.index-section {padding-bottom:0;}
       .jw-plaque-container{
         transform: scale(0.6);
       }
+    }
+    @include at-query ($max, $medium) {
+      padding: 1rem;
     }
   }
 

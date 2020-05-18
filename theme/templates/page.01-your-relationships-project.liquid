@@ -1,7 +1,7 @@
 
 
 {% capture contents %}
-<div class="grid__item post-large--two-thirds push--post-large--one-sixth relationships_project">
+<div class="post-large--two-thirds push--post-large--one-sixth viewTour_container">
     <header>
         <h2>A RelationShips project tells a story.</h2>
         <p>Each consists of five Text Boxes for you to fill out.
@@ -30,7 +30,7 @@
             data-expansion-target="#tour" 
             aria-expanded="false">The "Everything" Tour</button> 
         
-        <button>
+        <button id="jw-skip-to-project">
             <a href="/pages/0-set-the-stage" 
                 class="jw-skip-to-project">Skip to Project</a>
         </button>
@@ -44,8 +44,8 @@
                         <span id="tour-actions" class="jw-tour__actions" hidden=""> 
                             <a id="previous" class="jw-tour__action --disabled">Previous</a> 
                             <a id="next" class="jw-tour__action">Next</a>
-                            <a id="autoplay" class="jw-tour__action">Auto Play</a> </span>
-                        <!--/.jw-modal__actions-->
+                            <a id="autoplay" class="jw-tour__action">Auto Play</a> 
+                        </span>
                     </nav>
                     <div id="tour" class="jw-tour">
                         <div class="jw-tour__descriptions">
@@ -55,42 +55,42 @@
                                     <p>The Title TextBox of your RelationShips® project tells the viewer what this is—e.g., your family name’s establishment in America. We generate the first two lines automatically from your entries—a “What” line and a “When” line. You will be able change the entries to anything you want before completing your order, and we provide a third line if you need it.</p>
                                 </div>
                             </article>
-                            <!--/.jw-tour__description-->
+
                             <article id="origins-text-box-description" class="jw-tour__description">
                                 <h3 class="jw-tour__heading">Origins Text Box</h3>
                                 <div class="jw-tour__body">
                                     <p>The “Origins Text Box” provides two lines for you to commemorate your relation’s crossing. These are generated automatically from your entries. The first line is generated from your entries to the Country of Origin page. The second is generated from your entries to the Port of Departure page. You may of course change to anything you want before you complete your order.</p>
                                 </div>
                             </article>
-                            <!--/.jw-tour__description-->
+    
                             <article id="destination-text-box-description" class="jw-tour__description">
                                 <h3 class="jw-tour__heading">Destination Text Box</h3>
                                 <div class="jw-tour__body">
                                     <p>The “Destination Text Box” provides two lines for you to commemorate your relation’s landfall in America. These are generated automatically from your entries. The first line is generated from your entries to the Port of Entry page. The second is generated from your entries to the Destination page. You may of course change to anything you want before you complete your order.</p>
                                 </div>
                             </article>
-                            <!--/.jw-tour__description-->
+
                             <article id="ship-description" class="jw-tour__description">
                                 <h3 class="jw-tour__heading">Ship</h3>
                                 <div class="jw-tour__body">
                                     <p>Your RelationShips® product includes a depiction of exactly the ship of your relation’s crossing, if you know it. If you don’t know it, jimaworks may be able to help you find it, and if there is no image of it jimaworks will render a beautiful facsimile from research. If we cannot determine the ship, jimaworks will research and present options of the most likely ship or kind of ship taken.</p>
                                 </div>
                             </article>
-                            <!--/.jw-tour__description-->
+
                             <article id="ship-info-text-box-description" class="jw-tour__description">
                                 <h3 class="jw-tour__heading">Ship Info</h3>
                                 <div class="jw-tour__body">
                                     <p>Your RelationShips® product focuses on a specific crossing to America of one of the branches of your family. The TripInfo Text Box presents information that conveys something about the nature of the voyage. The first line is usually generated from information about the physical size of the ship used in the voyage. The second is generated from information about the passengers it carried. You may of course change to anything you want before you complete your order.</p>
                                 </div>
                             </article>
-                            <!--/.jw-tour__description-->
+
                             <article id="webPlaqueTextBoxDiv-description" class="jw-tour__description">
                                 <h3 class="jw-tour__heading">Plaque</h3>
                                 <div class="jw-tour__body">
                                     <p>Your RelationShips® product includes an inset plaque on which you may list those who cross in this voyage. of exactly the ship of your relation’s crossing, if you know it. We provide eight lines for listing those of your relations making this voyage. You may of use the plaque in many ways (of which the examples provide an incomplete sampling).</p>
                                 </div>
                             </article>
-                            <!--/.jw-tour__description-->
+
                             <article id="map_image-description" class="jw-tour__description">
                                 <h3 class="jw-tour__heading">Historic Map Background</h3>
                                 <div class="jw-tour__body">
@@ -266,7 +266,6 @@
                                 </div>
                             </article>
 
-                            <!--/.jw-tour__description-->
                             <article id="frame-description" class="jw-tour__description">
                                 <h3 class="jw-tour__heading">Frame</h3>
                                 <div class="jw-tour__body">
@@ -280,13 +279,9 @@
                                 </div>
                             </article>
                         </div>
-                        <!--/.jw-tour__descriptions-->
                     </div>
-                    <!--/.jw-modal.jw-tour-->
                 </aside>
-                <!--/#sidebar-->
             </div>
-            <!--/.jw-relationships-tour__content-->
         </article>
     </div>
     <div>
@@ -525,14 +520,20 @@
                 console.log("$currentHighlight.id = " + $currentHighlight.id);
                 $tourSpotDescription.classList.add('jw-tour__description--active');
 
+                var offSetHeight = 0;
+                if (window.screen.height <= 768) {
+                    offSetHeight = 50;
+                }
+
                 if (!tourSpotDescriptionsPreviouslyActivated) {
                     // Give styles enough time to apply to the newly un-hidden DOM before adjusting or the description offsetHeight will be too short
                     setTimeout(function() {
-                        $sidebar.style.height = ($tourSpotDescription.offsetHeight + $tourActions.offsetHeight + 'px');
+                        
+                        $sidebar.style.height = ($tourSpotDescription.offsetHeight + $tourActions.offsetHeight + offSetHeight + 'px');
                         tourSpotDescriptionsPreviouslyActivated = true;
                     }, 0);
                 } else {
-                    $sidebar.style.height = ($tourSpotDescription.offsetHeight + $tourActions.offsetHeight + 'px');
+                    $sidebar.style.height = ($tourSpotDescription.offsetHeight + $tourActions.offsetHeight + offSetHeight +'px');
                 }
             }
         }

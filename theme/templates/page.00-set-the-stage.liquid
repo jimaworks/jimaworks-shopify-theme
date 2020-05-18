@@ -75,7 +75,7 @@ Next?  Keep customer on page until explicityly go to When
     <div id = "map_hover_contents" style = "display: none;">
         <ul id="continents3">
 
-            <li class="landbrige">
+            <li id="landbrige_rect">
                 <strong class="title">Land Bridge</strong>
                 <a onclick="RecordRegionOfOriginChoice(&quot;LandBridge&quot;, &quot;SAm&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SAm-AirTr-Pari.png&quot;)">
                     <strong class="title">Land Bridge</strong>
@@ -86,8 +86,7 @@ Next?  Keep customer on page until explicityly go to When
                     </span>
                 </a>
             </li>
-
-            <li class="southamerica">
+            <li id="southamerica_rect">
                 <strong class="title">South America</strong>
                 <a onclick="RecordRegionOfOriginChoice(&quot;SouthAmericaAndTheCaribbean&quot;, &quot;SAm&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SAm-AirTr-Pari.png&quot;)">
                     <strong class="title">South America</strong>
@@ -96,7 +95,7 @@ Next?  Keep customer on page until explicityly go to When
                     </span>
                 </a>
             </li>    
-            <li class="asia">
+            <li id="asia_rect">
                 <strong class="title">South Asia</strong>
                 <a onclick="RecordRegionOfOriginChoice(&quot;SouthAsia&quot;, &quot;SoA&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SoA-AirTr-Pari.png&quot;)">
                     <strong class="title">South Asia</strong>
@@ -105,7 +104,7 @@ Next?  Keep customer on page until explicityly go to When
                     </span>
                 </a>
             </li>
-            <li class="australia">
+            <li id="australia_rect">
                 <strong class="title">Pacific Rim</strong>
                 <a onclick="RecordRegionOfOriginChoice(&quot;PacificRim&quot;, &quot;Pac&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/Pac-AirTr-Pari.png&quot;)">
                     <strong class="title">Pacific Rim</strong>
@@ -114,7 +113,7 @@ Next?  Keep customer on page until explicityly go to When
                     </span>
                 </a>
             </li>
-            <li class="africa">
+            <li id="africa_rect">
                 <strong class="title">Africa</strong>
                 <a onclick="RecordRegionOfOriginChoice(&quot;Africa&quot;, &quot;Afr&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/Afr-AirTr-Pari.png&quot;)"> 
                     <strong class="title">Africa</strong>
@@ -123,7 +122,7 @@ Next?  Keep customer on page until explicityly go to When
                     </span>
                 </a>
             </li>
-            <li class="europe">
+            <li id="europe_rect">
                 <strong class="title">Europe and the <br /> Mediterranean</strong>
                 <a onclick="RecordRegionOfOriginChoice(&quot;EuropeAndTheMediterranean&quot;, &quot;EuM&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-AirTr-Pari.png&quot;)">
                     <strong class="title">Europe and the <br /> Mediterranean</strong>
@@ -131,17 +130,17 @@ Next?  Keep customer on page until explicityly go to When
                         16th-21thC: Population Radiation <br /> Religion, Economics, Politics 
                     </span>
                 </a>
-            </li>    
+            </li>
         </ul>    
     </div>
 </div>
 
-<div class="set_the_stage post-large--two-thirds push--post-large--one-sixth">
+<div class="set_the_stage preview_container post-large--two-thirds push--post-large--one-sixth">
     <article class="jw-relationships-tour">
         <!-- <nav class="jw-relationships-tour__actions"></nav> -->
         <div id="relationships-tour-content" class="jw-relationships-tour__content jw-relationships-tour__content--active">
         <div id="map" class="jw-relationships-tour__map"></div>
-        <aside id="sidebar" class="jw-relationships-tour__sidebar">
+        <aside id="sidebar" class="jw-relationships-tour__sidebar jw-relationships-tour__sidebar--active">
             <div id="donebutton_text">
                 <h4>(Later, choose to customize and change the text boxes to reflect your specific story.)</h4>
             </div>
@@ -176,16 +175,53 @@ Next?  Keep customer on page until explicityly go to When
     Jimaworks.initializePreview();
 
     $(document).ready(function(){
-
         var map = document.getElementById('map_image');
         var continents3 = document.getElementById('continents3');
-        continents3.style.height = map.offsetHeight + "px";        
+
+//      continents3.style.width = map.offsetWidth + "px";  
+        continents3.style.height = map.offsetHeight + "px";  
+
+        var landbrige_rect = document.getElementById('landbrige_rect');
+        landbrige_rect.style.width = map.offsetWidth * 0.15 + "px";
+        landbrige_rect.style.height = map.offsetHeight * 0.265 + "px";
+        landbrige_rect.style.top = map.offsetHeight * 0.226 + "px";
+        landbrige_rect.style.left = map.offsetWidth * 0.84 + "px";
+
+        var southamerica_rect = document.getElementById('southamerica_rect');
+        southamerica_rect.style.width = map.offsetWidth * 0.199 + "px";
+        southamerica_rect.style.height = map.offsetHeight * 0.33 + "px";
+        southamerica_rect.style.top = map.offsetHeight * 0.669 + "px";
+        southamerica_rect.style.left = map.offsetWidth * 0.226 + "px";
+
+        var asia_rect = document.getElementById('asia_rect');
+        asia_rect.style.width = map.offsetWidth * 0.1212 + "px";
+        asia_rect.style.height = map.offsetHeight * 0.26 + "px";
+        asia_rect.style.top = map.offsetHeight * 0.495 + "px";
+        asia_rect.style.left = map.offsetWidth * 0.66 + "px";
+
+        var australia_rect = document.getElementById('australia_rect');
+        australia_rect.style.width = map.offsetWidth * 0.199 + "px";
+        australia_rect.style.height = map.offsetHeight * 0.495 + "px";
+        australia_rect.style.top = map.offsetHeight * 0.495 + "px";
+        australia_rect.style.left = map.offsetWidth * 0.789 + "px";
+
+        var africa_rect = document.getElementById('africa_rect');
+        africa_rect.style.width = map.offsetWidth * 0.212 + "px";
+        africa_rect.style.height = map.offsetHeight * 0.369 + "px";
+        africa_rect.style.top = map.offsetHeight * 0.574 + "px";
+        africa_rect.style.left = map.offsetWidth * 0.439 + "px";
+
+        var europe_rect = document.getElementById('europe_rect');
+        europe_rect.style.width = map.offsetWidth * 0.226 + "px";
+        europe_rect.style.height = map.offsetHeight * 0.273 + "px";
+        europe_rect.style.top = map.offsetHeight * 0.295 + "px";
+        europe_rect.style.left = map.offsetWidth * 0.431 + "px";
 
         var map_hover_contents = document.getElementById('map_hover_contents');
         var map_background = document.getElementById('map-background');
         map_background.innerHTML += map_hover_contents.innerHTML;
         map_hover_contents.innerHTML = '';
-
+        
     });
 </script>
   

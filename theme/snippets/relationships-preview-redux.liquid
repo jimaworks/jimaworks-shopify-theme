@@ -57,24 +57,31 @@
     min-width: 31.25rem;
     margin-bottom: 0;
   }
-    .jw-relationships-preview.aspect-ratio:before {
-      padding-top: calc(3561/4407 * 100%);
-    }
 
-    /* Applies to all frames */
-    .jw-relationships-preview[class*="jw-relationships-preview--frame"] {
-      /* border-image-width: 3.75rem; */
-      /* padding: 5.625rem 5.625rem 4.166625rem; */
-      border-image-outset: 0;
-      border-image-repeat: stretch stretch;
-      border-style: solid;
+  @media only screen and (max-width: 768px) {
+    .jw-relationships-preview {
+      min-width: unset;
     }
-    /* @media only screen and (min-width: 940px) {
-      .jw-relationships-preview[class*="jw-relationships-preview--frame"] {
-        border-image-width: 5.625rem; /* 1.5x the above *
-        padding: 8.4375rem 8.4375rem 6.2499375rem; /* 1.5x the above *
-      }
-    } */
+  }
+
+  .jw-relationships-preview.aspect-ratio:before {
+    padding-top: calc(3561/4407 * 100%);
+  }
+
+  /* Applies to all frames */
+  .jw-relationships-preview[class*="jw-relationships-preview--frame"] {
+    /* border-image-width: 3.75rem; */
+    /* padding: 5.625rem 5.625rem 4.166625rem; */
+    border-image-outset: 0;
+    border-image-repeat: stretch stretch;
+    border-style: solid;
+  }
+  /* @media only screen and (min-width: 940px) {
+    .jw-relationships-preview[class*="jw-relationships-preview--frame"] {
+      border-image-width: 5.625rem; /* 1.5x the above *
+      padding: 8.4375rem 8.4375rem 6.2499375rem; /* 1.5x the above *
+    }
+  } */
 
   
   .jw-relationships-preview__content {
@@ -111,15 +118,19 @@
     text-align: center;
     margin-top: 1rem;
   }
-    .jw-title__text {
-      font-family: inherit;
-      border: none;
-      padding: 0;
-      font-size: 1rem;
+
+  .jw-title__text {
+    font-family: inherit;
+    border: none;
+    padding: 0;
+    font-size: 1rem;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .jw-title__text, .jw-route__text, .artist_acknowledgement , .jw-ship__text, .print_id {
+      font-size: 0.5rem;
     }
-    .jw-title__text.jw-title__text--line2 {
-      font-size: .9rem;
-    }
+  }
 
   .jw-route {
     display: -webkit-box;
@@ -130,25 +141,34 @@
     -ms-flex-pack: justify;
     justify-content: space-between;
   }
+
+  .jw-route__origin,
+  .jw-route__destination {
+    display: inline-block;
+    vertical-align: top;
+
+    -webkit-transition: .125s linear top, .125s linear left, .125s linear right;
+    -o-transition: .125s linear top, .125s linear left, .125s linear right;
+    transition: .125s linear top, .125s linear left, .125s linear right;
+
+    margin-top: 1rem;
+  }
+  
+  @media only screen and (max-width: 768px) {
     .jw-route__origin,
     .jw-route__destination {
-      display: inline-block;
-      vertical-align: top;
+      margin-top: 0rem;
+    }
+  }
 
-      -webkit-transition: .125s linear top, .125s linear left, .125s linear right;
-      -o-transition: .125s linear top, .125s linear left, .125s linear right;
-      transition: .125s linear top, .125s linear left, .125s linear right;
-
-      margin-top: 1rem;
-    }
-    .jw-route__origin {
-      order: 1;
-      text-align: right;
-      padding-right: 1rem;
-    }
-    .jw-route__destination {
-      padding-left: 1rem;
-    }
+  .jw-route__origin {
+    order: 1;
+    text-align: right;
+    padding-right: 1rem;
+  }
+  .jw-route__destination {
+    padding-left: 1rem;
+  }
 
   .jw-map {
     font-family: 'Pacifico', cursive;
@@ -176,31 +196,48 @@
     transition: background-image .25s linear;
   }
     
-    .jw-map.aspect-ratio:before {
-      padding-top: calc(1151/1850 * 100%);
+  @media only screen and (max-width: 768px) {
+    .jw-map {
+      min-height: unset;
     }
+  }
+
+  .jw-map.aspect-ratio:before {
+    padding-top: calc(1151/1850 * 100%);
+  }
+
+  .jw-map__group {
+    -webkit-box-flex: .5;
+    -ms-flex: .5;
+    flex: .5;
+
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+  }
+
+  @media only screen and (max-width: 940px) {
     .jw-map__group {
-      -webkit-box-flex: .5;
-      -ms-flex: .5;
-      flex: .5;
-
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-      flex-direction: column;
-
-      -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-      justify-content: space-between;
+      flex: none;
     }
-    .jw-map__row {
-      position: relative;
-    }
-      .jw-map__row + .jw-map__row {}
+  }
+  
+  .jw-map__row {
+    position: relative;
+  }
+
+  .jw-map__row + .jw-map__row {
+    
+  }
   
   .jw-ship {
     text-align: center;
@@ -222,75 +259,84 @@
     -ms-flex-pack: justify;
     justify-content: space-between;
   }
+
+  .jw-ship__image-container {
+    width: 100%;
+    margin-top: 1rem;
+    min-height: 150px;
+    z-index: 1;
+    position: relative;
+  } 
+
+  @media only screen and (max-width: 768px) {
     .jw-ship__image-container {
-      width: 100%;
-      margin-top: 1rem;
-      min-height: 150px;
-      z-index: 1;
-      position: relative;
-    } 
-
-    .jw-ship-image-div {
-      position: absolute;
-      bottom: 0;
+      margin-top: 0;
+      min-height: 100px;
     }
-    
-    .jw-ship__image {
-      margin: 0 auto;
-      display: block;
-      width: 50%!important; /* Default width if imagery → imageClassification is missing */
-    }
+  }
 
-    .jw-ship__image.border {
-      border-style: solid; 
-      border-width: 3px; 
-      border-color: darkblue;
-    }
+  .jw-ship-image-div {
+    position: absolute;
+    bottom: 0;
+  }
+  
+  .jw-ship__image {
+    margin: 0 auto;
+    display: block;
+    width: 50%!important; /* Default width if imagery → imageClassification is missing */
+  }
 
-      /* Jimaworks-made Sail Ship */
-      .jw-ship__image.jw-ship__image--jimaworks-made-sail {
-        width: 40%;
-      }
-      /* Jimaworks-made Steam-Sail Ship */
-      .jw-ship__image.jw-ship__image--jimaworks-made-steam-sail {
-        width: 65%;
-      }
-      /* Jimaworks-made Steam Ship */
-      .jw-ship__image.jw-ship__image--jimaworks-made-steam {
-        width: 75%;
-      }
-      /* Historic imagery - landscape */
-      .jw-ship__image.jw-ship__image--historic-landscape {
-        width: 55%;
-      }
-      /* Historic imagery - portrait */
-      .jw-ship__image.jw-ship__image--historic-portrait {
-        width: 55%;
-      }
-    .jw-ship__info {
+  .jw-ship__image.border {
+    border-style: solid; 
+    border-width: 3px; 
+    border-color: darkblue;
+  }
+
+  /* Jimaworks-made Sail Ship */
+  .jw-ship__image.jw-ship__image--jimaworks-made-sail {
+    width: 40%;
+  }
+  /* Jimaworks-made Steam-Sail Ship */
+  .jw-ship__image.jw-ship__image--jimaworks-made-steam-sail {
+    width: 65%;
+  }
+  /* Jimaworks-made Steam Ship */
+  .jw-ship__image.jw-ship__image--jimaworks-made-steam {
+    width: 75%;
+  }
+  /* Historic imagery - landscape */
+  .jw-ship__image.jw-ship__image--historic-landscape {
+    width: 55%;
+  }
+  /* Historic imagery - portrait */
+  .jw-ship__image.jw-ship__image--historic-portrait {
+    width: 55%;
+  }
+
+  .jw-ship__info {
 /*      width: 100%;  */
-      height: 17%; /* Must match `bottom` of .jw-ship__image-container */
+    height: 17%; /* Must match `bottom` of .jw-ship__image-container */
 
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex; /* TODO: vendor prefix */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; /* TODO: vendor prefix */
 
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-      flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
 
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      justify-content: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 
-      text-align: center;
-      margin: 1rem auto;
-    }
+    text-align: center;
+    margin: 1rem auto;
+  }
 
-    .jw-plaque-container.add-scale .jw-plaque {
-      overflow-y: unset;
-    }
+  .jw-plaque-container.add-scale .jw-plaque {
+    overflow-y: unset;
+  }
 
   .jw-plaque {
     border: .1875rem solid #ad4448;
@@ -307,30 +353,30 @@
     overflow-y: unset;
   }
 
-    .jw-plaque.aspect-ratio:before {
-      padding-top: calc(298/640 * 100%);
+  .jw-plaque.aspect-ratio:before {
+    padding-top: calc(298/640 * 100%);
+  }
+  .jw-plaque.jw-plaque--gem {
+    max-width: 41.333333333333323%;
+    max-height: 3.616666666666666rem;
+  }
+  .jw-plaque.jw-plaque--small {
+    max-width: 50%;
+    max-height: 4.375rem;
+  }
+  .jw-plaque.jw-plaque--medium {
+    max-width: 60.66666666666665%;
+    max-height: 5.308333333333332rem;
+  }
+  .jw-plaque.jw-plaque--large {
+    max-width: 71.333333333333324%;
+    max-height: 6.241666666666666rem;
+  }
+  @media only screen and (min-width: 940px) {
+    .jw-plaque {
+      max-height: 5.8333rem;
     }
-    .jw-plaque.jw-plaque--gem {
-      max-width: 41.333333333333323%;
-      max-height: 3.616666666666666rem;
-    }
-    .jw-plaque.jw-plaque--small {
-      max-width: 50%;
-      max-height: 4.375rem;
-    }
-    .jw-plaque.jw-plaque--medium {
-      max-width: 60.66666666666665%;
-      max-height: 5.308333333333332rem;
-    }
-    .jw-plaque.jw-plaque--large {
-      max-width: 71.333333333333324%;
-      max-height: 6.241666666666666rem;
-    }
-    @media only screen and (min-width: 940px) {
-      .jw-plaque {
-        max-height: 5.8333rem;
-      }
-    }
+  }
 
   .jw-relationships-preview-container [data-tour-spot][id] {
     -webkit-transition: all .8s linear;
@@ -366,16 +412,16 @@
     z-index: 999999;
   }
 
-    .jw-highlighted.jw-highlighted--alter-box-style {
-      padding: .625rem;
-      background-color: rgba(255,255,255,0.75);
-      border: .0625rem solid #05537a;
-    }
-    .jw-highlighted.jw-highlighted--retain-size {
-      -webkit-transform: none;
-      -ms-transform: none;
-      transform: none;
-    }
+  .jw-highlighted.jw-highlighted--alter-box-style {
+    padding: .625rem;
+    background-color: rgba(255,255,255,0.75);
+    border: .0625rem solid #05537a;
+  }
+  .jw-highlighted.jw-highlighted--retain-size {
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
+  }
 
   .jw-relationships-preview-disclaimer {
     font-style: italic;
@@ -386,11 +432,13 @@
     These styles don’t directly apply to the Preview, but to complementary components.
     TODO: Find a better home for them.
   */
+  #jw-skip-to-project {
+    padding:0;
+  }
+
   .jw-skip-to-project {
     display: inline-block;
-/*    height: 32px; */
-    padding: 1px 7px 2px;
-    /* background-color: white; */
+    padding: 1px 7px;
   }
 
   .jw-link-button {
@@ -403,19 +451,20 @@
     -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.25);
     box-shadow: 1px 1px 2px rgba(0,0,0,0.25);
   }
-    .jw-link-button:hover,
-    .jw-link-button:focus,
-    .jw-link-button:active {
-      color: white;
-      background-color: #006d8a;
-    }
-    .jw-link-button:active {
-      top: 2px;
-      left: 2px;
-      
-      -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.25);
-      box-shadow: 0 0 2px rgba(0,0,0,0.25);
-    }
+
+  .jw-link-button:hover,
+  .jw-link-button:focus,
+  .jw-link-button:active {
+    color: white;
+    background-color: #006d8a;
+  }
+  .jw-link-button:active {
+    top: 2px;
+    left: 2px;
+    
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.25);
+    box-shadow: 0 0 2px rgba(0,0,0,0.25);
+  }
 
   .jw-more-info-link {
     font-size: 110%;
@@ -427,6 +476,10 @@
   
   .jw-relationships-tour__actions {
     margin-bottom: .75rem;
+  }
+
+  .jw-relationships-tour__actions button {
+    margin: 3px 0;
   }
 
   .jw-relationships-tour__content {
@@ -448,18 +501,25 @@
     width: 100%;
     max-width: 100%;
   }
-    /* .jw-relationships-tour__content.jw-relationships-tour__content--active {} */
-    @media only screen and (min-width: 940px) {
-      .jw-relationships-tour__content.jw-relationships-tour__content--active {
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-        flex-direction: row;
-        
-        margin: 0 -25%;
-        min-width: 90vw;
-      }
+
+  @media screen and (max-width: 768px) {
+    .jw-relationships-tour__content {
+      display: block;
     }
+  }
+
+  /* .jw-relationships-tour__content.jw-relationships-tour__content--active {} */
+  @media only screen and (min-width: 940px) {
+    .jw-relationships-tour__content.jw-relationships-tour__content--active {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      
+      margin: 0 -25%;
+      min-width: 90vw;
+    }
+  }
 
   .jw-relationships-tour__map {
     -webkit-box-flex: 1;
@@ -481,20 +541,22 @@
     -webkit-transition: .125s ease height;
     -o-transition: .125s ease height;
     transition: .125s ease height;
-    
     height: 0;
+    padding-left: 1rem;
 /*    display: none;
 */
   }
-    @media only screen and (min-width: 940px) {
-      .jw-relationships-tour__sidebar {
-        padding-left: 1rem;
-      }
+
+  @media only screen and (max-width: 768px) {
+    .jw-relationships-tour__sidebar {
+      padding: 10px;
     }
-    .jw-relationships-tour__sidebar.jw-relationships-tour__sidebar--active {
-      display: block;
-      height: auto;
-    }
+  }
+
+  .jw-relationships-tour__sidebar.jw-relationships-tour__sidebar--active {
+    display: block;
+    height: auto;
+  }
 
   .jw-relationships-tour__navigation {
     margin-bottom: .75rem;
@@ -506,16 +568,15 @@
     -webkit-transition: .125s ease height;
     -o-transition: .125s ease height;
     transition: .125s ease height;
-
-    overflow: hidden;
   }
-    @media only screen and (min-width: 940px) {
-      .jw-tour {
-        -webkit-transition: none;
-        -o-transition: none;
-        transition: none;
-      }
+
+  @media only screen and (min-width: 940px) {
+    .jw-tour {
+      -webkit-transition: none;
+      -o-transition: none;
+      transition: none;
     }
+  }
 
   .jw-tour__descriptions {
     -webkit-transition: .125s linear height;
@@ -524,20 +585,21 @@
 
     position: relative;
   }
-    .jw-tour__description {
-      opacity: 0;
+  
+  .jw-tour__description {
+    opacity: 0;
 
-      -webkit-transition: .125s ease opacity;
-      -o-transition: .125s ease opacity;
-      transition: .125s ease opacity;
+    -webkit-transition: .125s ease opacity;
+    -o-transition: .125s ease opacity;
+    transition: .125s ease opacity;
 
-      position: absolute;
-      top: 0;
-    }
-    .jw-tour__description.jw-tour__description--active {
-      opacity: 1;
-      z-index: 999999;
-    }
+    position: absolute;
+    top: 0;
+  }
+  .jw-tour__description.jw-tour__description--active {
+    opacity: 1;
+    z-index: 999999;
+  }
 
   .--expanded {
     height: 100%;
@@ -547,7 +609,7 @@
     position: relative;
     z-index: 9999;
   }
-  /* .jw-tour__action {} */
+  
   .--disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -567,6 +629,18 @@
     padding: .625rem;
     background-color: rgba(255,255,255,0.75);
     border: .0625rem solid #05537a;
+  }
+
+  .jw-sign {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50px;
+  }
+  @media only screen and (max-width: 768px) {
+    .jw-sign {
+      width: 30px;
+    }
   }
 </style>
 <div class="jw-relationships-preview-container">
@@ -665,8 +739,7 @@
               <div id="print_id" class="print_id" data-tour-spot>Jimaworks:203:04182020</div>
             </div>
             <img id="jw-sign" class="jw-sign" data-tour-spot
-              src="{{ 'jima_sign.png' | asset_url }}"
-              style="position: absolute;right: 0;bottom: 0;width: 50px;">
+              src="{{ 'jima_sign.png' | asset_url }}">
             <img id="jw-seascape" class="jw-seascape" data-tour-spot data-tour-visual
               src="{{ 'seascape.png' | asset_url }}"
               style="position: absolute;width: 100%;bottom: 0;z-index: 0; opacity: 0; visibility: hidden;animation: none;">
