@@ -138,6 +138,16 @@
     ]
   },
   {
+    "name": "Speed Optimization",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "is-speed_optimized",
+        "label": "Theme Speed Optimization"
+      }
+    ]
+  },
+  {
     "name": "Typography",
     "settings": [
       {

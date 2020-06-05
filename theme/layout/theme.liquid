@@ -144,14 +144,70 @@
       },
       moneyFormat: {{ shop.money_format | json }}
     }
+    !function(e){var t=function(t,o,n){"use strict";var r,a=e.document.getElementsByTagName("script")[0],c=e.document.createElement("script");return"boolean"==typeof o&&(r=n,n=o,o=r),c.src=t,c.async=!n,a.parentNode.insertBefore(c,a),o&&"function"==typeof o&&(c.onload=o),c};"undefined"!=typeof module?module.exports=t:e.loadJS=t}("undefined"!=typeof global?global:this);                                        
   </script>
 
-  <!-- Header hook for plugins ================================================== -->
-  {{ content_for_header }}
+  {% if settings.is-speed_optimized %}
+    {% capture asyncLoad %}
+    window.addEventListener('load', function load(event){setTimeout(function(){ asyncLoad(); document.dispatchEvent(new CustomEvent('StartAppLoading'));}, 3500)},false);
+    document.addEventListener("StartAsyncLoading", function(event)
+    {
+      document.dispatchEvent(new CustomEvent('StartKLoad'));
+
+    });
+    {% endcapture %}
+
+    {% capture KernalHead %}
+      document.addEventListener('StartKernelLoading', function() { var customDocumentWrite = 
+    {% endcapture %}
+
+    {% capture KernalFooter %}
+      loadJS(eventsListenerScript.src); });
+    {% endcapture %}
+
+
+    {% capture content_header %}
+      {{
+        content_for_header
+      | replace: ' x.parentNode.insertBefore(s, x)', 'loadJS(urls[i])' 
+      | remove: "window.attachEvent('onload', asyncLoad)" 
+      | replace: "window.addEventListener('load', asyncLoad, false);", asyncLoad 
+      | replace: 'var customDocumentWrite = ', KernalHead 
+      | replace: "document.getElementsByTagName('head')[0].appendChild(eventsListenerScript);", KernalFooter
+      | replace: "DOMContentLoaded", 'StartKLoad'
+      }}
+    {% endcapture %}
+
+    {{ content_header }}
+
+  {% else %}
+    {{ content_for_header }}
+  {% endif %}
 
   {% include 'oldIE-js' %}
 
-  {{ '//ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js' | script_tag }}
+  {% if settings.is-speed_optimized %}
+    <script>
+      {% include 'jquery.min.js' %}
+    </script>
+  {% else %}  
+    {{ '//ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js' | script_tag }}
+  {% endif %}
+
+  {{ 'theme.js' | asset_url | script_tag }}
+
+  {% if settings.is-speed_optimized %}
+    <script>
+      {% include 'jquery-ui.min.js' %}
+    </script>
+    
+    <script defer src="{{ 'lightbox.js' | asset_url }}"></script>
+    <script defer src="{{ 'my-gallery.js' | asset_url }}"></script>
+  {% else %} 
+    {{ 'jquery-ui.min.js' | asset_url | script_tag }}
+    {{ 'lightbox.js' | asset_url | script_tag }}
+    {{ 'my-gallery.js' | asset_url | script_tag }}
+  {% endif %}
 
   {% comment %}
     If you store has customer accounts disabled, you can remove the following JS file
@@ -162,61 +218,100 @@
   
   {{ 'ActiveCampaign_Tracking.js' | asset_url | script_tag }}
 
+  {% if settings.is-speed_optimized %}
+  <script>
+    var trackByDefault = true;
 
+    function acEnableTracking() {
+      var expiration = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 30);
+      document.cookie = "ac_enable_tracking=1; expires= " + expiration + "; path=/";
+      acTrackVisit();
+    }
 
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/5af83a4a5f7cdf4f05342761/default';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+    function acTrackVisit() {
+      var trackcmp_email = '';
+      var trackcmp = document.createElement("script");
+      trackcmp.async = true;
+      trackcmp.type = 'text/javascript';
+      trackcmp.src = '//trackcmp.net/visit?actid=798894651&e='+encodeURIComponent(trackcmp_email)+'&r='+encodeURIComponent(document.referrer)+'&u='+encodeURIComponent(window.location.href);
+      var trackcmp_s = document.getElementsByTagName("script");
+      if (trackcmp_s.length) {
+        trackcmp_s[0].parentNode.appendChild(trackcmp);
+      } else {
+        var trackcmp_h = document.getElementsByTagName("head");
+        trackcmp_h.length && trackcmp_h[0].appendChild(trackcmp);
+      }
+    }
 
+    if (trackByDefault || /(^|; )ac_enable_tracking=([^;]+)/.test(document.cookie)) {
+      acEnableTracking();
+    }
+  </script>
+  {% else %} 
+  {{ 'ActiveCampaign_Tracking.js' | asset_url | script_tag }}
+  {% endif %}
 
-<!-- start jimaworks adds for date picker... -->
+  <!--Start of Tawk.to Script-->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/5af83a4a5f7cdf4f05342761/default';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
+  <!--End of Tawk.to Script-->
+
+  <!-- start jimaworks adds for date picker... -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>jQuery UI Datepicker - Restrict date range</title>
+
+  {% unless settings.is-speed_optimized %}
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  {% endunless %}
+
   <script>
-  $( function() {
-    $( "#datepicker" ).datepicker({ minDate: -20, maxDate: "+1M +10D" });
-  } );
+    $( function() {
+      $( "#datepicker" ).datepicker({ minDate: -20, maxDate: "+1M +10D" });
+    });
   </script>
 
+  <!-- Add javascript for Wishpond email campaigns -->
+  <script type="text/javascript" src="//cdn.wishpond.net/connect.js?merchantId=1464980&writeKey=606f0195f60f" async></script>
 
-<!-- Add javascript for Wishpond email campaigns -->
-<script type="text/javascript" src="//cdn.wishpond.net/connect.js?merchantId=1464980&writeKey=606f0195f60f" async></script>
-
-
-
-<!-- BeginConsistentCartAddon -->  <script>  {% if customer %}  Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}' ;  Shopify.customer_logged_in = true ;  Shopify.customer_email = "{{ customer.email }}" ;  Shopify.log_uuids = true;  {% else %}  Shopify.customer_logged_in = false ;  Shopify.customer_email = "" ;  Shopify.log_uuids = true;  {% endif %}  </script>  <!-- EndConsistentCartAddon -->
+  <!-- BeginConsistentCartAddon -->  
+  <script>  
+  {% if customer %}  
+    Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}' ;  
+    Shopify.customer_logged_in = true ;  
+    Shopify.customer_email = "{{ customer.email }}" ;  
+    Shopify.log_uuids = true;  
+  {% else %}  
+    Shopify.customer_logged_in = false ;  
+    Shopify.customer_email = "" ;  
+    Shopify.log_uuids = true;  
+  {% endif %}  
+  </script>  
+  <!-- EndConsistentCartAddon -->
 </head>
 
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
 
-  
+  <!-- Comments start here...
+  {% assign Origins = "EuropeAndTheMediterranean" %}
+  {% assign Era = "EraOfThePassengerLiner(1890-1970)" %}
+  {% assign Artery = "Northern" %}
+  {% assign Ship = "Vaderland(1890-1930)" %}
+  ... -->
+  <!-- comments end here -->  
 
-<!-- Comments start here...
-{% assign Origins = "EuropeAndTheMediterranean" %}
-{% assign Era = "EraOfThePassengerLiner(1890-1970)" %}
-{% assign Artery = "Northern" %}
-{% assign Ship = "Vaderland(1890-1930)" %}
-...
-<!-- BeginConsistentCartAddon --><script>{% if customer %}Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}' ;Shopify.customer_logged_in = true ;Shopify.customer_email = "{{ customer.email }}" ;Shopify.log_uuids = true;{% else %}Shopify.customer_logged_in = false ;Shopify.customer_email = "" ;Shopify.log_uuids = true;{% endif %}</script>
-<!-- EndConsistentCartAddon -->
-<!-- comments end here -->  
-  
-  
   {% section 'header' %}
 
   <main class="wrapper main-content" role="main">
@@ -234,123 +329,110 @@ s0.parentNode.insertBefore(s1,s0);
 
   {% section 'footer' %}
   
-{% comment %}
-  {% if template == 'index' %}
-  	{% include 'pop-up' %}
-  {% endif %}
-{% endcomment %}
-  
-
-  
-  {{ 'theme.js' | asset_url | script_tag }}
-  {{ 'jquery-ui.min.js' | asset_url | script_tag }}
+  {% comment %}
+    {% if template == 'index' %}
+      {% include 'pop-up' %}
+    {% endif %}
+  {% endcomment %}
     
-  
-  <!-- JIMAWORKS EDIT - ADDING LIGHTBOX -->
-  {{ 'lightbox.js' | asset_url | script_tag }}
-  {{ 'my-gallery.js' | asset_url | script_tag }}
-  <!-- JIMAWORKS EDIT - ADDING LIGHTBOX -->
-
 	<script src="https://use.fontawesome.com/69dbdeb4be.js"></script>
   {{ 'typeahead.bundle.js' | asset_url | script_tag }}
-	
+
 	<script>
-      Array.prototype.unique = function() {
-        return this.filter(function (value, index, self) {
-          return self.indexOf(value) === index;
-        });
-      }
+    Array.prototype.unique = function() {
+      return this.filter(function (value, index, self) {
+        return self.indexOf(value) === index;
+      });
+    }
 
-      var all_routes = {{ shop.metafields.automatik.routes }};
-      var ships = {{ shop.metafields.automatik.ships }};
+    var all_routes = {{ shop.metafields.automatik.routes }};
+    var ships = {{ shop.metafields.automatik.ships }};
 		
-      var datasets = {};
-      
-      var typeaheads = {
-        //arrival: ['Baltimore','Boston','Charleston','Corpus Christi','Houston','Miami','New Orleans','New York/New Jersey','Philadelphia','Galveston'],
-		//departure: ['Antwerp, Belgium','Le Havre, France','Bremen, Germany','Bremerhaven, Germany','Hamburg, Germany','Cork, Ireland','Haifa, Israel','Genoa, Italy','Napoli (Naples), Italy','Palermo, Italy','Trieste, Italy','Rotterdam, Netherlands','Gdansk, Poland','Lisbon, Portugal','St Petersburg, Russia','Istanbul, Turkey','Liverpool, United Kingdom','Southampton, United Kingdom'],
-        ships: new Bloodhound({datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: [] }),
-        arrival: new Bloodhound({datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: [] }),
-        departure: new Bloodhound({datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: [] })
-      };
+    var datasets = {};
+  
+    var typeaheads = {
+    //arrival: ['Baltimore','Boston','Charleston','Corpus Christi','Houston','Miami','New Orleans','New York/New Jersey','Philadelphia','Galveston'],
+    //departure: ['Antwerp, Belgium','Le Havre, France','Bremen, Germany','Bremerhaven, Germany','Hamburg, Germany','Cork, Ireland','Haifa, Israel','Genoa, Italy','Napoli (Naples), Italy','Palermo, Italy','Trieste, Italy','Rotterdam, Netherlands','Gdansk, Poland','Lisbon, Portugal','St Petersburg, Russia','Istanbul, Turkey','Liverpool, United Kingdom','Southampton, United Kingdom'],
+      ships: new Bloodhound({datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: [] }),
+      arrival: new Bloodhound({datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: [] }),
+      departure: new Bloodhound({datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: [] })
+    };
 
-      var get_routes = function(){
-        var year      = $('#historical-date-of-map').val();
-        var departure = $('#trailer-line-2').val();
-        var arrival   = $('#trailer-line-3').val();
-        console.log("init route filtered typeaheads: " + year + " | " + departure + " | " + arrival);
+    var get_routes = function(){
+      var year      = $('#historical-date-of-map').val();
+      var departure = $('#trailer-line-2').val();
+      var arrival   = $('#trailer-line-3').val();
+      console.log("init route filtered typeaheads: " + year + " | " + departure + " | " + arrival);
 
-        var routes = all_routes;
+      var routes = all_routes;
 
-        var filtered_routes = all_routes.filter(function(r){
-          if(year == null){ return r };
+      var filtered_routes = all_routes.filter(function(r){
+        if(year == null){ return r };
 
-          if(r.start < year && r.end > year){
-            return r;
-          }
-        });
+        if(r.start < year && r.end > year){
+          return r;
+        }
+      });
 
-        filtered_routes = filtered_routes.filter(function(r){
-          if(departure == ""){ return r };
+      filtered_routes = filtered_routes.filter(function(r){
+        if(departure == ""){ return r };
 
-          if(r.port_of_origin == departure){
-            return r;
-          }
-        });
+        if(r.port_of_origin == departure){
+          return r;
+        }
+      });
 
-        return filtered_routes.filter(function(r){
-          if(arrival == ""){ return r };
+      return filtered_routes.filter(function(r){
+        if(arrival == ""){ return r };
 
-          if(r.port_of_arrival == arrival){
-            return r;
-          }
-        });
-      };
+        if(r.port_of_arrival == arrival){
+          return r;
+        }
+      });
+    };
 
-      var init_ship_typahead = function(routes){
-        var ship_names = routes.map(function(r){ return r.ship_name }).unique().sort();
-		console.log(ship_names);
-    	typeaheads.ships.clear();
-    	typeaheads.ships.local = datasets.ships = ship_names;
-    	typeaheads.ships.initialize(true);
-      };
+    var init_ship_typahead = function(routes){
+      var ship_names = routes.map(function(r){ return r.ship_name }).unique().sort();
+      console.log(ship_names);
+      typeaheads.ships.clear();
+      typeaheads.ships.local = datasets.ships = ship_names;
+      typeaheads.ships.initialize(true);
+    };
 
-      var init_departure_typahead = function(routes){
-        var departures = routes.map(function(r){ return r.port_of_origin }).unique().sort();
+    var init_departure_typahead = function(routes){
+      var departures = routes.map(function(r){ return r.port_of_origin }).unique().sort();
+      console.log(departures);
+      typeaheads.departure.clear();
+      typeaheads.departure.local = datasets.departure = departures;
+      typeaheads.departure.initialize(true);
+    };
 
-		console.log(departures);
-        typeaheads.departure.clear();
-    	typeaheads.departure.local = datasets.departure = departures;
-    	typeaheads.departure.initialize(true);
-      };
+    var init_arrival_typahead = function(routes){
+      var arrivals = routes.map(function(r){ return r.port_of_arrival }).unique().sort();
 
-      var init_arrival_typahead = function(routes){
-        var arrivals = routes.map(function(r){ return r.port_of_arrival }).unique().sort();
+      console.log(arrivals);
+      typeaheads.arrival.clear();
+      typeaheads.arrival.local = datasets.arrival = arrivals;
+      typeaheads.arrival.initialize(true);
+    };
 
-		console.log(arrivals);
-        typeaheads.arrival.clear();
-    	typeaheads.arrival.local = datasets.arrival = arrivals;
-    	typeaheads.arrival.initialize(true);
-      };
+    var init_typeaheads = function(){
+      console.log("changed - typeahead init");
+      var routes = get_routes();
 
-      var init_typeaheads = function(){
-		console.log("changed - typeahead init");
-        var routes = get_routes();
-
-        init_ship_typahead(routes);
-        init_departure_typahead(routes);
-        init_arrival_typahead(routes);
-      };
+      init_ship_typahead(routes);
+      init_departure_typahead(routes);
+      init_arrival_typahead(routes);
+    };
 
 	  init_typeaheads();
 
-      $('#historical-date-of-map').change(init_typeaheads);
-      $('#trailer-line-2').change(init_typeaheads);
-      $('#trailer-line-3').change(init_typeaheads);
+    $('#historical-date-of-map').change(init_typeaheads);
+    $('#trailer-line-2').change(init_typeaheads);
+    $('#trailer-line-3').change(init_typeaheads);
 
-      jQuery('#trailer-line-2').on('typeahead:selected', init_typeaheads);
-      jQuery('#trailer-line-3').on('typeahead:selected', init_typeaheads);
-	
+    jQuery('#trailer-line-2').on('typeahead:selected', init_typeaheads);
+    jQuery('#trailer-line-3').on('typeahead:selected', init_typeaheads);
     
     var typeaheads_search = function(key, q, sync){
       if (q === '') {
@@ -362,14 +444,12 @@ s0.parentNode.insertBefore(s1,s0);
       }
     };
       
-      var typeaheads_search_fn = {
-        ships: 		function(q, sync){ typeaheads_search('ships', q, sync) },
-        arrival: 	function(q, sync){ typeaheads_search('arrival', q, sync) },
-        departure:  function(q, sync){ typeaheads_search('departure', q, sync) }
-      };
-    
-
-    
+    var typeaheads_search_fn = {
+      ships: 		function(q, sync){ typeaheads_search('ships', q, sync) },
+      arrival: 	function(q, sync){ typeaheads_search('arrival', q, sync) },
+      departure:  function(q, sync){ typeaheads_search('departure', q, sync) }
+    };
+        
     Object.keys(typeaheads).forEach(function(key){
 			$('#' + key + ' .typeahead').typeahead({
 				limit: 3,
@@ -382,8 +462,7 @@ s0.parentNode.insertBefore(s1,s0);
   	  	source: typeaheads_search_fn[key]
 			});
   	});
-	</script>
-  <script>
+
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith#Polyfill
     if (!String.prototype.endsWith) {
       String.prototype.endsWith = function(search, this_len) {
@@ -403,18 +482,10 @@ s0.parentNode.insertBefore(s1,s0);
         });
       }
 	  } );
-  </script>
-
-	<script>		
+		
 		$( document ).tooltip({
 		  position: { my: "left bottom", at: "left top-5" }
 		});
 	</script>
-
-
-</script>
-  
 </body>
- 
 </html>
-

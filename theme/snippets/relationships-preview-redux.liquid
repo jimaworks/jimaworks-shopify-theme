@@ -1054,8 +1054,13 @@
     };
 
     Jimaworks.Preview.setShipBackgroundBorder = function setShipBackgroundBorder() {
+      console.log("setShipBackgroundBorder--------------------------------------------");
+
       var shipImgTransparentBackground = localStorage.shipImageTransparentBackground ;
       var element;
+
+      console.log("shipImgTransparentBackground = ", shipImgTransparentBackground , '-=-----------------');
+
       if (shipImgTransparentBackground === "transparent") {
       }
       else {
