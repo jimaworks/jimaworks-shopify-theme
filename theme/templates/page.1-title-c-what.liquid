@@ -1,0 +1,559 @@
+<div class="grid">
+
+    <div class="grid__item">
+  
+      <div class="section-header">
+        <h1 class="section-header--title">{{ page.title }}</h1>
+      </div>
+  
+      <div class="rte">
+        <div id="i4c-draggable-container" style="position: fixed; z-index: 1499; width: 0px; height: 0px;">
+            <div data-reactroot="" class="resolved" style="all: initial;"></div>
+            </div>
+            <!--  Bookends (I): Title ...
+                https://jimaworks.com/pages/1-title-c-what
+                template:  page
+                Title: Bookends (I): The Title. Say what will your display will be about.
+            
+                  localStorage variables used but not set on this page:
+                    *None*
+                    localStorage.RegionOfOrigin
+                    localStorage.RegionOfOriginAbbrev
+            
+                  localStorage variables set on this page:
+            
+                    localStorage.TitleLine1
+                    localStorage.TitleLine2
+                    localStorage.YearOfCrossing
+                    localStorage.shipImg
+            
+                  Apr 06 2020:1500 Duplicate BookEnds-II Plaque page as template for title
+                  Apr 07 2020:0700 integrate and cleanups - doc which localStorage vars, etc.
+                  Apr 23 2020:1515 Initialization... set the initial ship.
+            -->
+            <div style="color: #0e5478; font-size: x-large; font-weight: bold; line-height: 120%; width: 920px; z-index: 20;">Pick out a good lead line for your title <br /> <span style="font-size: medium;"><em>[Later, if you choose "Personalize" you can replace with, e.g., "The [your family name] Crossing to America"]</em></span></div>
+            <div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+            <div id="mapAndShipDisplay"></div>
+            <div style="position: absolute; font-size: 75%; z-index: 50; top: 25px; left: 70px; width: 180px; height: 130px;"><select id="appreciationLeader" onload="BuildPlaqueSecondLineMenuFromFirstLineChoice()" style="color: #05537a; font-weight: bold;" onchange="echoTitleTextBox()" title="Select the lead-in to your commemorative plaque" selected="selected">
+            <option id="-1" value="The Family Crossing: First Generation" title="Current Title Leader">The Family Crossing: First Generation</option>
+            <option id="0" value="A Crossing to the New World" title="Current Title Leader">A Crossing to the New World</option>
+            <option id="1" value="A Thread in a Great Tapistry" title="Part of your commemoration 'madlib'">Thread in a Great Tapistry</option>
+            <option id="2" value="A Thread in the Great American Tapistry" title="Part of your commemoration 'madlib'">A Thread in the Great American Tapistry</option>
+            <option id="3" value="An American Migration" title="Part of your commemoration 'madlib'">American Migration</option>
+            <option id="4" value="Migration to the States" title="Part of your commemoration 'madlib'">Migration to the States</option>
+            <option id="5" value="A Canadian Migration" title="Part of your commemoration 'madlib'">A Canadian Migration</option>
+            <option id="6" value="The Populating of America" title="Part of your commemoration 'madlib'">Populating of America</option>
+            <option id="7" value="The Family Crossing" title="Part of your commemoration 'madlib'">Family Crossing</option>
+            <option id="8" value="The First Generation" title="Part of your commemoration 'madlib'">First Gen</option>
+            </select></div>
+            <!-- <div style="position: absolute; z-index: 25; top: 280px; left: 70px; width:800px; height: 60px; font-size: x-large;"> -->
+            <div style="position: absolute; z-index: 25; top: 200px; left: 70px; width: 800px; height: 60px; font-size: x-large;">
+            <h4><span style="color: cornsilk;"> <span id="titleTextBoxL1">[Title Lead Line: - provided by you on this page]</span> <br /> <span id="titleTextBoxL2">[Title Line 2: "RegionOfOrigin" - provided by you on previous page]</span> <br /> <span id="titleTextBoxL3">[Title Line 3: "Year-of-Crossing" - provided by you on next page]</span> </span></h4>
+            </div>
+            <div style="font-weight: bold; line-height: 80%; position: absolute; z-index: 50; top: 320px; left: 70px;">
+            <h4>(Later, if you choose to customize, you can change to anything you want.)</h4>
+            </div>
+            <div id="doneButton" style="position: absolute; z-index: 250; color: #05537a; top: 350px; left: 70px;"><button style="color: #05537a; font-weight: bold;" onclick="AcceptCurrentTitleLeadAndExit()"> Continue to "When did this take place" </button></div>
+            </div>
+            <!--
+              <br>
+              <br>
+              <button onclick="actionOnSave()">(Click here to save and come back later)</button></div>
+              -->
+            <script>// <![CDATA[
+            function actionOnSave() {
+              var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+              window.location.assign(SaveForLaterPage);
+            }
+            // ]]></script>
+            <script>// <![CDATA[
+            //var nextPage = "https://jimaworks.com/pages/2-plaque-who" ;
+            var nextPage = "https://jimaworks.com/pages/1-title-b-when" ;
+            var firstEntry = true ;
+            
+            function echoTitleTextBox() {
+                console.log("****echoTitleTextBox()") ;
+                var currentTitleTextBoxLine1 = localStorage.TitleLine1 ;
+                var newtitleTextBoxLine1  = document.getElementById("appreciationLeader").value ;
+                var newtitleTextBoxLine2  = localStorage.RegionOfOrigin ;  // localStorage.TitleLine2 ;
+                var newtitleTextBoxLine3  = "[This line will be set on the next page]" ;
+                // TitleLine1...
+                if(firstEntry == true){
+                  if((currentTitleTextBoxLine1!=undefined)&(currentTitleTextBoxLine1!="")){
+                    document.getElementById("titleTextBoxL1").innerHTML = 'Current Title Line 1: '+currentTitleTextBoxLine1 ;
+                  }
+                  else {
+                    document.getElementById("titleTextBoxL1").innerHTML = 'Poposed Title Line 1: '+newtitleTextBoxLine1 ;
+                  }
+                  firstEntry = false ;
+                }
+                else if((newtitleTextBoxLine1!=undefined)&(newtitleTextBoxLine1!="")) {
+                  document.getElementById("titleTextBoxL1").innerHTML = 'Proposed Title Line 1: '+newtitleTextBoxLine1 ;
+                }
+                else {
+                  newtitleTextBoxLine1 = "A Crossing to the New World"
+                  document.getElementById("titleTextBoxL1").innerHTML = 'Proposed Title Line 1: '+newtitleTextBoxLine1 ;
+                }
+            
+                //TitleLine2...
+                localStorage.TitleLine2 = localStorage.RegionOfOrigin  ;// ### this could use some attention ###
+                if((newtitleTextBoxLine2!=undefined)&(newtitleTextBoxLine2!="")) {
+                  document.getElementById("titleTextBoxL2").innerHTML = 'Title Line 2: '+newtitleTextBoxLine2 ;
+                }
+                else {
+                  document.getElementById("titleTextBoxL2").innerHTML = 'Title Line 2: <Add Date Information Here>' ;
+                }
+            
+                if((newtitleTextBoxLine3!=undefined)&(newtitleTextBoxLine3!="")) {
+                  document.getElementById("titleTextBoxL3").innerHTML = 'Title Line 3: '+newtitleTextBoxLine3 ;
+                }
+              } // function echoTitleTextBox()
+            
+            echoTitleTextBox()  ;
+            
+              // A previous version of AcceptCurrentTitleLead() stays on the page
+            
+              // ### This version of AcceptcurrentTitleLead goes to the next page... ###
+              function AcceptCurrentTitleLeadAndExit() {
+                  localStorage.TitleLine1 = document.getElementById("appreciationLeader").value ;
+                  window.location.assign(nextPage) ;
+              }
+            // ]]></script>
+            <script>// <![CDATA[
+            function add_map_of_the_times() {
+                var currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+                // This doesn't work because (?) stepping on prev val? >>> var prevThisNextAvailMapYears = prevThisNextMapYears(getDefaultYear()
+            //    var availableMapYear = localStorage.currRteMapYear ; // ###This is *three* values###
+                // Just use a current map and let the "When" page do the rest of the work
+                var availableMapYear = 2016 ;
+                var shopifyPrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+                //### making this smaller for ship-on-slider
+                var shopifyImgSizePostfix = "_256x256" ;
+                var currMapFile = shopifyPrefix + availableMapYear+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+            
+                // "https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png"
+                //alert("currMapFile=="+currMapFile) ;
+                //var src = currMapFile ;
+                //var src = "https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png";
+                //show_image("https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png", 276,110, "MapOfTheTimes");
+                //###
+                //currMapFile = "https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png" ;
+                //###
+                show_image(currMapFile, 276,110, "MapOfTheTimes");
+                //return(currMapFile) ;
+              }
+            
+                 // ### this looks like it is all about the ship vs the text... ###
+                 function displayEraTextOnAntiqueMap(newXingYrValue) {
+                     var textOrShipTopOffset = 140 ; //### vs 180 for text? ###
+                     var textOffsetFromTop = placementTop + textOrShipTopOffset ; // ### would like this to align with map height
+                     var routeImageTextStr = "" ;
+                     var describeYearModeTxt = "" ; ;
+                     var currMapFile ;
+                     var shopifyPrefix ;
+                     var shopifyImgSizePostfix ;
+                     var routeImageDisplayStr = "";
+                     var routeImageStyleStr = "";
+                     var routeImageTextStr = "";
+                     var displayLabeledImageHTML ;
+                     var placementTop ;
+                     var placementLeft ;
+                     var placementWidth ;
+                     var placementHeight ;
+                     var placementBorder ;
+                     var placementBorderMultiplier = 10 ;
+                     var placementLineStyle ;
+                     var placementLineColor ;
+                     var placementImgOverwrite ;
+                     var placementImgZIndex = 1 ;
+                     var placementTxtZIndex = 2 ;
+            
+                     placementTop = 50;
+                     placementLeft = 40;
+                     placementWidth = 650; // 1.75*400
+                     placementHeight = 350; // 1.75*400
+                     placementBorder = 3;
+                     placementLineStyle = "solid";
+                     placementLineColor = "red";
+                     var placementImgOverwrite = 20;
+            
+                     var settingLowerDate = true ; // ###Ugh###
+                     if (settingLowerDate) {
+                             //describeYearModeTxt = "Main Routes in Departure (or Earliest-Possible) Year: " ;
+                             describeYearModeTxt = "Main Routes in Year " + newXingYrValue;
+                         }
+                         else {
+                             //describeYearModeTxt = "Main Routes in Arrival (or Latest-Possible) Year: " ;
+                             describeYearModeTxt = "Main Routes in Year "  + newXingYrValue;
+                         }
+                                 var shipInfoStr = shipRepresentativeOfYear(newXingYrValue) ;
+                                 var shipImageStr = shipInfoStr[0] ;
+                                 var shipImageAltStr = shipInfoStr[1] ;
+                         var sliderLeft = 70 ;
+                         var sliderXRange = 730 ;
+                         var currYear = Number(newXingYrValue) ;
+                         var yearStart = 1600 ;
+                         var yearEnd = 2016 ;
+                         var yearRange = yearEnd-yearStart ;
+                         var yearSinceStart = currYear-yearStart ;
+                         var yearLeft = (sliderLeft + (yearSinceStart/yearRange)*sliderXRange) ;
+                         var shipImgX = 200 ; // ### want this to be the actual ship image width
+                         var shipBottom = placementTop+placementHeight ;
+                 //        var shipLeft = placementLeft+(placementWidth-shipImgX)/2 ;
+                         var shipLeft = placementWidth/2-shipImgX/2 ;
+                         var flipShipStr ;
+                         switch (localStorage.RegionOfOriginAbbrev) {
+                           case "EuM" :
+                           case "Afr" :
+                           case "SAm" :
+                             flipShipStr = "" ;
+                             break
+                           case "SoA" :
+                           case "Pac" :
+                             flipShipStr = "-webkit-transform: scaleX(-1); transform: scaleX(-1);" ;
+                        break
+                           default:
+                             flipShipStr = "" ;
+                         }
+            
+                         routeImageTextStr += "<div ";
+                         routeImageTextStr += "style=\"position: absolute; ";
+                         //routeImageTextStr += "top: "+ placementTop +"px; ";
+                         //routeImageTextStr += "left: "+ placementLeft +"px; ";
+                 //        routeImageTextStr += "bottom: "+ shipBottom +"px; ";
+                 //        routeImageTextStr += "left: "+ shipLeft +"px; ";
+                         routeImageTextStr += "top: "+ placementTop +"px; ";
+                         routeImageTextStr += "left: "+ placementLeft +"px; ";
+                         routeImageTextStr += "width: "+ placementWidth +"px; ";
+                         routeImageTextStr += "height: "+ placementHeight +"px; ";
+                         routeImageTextStr += "font-size: large;";
+                         routeImageTextStr += "color: Cornsilk;";
+                         routeImageTextStr += "z-index: "+ placementTxtZIndex +"; ";
+                         routeImageTextStr += "\"";
+                         routeImageTextStr += ">";
+            
+                         routeImageTextStr +=  "Major Crossing Routes in:" + newXingYrValue ;
+                         routeImageTextStr +=  "<br>" ;
+                         routeImageTextStr +=  "<br>" ;
+            
+                         routeImageTextStr += "<div ";
+                         routeImageTextStr += "style=\"position: absolute; ";
+                 //        routeImageTextStr += "top: "+ placementTop +"px; ";
+                         routeImageTextStr += "left: "+ 100 +"px; ";
+                 //        routeImageTextStr += "width: "+ placementWidth +"px; ";
+                 //        routeImageTextStr += "height: "+ placementHeight +"px; ";
+                         routeImageTextStr += flipShipStr;
+                 //routeImageTextStr += "z-index: "+ placementTxtZIndex +"; ";
+                         routeImageTextStr += "\"";
+                         routeImageTextStr += ">";
+                         routeImageTextStr += '<img src="';
+                                 routeImageTextStr += shipImageStr;
+                         routeImageTextStr += '" alt="';
+                                 routeImageTextStr += shipImageAltStr;
+                         routeImageTextStr += ' width="100" height="100">';
+                         routeImageTextStr += "</div>";
+                 /*
+                         routeImageTextStr += "<mark style=\"background-color: Cornsilk;\">";
+                         routeImageTextStr += describeYearModeTxt ;
+                         routeImageTextStr += "</mark>";
+                 */
+                         routeImageTextStr +=  "Typical Ship-of-Crossing:" ;
+                         routeImageTextStr += "</div>";
+            
+                         routeImageTextStr += "<div ";
+                         routeImageTextStr += "style=\"position: absolute; ";
+                 //        routeImageTextStr += "top: "+ placementTop +"px; ";
+                         routeImageTextStr += "top: "+ textOffsetFromTop +"px; ";
+                         //routeImageTextStr += "left: "+ placementLeft +"px; ";
+                         routeImageTextStr += "left: "+ yearLeft +"px; ";
+                         routeImageTextStr += "width: "+ placementWidth +"px; ";
+                         routeImageTextStr += "height: "+ placementHeight +"px; ";
+                         routeImageTextStr += "font-size: large;";
+                 //        routeImageTextStr += "background-color: Cornsilk;";
+                         routeImageTextStr += "z-index: "+ placementTxtZIndex +"; ";
+                         routeImageTextStr += "\"";
+                         routeImageTextStr += ">";
+            /*
+                         routeImageTextStr += '<svg xmlns="http://www.w3.org/2000/svg" mlns:xlink="http://www.w3.org/1999/xlink">' ;
+                         routeImageTextStr += '<text x="10" y="50" transform="rotate(-90 20 30)" style="fill:white" >'
+                         //routeImageTextStr += '<text x="10" y="50" transform="rotate(90 20 30)" >'
+                         routeImageTextStr += '<tspan font-weight="bold" fill="cornsilk">' ;
+                         routeImageTextStr += newXingYrValue ;
+                         routeImageTextStr += '</tspan>';
+                         routeImageTextStr += '</text>';
+                         routeImageTextStr += '</svg>'
+            */
+                 /*
+                         routeImageTextStr += "<mark style=\"background-color: Cornsilk;\">";
+                         routeImageTextStr += describeYearModeTxt ;
+                         routeImageTextStr += "</mark>";
+                 */
+                         routeImageTextStr += "</div>";    console.log("displayEraTextOnAntiqueMap(newXingYrValue=="+newXingYrValue+")>> placementTop=="+placementTop+" placementLeft=="+placementLeft);
+                     return routeImageTextStr ;
+                 }
+            
+            
+              function show_image(src, width, height, alt){
+            
+                  var currYear ;
+                  var ImgOverlayHTML = "" ;
+                  var routeImageStyleStr  = "" ;
+                  var placementTop = 50;
+                  var placementLeft = 40;
+                  var placementWidth = 650; // 1.75*400
+                  var placementHeight = 350; // 1.75*400
+                  var placementBorder = 3;
+                  var placementLineStyle = "solid";
+                  var placementLineColor = "red";
+                  var placementImgOverwrite = 20;
+            
+                  currYear = localStorage.YearOfCrossing ;
+                  if(currYear == undefined) {
+                    currYear = 1907 ;
+                    localStorage.YearOfCrossing = 1907 ;
+                  }
+            
+              //EuM
+                      placementTop = 30;
+                      placementLeft = 275;
+                      placementWidth = 375;
+                      placementHeight = 200;
+                      placementBorder = 3;
+                      placementLineStyle = "solid";
+                      placementLineColor = "red";
+            
+            
+                      routeImageStyleStr = " style=\"position: absolute; ";
+                      routeImageStyleStr += "top: "+ placementTop +"px; ";
+                      routeImageStyleStr += "left: "+ placementLeft +"px; ";
+                      routeImageStyleStr += "width: "+ placementWidth +"px; ";
+                      routeImageStyleStr += "height: "+ placementHeight +"px; ";
+                      routeImageStyleStr += "border: "+ placementBorder +"px; ";
+                      routeImageStyleStr += placementLineStyle +" ";
+                      routeImageStyleStr += placementLineColor +"; ";
+                      routeImageStyleStr += "z-index: "+ placementImgOverwrite +"; ";
+                      routeImageStyleStr += "\"";
+            
+                      /* map display */
+                      ImgOverlayHTML +=   '<div' ;
+                      //ImgOverlayHTML +=   ' style=\"position: absolute; bottom: 20px; left: 150px; z-index: 300;\">' ;
+                      ImgOverlayHTML +=   routeImageStyleStr ;
+                      ImgOverlayHTML +=   ' >' ;
+                      ImgOverlayHTML +=     '<img src=' + src ;
+                      ImgOverlayHTML +=     ' id=\"webMapImg\"';
+                      ImgOverlayHTML +=     ' alt=\"'+alt+'\"';
+                      ImgOverlayHTML +=     ' class=\"map\" width=\"500px\" height=250' ;
+                      ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
+                      /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
+                      ImgOverlayHTML +=     '\" />' ;
+                      ImgOverlayHTML += displayEraTextOnAntiqueMap(currYear) ;
+                      ImgOverlayHTML +=   '</div>' ;
+              //        console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
+                  document.getElementById("mapAndShipDisplay").innerHTML = ImgOverlayHTML;  // ### not mapAndShipDisplayDivID?? ###
+              //        document.getElementById(mapAndShipDisplayDivID).innerHTML = ImgOverlayHTML;
+              }
+            // ]]></script>
+            <script>// <![CDATA[
+            function shipRepresentativeOfYear(currTimelineYear) {
+              /*
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/EarlySailKnownShipIconLabeled.png" ;
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/ModernSailKnownShipIconLabeled.png" ;
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/SteamSailKnownShipIconLabeled.png" ;
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/ClassicPssgrLinerKnownShipIconLabeled.png" ;
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/PssgrLinerKnownShipIconLabeled.png" ;
+              Ryndam_1951-1970_-mdlrend.png
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/AgeOfAirTravelKnownPlaneIconLabeled.png" ;
+              */
+                  var shipFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+                        var shipImage ;
+                  var shipImageSize = 200 ;
+                  var shipSizeSuffix = '_'+shipImageSize+'x'+shipImageSize ;
+                        var shipImageAlt ;
+                  if      (Number(currTimelineYear)<=1619) {
+                            shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "EarlySail(1585?-1607)" ;
+                        } //
+                        else if (Number(currTimelineYear)<=1630) {
+                            shipImage = "Mayflower_1604-1624_jimaworksMade-JenV-300ppi"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "Mayflower(1609?-1624?)" ;
+                        }
+                        else if (Number(currTimelineYear)<=1645) {
+                            shipImage = "The_Arbella_1610-1640_-640x391-postcd"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "Arabella(1625?-1640?)" ;
+                        }
+                        else if (Number(currTimelineYear)<=1675) {
+                            shipImage = "WinthropFleet-painting"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "WinthropFleet(1630-1640)" ;
+                        }
+                        else if (Number(currTimelineYear)<=1675) {
+                            shipImage = "MarieSeraphique-painting"+shipSizeSuffix+".jpg" ;
+                            shipImageAlt = "Marie Seraphique (1720-1820)" ;
+                        }
+                        else if (Number(currTimelineYear)<=1700) {
+                            shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1725) {
+                            shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1750) {
+                            shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1784) {
+                            shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1800) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1815) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1825) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1835) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1840) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1845) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1850) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1855) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1860) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1865) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1870) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1875) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1880) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1885) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1890) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1895) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1900) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1905) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1910) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1914) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1919) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1923) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1938) {
+                            shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1946) {
+                            shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1950) {
+                            shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1960) {
+                            shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1970) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1980) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1990) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=2000) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=2010) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=2016) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (currTimelineYear=="Present") {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+            
+                  localStorage.shipImg = shipFilePrefix+shipImage ;
+                        return [localStorage.shipImg, shipImageAlt] ;
+            }
+            // ]]></script>
+            <script>// <![CDATA[
+            //BuildMigrationListFromRegionAndYearOfCrossing() ;
+                  add_map_of_the_times() ;
+            // ]]></script>
+            <div id="i4c-dialogs-container"></div>
+      </div>
+  
+    </div>
+  
+  </div>
+  

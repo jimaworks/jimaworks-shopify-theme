@@ -1,0 +1,1260 @@
+<div class="grid">
+
+    <div class="grid__item">
+  
+      <div class="section-header">
+        <h1 class="section-header--title">{{ page.title }}</h1>
+      </div>
+  
+      <div class="rte">
+        <div id="i4c-draggable-container" style="position: fixed; z-index: 1499; width: 0px; height: 0px;">
+            <div data-reactroot="" class="resolved" style="all: initial;"></div>
+            </div>
+            <!--  RelationShips Timeline
+                  https://jimaworks.com/pages/textbox1-title-line2-when-did-it-take-place-1
+                  template:  page
+                  Title: 1. Title. Line2: When did it take place?
+            
+                        localStorage variables used but not set on this page:
+                          localStorage.RegionOfOriginAbbrev
+                          localStorage.TitleLine1
+                          localStorage.TitleLine2
+            
+                        localStorage variables set on this page:
+                          localStorage.TitleLine3
+                          localStorage.YearOfCrossing
+                          localStorage.EarliestPossibleYearOfCrossing
+                          localStorage.LatestPossibleYearOfCrossing
+            
+                          localStorage.setItem("Era", erasArray[eraIndex]) ;
+                          localStorage.setItem("EraAbbrev", eraAbbrevs[eraIndex]) ;
+                          // ### get rid of these? ###
+                          localStorage.setItem("CommemorationTimePeriodStart", eraStartArray[eraIndex]) ;
+                          localStorage.setItem("CommemorationTimePeriodEnd", eraEndArray[eraIndex]) ;
+                          localStorage.setItem("CommemorationTimePeriodReprYr",
+            
+                          localStorage.setItem("currRteMapFile", currRteMapFileNm) ;
+            >>              localStorage.setItem("currRteMapYear", currRteMapYear) ;
+                          localStorage.setItem("prevRteMapYear", prevRteMapYear) ;
+                          localStorage.setItem("nextMapYear", nextRteMapYear) ;
+            
+                          Would like to set:
+                          localStorage.shipPic
+                          localStorage.shipPicAlt  ### new ###
+                          localStorage.shipPicFile ### new? ###
+            
+                  Feb 22 2019:0950 Region-relative default immigration years
+                  Mar 10 2019:0900 Word-smithings to cover for initial lack of clickable button that would just use the default year
+                  Apr 15 2019:1240 Fix Firefox problem...  Redefine slider thumb/button as darkred.
+                  Apr 16 2019:1800 Fix the "popping up" button prompt for the slider; Accomodate uncertainty... Intervals of years if desired...
+                  Apr 25 2019:1430 Put in the correct "nextPage"'s to make it live.
+                  Jun 08 2019:1700 Transition to TextBox oriented interaction
+                  Jun 10 2019:0800 Replace slider antique map background with routemap background
+                  Jun 10 2019:1200 Add in the dynamic menues from the "where" pages for handling date uncertainty
+                  Jun 12 2019:1545 Add dynamic TextBox line
+                  Jun 14 2019:1900 Add Save and Come Back Later button
+                  Jun 15 2019:0700 Lightgrey-ize textbox echo w darkblue new text
+                  Jun 18 2019:1700 Streamline text, label "Departure" vs "lower" and "Arrival" vs "higher" year
+                  Jun 20 2019:0900 Parameterize earliest/latest possible NAmerica trip year.
+                  Jul 15 2019:0725 Indents, note about future edit poss, airplane mode only if earliest and latest date both post-1945, Save&FinishLater to top of page
+                  Jul 31 2019:0830 Fixed missing "August" and in-error call to generate downstream menu from "Day" (so "Day" not updating)
+                  Aug 11 2019:1600 Rework conditional logic for TitleLine2 outputs
+                  Sep 02 2019:1330 localStorage.TitleLine2 was not updating with correct "LatestPossible" date.  Fixed.
+                        Jan 24 2020:1100 Cut out all the relative dates, the second slider, etc.
+                  Jan 26 2020:0700 Complete the addition of period ship images to time slider
+                  Feb 20 2020:0900 Incorporate region maps; reverse westward sailing ships
+                  Feb 22 2020:1100 Refine ship reversal, map placement, user instruction
+                  Mar 20 2020:1515 Swap in to new jimaworks page sequence
+                  Apr 07 2020:0700 cleanups - doc which localStorage vars, etc.
+                  Apr 19 2020:1415 Place map at std pos (vs at geo pos or w animation)
+                  Apr 25 2020:1200 Re-arranged display w slider on top, show all title lines
+            
+                  NEED TO DO:
+                  - Maps only go to 1675 vs 1585
+                  - The ship is being reversed but so is the "Your Ship Here" lettering
+                  - The vertical date on the slider is usually floating at the wrong height
+                  - There is a problem with double references of webMapImg and currRteMapFile
+                  - The default regimen of "user-defined" is not consistently implemented
+                --> <!--
+            <h3>When did this crossing happen?</h3>
+            
+                <div style="position: absolute; z-index: 100; top: 20px; left: 70px; width: 180px; height: 130px;">
+             <div style="color: #0E5478; font-weight: bold; line-height:80%; z-index: 20">
+               <h3>
+                 Move red box on slider to choose the year of crossing.
+               </h3>
+             </div>
+            -->
+            <div style="color: #0e5478; font-weight: bold; line-height: 80%; z-index: 20;">Move red box on slider to choose the year of crossing.</div>
+            <div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+            <div id="RangeSlider" style="position: absolute; z-index: 1025; top: 10px; left: 70px; width: 800px; height: 40px;"></div>
+            <div style="position: absolute; font-weight: bold; line-height: 80%; z-index: 20; top: 30px; left: 70px;">
+            <h3>Major crossing routes and typical ship-of-crossing for that year appear on the map</h3>
+            </div>
+            <div id="backgroundImage"></div>
+            <!--
+            <div id="RangeSlider" style="position: absolute; z-index: 10025; top: 270px; left: 70px; width: 800px; height: 40px;"></div>
+            -->
+            <div style="position: absolute; z-index: 1000; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; line-height: 80%; top: 250px; left: 70px; width: 800px; height: 60px; font-size: x-large;">
+            <h4><!--
+                Currently chosen region/country of origin =
+                <span id="CurrentSelectionDisplay"></span>
+                <br>
+                --> <br /> Title Line 3 = "Year of Crossing: <span id="currentYrOfXing"></span>"</h4>
+            </div>
+            <div style="position: absolute; z-index: 2250; top: 215px; left: 70px; width: 800px; height: 60px; font-size: x-large;">
+            <h4><span style="color: cornsilk;"> <span id="titleTextBoxL1">[Title Lead Line: - provided by you on this page]</span> <br /> <span id="titleTextBoxL2">[Title Line 2: "RegionOfOrigin" - provided by you on previous page]</span> <!--
+              <br />
+              <span id="titleTextBoxL3">[Title Line 3: "Year-of-Crossing" - provided by you on next page]</span> </span>
+            --> </span></h4>
+            </div>
+            <div style="color: cornsilk; text-shadow: 1px 1px 0px Darkblue; line-height: 80%; position: absolute; z-index: 50; top: 320px; left: 70px;">
+            <h4>(Later, choose to customize and change the text boxes to reflect your specific story.)</h4>
+            </div>
+            <div id="doneButton" style="position: absolute; z-index: 22250; top: 350px; left: 70px;"><button onclick="recordTimeOfCrossing(1911,1914,1910,1919,'EraOfThePassengerLiner(1895-1970)')"> Continue to "Who is this display about - the Plaque" </button></div>
+            <!--
+            <div style="color: grey;">
+            <h4>Your Title Text Box contents are currently: <br>     Line1: <span id="titleTextBoxL1"> " " </span> <br>     Line2: <span id="titleTextBoxL2" style="color: darkblue;"> "A Thread in the Great American Tapestry" </span> <br>     Line3: <span id="titleTextBoxL3"> " " </span> <br>(You'll have opportunities to edit later)</h4>
+            </div>
+            -->
+            <script>// <![CDATA[
+            var titleLineWidth = 320 ;
+            var userInputOption  = '' ;
+                userInputOption  = '<input id="enterTitleLine2"' ;
+                userInputOption += ' type="text"' ;
+                userInputOption += ' value="______Option3:'+localStorage.TitleLine2+'"' ;
+                //userInputOption += ' style="width: '+titleLineWidth+'px; ' ;
+                //userInputOption += ' background-color: Ivory; border: 4px solid DarkGreen; ' ;
+                //userInputOption += ' padding: 5px; margin: 0 3px; font-size: 110%; font-weight: bold;" ' ;
+                userInputOption += ' oninput="acceptText()">' ;
+            var earliestPossibleTripYear = 1600 ;
+            var latestPossibleTripYear = 2019 ;
+            
+            function enterTitleLine2Text() {
+               // document.getElementById("titleTextBoxL2").innerHTML = document.getElementById("titleTextBoxL2").innerHTML ;
+               //alert("go to enterTitleLine2Text()") ;
+                document.getElementById("titleTextBoxL2Option3").innerHTML = userInputOption ;
+            }
+            
+            function acceptText() {
+               // no-op ;
+               // document.getElementById("titleTextBoxL2Option3").innerHTML = userInputOption ;
+            }
+            
+            // ### hm.  Will TitleLine1 eer be undefined at this point?  If so, need to coordinate with TitleLine1 page. ###
+            if ((localStorage.TitleLine1===undefined)||(localStorage.TitleLine1==="undefined")||(localStorage.TitleLine1==="")) {
+                    document.getElementById("titleTextBoxL1").innerHTML = "&lt;Available if needed&gt;" ;
+                }
+                else {
+                    document.getElementById("titleTextBoxL1").innerHTML = "Title Line 1: "+localStorage.TitleLine1 ;
+                }
+                if ((localStorage.TitleLine2===undefined)||(localStorage.TitleLine2==="undefined")||(localStorage.TitleLine2==="")) {
+                    document.getElementById("titleTextBoxL2").innerHTML = "&lt;Available if needed&gt;" ;
+                }
+                else {
+                    document.getElementById("titleTextBoxL2").innerHTML = "Title Line 2: "+localStorage.TitleLine2 ;
+                }
+                if ((localStorage.TitleLine3===undefined)||(localStorage.TitleLine3==="undefined")||(localStorage.TitleLine3==="")) {
+                    document.getElementById("titleTextBoxL3").innerHTML = "&lt;Available if needed&gt;" ;
+                }
+                else {
+                    document.getElementById("titleTextBoxL3").innerHTML = "Title Line 3: "+localStorage.TitleLine3 ;
+                }
+            // ]]></script>
+            <script>// <![CDATA[
+            function actionOnSave() {
+                var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+                window.location.assign(SaveForLaterPage);
+            }
+            // ]]></script>
+            <!--
+                            style="background: #05537A;"
+              -->
+            <script>// <![CDATA[
+            //var nextPage = 'https://jimaworks.com/pages/textbox2-origins-from-what-region-did-this-firstgen-come' ;
+            //var nextPage = 'https://jimaworks.com/pages/textbox2-origins-where-did-this-firstgen-come-from' ;
+            //var nextPage = 'https://jimaworks.com/pages/0-0-migrations' ;
+            //var nextPage = 'https://jimaworks.com/pages/0-0-origins-where-did-this-firstgen-come-from' ;
+            //var nextPage = 'https://jimaworks.com/pages/3-origins-a-country-of-origin' ;
+            var nextPage = 'https://jimaworks.com/pages/2-plaque-who' ;
+            
+            var settingLowerDate = true ;
+            
+            function getDefaultYear() {
+                    var regionAbbrev = localStorage.RegionOfOriginAbbrev;
+                    var highestImmigrationYear ;
+                    if (regionAbbrev=="EuM") {
+                        highestImmigrationYear = 1907 ;
+                    }
+                    if (regionAbbrev=="Afr") {
+                        highestImmigrationYear = 1760 ;
+                    }
+                    if (regionAbbrev=="Pac") {
+                        highestImmigrationYear = 1880 ;
+                    }
+                    if (regionAbbrev=="SoA") {
+                        highestImmigrationYear = 1970 ;
+                    }
+                    if (regionAbbrev=="SAm") {
+                        highestImmigrationYear = 1940 ;
+                    }
+            //        alert('getDefaultYear(regionAbbrev=='+regionAbbrev+'): Setting year of immigration to '+highestImmigrationYear) ;
+                    return highestImmigrationYear ;
+            } ;
+            
+            function earliestImmigrationYearFromYearOfCrossing(YearOfCrossing) {
+              var earliestYear = Number(YearOfCrossing) - 25 ;
+              //### do up this function to aligh with migration periods ###turn
+              return earliestYear ;
+            }
+            
+            function latestImmigrationYearFromYearOfCrossing(YearOfCrossing) {
+              var latestYear = Number(YearOfCrossing) + 25 ;
+              //### do up this function to aligh with migration periods ###
+              return latestYear ;
+            }
+            
+            // This is the slider with an imagery button...
+            /*
+            function setupDateSliders() {
+                alert("setupDateSliders()") ;
+            
+            }
+            setupDateSliders() ;
+            */
+            /* page globals to track user entries of high and low dates
+            var lowerYear = document.getElementById("Year").value;
+            var lowerSeason = document.getElementById("Season").value;
+            var lowerMonth = document.getElementById("Month").value;
+            var lowerDay = document.getElementById("Day").value;
+            var higherYear = document.getElementById("Year").value;
+            var higherSeason = document.getElementById("Season").value;
+            var higherMonth = document.getElementById("Month").value;
+            var higherDay = document.getElementById("Day").value;
+            */
+            var lowerYear = 'unk';
+            var lowerSeason = 'unk';
+            var lowerMonth = 'unk';
+            var lowerDay = 'unk';
+            var higherYear = 'unk';
+            var higherSeason = 'unk';
+            var higherMonth = 'unk';
+            var higherDay = 'unk';
+            
+            var currentLowerMapYear ;
+            var currentHigherMapYear ;
+            
+            var dateHierarchy = {};
+                dateHierarchy['Summer'] = ['June', 'July', 'August', 'September'] ;
+                dateHierarchy['Fall'] = ['September', 'October', 'November', 'December'] ;
+                dateHierarchy['Winter'] = ['December', 'January', 'February', 'March'] ;
+                dateHierarchy['Spring'] = ['March', 'April', 'May', 'June'] ;
+            
+            var daysInMonth = {} ;
+                daysInMonth['January'] = 31 ;
+                daysInMonth['February'] = 28 ; // ### leap years ###
+                daysInMonth['March'] = 31 ;
+                daysInMonth['April'] = 3 ;
+                daysInMonth['May'] = 31 ;
+                daysInMonth['June'] = 30 ;
+                daysInMonth['July'] = 31 ;
+                daysInMonth['August'] = 31 ;
+                daysInMonth['September'] = 30 ;
+                daysInMonth['October'] = 31 ;
+                daysInMonth['November'] = 30 ;
+                daysInMonth['December'] = 31 ;
+            
+            if(localStorage.EarliestPossibleYearOfCrossing) {
+                currentLowerMapYear=Math.max(1575, Number(localStorage.EarliestPossibleYearOfCrossing))
+                lowerYear=currentLowerMapYear ;
+            }
+            else {
+                currentLowerMapYear=1575 ;
+                localStorage.EarliestPossibleYearOfCrossing=currentLowerMapYear ;
+                lowerYear=currentLowerMapYear ;
+            }
+            
+            if(localStorage.LatestPossibleYearOfCrossing) {
+                currentHigherMapYear=Math.min(2020, Number(localStorage.LatestPossibleYearOfCrossing)) ;
+                higherYear=currentHigherMapYear ;
+            }
+            else {
+                currentHigherMapYear=2020
+                localStorage.LatestPossibleYearOfCrossing=currentHigherMapYear ;
+                higherYear=currentHigherMapYear ;
+            }
+            console.log("###### currentLowerMapYear=="+currentLowerMapYear+" currentHigherMapYear=="+currentHigherMapYear+"######") ;
+            
+            var currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+            // This doesn't work because (?) stepping on prev val? >>> var prevThisNextAvailMapYears = prevThisNextMapYears(getDefaultYear())
+            var availableMapYear = 2016 ; //getDefaultYear() ;
+            var shopifyPrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+            //### making this smaller for ship-on-slider
+            var shopifyImgSizePostfix = "_256x256" ;
+            var currMapFile = shopifyPrefix + availableMapYear+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+            // NOTE:  The style for this slider in timeline-slider.scss under Assets, and included in theme.liquid
+            //    var lowRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="lowRange" type="range" min="1600" max="2019" value="'+getDefaultYear()+'" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
+            var lowRangeSliderButtonHTML  = '<div class="slidecontainer">' ;
+                //lowRangeSliderButtonHTML += '<input class="slider" id="lowRange" name="foo" type="range" min="1600" max="2019" value="'+"1600" ;
+                lowRangeSliderButtonHTML   += '<input class="slider" id="lowRange" name="foo" type="range" min="1600" max="2019" value="'
+                lowRangeSliderButtonHTML += currentLowerMapYear ;
+                //lowRangeSliderButtonHTML += '" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
+            
+                lowRangeSliderButtonHTML += '" style="background: url(' ;
+                //shopifyPrefix + prevThisNextAvailMapYears[1]+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+                //lowRangeSliderButtonHTML += '\''+'  shopifyPrefix + prevThisNextAvailMapYears[1]+'-Routes-'+currRegionAbbrev+shopifyImgSizePostfix+'.png'+'\'' ;
+                //https://cdn.shopify.com/s/files/1/1336/0641/files/map_7.png?546
+            
+            
+            //        lowRangeSliderButtonHTML += '\'https://cdn.shopify.com/s/files/1/1336/0641/files/map_7.png?546\'' ;
+                lowRangeSliderButtonHTML += '\''+currMapFile+'\'' ;
+                lowRangeSliderButtonHTML += ');" />' ;
+            
+                lowRangeSliderButtonHTML += '<output for="foo" onforminput="value = foo.valueAsNumber;"></output>' ;
+            
+            //    lowRangeSliderButtonHTML = '<div class="slidecontainer"><input class="slider" id="lowRange" type="range" min="1600" max="2019" value="'+getDefaultYear() ;
+            //    lowRangeSliderButtonHTML +='" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\'); ' ;
+                document.getElementById("RangeSlider").innerHTML = lowRangeSliderButtonHTML ;
+            // ]]></script>
+            <!--
+                    <datalist id="tickmarks">
+                      <option value="1600">
+                      <option value="1675">
+                      <option value="1700">
+                      <option value="1725">
+                      <option value="1750">
+                      <option value="1784">
+                      <option value="1800" label="Age of Sail">
+                      <option value="1815">
+                      <option value="1825">
+                      <option value="1835">
+                      <option value="1840">
+                      <option value="1845">
+                      <option value="1850">
+                      <option value="1855">
+                      <option value="1860">
+                      <option value="1865">
+                      <option value="1870">
+                      <option value="1875">
+                      <option value="1880" label="Age of the Steam-Sail Ship">
+                      <option value="1885">
+                      <option value="1890">
+                      <option value="1895">
+                      <option value="1900">
+                      <option value="1905">
+                      <option value="1910">
+                      <option value="1914" label="Age of the Passenger Liner">
+                      <option value="1919">
+                      <option value="1923">
+                      <option value="1938">
+                      <option value="1946">
+                      <option value="1950">
+                      <option value="1960">
+                      <option value="1970">
+                      <option value="1980" label="Age of Air Travel">
+                      <option value="1990">
+                      <option value="2000">
+                      <option value="2010">
+                      <option value="2016">
+                      <option value="Present">
+                    </datalist>
+            -->
+            <script>// <![CDATA[
+            var erasArray = [ "ColonialAndEarlyIndependenceEra(1607-1840)", "EraOfTheSteamSailShip(1840-1915)", "EraOfThePassengerLiner(1895-1970)", "EraOfAirTravel(1945-Present)"] ;
+                var eraAbbrevs = [ "Early", "StmSl", "Liner", "AirTr"] ;
+                var eraStartArray = [ 1607, 1840, 1895, 1945] ;
+                var eraEndArray = [ 1840, 1915, 1970, 2100] ; /* "Present" - so make it large enough to always be larger than the eraStart */
+                var eraRepresentativeYearArray = [ 1720, 1870, 1910, 2016] ;
+            
+                var currMapFile ;
+                var shopifyPrefix ;
+                var shopifyImgSizePostfix ;
+                var routeImageDisplayStr = "";
+                var routeImageStyleStr = "";
+                var routeImageTextStr = "";
+                var displayLabeledImageHTML ;
+                var placementTop ;
+                var placementLeft ;
+                var placementWidth ;
+                var placementHeight ;
+                var placementBorder ;
+                var placementBorderMultiplier = 10 ;
+                var placementLineStyle ;
+                var placementLineColor ;
+                var placementImgZIndex = 1 ;
+                var placementShipZIndex = 100 ;
+                var placementTxtZIndex = 2 ;
+                var currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+                var eraMatchString = localStorage.Era ;
+            
+                // track the user interaction...
+                var newYrOfXingOutput = document.getElementById("currentYrOfXing") ;
+                var newEraOutput = document.getElementById("currentEra");
+                var currEra ;
+                var currEraIndex ;
+            
+                var yearOfXingHTML ;
+                var yearOfXingString ;
+                var prevThisNextAvailMapYears ;
+                var earliestPosYearOfXingHTML ;
+            
+            // This part makes the slider go...
+                var currentSlider ;
+                var currentYearSlider = document.getElementById("lowRange");
+                var currentYearSliderIteration = 0 ;
+                var backgroundMapAndText = "" ;
+                newYrOfXingOutput.innerHTML = currentYearSlider.value;
+            
+                console.log("Before currentYearSlider.oninput fn >>this.value=="+this.value+" newYrOfXingOutput=="+newYrOfXingOutput+" newYrOfXingOutput.innerHTML=="+newYrOfXingOutput.innerHTML);
+            
+                backgroundMapAndText += moveDisplayEraRoutesOnAntiqueMap(newYrOfXingOutput.innerHTML, currentYearSliderIteration, true) ;
+                backgroundImage.innerHTML = backgroundMapAndText ;
+                currentYearSlider.oninput = function() {
+                    currentSlider = "currentYearSlider" ;
+                    currentYearSliderIteration+=1;
+                    var prevEraMatch = 0;
+                    for (eraIndex=0; eraIndex<erasArray.length; eraIndex++) {
+                        if (currentYearSlider.value>=eraStartArray[eraIndex] & currentYearSlider.value<=eraEndArray[eraIndex]) {
+                            currEraIndex = eraIndex; // ### note that will be working with the more recent of overlapping eras
+                            currEra = erasArray[currEraIndex];
+            // ### should Era be getting set here? ###
+                            localStorage.Era = currEra ;
+                            if (prevEraMatch==0) {
+                                prevEraMatch++ ;
+                                eraMatchString = erasArray[eraIndex] ;
+                            }
+                            else {
+                                eraMatchString = eraMatchString+" and "+currEra ;
+                            }
+                        }
+                    }
+            //        localStorage.setItem("EarliestPossibleYearOfCrossing", this.value) ;
+            //        routeImageDisplayStr = moveDisplayEraRoutesOnAntiqueMap(this.value, currentYearSliderIteration, true) ;
+            if(false&&this.value!=currentYearSlider.value) {
+                alert("this.value=="+this.value+"!=currentYearSlider.value=="+currentYearSlider.value) ;
+            }
+                    localStorage.YearOfCrossing = currentYearSlider.value ;
+                    localStorage.EarliestPossibleYearOfCrossing = earliestImmigrationYearFromYearOfCrossing(localStorage.YearOfCrossing) ;
+                    localStorage.LatestPossibleYearOfCrossing = latestImmigrationYearFromYearOfCrossing(localStorage.YearOfCrossing) ;
+                    routeImageDisplayStr = moveDisplayEraRoutesOnAntiqueMap(currentYearSlider.value, currentYearSliderIteration, true) ;
+                    //    backgroundImage.innerHTML = routeImageDisplayStr ;
+                    backgroundImage.innerHTML = "<div>"+routeImageDisplayStr+"</div>";
+                    newYrOfXingOutput.innerHTML = currentYearSlider.value ;
+            //        newEraOutput.innerHTML = eraMatchString ; // +" region="+currRegionAbbrev;
+                    console.log("After: >>this.value=="+this.value+" newYrOfXingOutput=="+newYrOfXingOutput+" newYrOfXingOutput.innerHTML=="+newYrOfXingOutput.innerHTML);
+            
+                    // ### making this anew every time since otherwise currentYearSlider.value is just taken at the first pass and is always 1907...  no other way? ###
+                    //<button onclick="specifyTimeInterval()">Click here if not sure of the year of crossing</button>
+                    var yearOfXingHTML  =  document.getElementById("currentYrOfXing") ;
+                    var yearOfXingString  =  document.getElementById("currentYrOfXing").innerText ;
+                    var prevThisNextAvailMapYears = prevThisNextMapYears(Number(yearOfXingString)) ;
+                        var selectIntervalPrompt  ;
+                    console.log("Script: value of document.getElementById(\"currentYrOfXing\")==yearOfXingHTML is "+document.getElementById("currentYrOfXing")) ;
+                    console.log("Script: value of yearOfXingHTML.innerText=yearOfXingString is "+yearOfXingString) ;
+                    //<button onclick='recordTimeOfCrossing(1600,2016,"EraOfTheSteamSailShip(1840-1915)")'>Click here if done</button>
+                    //var earliestPosYearOfXingHTML  =  "<span style=\"float: left; display: inline-block; background-color: #ffffff; border: 1px solid #FF0000; padding: 5px; margin: 0 3px;\">" ;
+                        if (true) {
+                            selectIntervalPrompt  = 'Continue to "Who is this display about - the Plaque" ' ;
+                        }
+                        // ### none of this happens.  Remove or use... ###
+                        else if (localStorage.EarliestPossibleYearOfCrossing==localStorage.LatestPossibleYearOfCrossing) {
+                            selectIntervalPrompt  = 'Click here to accept ' ;
+                            selectIntervalPrompt += localStorage.EarliestPossibleYearOfCrossing ;
+                            selectIntervalPrompt += ' as the known year of the crossing' ;
+                        }
+                        else {
+                            selectIntervalPrompt  = 'Click to accept [' ;
+                            selectIntervalPrompt += localStorage.EarliestPossibleYearOfCrossing ;
+                            selectIntervalPrompt += '-' ;
+                            selectIntervalPrompt += localStorage.LatestPossibleYearOfCrossing ;
+                            selectIntervalPrompt += ']' ;
+                            selectIntervalPrompt += ' as the earliest and latest possible years of the crossing' ;
+                        }
+                    var earliestPosYearOfXingHTML  =  "<button " ;
+                        earliestPosYearOfXingHTML +=  "onclick=\"recordTimeOfCrossing(" ; //YrOfXing, currRteMapYear, prevRteMapYear, nextRteMapYear, currRteMapFileNm, eraName
+                        earliestPosYearOfXingHTML +=  eval(currentYearSlider.value) ;
+                        earliestPosYearOfXingHTML +=  "," ;
+                        earliestPosYearOfXingHTML +=  prevThisNextAvailMapYears[1] ;
+                        earliestPosYearOfXingHTML +=  "," ;
+                        earliestPosYearOfXingHTML +=  prevThisNextAvailMapYears[0] ; // prevAvailMapYr
+                        earliestPosYearOfXingHTML +=  "," ;
+                        earliestPosYearOfXingHTML +=  prevThisNextAvailMapYears[2] ; // nextAvailMapYr
+                        earliestPosYearOfXingHTML +=  "," ;
+                        earliestPosYearOfXingHTML +=  "\'" ; //"\'EraOfTheSteamSailShip(1840-1915)\'" ;
+                        earliestPosYearOfXingHTML +=  currEra ;
+                        earliestPosYearOfXingHTML +=  "\'" ;
+                        earliestPosYearOfXingHTML +=  ")\"" ;
+                        earliestPosYearOfXingHTML +=  ">" ;
+                        earliestPosYearOfXingHTML +=  selectIntervalPrompt ; //"Click here to select your year" ;
+                        earliestPosYearOfXingHTML +=  "</button>" ;
+                        //earliestPosYearOfXingHTML +=  "</span>" ;
+                    //document.write(earliestPosYearOfXingHTML) ;
+            //        doneButton.innerHTML = earliestPosYearOfXingHTML;
+                    // ### might want to reorganize all the updates into one place ###
+                    doneButton.innerHTML = earliestPosYearOfXingHTML;
+            // ### don't need this since have already set localStorage.YearOfCrossing
+            //        RegisterYearChange(this.value) ;
+                } ; // end "currentYearSlider.oninput = function()..."
+            
+            
+                // track the user interaction...
+                var lastPosYrOfXingOutput = document.getElementById("latestYrOfXing") ;
+                var latestEraOutput = document.getElementById("latestEra");
+            /* ### check ###
+            
+                var currEra ;
+                var currEraIndex ;
+            
+                var yearOfXingHTML ;
+                var yearOfXingString ;
+                var prevThisNextAvailMapYears ;
+                var earliestPosYearOfXingHTML ;
+             *
+             */
+            
+            function moveDisplayEraRoutesOnAntiqueMap(Yr, routeImageDisplayIteration, animate) {
+                if (Yr === undefined) {
+                      Yr = 1907;
+                }
+                if (routeImageDisplayIteration === undefined) {
+                      routeImageDisplayIteration = 1;
+                }
+                // if turning animation off, make it like the first iteration every time
+                // ### turn animation off for now ###
+                animate = false;
+                if (!animate) {
+                      routeImageDisplayIteration = 0;
+                }
+                var backgroundMapAndText = "";
+                var routeImageStyleStr ;
+                    // ### BEWARE: nice trick to keep text from appearing over-written, but downstream consequences?  ###
+                    // ### but in any case, doesn't work :( ###
+                    placementImgZIndex =  5 ; //placementImgZIndex+2 ;
+                    placementShipZIndex =  50 ; //placementImgZIndex+2 ;
+                    placementTxtZIndex = 1000 ; //placementImgZIndex+1 ;
+            
+                // This part makes the route maps line up on the right places on the background map
+                /* e.g., https://cdn.shopify.com/s/files/1/1336/0641/files/1840-Routes-EuM.png?10745133832325765683
+                 vs      https://cdn.shopify.com/s/files/1/1336/0641/files/1855-Routes-EuM.png
+                 */
+            
+                currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+                var prevThisNextAvailMapYears = prevThisNextMapYears(Yr) ;  //### duplicate? ###
+                shopifyPrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+                shopifyImgSizePostfix = "_256x256" ;
+                currMapFile = shopifyPrefix + prevThisNextAvailMapYears[1]+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+                routeImageDisplayStr = "<img src=";
+                routeImageDisplayStr += "\""+currMapFile+"\"";
+                //routeImageDisplayStr += "\"https://cdn.shopify.com/s/files/1/1336/0641/files/1855-Routes-EuM.png\"";
+            
+                routeImageDisplayStr += " alt=\"Timeline: Current Map ("+currMapFile+")\"";
+                if (routeImageDisplayIteration > 0) {
+                    /*
+                    ###Original:###
+                    routeImageDisplayStr += " style=\"position: absolute; top: 30px; left: 510px; width: 165px; height 120px; border: 2px solid red;\"";
+                    ###Designed for antique background map:###
+                    routeImageDisplayStr += " style=\"position: absolute; top: 30px; left: 275px; width: 375px; height 200px; border: 2px solid red;\"";
+                    ###TopLeft-aligned:###
+                    routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 375px; height 200px; border: 2px solid red;\"";
+                     */
+                    //re-jigger so that the final image is more like 600x600 vs 256x256
+                    placementTop = 50;
+                    placementLeft = 40;
+                    placementWidth = 650; // 1.75*400
+                    placementHeight = 350; // 1.75*400
+                    placementBorder = placementBorderMultiplier*3;
+                    placementLineStyle = "solid";
+                    placementLineColor = "red";
+                    placementImgOverwrite = placementImgZIndex+1 ;
+            
+                    routeImageStyleStr = " style=\"position: absolute; ";
+                    routeImageStyleStr += "top: "+ placementTop +"px; ";
+                    routeImageStyleStr += "left: "+ placementLeft +"px; ";
+                    routeImageStyleStr += "width: "+ placementWidth +"px; ";
+                    routeImageStyleStr += "height: "+ placementHeight +"px; ";
+                    routeImageStyleStr += "border: "+ placementBorder +"px; ";
+                    routeImageStyleStr += placementLineStyle +" ";
+                    routeImageStyleStr += placementLineColor +"; ";
+                    routeImageStyleStr += "z-index: "+ placementImgOverwrite +"; ";
+            
+                    routeImageStyleStr += "\"";
+            
+                    routeImageDisplayStr += routeImageStyleStr ;
+                    routeImageDisplayStr += ">";
+            
+                    console.log("moveDisplayEraImageOnAntiqueMap(Yr=="+Yr+",Iteration=="+routeImageDisplayIteration+")>> placementTop=="+placementTop+" placementLeft=="+placementLeft);
+                    console.log("currMapFile=="+currMapFile+",placementImgOverwrite=="+placementImgOverwrite);
+            
+                }
+                else {
+                    if (currRegionAbbrev=="EuM") {
+                        /*
+                        ###Original:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 30px; left: 510px; width: 165px; height 120px; border: 2px solid red;\"";
+                        ###Designed for antique background map:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 30px; left: 275px; width: 375px; height 200px; border: 2px solid red;\"";
+                        ###TopLeft-aligned:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 375px; height 200px; border: 2px solid red;\"";
+                         */
+                        placementTop = 30;
+                        placementLeft = 275;
+                        placementWidth = 375;
+                        placementHeight = 200;
+                        placementBorder = placementBorderMultiplier*3;
+                        placementLineStyle = "solid";
+                        placementLineColor = "red";
+                    }
+                    else if (currRegionAbbrev=="Afr") {
+                        /*
+                        ###Original:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 160px; left: 490px; width: 185px; height 170px; border: 3px solid green;\"";
+                        ###Designed for antique background map:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 100px; left: 300px; width: 400px; height 200px; border: 3px solid green;\"";
+                        ###TopLeft-aligned:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 400px; height 200px; border: 3px solid green;\"";
+                        */
+                        placementTop = 100;
+                        placementLeft = 300;
+                        placementWidth = 400;
+                        placementHeight = 200;
+                        placementBorder = placementBorderMultiplier*3;
+                        placementLineStyle = "solid";
+                        placementLineColor = "green";
+                    }
+                    else if (currRegionAbbrev=="Pac") {
+                        /*
+                        ###Original:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 100px; left: 0px; width: 200px; height 200px; border: 2px solid orange;\"";
+                        ###Designed for antique background map:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 100px; left: 0px; width: 400px; height 200px; border: 2px solid orange;\"";
+                        ###TopLeft-aligned:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 400px; height 200px; border: 2px solid orange;\"";
+                        */
+                        placementTop = 100;
+                        placementLeft = 0;
+                        placementWidth = 400;
+                        placementHeight = 200;
+                        placementBorder = placementBorderMultiplier*2;
+                        placementLineStyle = "solid";
+                        placementLineColor = "orange";
+                    }
+                    else if (currRegionAbbrev=="SoA") {
+                        /*
+                        ###Original:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 80px; left: 680px; width: 180px; height 160px; border: 2px solid blue;\"";
+                        ###Designed for antique background map:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 100px; left: 700px; width: 400px; height 200px; border: 2px solid blue;\"";
+                        ###TopLeft-aligned:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 400px; height 200px; border: 2px solid blue;\"";
+                        */
+                        placementTop = 100;
+                        placementLeft = 700;
+                        placementWidth = 400;
+                        placementHeight = 200;
+                        placementBorder = placementBorderMultiplier*2;
+                        placementLineStyle = "solid";
+                        placementLineColor = "blue";
+                    }
+                    else if (currRegionAbbrev=="SAm") {
+                        /*
+                        ###Original:###
+                         routeImageDisplayStr += " style=\"position: absolute; top: 150px; left: 220px; width: 260px; height 230px; border: 3px solid purple;\"";
+                        ###Designed for antique background map:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 125px; left: 175px; width: 400px; height 200px; border: 3px solid purple;\"";
+                        ###TopLeft-aligned:###
+                        routeImageDisplayStr += " style=\"position: absolute; top: 10px; left: 10px; width: 400px; height 200px; border: 3px solid purple;\"";
+                        */
+                        placementTop = 125;
+                        placementLeft = 175;
+                        placementWidth = 400;
+                        placementHeight = 200;
+                        placementBorder = placementBorderMultiplier*3;
+                        placementLineStyle = "solid";
+                        placementLineColor = "purple";
+                    }
+                    else { // default = EuM
+                        placementTop = 30;
+                        placementLeft = 275;
+                        placementWidth = 375;
+                        placementHeight = 200;
+                        placementBorder = placementBorderMultiplier*3;
+                        placementLineStyle = "solid";
+                        placementLineColor = "red";
+                    }
+            
+            
+            // ### NOTE:  Temporarily (?) setting to standard placement  ###
+            // ### but want the above logic so that size, borders, etc get set correctly ###
+                    placementTop = 70;
+                    placementLeft = 275;
+                    //placementWidth = 650; // 1.75*400
+                    //placementHeight = 350; // 1.75*400
+                    //placementBorder = placementBorderMultiplier*3;
+                    //placementLineStyle = "solid";
+                    //placementLineColor = "red";
+                    //placementImgOverwrite = placementImgZIndex+1 ;
+            
+            
+                    routeImageStyleStr = " style=\"position: absolute; ";
+                    routeImageStyleStr += "top: "+ placementTop +"px; ";
+                    routeImageStyleStr += "left: "+ placementLeft +"px; ";
+                    routeImageStyleStr += "width: "+ placementWidth +"px; ";
+                    routeImageStyleStr += "height: "+ placementHeight +"px; ";
+                    routeImageStyleStr += "border: "+ placementBorder +"px; ";
+                    routeImageStyleStr += placementLineStyle +" ";
+                    routeImageStyleStr += placementLineColor +"; ";
+                    routeImageStyleStr += "z-index: "+ placementImgZIndex +"; ";
+            
+                    routeImageStyleStr += "-webkit-animation: mymove 4s; "; /* Safari 4.0 - 8.0 */
+                    routeImageStyleStr += "-webkit-animation-fill-mode: forwards; "; /* Safari 4.0 - 8.0 */
+                    routeImageStyleStr += "animation: mymove 4s; ";
+                    routeImageStyleStr += "animation-fill-mode: forwards; ";
+            
+                    routeImageStyleStr += "\"";
+            
+                    routeImageDisplayStr += routeImageStyleStr ;
+                    routeImageDisplayStr += ">";
+            
+                    var targetPlacementTop = 125;
+                    var targetPlacementLeft = 175;
+                    // var targetPlacementWidth = 400; not used
+                    // var targetPlacementHeight = 200; not used
+                    var targetScaleFactorX = 1.75 ;
+                    var targetScaleFactorY = 1.75 ;
+            
+                    /* ### taking the moving/growing map feature out for now... ### */
+                    if (!animate) {
+                        targetPlacementTop = placementTop;
+                        targetPlacementLeft = placementLeft;
+                        targetScaleFactorX = 1.0 ;
+                        targetScaleFactorY = 1.0 ;
+                    }
+            
+                    var animationStyleStr  = "<style>" ; /* Safari 4.0 - 8.0 */
+                        animationStyleStr += "@-webkit-keyframes mymove {" ;
+            //            animationStyleStr += "from {top: "+placementTop+"px; left:"+placementLeft+"px; transfrom: rotate(0deg);} " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+            //            animationStyleStr += "to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px; transfrom: rotate(360deg);}" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                        animationStyleStr += "from {top: "+placementTop+"px; left:"+placementLeft+"px; } " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+                        animationStyleStr += "to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px; }" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                        animationStyleStr += "from {transfrom: scale(1,1);} " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+                        animationStyleStr += "to {transform: scale("+targetScaleFactorX+","+targetScaleFactorY+");}" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                        //animationStyleStr += "-webkit-animation-duration: 4s;" ;
+                        animationStyleStr += "-webkit-animation-timing-function: linear;" ;
+                        animationStyleStr += "-webkit-animation-fill-mode: both;" ;
+                        animationStyleStr += "}" ;
+            
+                        animationStyleStr += "@keyframes mymove {" ;
+            //            animationStyleStr += "from {top: "+placementTop+"px; left:"+placementLeft+"px; transfrom: rotate(0deg);} " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+            //            animationStyleStr += "to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px; transfrom: rotate(360deg);}" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                        animationStyleStr += "from {top: "+placementTop+"px; left:"+placementLeft+"px; } " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+                        animationStyleStr += "to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px; }" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                        animationStyleStr += "from {transfrom: scale(1,1);} " ; //"from {top: "+placementTop+"px; left: "+placementLeft+"px;}" ;
+                        animationStyleStr += "to {transform: scale("+targetScaleFactorX+","+targetScaleFactorY+");}" ; //"to {top: "+targetPlacementTop+"px; left: "+targetPlacementLeft+"px;}" ;
+                        //animationStyleStr += "animation-duration: 4s;" ;
+                        animationStyleStr += "animation-timing-function: linear;" ;
+                        animationStyleStr += "animation-fill-mode: both;" ;
+                        animationStyleStr += "}" ;
+                        animationStyleStr += "</style>" ;
+            
+                    console.log("Initial moveDisplayEraImageOnAntiqueMap(Yr=="+Yr+",Iteration=="+routeImageDisplayIteration+")>> placementTop=="+placementTop+" placementLeft=="+placementLeft);
+                    console.log("currMapFile=="+currMapFile+", placementImgZIndex=="+placementImgZIndex);
+                }
+            
+                var routeImageTextStr = "";
+                if(currentSlider=="currentYearSlider") {
+                    routeImageTextStr = displayEraTextOnAntiqueMap(Yr) ;
+                    //document.getElementById("Year").value = 'Departure Year: '+Yr ;
+                }
+                else if (Yr) {
+                    routeImageTextStr = displayEraTextOnAntiqueMap(Yr) ;
+                    //document.getElementById("Year").value = 'Arrival Year: '+Yr ;
+                }
+                //document.getElementById("TitleTextBoxLine1").value = localStorage.TitleLine1 ;
+                //document.getElementById("TitleTextBoxLine2").value = localStorage.TitleLine2 ;
+                ////document.getElementById("TitleTextBoxLine3").value = localStorage.TitleLine3 ;
+            
+            
+                //backgroundMapAndText +='<div style="color: Cornsilk">' ;
+                //backgroundMapAndText += '<svg xmlns="http://www.w3.org/2000/svg" mlns:xlink="http:////www.w3.org/1999/xlink">' ;
+                //backgroundMapAndText += '<text x="10" y="400" style="fill:white" >'
+                ////backgroundMapAndText += '<text x="10" y="50" transform="rotate(90 20 30)" >'
+                //backgroundMapAndText += '<tspan font-weight="bold" fill="Cornsilk">' ;
+                //backgroundMapAndText += 'Move red box on slider to choose the year of crossing.' ;
+                //backgroundMapAndText += 'Major crossing routes and typical ship-of-crossing for that year appear on the map.' ;
+                //backgroundMapAndText += '</tspan>';
+                //backgroundMapAndText += '</text>';
+                //backgroundMapAndText += '</svg>'
+            
+                //backgroundMapAndText +='<div style="color: Cornsilk">' ;
+            /*
+                backgroundMapAndText +='<h2 style="color: Cornsilk ; line-height:80%">' ;
+                backgroundMapAndText +='Move red box on slider to choose the year of crossing. ' ;
+                backgroundMapAndText +='<br><span style="font-size:75% ;">' ;
+                backgroundMapAndText +='Major crossing routes and typical ship-of-crossing for that year appear on the map.' ;
+                backgroundMapAndText +='</span>' ;
+                backgroundMapAndText +='</h2>' ;
+            */
+                backgroundMapAndText += routeImageDisplayStr + animationStyleStr + routeImageTextStr ;
+            
+                return backgroundMapAndText ;
+            } // moveDisplayEraRoutesOnAntiqueMap()
+            
+            // ### this looks like it is all about the ship vs the text... ###
+            // ### placementTop (as 70px 4-25-20)defined outside this fn ###
+            function displayEraTextOnAntiqueMap(newXingYrValue) {
+                var textOffsetFromTop = placementTop + 35 ; // ### would like this to align with map height
+                var yearOffsetFromTop = placementTop + 5 ; //### Doesn't seem the right place to set this ###
+                var routeImageTextStr = "" ;
+                var describeYearModeTxt = "" ; ;
+                    if (settingLowerDate) {
+                        //describeYearModeTxt = "Main Routes in Departure (or Earliest-Possible) Year: " ;
+                        describeYearModeTxt = "Main Routes in Year " + newXingYrValue;
+                    }
+                    else {
+                        //describeYearModeTxt = "Main Routes in Arrival (or Latest-Possible) Year: " ;
+                        describeYearModeTxt = "Main Routes in Year "  + newXingYrValue;
+                    }
+                            var shipInfoStr = shipRepresentativeOfYear(newXingYrValue) ;
+                            var shipImageStr = shipInfoStr[0] ;
+                            var shipImageAltStr = shipInfoStr[1] ;
+                    var sliderLeft = 70 ;
+                    var sliderXRange = 730 ;
+                    var currYear = Number(newXingYrValue) ;
+                    var yearStart = 1600 ;
+                    var yearEnd = 2016 ;
+                    var yearRange = yearEnd-yearStart ;
+                    var yearSinceStart = currYear-yearStart ;
+                    var yearLeft = (sliderLeft + (yearSinceStart/yearRange)*sliderXRange) ;
+                    var shipImgX = 200 ; // ### want this to be the actual ship image width
+                    var shipBottom = 70 ;
+            //        var shipLeft = placementLeft+(placementWidth-shipImgX)/2 ;
+                    var shipLeft = placementWidth/2-shipImgX/2 ;
+                    var flipShipStr ;
+                    switch (localStorage.RegionOfOriginAbbrev) {
+                      case "EuM" :
+                      case "Afr" :
+                      case "SAm" :
+                        flipShipStr = "" ;
+                        break
+                      case "SoA" :
+                      case "Pac" :
+                        flipShipStr = "-webkit-transform: scaleX(-1); transform: scaleX(-1);" ;
+                   break
+                      default:
+                        flipShipStr = "" ;
+                    }
+            
+                    routeImageTextStr += "<div ";
+                    routeImageTextStr += "style=\"position: absolute; ";
+                    //routeImageTextStr += "top: "+ placementTop +"px; ";
+                    //routeImageTextStr += "left: "+ placementLeft +"px; ";
+            //        routeImageTextStr += "bottom: "+ shipBottom +"px; ";
+            //        routeImageTextStr += "left: "+ shipLeft +"px; ";
+                    routeImageTextStr += "top: "+ textOffsetFromTop +"px; ";
+                    routeImageTextStr += "left: "+ placementLeft +"px; ";
+                    routeImageTextStr += "width: "+ placementWidth +"px; ";
+                    routeImageTextStr += "height: "+ placementHeight +"px; ";  // ### defined here? ###
+                    routeImageTextStr += "line-height: 85% ; ";  // ### defined here? ###
+                    routeImageTextStr += "font-size: large;";
+                    routeImageTextStr += "color: Cornsilk;";
+                    routeImageTextStr += "z-index: "+ placementTxtZIndex +"; ";
+                    routeImageTextStr += "\"";
+                    routeImageTextStr += ">";
+            
+                    routeImageTextStr +=  "Major Crossing Routes in:" + newXingYrValue ;
+                    routeImageTextStr +=  "<br>" ;
+                    routeImageTextStr +=  "Typical Ship-of-Crossing:" ;
+            
+                    routeImageTextStr += "<div ";
+                    routeImageTextStr += "style=\"position: absolute; ";
+                    routeImageTextStr += "z-index: "+ placementShipZIndex +"; ";
+            //        routeImageTextStr += "top: "+ placementTop +"px; ";
+                    routeImageTextStr += "bottom: "+ shipBottom +"px; ";
+                    routeImageTextStr += "left: "+ 100 +"px; ";
+            //        routeImageTextStr += "width: "+ placementWidth +"px; ";
+            //        routeImageTextStr += "height: "+ placementHeight +"px; ";
+                    routeImageTextStr += flipShipStr;
+            //routeImageTextStr += "z-index: "+ placementTxtZIndex +"; ";
+                    routeImageTextStr += "\"";
+                    routeImageTextStr += ">";
+                    routeImageTextStr += '<img src="';
+                            routeImageTextStr += shipImageStr;
+                    routeImageTextStr += '" alt="';
+                            routeImageTextStr += shipImageAltStr;
+                    routeImageTextStr += ' width="100" height="100">';
+                    routeImageTextStr += "</div>";
+            /*
+                    routeImageTextStr += "<mark style=\"background-color: Cornsilk;\">";
+                    routeImageTextStr += describeYearModeTxt ;
+                    routeImageTextStr += "</mark>";
+            */
+                    routeImageTextStr += "</div>";
+            
+                    routeImageTextStr += "<div ";
+                    routeImageTextStr += "style=\"position: absolute; ";
+                    routeImageTextStr += "top: "+ yearOffsetFromTop +"px; ";
+                    routeImageTextStr += "left: "+ yearLeft +"px; ";
+                    routeImageTextStr += "font-size: large;";
+                    routeImageTextStr += "z-index: "+ placementTxtZIndex +"; ";
+                    routeImageTextStr += "\"";
+                    routeImageTextStr += ">";
+            
+                    routeImageTextStr += '<svg xmlns="http://www.w3.org/2000/svg" mlns:xlink="http://www.w3.org/1999/xlink">' ;
+                    routeImageTextStr += '<text x="10" y="50" transform="rotate(-90 20 30)" style="fill:white" >'
+                    //routeImageTextStr += '<text x="10" y="50" transform="rotate(90 20 30)" >'
+                    routeImageTextStr += '<tspan font-weight="bold" fill="cornsilk">' ;
+                    routeImageTextStr += newXingYrValue ;
+                    routeImageTextStr += '</tspan>';
+                    routeImageTextStr += '</text>';
+                    routeImageTextStr += '</svg>'
+            /*
+                    routeImageTextStr += "<mark style=\"background-color: Cornsilk;\">";
+                    routeImageTextStr += describeYearModeTxt ;
+                    routeImageTextStr += "</mark>";
+            */
+                    routeImageTextStr += "</div>";    console.log("displayEraTextOnAntiqueMap(newXingYrValue=="+newXingYrValue+")>> placementTop=="+placementTop+" placementLeft=="+placementLeft);
+                return routeImageTextStr ;
+            }
+            
+            
+            function specifyYearOfCrossing() {
+            
+            }
+            
+            function prevThisNextMapYears(currTimelineYear) {
+                var NextMapYear ;
+            /*  ### need to add these maps!! ###
+                if      (Number(currTimelineYear)<=1585) { return [1540,1585,1607] ; }
+                else if (Number(currTimelineYear)<=1607) { return [1585,1607,1620] ; }
+                else if (Number(currTimelineYear)<=1620) { return [1607,1620,1648] ; }
+                else if (Number(currTimelineYear)<=1648) { return [1620,1648,1675] ; }
+            */
+                if      (Number(currTimelineYear)<=1648) { return [1600,1600,1675] ; }
+                else if (Number(currTimelineYear)<=1675) { return [1648,1675,1700] ; }
+                else if (Number(currTimelineYear)<=1700) { return [1675,1700,1725] ; }
+                else if (Number(currTimelineYear)<=1725) { return [1700,1725,1750] ; }
+                else if (Number(currTimelineYear)<=1750) { return [1725,1750,1784] ; }
+                else if (Number(currTimelineYear)<=1784) { return [1750,1784,1800] ; }
+                else if (Number(currTimelineYear)<=1800) { return [1784,1800,1815] ; }
+                else if (Number(currTimelineYear)<=1815) { return [1800,1815,1825] ; }
+                else if (Number(currTimelineYear)<=1825) { return [1815,1825,1835] ; }
+                else if (Number(currTimelineYear)<=1835) { return [1825,1835,1840] ; }
+                else if (Number(currTimelineYear)<=1840) { return [1835,1840,1845] ; }
+                else if (Number(currTimelineYear)<=1845) { return [1840,1845,1850] ; }
+                else if (Number(currTimelineYear)<=1850) { return [1845,1850,1855] ; }
+                else if (Number(currTimelineYear)<=1855) { return [1850,1855,1860] ; }
+                else if (Number(currTimelineYear)<=1860) { return [1855,1860,1865] ; }
+                else if (Number(currTimelineYear)<=1865) { return [1860,1865,1870] ; }
+                else if (Number(currTimelineYear)<=1870) { return [1865,1870,1875] ; }
+                else if (Number(currTimelineYear)<=1875) { return [1870,1875,1880] ; }
+                else if (Number(currTimelineYear)<=1880) { return [1875,1880,1885] ; }
+                else if (Number(currTimelineYear)<=1885) { return [1880,1885,1890] ; }
+                else if (Number(currTimelineYear)<=1890) { return [1885,1890,1895] ; }
+                else if (Number(currTimelineYear)<=1895) { return [1890,1895,1900] ; }
+                else if (Number(currTimelineYear)<=1900) { return [1895,1900,1905] ; }
+                else if (Number(currTimelineYear)<=1905) { return [1900,1905,1910] ; }
+                else if (Number(currTimelineYear)<=1910) { return [1905,1910,1914] ; }
+                else if (Number(currTimelineYear)<=1914) { return [1910,1914,1919] ; }
+                else if (Number(currTimelineYear)<=1919) { return [1914,1919,1923] ; }
+                else if (Number(currTimelineYear)<=1923) { return [1919,1923,1938] ; }
+                else if (Number(currTimelineYear)<=1938) { return [1923,1938,1946] ; }
+                else if (Number(currTimelineYear)<=1946) { return [1938,1946,1950] ; }
+                else if (Number(currTimelineYear)<=1950) { return [1946,1950,1960] ; }
+                else if (Number(currTimelineYear)<=1960) { return [1950,1960,1960] ; }
+                else if (Number(currTimelineYear)<=1970) { return [1960,1970,1980] ; }
+                else if (Number(currTimelineYear)<=1980) { return [1970,1980,1990] ; }
+                else if (Number(currTimelineYear)<=1990) { return [1980,1990,2000] ; }
+                else if (Number(currTimelineYear)<=2000) { return [1990,2000,2010] ; }
+                else if (Number(currTimelineYear)<=2010) { return [2000,2010,2016] ; }
+                else if (Number(currTimelineYear)<=2016) { return [2010,2016,2020] ; }
+                else if (currTimelineYear=="Present") { return [2010,2016,2020] ; }
+                else { return [2010,2016,2020] ; }
+            }
+            
+            function specifyTimeInterval(startYear) {
+                /*
+                alert("4b:RecordEraOfCrossingChoice: " ) ;
+                alert("4b:RecordEraOfCrossingChoice: regionName=="+eraName ) ;
+                alert("4b:RecordEraOfCrossingChoice: regionIndex=="+eraIndex ) ;
+                alert("4b:RecordEraOfCrossingChoice: eraEndArray=="+eraEndArray[eraIndex] ) ;
+            // ###?###        alert("4b:RecordEraOfCrossingChoice: eraImageFileNm=="+eraImageFileNm ) ;
+            
+                localStorage.setItem("Era", eraName) ;
+                localStorage.setItem("EraAbbrev", eraAbbrevs[eraIndex]) ;
+                localStorage.setItem("CommemorationTimePeriodStart", startYear);
+                localStorage.setItem("CommemorationTimePeriodEnd", eraEndArray[eraIndex]) ;
+                localStorage.setItem("CommemorationTimePeriodReprYr", eraRepresentativeYearArray[eraIndex]) ;
+            // ###?###       localStorage.setItem("EraImageFileName", eraImageFileNm) ;
+                 */
+                console.log("specifyTimeInterval(startYear=="+startYear+")" ) ;
+            }
+            
+              function shipRepresentativeOfYear(currTimelineYear) {
+              /*
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/EarlySailKnownShipIconLabeled.png" ;
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/ModernSailKnownShipIconLabeled.png" ;
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/SteamSailKnownShipIconLabeled.png" ;
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/ClassicPssgrLinerKnownShipIconLabeled.png" ;
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/PssgrLinerKnownShipIconLabeled.png" ;
+              Ryndam_1951-1970_-mdlrend.png
+              "https://cdn.shopify.com/s/files/1/1336/0641/files/AgeOfAirTravelKnownPlaneIconLabeled.png" ;
+              */
+                  var shipFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+                        var shipImage ;
+                  var shipImageSize = 200 ;
+                  var shipSizeSuffix = '_'+shipImageSize+'x'+shipImageSize ;
+                        var shipImageAlt ;
+                  if      (Number(currTimelineYear)<=1619) {
+                            shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "EarlySail(1585?-1607)" ;
+                        } //
+                        else if (Number(currTimelineYear)<=1630) {
+                            shipImage = "Mayflower_1604-1624_jimaworksMade-JenV-300ppi"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "Mayflower(1609?-1624?)" ;
+                        }
+                        else if (Number(currTimelineYear)<=1645) {
+                            shipImage = "The_Arbella_1610-1640_-640x391-postcd"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "Arabella(1625?-1640?)" ;
+                        }
+                        else if (Number(currTimelineYear)<=1675) {
+                            shipImage = "WinthropFleet-painting"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "WinthropFleet(1630-1640)" ;
+                        }
+                        else if (Number(currTimelineYear)<=1675) {
+                            shipImage = "MarieSeraphique-painting"+shipSizeSuffix+".jpg" ;
+                            shipImageAlt = "Marie Seraphique (1720-1820)" ;
+                        }
+                        else if (Number(currTimelineYear)<=1700) {
+                            shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1725) {
+                            shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1750) {
+                            shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1784) {
+                            shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1800) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1815) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1825) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1835) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1840) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1845) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1850) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1855) {
+                            shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1860) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1865) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1870) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1875) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1880) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1885) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1890) {
+                            shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1895) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1900) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1905) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1910) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1914) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1919) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1923) {
+                            shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1938) {
+                            shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1946) {
+                            shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1950) {
+                            shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1960) {
+                            shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1970) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1980) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=1990) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=2000) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=2010) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (Number(currTimelineYear)<=2016) {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else if (currTimelineYear=="Present") {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                  else {
+                            shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                            shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+                        }
+                        return [shipFilePrefix+shipImage, shipImageAlt] ;
+            }
+            
+            //### Unused ###
+            function RegisterYearChange(Yr) {
+                return // ### just bail on this for now... ###
+                    if(currentSlider=="currentYearSlider") {
+                            settingLowerDate = true ;
+                            lowerYear = Yr;
+            //###        localStorage.EarliestPossibleYearOfCrossing = lowerYear ;
+                    localStorage.YearOfCrossing = lowerYear ;
+                            //document.getElementById("Year").value = 'Departure Year: '+lowerYear ;
+                    }
+            // ### "slider2" is gone ###
+                    else if(currentSlider=="slider2"){
+                            settingLowerDate = false ;
+                            higherYear = Yr;
+                            localStorage.LatestPossibleYearOfCrossing = higherYear ;
+                            //document.getElementById("Year").value = 'Arrival Year: '+higherYear ;
+                    }
+            }
+            // ]]></script>
+            <script>// <![CDATA[
+            function recordTimeOfCrossing(YearOfCrossing, currRteMapYear, prevRteMapYear, nextRteMapYear, currRteMapFileNm, eraName) {
+                    //alert("eraStartArray[3]=="+eraStartArray[3]+"<=?YearOfCrossing=="+YearOfCrossing+"<=?eraEndArray[2]=="+eraEndArray[2]+">>"+eval(eraStartArray[3]<=YearOfCrossing && YearOfCrossing<=eraEndArray[2])) ;
+                    //if (eraStartArray[3]<=YearOfCrossing && YearOfCrossing<=eraEndArray[2]) {
+                    /* if both the Earliest and Latets YearOfCrossing are after the start of the Age of Air Travel and end of Age of the Passenger Liner... */
+                    //alert("eraStartArray[3]=="+eraStartArray[3]+"<=?YearOfCrossing=="+YearOfCrossing+"<=?eraEndArray[2]=="+eraEndArray[2]+">>"+eval(eraStartArray[3]<=YearOfCrossing && YearOfCrossing<=eraEndArray[2])) ;
+                    if (eraStartArray[3]<=YearOfCrossing && YearOfCrossing<=eraEndArray[2]) {
+                        if (confirm("Ship trip? (\"Cancel\" makes this a plane trip)")) {
+                            // ### need to find the related localStorage, update, and test for it here so don't repeat the question ###
+                            eraIndex=2 ;
+                        }
+                        else {
+                            eraIndex=3 ;
+                        }
+                    }
+                    else if (YearOfCrossing<=eraEndArray[0]) {
+                        eraIndex = 0;
+                    }
+                    else if (YearOfCrossing<=eraEndArray[1]) {
+                        eraIndex = 1;
+                    }
+                    else if (YearOfCrossing<=eraEndArray[2]) {
+                        eraIndex = 2;
+                    }
+                    else {
+                        eraIndex = 3;
+                    }
+            
+                    //localStorage.TitleLine1 = document.getElementById("titleTextBoxL1").value ; //### this doesn't pick out the text value ###
+                    //localStorage.TitleLine2 = document.getElementById("titleTextBoxL2").value  ;
+                    //localStorage.TitleLine3 = document.getElementById("titleTextBoxL3").value ;
+            
+                    // done: localStorage.setItem("LatestPossibleYearOfCrossing", YearOfCrossing) ;
+                    //### error if YearOfCrossing is not st ###
+                    if(localStorage.YearOfCrossing==undefined) {
+                      alert("??YearOfCrossing undefined.  Using avg of earliest and latest pos yrs") ;
+                      localStorage.setItem("YearOfCrossing", Math.round(.5+(Number(localStorage.EarliestPossibleYearOfCrossing)+Number(localStorage.LatestPossibleYearOfCrossing))/2)) ;
+                    }
+                    localStorage.setItem("currRteMapFile", currRteMapFileNm) ;
+                    localStorage.setItem("currRteMapYear", currRteMapYear) ;
+                    localStorage.setItem("prevRteMapYear", prevRteMapYear) ;
+                    localStorage.setItem("nextMapYear", nextRteMapYear) ;
+            
+                    localStorage.setItem("Era", erasArray[eraIndex]) ;
+                    localStorage.setItem("EraAbbrev", eraAbbrevs[eraIndex]) ;
+                    localStorage.setItem("CommemorationTimePeriodStart", eraStartArray[eraIndex]) ;
+                    localStorage.setItem("CommemorationTimePeriodEnd", eraEndArray[eraIndex]) ;
+                    localStorage.setItem("CommemorationTimePeriodReprYr", eraRepresentativeYearArray[eraIndex]) ;
+            //  ###?###      localStorage.setItem("EraImageFileName", eraImageFileNm) ;
+                window.location.assign(nextPage) ;
+            }
+            // ]]></script>
+            <div id="i4c-dialogs-container"></div>
+            </div>
+      </div>
+  
+    </div>
+  
+  </div>
+  
