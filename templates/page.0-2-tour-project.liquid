@@ -1,0 +1,833 @@
+
+
+{% capture contents %}
+<div class="post-large--two-thirds viewTour_container">
+    <header>
+        <h2>A RelationShips project tells a story.</h2>
+        <p>Each consists of five Text Boxes for you to fill out.
+            <br /> Six Trip Visuals beautifully stage this bit of your history.</p>
+    </header>
+    <nav class="jw-relationships-tour__actions">
+     
+        <button id="enter-exit-tour-textboxes" 
+            class="jw-relationships-tour__enter-exit" 
+            data-enter-tour-text='TextBoxes'
+            data-exit-tour-text='TextBoxes ' 
+            data-expansion-target="#tour" 
+            aria-expanded="false">TextBoxes</button> 
+
+        <button id="enter-exit-tour-visualelements" 
+            class="jw-relationships-tour__enter-exit" 
+            data-enter-tour-text='Visual Elements'
+            data-exit-tour-text='Visual Elements ' 
+            data-expansion-target="#tour" 
+            aria-expanded="false">Visual Elements</button> 
+
+        <button id="enter-exit-tour" 
+            class="jw-relationships-tour__enter-exit" 
+            data-enter-tour-text='The "Everything" Tour'
+            data-exit-tour-text='The "Everything" Tour ' 
+            data-expansion-target="#tour" 
+            aria-expanded="false">The "Everything" Tour</button> 
+        
+        <button id="jw-skip-to-project">
+            <a href="/pages/0-set-the-stage" 
+                class="jw-skip-to-project">Skip to Project</a>
+        </button>
+    </nav>
+    <div class="background_map">
+        <article class="jw-relationships-tour">
+            <div id="relationships-tour-content" class="jw-relationships-tour__content">
+                <div id="map" class="jw-relationships-tour__map"></div>
+                <aside id="sidebar" class="jw-relationships-tour__sidebar">
+                    <nav class="jw-relationships-tour__navigation">
+                        <span id="tour-actions" class="jw-tour__actions" hidden=""> 
+                            <a id="previous" class="jw-tour__action --disabled">Previous</a> 
+                            <a id="next" class="jw-tour__action">Next</a>
+                            <a id="autoplay" class="jw-tour__action">Auto Play</a> 
+                        </span>
+                    </nav>
+                    <div id="tour" class="jw-tour">
+                        <div class="jw-tour__descriptions">
+                            <article id="title-text-box-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Title Text Box</h3>
+                                <div class="jw-tour__body">
+                                    <p>The Title TextBox of your RelationShips® project tells the viewer what this is—e.g., your family name’s establishment in America. We generate the first two lines automatically from your entries—a “What” line and a “When” line. You will be able change the entries to anything you want before completing your order, and we provide a third line if you need it.</p>
+                                </div>
+                            </article>
+
+                            <article id="origins-text-box-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Origins Text Box</h3>
+                                <div class="jw-tour__body">
+                                    <p>The “Origins Text Box” provides two lines for you to commemorate your relation’s crossing. These are generated automatically from your entries. The first line is generated from your entries to the Country of Origin page. The second is generated from your entries to the Port of Departure page. You may of course change to anything you want before you complete your order.</p>
+                                </div>
+                            </article>
+    
+                            <article id="destination-text-box-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Destination Text Box</h3>
+                                <div class="jw-tour__body">
+                                    <p>The “Destination Text Box” provides two lines for you to commemorate your relation’s landfall in America. These are generated automatically from your entries. The first line is generated from your entries to the Port of Entry page. The second is generated from your entries to the Destination page. You may of course change to anything you want before you complete your order.</p>
+                                </div>
+                            </article>
+
+                            <article id="ship-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Ship</h3>
+                                <div class="jw-tour__body">
+                                    <p>Your RelationShips® product includes a depiction of exactly the ship of your relation’s crossing, if you know it. If you don’t know it, jimaworks may be able to help you find it, and if there is no image of it jimaworks will render a beautiful facsimile from research. If we cannot determine the ship, jimaworks will research and present options of the most likely ship or kind of ship taken.</p>
+                                </div>
+                            </article>
+
+                            <article id="ship-info-text-box-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Ship Info</h3>
+                                <div class="jw-tour__body">
+                                    <p>Your RelationShips® product focuses on a specific crossing to America of one of the branches of your family. The TripInfo Text Box presents information that conveys something about the nature of the voyage. The first line is usually generated from information about the physical size of the ship used in the voyage. The second is generated from information about the passengers it carried. You may of course change to anything you want before you complete your order.</p>
+                                </div>
+                            </article>
+
+                            <article id="webPlaqueTextBoxDiv-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Plaque</h3>
+                                <div class="jw-tour__body">
+                                    <p>Your RelationShips® product includes an inset plaque on which you may list those who cross in this voyage. of exactly the ship of your relation’s crossing, if you know it. We provide eight lines for listing those of your relations making this voyage. You may of use the plaque in many ways (of which the examples provide an incomplete sampling).</p>
+                                </div>
+                            </article>
+
+                            <article id="map_image-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Historic Map Background</h3>
+                                <div class="jw-tour__body">
+                                    <p>The map background for the RelationShips® project is historically-specific map or the time you specify as the time of the crossing you are commemorating. You will be able to chose among five different color schemes for your map background.</p>
+                                </div>
+                            </article>
+
+                            <article id="jw__frame_new-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Choice of Frame</h3>
+                                <div class="jw-tour__body">
+                                    <p>It is recommended that you select
+                                        to frame your RelationShips®. If
+                                        you frame, your unique print will
+                                        be double-matted with bevelled
+                                        edging and an engraved, metal
+                                        plaque that is inset into the mat.
+                                        It is also set with U-V protective
+                                        glazing. Whether you frame or
+                                        not, your print will be on archival
+                                        quality rag paper.</p>
+                                </div>
+                            </article>
+
+                            <article id="jw__size-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Size</h3>
+                                <div class="jw-tour__body">
+                                    <p>Sizes are designed to span the
+                                        need to fill a large place of honor
+                                        in your living space, all the way
+                                        down to a gem-sized display for a
+                                        small space, or for an array of
+                                        RelationShips® displays of multiple
+                                        family crossings.</p>
+                                </div>
+                            </article>
+
+                            <article id="country-origin-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Country of Origin</h3>
+                                <div class="jw-tour__body">
+                                    <p>You can provide the Country of
+                                        Origin for your crossing, or if
+                                        you aren’t sure about the
+                                        country of origin, you are
+                                        provided options that reflect
+                                        whatever you *do* know. You
+                                        will then have the option of
+                                        graphically highlighting your
+                                        origins on the map background.</p>
+                                </div>
+                            </article>
+
+                            <article id="port-departure-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Port of Departure</h3>
+                                <div class="jw-tour__body">
+                                    <p>You can provide the Port of
+                                        Departure for your crossing, or
+                                        if you aren’t sure about the port
+                                        of departure, you are provided
+                                        options that reflect whatever
+                                        you *do* know. You will then
+                                        have the option of graphically
+                                        highlighting the crossing
+                                        departure on the map
+                                        background.</p>
+                                </div>
+                            </article>
+                            
+                            <article id="port-entry-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Port of Entry</h3>
+                                <div class="jw-tour__body">
+                                    <p>You can provide the Port of
+                                        Entry for your crossing, or if you
+                                        aren’t sure about the port of
+                                        arrival, you are provided options
+                                        that reflect whatever you *do*
+                                        know. You will then have the
+                                        option of graphically
+                                        highlighting the crossing’s port
+                                        of entry on the map
+                                        background.</p>
+                                </div>
+                            </article>
+
+                            <article id="country-destination-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Destination</h3>
+                                <div class="jw-tour__body">
+                                    <p>You can provide the destination
+                                        state or province of this
+                                        crossing, or if you aren’t sure
+                                        about the destination, you are
+                                        provided options that reflect
+                                        whatever you *do* know. You
+                                        will then have the option of
+                                        graphically highlighting the
+                                        destination on the map
+                                        background.</p>
+                                </div>
+                            </article>
+
+                            <article id="jw-route-custom-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Route</h3>
+                                <div class="jw-tour__body">
+                                    <p>Once you provide whatever you
+                                        know about the Port of
+                                        Departure and the Port of Entry,
+                                        jimaworks will display the route
+                                        of the crossing, which will bef
+                                        graphically drawn on the map
+                                        background.</p>
+                                </div>
+                            </article>
+
+                            <article id="people_photo-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">People</h3>
+                                <div class="jw-tour__body">
+                                    <p>If you have imagery of the
+                                        people of this crossing,
+                                        you have the option of
+                                        adding those images to
+                                        the RelationShips® display.</p>
+                                </div>
+                            </article>
+                            
+                            <article id="artist_acknowledgement-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Artist’s Credit</h3>
+                                <div class="jw-tour__body">
+                                    <p>Each RelationShips® image is
+                                        either a historical painting, photo,
+                                        drawing, poster, or postcard, or it
+                                        is an original work by jimaworks.
+                                        Either way, the artist is credited in
+                                        each print.</p>
+                                </div>
+                            </article>
+
+                            <article id="print_id-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Unique Print ID</h3>
+                                <div class="jw-tour__body">
+                                    <p>You may personalize the
+                                        RelationShips® product to your
+                                        specific history. When you do this,
+                                        each order is uniquely crafted to
+                                        address your story and your style.
+                                        As such, each is unique to you,
+                                        and each is given an identifier that
+                                        uniquely identifies it as yours.</p>
+                                </div>
+                            </article>
+                            
+                            <article id="jw-sign-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Hand-initialed by jima.</h3>
+                                <div class="jw-tour__body">
+                                    <p>Each order is prepared as it is
+                                        specified by you through the
+                                        history-eliciting process of the
+                                        jimaworks pages. When you
+                                        submit your order, it is prepared
+                                        for you and sent to you in .pdf
+                                        form for you to proof. Only when
+                                        you are satisfied will we sign off
+                                        and proceed to print. </p>
+                                </div>
+                            </article>
+
+                            <article id="jw-seascape-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">SeaScape</h3>
+                                <div class="jw-tour__body">
+                                    <p>Once you have selected your
+                                        ship and the map background, it
+                                        may provide a dramatic visual
+                                        impact to add a seascape to the
+                                        display.</p>
+                                </div>
+                            </article>
+
+                            <article id="frame-description" class="jw-tour__description">
+                                <h3 class="jw-tour__heading">Frame</h3>
+                                <div class="jw-tour__body">
+                                    <ul>
+                                        <li>Four different styles to choose from</li>
+                                        <li>Your print is double matted using a bevelled SandStone mat with Chinese Red trimming</li>
+                                        <li>The frame is natural wood</li>
+                                        <li>The glazing is UV-protective acrylic plexiglass</li>
+                                        <li>The plaque inset into the mat. It is gold-colored metal etched to your specifications</li>
+                                    </ul>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </article>
+    </div>
+    <div>
+        <p>Each of these TextBoxes will already be filled in for you and updated as you add information. The more information you provide, the more "yours" the product will become. And at the end, you can make it *completely* yours by purchasing it of course, but before that, also by further modifying it in any way you chose.</p>
+        <p>(This is a lot of information to collect, and you may not be able to find it all. But we pre-fill each element of information with stand-in, general text that you can use, as well as a rich set of <a href="https://jimaworks.com/pages/resources">hints and tips</a> to guide you on how to show what you do know and what you don’t.)</p>
+        <p>(Moreover, your customizations are automatically saved to your web browser, so you can go off and do some additional research before completing your project.)</p>
+        <h3>More Info</h3>
+        <ul>
+            <li><a class="float-left submit-button jw-more-info-link" href="/pages/product-anatomy" id="FeaturesLink">Features</a></li>
+            <li><a class="float-left submit-button jw-more-info-link" href="/pages/product-sizes" id="SizeLink">Sizes</a></li>
+            <li><a class="float-left submit-button jw-more-info-link" href="/pages/prices" id="PriceLink">Price</a></li>
+        </ul>
+        <!-- <button onclick="actionOnDone()">Start building your story</button> -->
+        <p>
+            <a class="jw-link-button" 
+                href="/pages/0-set-the-stage"
+                {% comment %}
+                href="/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start"
+                {% endcomment %}    
+            >Start building your story</a>
+        </p>
+    </div>
+</div>
+
+<script>
+
+    var currentTourIndexArray = [0, 0, 0];
+    var currentTourSpotIndex = currentTourIndexArray[0];
+
+    var $tourSpotsCache;
+    var $totalTourSports;
+    var tourSpotDescriptionsPreviouslyActivated = false;
+    var tourSpotOriginalClasses = {};
+    var $previewTemplate = document.getElementById('preview-template');
+    var $previewLayoutContainer = document.getElementById('map');
+
+    var $enterExitTourButton = document.getElementById('enter-exit-tour');
+    var $enterExitTourTextBoxesButton = document.getElementById('enter-exit-tour-textboxes');
+    var $enterExitTourVisualElementsButton = document.getElementById('enter-exit-tour-visualelements');
+    var currentTourPreviewMode = -1;
+    var beforeTourPreviewMode = -1;
+
+    var $tourActions = document.getElementById('tour-actions');
+    var $preview;
+    var autoplay = false;
+    var refreshIntervalId;
+
+    function getTourSpots() {
+//        if ($tourSpotsCache) {
+//            return $tourSpotsCache;
+//        }
+
+        $totalTourSports = document.querySelectorAll('#map [data-tour-spot][id]');
+
+        if (currentTourPreviewMode == 0){
+            $tourSpotsCache = document.querySelectorAll('#map [data-tour-spot][id]');
+        }
+        else if (currentTourPreviewMode == 1){
+            $tourSpotsCache = document.querySelectorAll('#map [data-tour-text][id]');            
+        }
+        else if (currentTourPreviewMode == 2){
+            $tourSpotsCache = document.querySelectorAll('#map [data-tour-visual][id]');
+        }
+        return $tourSpotsCache;
+    }
+
+    function registerFirstGenLastName() {
+        localStorage.setItem('FirstGenLastName', document.getElementById("lastname").value);
+        var TitleLine1 = localStorage.getItem('FirstGenLastName') + ' Atlantic Crossing';
+        localStorage.setItem("TitleLine1", TitleLine1);
+        document.getElementById("lastname").innerHTML = "FirstGen Name provided = " + localStorage.getItem('FirstGenLastName');
+    }
+    
+    function activeTourElement($tourSpots) {
+        if (isPlaque($tourSpots[currentTourSpotIndex])) {
+            highlight($tourSpots[currentTourSpotIndex], true);
+        } else if (isMapBackground($tourSpots[currentTourSpotIndex])) {
+            highlight($tourSpots[currentTourSpotIndex], false, true);
+        } else if (isFrame($tourSpots[currentTourSpotIndex])) {
+            highlight($tourSpots[currentTourSpotIndex], true, true);
+        } else if (is_Frame($tourSpots[currentTourSpotIndex])) {
+            highlight($tourSpots[currentTourSpotIndex], true, true);
+        } else if (is_Size($tourSpots[currentTourSpotIndex])) {
+            highlight($tourSpots[currentTourSpotIndex], true, true);
+        } else if (isSeaScape($tourSpots[currentTourSpotIndex])) {
+            highlight($tourSpots[currentTourSpotIndex], true, true);
+        } else if (isRoute($tourSpots[currentTourSpotIndex])) {
+            highlight($tourSpots[currentTourSpotIndex], true, true);
+        } else {
+            highlight($tourSpots[currentTourSpotIndex]);
+        }
+    }
+
+    function enterTour() {
+        var $tourSpots = getTourSpots();
+        var $expansionTarget = document.querySelector($enterExitTourButton.getAttribute('data-expansion-target'));
+        var $prevNext = document.getElementById('tour-actions');
+        var $sidebar = document.getElementById('sidebar');
+
+        // for (var i = 0; i < $tourSpots.length; i++) {
+        //   var $tourSpot = $tourSpots[i];
+        //   var tourSpotOriginalClass = ( $tourSpot.getAttribute('class') || '' );
+
+        //   tourSpotOriginalClasses[$tourSpot.id] = tourSpotOriginalClass;
+        //   // $tourSpot.setAttribute('class', tourSpotOriginalClass + ' jw-info');
+        // }
+
+        currentTourSpotIndex = currentTourIndexArray[currentTourPreviewMode];
+
+        activeTourElement($tourSpots);
+        updatePrevNextButton();
+        $sidebar.classList.add('jw-relationships-tour__sidebar--active');
+
+        $prevNext.hidden = false;
+        $previewLayoutContainer.addEventListener('click', tourActive__onPreviewClick, false);
+        $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-exit-tour-text');
+        $enterExitTourButton.setAttribute('aria-expanded', 'true');
+        $expansionTarget.classList.add('--expanded');
+        activateTourSpotDescriptions();
+    };
+
+    function exitTour() {
+        var $tourSpots = getTourSpots();
+        var $expansionTarget = document.querySelector($enterExitTourButton.getAttribute('data-expansion-target'));
+        var $prevNext = document.getElementById('tour-actions');
+        var $tourContent = document.getElementById('relationships-tour-content');
+        var $sidebar = document.getElementById('sidebar');
+
+        $tourContent.style.maxHeight = $tourContent.height + 'px';
+        setTimeout(function() {
+            $tourContent.style.maxHeight = '';
+        }, 1000);
+
+        // for (var i = 0; i < $tourSpots.length; i++) {
+        //   var $tourSpot = $tourSpots[i];
+        //   $tourSpot.setAttribute('class', tourSpotOriginalClasses[$tourSpot.id]);
+        // }
+        unhighlight($tourSpots[currentTourSpotIndex]);
+//        currentTourSpotIndex = 0;
+
+        currentTourIndexArray[currentTourPreviewMode] = 0;
+        currentTourSpotIndex = currentTourIndexArray[currentTourPreviewMode];
+
+        $prevNext.hidden = true;
+        $previewLayoutContainer.removeEventListener('click', tourActive__onPreviewClick, false);
+        $enterExitTourButton.textContent = $enterExitTourButton.getAttribute('data-enter-tour-text');
+        $enterExitTourButton.setAttribute('aria-expanded', 'false');
+        $expansionTarget.classList.remove('--expanded');
+        $sidebar.style.height = '0';
+
+        if (matchMedia('only screen and (min-width: 940px)').matches) {
+            $sidebar.style.display = '';
+        } else {
+            setTimeout(function() {
+                $sidebar.style.display = '';
+                $sidebar.classList.remove('jw-relationships-tour__sidebar--active');
+            }, 125);
+        }
+        deactivateTourSpotDescriptionss();
+    };
+
+    function tourActive__onPreviewClick(event) {
+        var $clicked = event.target;
+        var id = $clicked.id;
+
+        console.log("tourActive__onPreviewClick id == " + id);
+        while (id === '') {
+            $clicked = $clicked.parentNode;
+            id = $clicked.id;
+        }
+
+        switch (id) {
+            case 'title-text-box':
+                describeTitleTextBox();
+                break;
+
+            case 'destination-text-box':
+                describeDestinationTextBox();
+                break;
+
+            case 'origins-text-box':
+                describeOriginsTextBox();
+                break;
+
+            case 'ship':
+                describeShip();
+                break;
+
+            case 'ship-info-text-box':
+                describeShipInfoTextBox();
+                break;
+
+            case 'webPlaqueTextBoxDiv':
+                describePlaqueTextBox();
+                break;
+        }
+    }
+
+    function deactivateTourSpotDescriptionss() {
+        var $tourContent = document.getElementById('relationships-tour-content');
+        var $tourSpotDescriptions = document.querySelectorAll('.jw-tour__description');
+        var $next = document.getElementById('next');
+        var $previous = document.getElementById('previous');
+        var $sidebar = document.getElementById('sidebar');
+
+        for (var index = 0; index < $tourSpotDescriptions.length; index++) {
+            var $tourSpotDescription = $tourSpotDescriptions[index];
+
+            $tourSpotDescription.classList.remove('jw-tour__description--active');
+        }
+
+        $next.classList.remove('--disabled');
+        $previous.classList.add('--disabled');
+        $tourContent.classList.remove('jw-relationships-tour__content--active');
+        $sidebar.style.height = '';
+        $sidebar.classList.remove('jw-relationships-tour__sidebar--active');
+    }
+
+    function activateTourSpotDescriptions() {
+        // var $tourSpotDescriptions = getTourSpotDescriptions();
+        var $tourContent = document.getElementById('relationships-tour-content');
+        var $tourSpotDescriptions = document.querySelectorAll('.jw-tour__description');
+        var $currentHighlight = document.querySelector('.jw-highlighted');
+        var $sidebar = document.getElementById('sidebar');
+        var $tourActions = document.getElementById('tour-actions');
+
+        console.log("........................$currentHighlight id = " + $currentHighlight.id);
+
+        for (var index = 0; index < $tourSpotDescriptions.length; index++) {
+            var $tourSpotDescription = $tourSpotDescriptions[index];
+
+            $tourSpotDescription.classList.remove('jw-tour__description--active');
+
+            if ($tourSpotDescription.id.indexOf($currentHighlight.id + '-description') !== -1) {
+
+                console.log("$currentHighlight.id = " + $currentHighlight.id);
+                $tourSpotDescription.classList.add('jw-tour__description--active');
+
+                var offSetHeight = 0;
+                if (window.screen.height <= 768) {
+                    offSetHeight = 50;
+                }
+
+                if (!tourSpotDescriptionsPreviouslyActivated) {
+                    // Give styles enough time to apply to the newly un-hidden DOM before adjusting or the description offsetHeight will be too short
+                    setTimeout(function() {
+                        
+                        $sidebar.style.height = ($tourSpotDescription.offsetHeight + $tourActions.offsetHeight + offSetHeight + 'px');
+                        tourSpotDescriptionsPreviouslyActivated = true;
+                    }, 0);
+                } else {
+                    $sidebar.style.height = ($tourSpotDescription.offsetHeight + $tourActions.offsetHeight + offSetHeight +'px');
+                }
+            }
+        }
+
+        $tourContent.classList.add('jw-relationships-tour__content--active');
+    }
+
+    function isPlaque($element) {
+        var className = $element.getAttribute('class');
+
+        return (className && (className.indexOf('jw-plaque') !== -1));
+    }
+
+    function isSeaScape($element) {
+        var className = $element.getAttribute('class');
+
+        return (className && (className.indexOf('jw-seascape') !== -1));
+    }
+
+    function isRoute($element, show) {
+        var className = $element.getAttribute('class');
+        return (className && (className.indexOf('jw-route-custom') !== -1));
+    }
+
+
+    function isMapBackground($element) {
+        var className = $element.getAttribute('class');
+        return (className && (className.indexOf('jw-map') !== -1))
+    }
+
+    function isFrame($element) {
+
+        var className = $element.getAttribute('class');
+
+        return (className && (className.indexOf('jw-relationships-preview') !== -1));
+    }
+
+    function is_Frame($element) {
+
+        var className = $element.getAttribute('class');
+        return (className && (className.indexOf('jw__frame_new') !== -1))
+    }
+
+    function is_Size($element) {
+        var className = $element.getAttribute('class');
+        return (className && (className.indexOf('jw__size') !== -1))
+    }
+
+    function changeMapBackground() {}
+
+    function removeButtonActive () {
+        $enterExitTourButton.classList.remove('active');
+        $enterExitTourTextBoxesButton.classList.remove('active');
+        $enterExitTourVisualElementsButton.classList.remove('active');
+    }
+
+    function addButtonActive () {
+        if (currentTourPreviewMode == 0)
+            $enterExitTourButton.classList.add('active');
+        else if (currentTourPreviewMode == 1)
+            $enterExitTourTextBoxesButton.classList.add('active');
+        else if (currentTourPreviewMode == 2)
+            $enterExitTourVisualElementsButton.classList.add('active');
+    }
+
+    function updatePrevNextButton(){
+        var $tourSpots = getTourSpots();
+
+        var $previous = document.getElementById('previous');
+        var $next = document.getElementById('next');
+
+        $previous.classList.remove('--disabled');
+        $next.classList.remove('--disabled');
+
+
+        if (currentTourSpotIndex == ($tourSpots.length - 1))
+            $next.classList.add('--disabled');
+        else if (currentTourSpotIndex == 0)
+            $previous.classList.add('--disabled');
+    }
+
+    function enterExitTourButton__onClick(newMode) {
+
+        removeButtonActive();
+
+        var $tourSpots = getTourSpots();
+        beforeTourPreviewMode = currentTourPreviewMode;
+
+        var $currentHighLight = document.querySelector('.jw-highlighted');
+        if ($currentHighLight != null)
+        {
+            var index = $currentHighLight.getAttribute('data-tour-index');
+            console.log('$totalTourSports.length = ' + $totalTourSports.length);
+
+            for (var i = 0; i < $totalTourSports.length ; i++) {
+                if ($totalTourSports[i].id == $currentHighLight.id) {
+
+                    if (newMode == 0 && beforeTourPreviewMode != -1)
+                    {
+                        currentTourIndexArray[0] = i
+                    }
+                }
+            }
+        }
+
+        if (currentTourPreviewMode === newMode) {
+            currentTourPreviewMode = -1;
+        } else {
+            if (currentTourPreviewMode != -1 && $tourSpots != null) {
+                unhighlight($tourSpots[currentTourSpotIndex]);
+            }
+            currentTourPreviewMode = newMode;
+        }
+        
+        addButtonActive();
+
+        if (currentTourPreviewMode != -1 /* && beforeTourPreviewMode == -1 */ ) {
+            enterTour();
+        } else if (currentTourPreviewMode == -1) {
+            exitTour();
+        }
+
+        var $autoplay = document.getElementById('autoplay');
+        if (autoplay) {
+            $autoplay.click();
+        }
+    }
+
+    // function tour(descriptions) {}
+
+    initializeDefaults();
+
+//    localStorage.setItem('viewingTextBoxes', 'yup');
+//    localStorage.setItem('viewingTripVisuals', 'yup');
+
+    window.onbeforeunload = function() {
+        localStorage.removeItem("viewingTextBoxes");
+        localStorage.removeItem("viewingTripVisuals");
+    };
+
+    $previewLayoutContainer.innerHTML = $previewTemplate.innerHTML;
+    $previewLayoutContainer.removeChild($previewLayoutContainer.querySelector('script'));
+
+    if ('content' in $previewTemplate) {
+        // Supports HTML5 <template>
+        $previewLayoutContainer.appendChild($previewTemplate.content.querySelector('script'));
+    } else {
+        $previewLayoutContainer.appendChild($preview.querySelector('script'));
+    }
+
+    $preview = $previewLayoutContainer.querySelector('.jw-relationships-preview');
+
+    window.addEventListener("DOMContentLoaded", function yourRelationshipsProject__onDomContentLoaded() {
+        $enterExitTourButton.addEventListener('click', function enterExitTourButton_onClick() {
+            enterExitTourButton__onClick(0);
+        });
+
+        $enterExitTourTextBoxesButton.addEventListener('click', function enterExitTourTextBoxesButton_onClick () {
+            enterExitTourButton__onClick(1);
+        });
+
+        $enterExitTourVisualElementsButton.addEventListener('click', function enterExitTourVisualElementsButton_onClick() {
+            enterExitTourButton__onClick(2);
+        });
+
+        $tourActions.addEventListener('click', function tourActions__onClick(event) {
+            var $clicked = event.target;
+            var $tourSpots = getTourSpots();
+            var $previous = document.getElementById('previous');
+            var $next = document.getElementById('next');
+            var $autoplay = document.getElementById('autoplay');
+            var lastTourSpotIndex = ($tourSpots.length - 1);
+            var desiredIndex;
+            var proceed = false;
+
+            currentTourSpotIndex = currentTourIndexArray[currentTourPreviewMode];
+
+            if ($clicked.id === 'previous') {
+                desiredIndex = (currentTourSpotIndex - 1);
+
+                if (desiredIndex < 0) {
+                    return false;
+                }
+
+                console.log("$tourActions.addEventListener");
+
+                if (desiredIndex < lastTourSpotIndex) {
+                    $next.classList.remove('--disabled');
+                }
+
+                if (desiredIndex === 0) {
+                    $previous.classList.add('--disabled');
+                }
+
+                unhighlight($tourSpots[currentTourSpotIndex]);
+                currentTourSpotIndex--;
+                currentTourIndexArray[currentTourPreviewMode] = currentTourSpotIndex;
+
+                activeTourElement($tourSpots);
+                activateTourSpotDescriptions();
+
+            } else if ($clicked.id === 'next') {
+                desiredIndex = (currentTourSpotIndex + 1);
+
+                if (desiredIndex > lastTourSpotIndex) {
+                    return false;
+                }
+
+                if (desiredIndex > 0) {
+                    $previous.classList.remove('--disabled');
+                }
+
+                if (desiredIndex === lastTourSpotIndex) {
+                    $next.classList.add('--disabled');
+
+                    if (autoplay) {
+                        $autoplay.click();
+                    }
+                }
+
+                unhighlight($tourSpots[currentTourSpotIndex]);
+                currentTourSpotIndex++;
+                currentTourIndexArray[currentTourPreviewMode] = currentTourSpotIndex;
+
+                activeTourElement($tourSpots);
+                activateTourSpotDescriptions();
+            }
+            else if ($clicked.id === 'autoplay') {
+
+                autoplay = !autoplay;
+                $clicked.textContent = autoplay ? 'Stop' : 'Auto Play';
+
+                if (autoplay) {
+
+                    if (currentTourSpotIndex === lastTourSpotIndex) {
+                        currentTourSpotIndex = 0;
+                        currentTourIndexArray[currentTourPreviewMode] = currentTourSpotIndex;
+                    }
+
+                    refreshIntervalId = setInterval(function(){
+                        
+                    desiredIndex = (currentTourSpotIndex + 1);
+
+                    if (desiredIndex > lastTourSpotIndex) {
+                        if (autoplay) {
+                            $autoplay.click();
+                        }
+
+                        return false;
+                    }
+
+                    if (desiredIndex > 0) {
+                        $previous.classList.remove('--disabled');
+                    }
+
+                    if (desiredIndex === lastTourSpotIndex) {
+                        $next.classList.add('--disabled');
+                        $previous.classList.remove('--disabled');
+                    }
+
+                    $previous.classList.add('--disabled');
+                    $next.classList.add('--disabled');
+
+                    unhighlight($tourSpots[currentTourSpotIndex]);
+                    currentTourSpotIndex++;
+                    currentTourIndexArray[currentTourPreviewMode] = currentTourSpotIndex;
+
+                    activeTourElement($tourSpots);
+                    activateTourSpotDescriptions();
+
+                    }, 1500);
+                } else {
+
+                    if (currentTourSpotIndex === lastTourSpotIndex) {
+
+
+                        $previous.classList.remove('--disabled');
+                        $next.classList.add('--disabled');
+                    }
+                    else {
+                        $previous.classList.remove('--disabled');
+                        $next.classList.remove('--disabled');
+                    }
+                    clearInterval(refreshIntervalId);
+                }
+            }
+        });
+    }); // DOMContentLoaded
+    // ]]>
+
+    Jimaworks.Preview.setShipBackgroundBorder();
+    // ]]>
+</script>
+
+{% endcapture %}
+
+{% include 'page-preview-contents', contents : contents %}

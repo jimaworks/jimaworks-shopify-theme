@@ -1,0 +1,1222 @@
+<div class="grid">
+
+    <div class="grid__item">
+  
+      <div class="section-header">
+        <h1 class="section-header--title">{{ page.title }}</h1>
+      </div>
+  
+      <div class="rte">
+        <!--  BookendsII - the Plaque...
+        https://jimaworks.com/pages/2-plaque-who
+        template:  page
+        Title: Bookends (II): The Plaque.  Commemorating the First Generations
+
+          localStorage variables used but not set on this page:
+            localStorage.RegionOfOriginAbbrev
+            localStorage.TitleLine1
+            localStorage.TitleLine2
+
+          localStorage variables set on this page:
+            localStorage.TitleLine3
+            localStorage.YearOfCrossing
+            localStorage.EarliestPossibleYearOfCrossing
+            localStorage.LatestPossibleYearOfCrossing
+
+            localStorage.setItem("Era", erasArray[eraIndex]) ;
+            localStorage.setItem("EraAbbrev", eraAbbrevs[eraIndex]) ;
+            // ### get rid of these? ###
+            localStorage.setItem("CommemorationTimePeriodStart", eraStartArray[eraIndex]) ;
+            localStorage.setItem("CommemorationTimePeriodEnd", eraEndArray[eraIndex]) ;
+            localStorage.setItem("CommemorationTimePeriodReprYr",
+
+            localStorage.setItem("currRteMapFile", currRteMapFileNm) ;
+>>              localStorage.setItem("currRteMapYear", currRteMapYear) ;
+            localStorage.setItem("prevRteMapYear", prevRteMapYear) ;
+            localStorage.setItem("nextMapYear", nextRteMapYear) ;
+
+            Would like to set:
+            localStorage.shipPic
+            localStorage.shipPicAlt  ### new ###
+            localStorage.shipPicFile ### new? ###
+
+        April 02 2020:1500  Duplicate old Preview code to show what end point will look like...
+        April 06 2020:1400  Added 4th line, mao, and default ship
+        April 19 2020:1100  Fixed bug in region map, default ship, center ship...
+
+        NEED TO DO:
+        Shouldn't the ship be whatever ship was previously chosen if one was?
+    -->
+<div style="color: #0e5478; font-size: large; font-weight: bold; line-height: 120%; width: 920px; z-index: 20;">Pick out your Plaque's engraving from this little madlib (but can add First Gen's names later) <!--
+    <br>
+    <em>[But you can replace with your First Gens' names if you later chose the "Personalize" option]</em>
+    --></div>
+<div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+<div id="routeDisplay"></div>
+<div style="position: absolute; font-size: 75%; z-index: 50; top: 25px; left: 70px; width: 180px; height: 130px;"><select id="appreciationLeader" onload="BuildPlaqueSecondLineMenuFromFirstLineChoice()" style="color: #05537a; font-weight: bold;" onchange="EchoPlaqueTextBox()" title="Select the lead-in to your commemorative plaque">
+<option id="1" value="In Remembrance of" title="Part of your commemoration 'madlib'">In Remembrance</option>
+<option id="2" value="Commemorating" title="Part of your commemoration 'madlib'">Commemorating</option>
+<option id="3" value="In Appreciation of" title="Part of your commemoration 'madlib'">In Appreciation</option>
+<option id="4" value="Memorializing" title="Part of your commemoration 'madlib'">Memorializing</option>
+</select></div>
+<div style="position: absolute; font-size: 75%; z-index: 25; top: 25px; left: 270px; width: 180px; height: 130px;"><select id="appreciationBody" style="color: #05537a; font-weight: bold;" onchange="EchoPlaqueTextBox()" title="Select a descriptive phrase for these First Gens">
+<optgroup label="Dedicating the participants...">
+<option id="j" value="the First Generation of" title="Part of your commemoration 'madlib'">First Generation</option>
+<option id="c" value="the Brave Souls of" title="Part of your commemoration 'madlib'">Brave Souls</option>
+<option id="d" value="the Perservering Survivors of" title="Part of your commemoration 'madlib'">Perservering Survivors</option>
+<option id="f" value="the Dedicated Individuals of" title="Part of your commemoration 'madlib'">Dedicated Individuals</option>
+<option id="e" value="the Enterprising Heroes of" title="Part of your commemoration 'madlib'">Enterprising Heroes</option>
+<option id="i" value="our Trailblazing Forebears of" title="Part of your commemoration 'madlib'">Trailblazing Forebears</option>
+</optgroup>
+<optgroup label="Dedicating the event...">
+<option id="g" value="the Historic Significance of" title="Part of your commemoration 'madlib'">Historic Significance</option>
+<option id="h" value="the Momentous Occasion of" title="Part of your commemoration 'madlib'">Momentous Occasion</option>
+</optgroup>
+</select></div>
+<div style="position: absolute; font-size: 75%; z-index: 50; top: 25px; left: 470px; width: 180px; height: 130px;"><select id="appreciationTimePeriod" style="color: #05537a; font-weight: bold;" onchange="EchoPlaqueTextBox()" title="Select the migration of which this First Gen's crossing was a part"></select></div>
+<div style="position: absolute; font-size: 75%; z-index: 50; top: 25px; left: 670px; width: 180px; height: 130px;"><select id="wordingForCrossing" onload="BuildPlaqueFourthLineMenuFromFirstLineChoice()" style="color: #05537a; font-weight: bold;" onchange="EchoPlaqueTextBox()" title="Select the wording for the target event of your commemorative plaque">
+<option id="i" value="Immigrations" title="Part of your commemoration 'madlib'">Immigration</option>
+<option id="ii" value="Migrations" title="Part of your commemoration 'madlib'">Migration</option>
+<option id="iii" value="Crossings" title="Part of your commemoration 'madlib'">Crossing</option>
+<option id="iv" value="Passages" title="Part of your commemoration 'madlib'">Passage</option>
+<option id="v" value="Voyages" title="Part of your commemoration 'madlib'">Voyage</option>
+<option id="vi" value="Trips" title="Part of your commemoration 'madlib'">Trip</option>
+<option id="vii" value="Inflows" title="Part of your commemoration 'madlib'">Inflow</option>
+</select></div>
+<!-- <div style="position: absolute; z-index: 25; top: 280px; left: 70px; width:800px; height: 60px; font-size: x-large;"> -->
+<div style="position: absolute; z-index: 25; top: 180px; left: 70px; width: 800px; height: 60px; font-size: x-large;">
+<h4><span style="color: cornsilk;"> <!--
+    Currently chosen region/country of origin =
+    <span id="CurrentSelectionDisplay"></span>
+    <br>
+    --> <span id="plaqueTextBoxL1"></span> <br /> <span id="plaqueTextBoxL2"></span> <br /> <span id="plaqueTextBoxL3"></span> <br /> <span id="plaqueTextBoxL4"></span> </span></h4>
+</div>
+<div style="font-weight: bold; line-height: 80%; position: absolute; z-index: 50; top: 320px; left: 70px;">
+<h4>(Later, if you choose "Personalize", you can add names or change any way you want.)</h4>
+</div>
+<div id="doneButton" style="position: absolute; z-index: 250; color: #05537a; top: 350px; left: 70px;"><button style="color: #05537a; font-weight: bold;" onclick="AcceptCurrentPlaqueLinesAndExit()"> Continue to "From where (more exactly) did this First Gen come" </button></div>
+</div>
+<script>// <![CDATA[
+  // ### AY.  Hack.  Figure out why Region is getting set and used. ###
+  localStorage.AreaOfOrigin = localStorage.RegionOfOrigin ;
+
+  if(localStorage.YearOfCrossing==undefined) {
+    localStorage.YearOfCrossing = 1888 ;
+  }
+// ]]></script>
+<script>// <![CDATA[
+function actionOnSave() {
+  var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+  window.location.assign(SaveForLaterPage);
+}
+// ]]></script>
+<script>// <![CDATA[
+//originAreasRegionsArray.push()[["Europe","NorthernEurope"]]
+
+//var nextPage = "https://jimaworks.com/pages/1-e-where-did-they-end-up" ; //"https://jimaworks.com/pages/where-did-thy-end-up";
+//var nextPage = "https://jimaworks.com/pages/textbox2-origins-from-where-did-they-depart" ;
+//var nextPage = "https://jimaworks.com/pages/0-0-origins-from-where-did-they-depart" ;
+//var nextPage = "https://jimaworks.com/pages/3-origins-b-port-of-departure" ;
+var nextPage = "https://jimaworks.com/pages/3-origins-a-country-of-origin" ;
+
+// ### VVV shouldn't this all be guaranteed in the way the defaults are defined and handled? ###
+if ((localStorage.AreaOfOrigin==undefined)||(localStorage.AreaOfOrigin=='')) {
+  localStorage.AreaOfOrigin = "Unk" ;
+}
+if ((localStorage.CountryOfOrigin==undefined)||(localStorage.CountryOfOrigin=='')) {
+  localStorage.CountryOfOrigin = "Unk" ;
+}
+if ((localStorage.ProvinceOfOrigin==undefined)||(localStorage.ProvinceOfOrigin=='')) {
+  localStorage.ProvinceOfOrigin = "Unk" ;
+}
+if ((localStorage.CityOfOrigin==undefined)||(localStorage.CityOfOrigin=='')) {
+  localStorage.CityOfOrigin = "Unk" ;
+}
+// ### ^^^^ shouldn't this all be guaranteed in the way the defaults are defined and handled? ###
+
+//jimaworksRegionOfOrigin datatypes and their subregions
+//jimaworksRegionOfOrigin datatypes and their subregions
+var titleTextboxChoiceTree = [];  // ### fix elsewhere also ###
+titleTextboxChoiceTree['WholeWorldAmCtr'] = ['EuropeAndTheMediterranean', 'Africa', 'PacificRim', 'SouthAmericaAndTheCaribbean', 'SouthAsia'];
+
+titleTextboxChoiceTree['EuropeAndTheMediterranean'] = ['EuM-Early', 'EuM-ModSl', 'EuM-StmSl', 'EuM-Liner', 'EuM-AirTr'];
+titleTextboxChoiceTree['Africa'] = ['Afr-Early', 'Afr-ModSl', 'Afr-StmSl', 'Afr-Liner', 'Afr-AirTr'];
+titleTextboxChoiceTree['PacificRim'] = ['Pac-Early', 'Pac-ModSl', 'Pac-StmSl', 'Pac-Liner', 'Pac-AirTr'];
+titleTextboxChoiceTree['SouthAmericaAndTheCaribbean'] = ['SAm-Early', 'SAm-ModSl', 'SAm-StmSl', 'SAm-Liner', 'SAm-AirTr'];
+titleTextboxChoiceTree['SouthAsia'] = ['SoA-Early', 'SoA-ModSl', 'SoA-StmSl', 'SoA-Liner', 'SoA-AirTr'];
+
+titleTextboxChoiceTree['EuM-Early'] = [ '17thCNewEngland', '17thCPennsylvania', '17thCChesapeake', '18thCNewEngland', '18thCMidAtlantic', '18thCSouthEast', 'OtherEarly'];
+
+titleTextboxChoiceTree['EuM-ModSl'] = [ '19thCNewEngland', '19thCMidAtlantic', '19thCSouthEast', '19thCWest', 'OtherModernSail'] ;
+
+titleTextboxChoiceTree['EuM-StmSl'] = [ '19thCNewEngland', '19thCMidAtlantic', '19thCSouthEast', '19thCWest', 'OtherSteamSail'] ;
+
+titleTextboxChoiceTree['EuM-Liner'] = [ 'Late19thCNewEngland', 'Late19thCMidAtlantic', 'Late19thCSouthEast', 'Late19thCWest', '20thCNewEngland', '20thCMidAtlantic', '20thCSouthEast', '20thCMidWest', '20thCWest', 'OtherLiner'] ;
+
+titleTextboxChoiceTree['EuM-AirTr'] = [ '20thCEastUS', '20thCWestUS', '20thCSouthUS', '20thCMidUS', '20thCWestCA', '20thCEastCA', '21stCEastUS', '21stCWestUS', '21stCSouthUS', '21stCMidUS', '21stCWestCA', '21stCEastCA', 'OtherAir'] ;
+
+
+titleTextboxChoiceTree['17thCNewEngland'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['17thCPennsylvania'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['17thCChesapeake'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['18thCNewEngland'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['18thCMidAtlantic'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['18thCSouthEast'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['OtherEarly'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+
+titleTextboxChoiceTree['19thCNewEngland'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['19thCMidAtlantic'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['19thCSouthEast'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['19thCWest'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['OtherModernSail'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+
+titleTextboxChoiceTree['19thCNewEngland'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['19thCMidAtlantic'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['19thCSouthEast'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['19thCWest'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['OtherSteamSail'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+
+titleTextboxChoiceTree['Late19thCNewEngland'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['Late19thCMidAtlantic'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['Late19thCSouthEast'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['Late19thCWest'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['20thCNewEngland'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['20thCMidAtlantic'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['20thCSouthEast'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['20thCMidWest'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['20thCWest'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['OtherLiner'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+
+titleTextboxChoiceTree['20thCEastUS'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['20thCWestUS'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['20thCSouthUS'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['20thCMidUS'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['20thCWestCA'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['20thCEastCA'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['21stCEastUS'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['21stCWestUS'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['21stCSouthUS'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['21stCMidUS'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['21stCWestCA'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['21stCEastCA'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+titleTextboxChoiceTree['OtherAir'] = [ 'In Remembrance Of', 'Commemorating', 'In Appreciation Of', 'Memorializing' ] ;
+
+titleTextboxChoiceTree['In Remembrance Of'] = [ 'The Intrepid Pioneers', 'The Brave Souls', 'Perservering Survivors', 'Enterprising Heroes', 'Dedicated Individuals', 'Historic Significance', 'Momentous Occasion', 'Our Trailblazing Forebears', 'The First Generation' ] ;
+titleTextboxChoiceTree['Commemorating'] = [ 'The Intrepid Pioneers', 'The Brave Souls', 'Perservering Survivors', 'Enterprising Heroes', 'Dedicated Individuals', 'Historic Significance', 'Momentous Occasion', 'Our Trailblazing Forebears', 'The First Generation' ] ;
+titleTextboxChoiceTree['In Appreciation Of'] = [ 'The Intrepid Pioneers', 'The Brave Souls', 'Perservering Survivors', 'Enterprising Heroes', 'Dedicated Individuals', 'Historic Significance', 'Momentous Occasion', 'Our Trailblazing Forebears', 'The First Generation' ] ;
+titleTextboxChoiceTree['Memorializing'] = [ 'The Intrepid Pioneers', 'The Brave Souls', 'Perservering Survivors', 'Enterprising Heroes', 'Dedicated Individuals', 'Historic Significance', 'Momentous Occasion', 'Our Trailblazing Forebears', 'The First Generation' ] ;
+
+var countriesAndProvinces = {};
+/*
+countriesAndProvinces['Sweden'] = ['SwedenProvince1', 'SwedenProvince1', 'SwedenProvince1'];
+countriesAndProvinces['Norway'] = ['NorwayProvince1', 'NorwayProvince1', 'NorwayProvince1'];
+countriesAndProvinces['Iceland'] = ['IcelandProvince1', 'IcelandProvince1', 'IcelandProvince1'];
+
+countriesAndProvinces['Italy'] = ['ItalyProvince1', 'ItalyProvince1', 'ItalyProvince1'];
+countriesAndProvinces['Spain'] = ['SpainProvince1', 'SpainProvince1', 'SpainProvince1'];
+countriesAndProvinces['Portugal'] = ['PortugalProvince1', 'PortugalProvince1', 'PortugalProvince1'];
+*/
+
+function parseImmigrationPeriodLabel(immLabel) {
+//alert("parseImmigrationPeriodLabel()") ;
+//var immLabel = document.getElementById("appreciationTimePeriod").value ;
+var whenWhereSplit = immLabel.split('C') ;
+var whatCenturyStartIndex = Number(whenWhereSplit[0].search("0|1|2|3|4|5|6|7|8|9")) ;
+var whatCenturyStart = whenWhereSplit[0][whatCenturyStartIndex] ;
+var whatCenturyEndIndex = Number(whatCenturyStartIndex)+1 ;
+var whatCenturyEnd = whenWhereSplit[0][whatCenturyEndIndex] ;
+var whatCentury = Number(whatCenturyStart+whatCenturyEnd) ;
+var centurySuffix = whenWhereSplit[0].substr(whatCenturyEndIndex+1,whatCenturyEndIndex+2) ;
+var centuryModifier = whenWhereSplit[0].substr(0,whatCenturyStartIndex) ;
+var imWhere = whenWhereSplit[1] ;
+var immTimeAndPlaceStr =  "the "
+                          + centuryModifier
+                          + whatCentury
+                          + centurySuffix
+                          + " Century "
+                          + imWhere ;
+//alert("immTimeAndPlaceStr ="+immTimeAndPlaceStr) ;
+//      document.getElementById("appreciationTimePeriod").value = immTimeAndPlaceStr ;
+//      alert('document.getElementById("appreciationTimePeriod").value ='+document.getElementById("appreciationTimePeriod").value) ;
+//      EchoPlaqueTextBox() ;
+return(immTimeAndPlaceStr) ;
+}
+
+function getContextAppropMigration(RegionOfOriginAbbrev,EraAbbrev) {
+/*
+if (RegionOfOriginAbbrev == "EuM") {
+  if (EraAbbrev == "Early") {
+    return "" ;
+  }
+}
+*/
+var migrationArrayIndex = RegionOfOriginAbbrev +"-"+ EraAbbrev ;
+//alert("getContextAppropMigration(RegionOfOriginAbbrev=="+RegionOfOriginAbbrev+",EraAbbrev=="+EraAbbrev+") == "+migrationArrayIndex) ;
+return(migrationArrayIndex) ;
+}
+
+
+
+// not updating the WorldRegionsList.
+// Start from a given region, e.g., Africa, and update the areas depending on those of that region
+// ### would like to replace this with the menu-building template function ###
+function BuildMigrationListFromRegionAndYarOfCrossing() {
+//alert("BuildMigrationListFromRegionAndYarOfCrossing()") ;
+//var selRegion = regionList.options[areaList.selectedIndex].value;
+var AreaStr,RegionStr,CountryStr,ProvinceStr,CityStr ;
+var regionList = titleTextboxChoiceTree['EuM-AirTr'] ;
+var selRegion = localStorage.RegionOfOrigin ;
+var selRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+console.log("selRegion = "+selRegion+". regionList = "+regionList) ;
+
+var areaList = document.getElementById("appreciationTimePeriod");
+console.log('areaList == document.getElementById("appreciationTimePeriod")=='+areaList) ;
+var titleNoOpOption ;
+var unkOption ;
+console.log("areaList after noOp and Unk added = "+areaList) ;
+
+  AreaStr=localStorage.AreaOfOrigin ;
+  CountryStr=localStorage.CountryOfOrigin ;
+  ProvinceStr=localStorage.ProvinceOfOrigin ;
+  CityStr=localStorage.CityOfOrigin ;
+
+/* none of this should happen because the region is previously set, right? */
+  if (selRegion==undefined) {
+    alert('Region not defined.  Will use "EuropeAndTheMediterranean"') ;
+    selRegion = "EuropeAndTheMediterranean" ;  // carry on with the most common "origins" value
+    selRegionAbbrev = "EuM" ;  // carry on with the most common "origins" value
+    EraAbbrev="Early";
+  }
+  else if (selRegion=="") {
+    alert('Region empty.  Will use "EuropeAndTheMediterranean"') ;
+    selRegion = "EuropeAndTheMediterranean" ;  // carry on with the most common "origins" value
+    selRegionAbbrev = "EuM" ;  // carry on with the most common "origins" value
+//        console.log("Empty actions (i.e. value) selected.  Noop") ;
+    EraAbbrev="Early";
+      //alert("Noop") ;
+  }
+  /* default "Unk" triggers Exit... Let's confirm that it's what's wanted
+  */
+  else if (selRegion=="Unk") {
+      AcceptCurrentOrigins() ;
+      EraAbbrev=localStorage.EraAbbrev;
+  }
+  else {
+    EraAbbrev=localStorage.EraAbbrev;
+  }
+  //### NOTE: the rest was previously in its own else clause ###
+    // Keep the first two options
+    var i;
+    var origNumberOfOptions = areaList.options.length ;
+    if(origNumberOfOptions>0) {
+      for (i = 0; i<origNumberOfOptions; i++) {
+        console.log("removing (0) from "+areaList) ;
+        areaList.remove(0);
+      }
+      titleNoOpOption = areaList[0];
+      unkOption = areaList[1];
+      areaList.options.add(titleNoOpOption);
+      areaList.options.add(unkOption);
+    }
+    //var areas = titleTextboxChoiceTree[getContextAppropMigration(localStorage.RegionOfOriginAbbrev,localStorage.EraAbbrev)];
+    //###
+    selRegionAbbrev = "EuM" ;  // carry on with the most common "origins" value
+    EraAbbrev="Early";
+    //###  getContextAppropMigration(selRegionAbbrev,EraAbbrev)
+    var areasIndex = getContextAppropMigration("EuM","Early");
+    var areas = titleTextboxChoiceTree[areasIndex];
+    //alert("titleTextboxChoiceTree[areasIndex=="+areasIndex+"]=="+areas) ;
+    if (areas) {
+      for (i = 0; i < areas.length; i++) {
+        //var area = new Option(areas[i], i+2);
+        var area = new Option(areas[i], areas[i]);
+        areaList.options.add(area);
+        console.log("added area.value=="+area.value+". areaList is now "+areaList) ;
+        /*
+        if (area[i]==localStorage.AreaOfOrigin) {
+            if(i==1) { // if value is "Unk" then show the category name instead
+              areaList.selectedIndex = 0 ;
+            }
+            else {
+              areaList.selectedIndex = i ;
+            }
+        }
+        */
+      }
+    }
+  // set to category description
+  areaList.selectedIndex = 0 ;
+  EchoPlaqueTextBox() ;
+}
+
+
+function BuildPlaqueSecondLineMenuFromFirstLineChoice() {
+//alert("BuildPlaqueSecondLineMenuFromFirstLineChoice()") ;
+console.log("BuildPlaqueSecondLineMenuFromFirstLineChoice()") ;
+var countryList = document.getElementById("appreciationLeader");
+console.log("countryList = "+countryList) ;
+var provinceList = document.getElementById("appreciationBody");
+var AreaStr=localStorage.AreaOfOrigin ;
+var CountryStr=localStorage.CountryOfOrigin ;
+var ProvinceStr=localStorage.ProvinceOfOrigin ;
+var CityStr=localStorage.CityOfOrigin ;
+var titleNoOpOption = provinceList[0];
+var unkOption = provinceList[1];
+var userProvideOption = provinceList[2];
+console.log("provinceList = "+provinceList) ;
+var selCountry = countryList.options[countryList.selectedIndex].value;
+if (localStorage.CountryOfOrigin != selCountry) {
+    localStorage.CountryOfOrigin = selCountry ;
+    localStorage.ProvinceOfOrigin = 'Unk' ;
+    localStorage.CityOfOrigin = 'Unk' ;
+}
+
+console.log("selCountry  == localStorage.CountryOfOrigin ==  "+selCountry) ;
+
+  if (selCountry=="") {
+      console.log("Empty actions (i.e. value) selected.  Noop") ;
+      //alert("Noop") ;
+  }
+  else if (selCountry=="Unk") {
+      AcceptCurrentOrigins() ;
+      //alert("Exit") ;
+  }
+  /* disallowing the naming of countries
+  else if (selCountry=="UserProvided") {
+      UserProvidedPlacename("homeProvince") ;
+  }
+  */
+  else {
+    // Keep the first two options
+    var i;
+    for (i = 3; i<provinceList.options.length; i++) {
+      console.log("removing.. provinceList=="+provinceList) ;
+      provinceList.remove(3);
+    }
+    provinceList.options.add(titleNoOpOption);
+    provinceList.options.add(unkOption);
+    provinceList.options.add(userProvideOption);
+    var countries = titleTextboxChoiceTree[selCountry];
+    if (countries) {
+      for (i = 0; i < countries.length; i++) {
+        var country = new Option(countries[i], countries[i]);
+        provinceList.options.add(country);
+        console.log("added country.value=="+country.value+". provinceList is now "+provinceList) ;
+      }
+    }
+  // set to category description
+  provinceList.selectedIndex = 0 ;
+  }
+
+  //### check this...###
+  EchoPlaqueTextBox() ;
+
+}
+
+function EchoPlaqueTextBox() {
+    console.log("****EchoPlaqueTextBox()") ;
+  /*
+  ### need to resolve how these vars relate to ultimate output... ###
+      var newPlaqueTextBoxLine1  = 'Origins: ' ;
+  */
+    var newPlaqueTextBoxLine1  = document.getElementById("appreciationLeader").value ;
+    var newPlaqueTextBoxLine2  = document.getElementById("appreciationBody").value ;
+//      var immTimeAndPlace = generateImmTimeAndPlaceStr() ;
+//      var newPlaqueTextBoxLine3  = generateImmTimeAndPlaceStr[0] + generateImmTimeAndPlaceStr[1];
+    var newPlaqueTextBoxLine3Raw  = document.getElementById("appreciationTimePeriod").value ;
+    var newPlaqueTextBoxLine3UnPacked  = parseImmigrationPeriodLabel(newPlaqueTextBoxLine3Raw) ;
+    var newPlaqueTextBoxLine4  = document.getElementById("wordingForCrossing").value ;
+/*
+      if (localStorage.CityOfOrigin != 'Unk') {
+          console.log("localStorage.CityOfOrigin != 'Unk'; =="+localStorage.CityOfOrigin) ;
+          if (localStorage.CountryOfOrigin != 'Unk') {
+              // ## should be able to *look up* the country from the port ##
+              newPlaqueTextBoxLine1 += localStorage.CityOfOrigin+', '+localStorage.CountryOfOrigin ;  // Use the abbrev here??
+          }
+          else if (localStorage.ProvinceOfOrigin != 'Unk') {
+              // ## will we ever be able to *look up* the province from the port or country ##
+              newPlaqueTextBoxLine1 += localStorage.CityOfOrigin+', '+localStorage.ProvinceOfOrigin ;
+          }
+          else {
+              // ## will we ever be able to *look up* the province from the port or country ##
+              newPlaqueTextBoxLine1 += localStorage.CityOfOrigin ;
+          }
+      }
+      else if (localStorage.ProvinceOfOrigin != 'Unk') {
+          console.log("localStorage.ProvinceOfOrigin != 'Unk'; =="+localStorage.ProvinceOfOrigin) ;
+          if (localStorage.CountryOfOrigin != 'Unk') {
+              newPlaqueTextBoxLine1 += localStorage.ProvinceOfOrigin+', '+localStorage.CountryOfOrigin ;
+          }
+          else {
+              newPlaqueTextBoxLine1 += localStorage.ProvinceOfOrigin ;
+          }
+      }
+      else if (localStorage.CountryOfOrigin != 'Unk') {
+          console.log("localStorage.CountryOfOrigin != 'Unk'; =="+localStorage.CountryOfOrigin) ;
+          newPlaqueTextBoxLine1 += localStorage.CountryOfOrigin ;
+          // don't state area unless it's the only thing known
+          //if ((localStorage.ProvinceOfOrigin != 'Unk') || (localStorage.CountryOfOrigin != 'Unk')) {
+          //    newPlaqueTextBoxLine1 += localStorage.CountryOfOrigin+', ' ;
+          //}
+      }
+      else if (localStorage.AreaOfOrigin != 'Unk') {
+          console.log("localStorage.AreaOfOrigin != 'Unk'; =="+localStorage.AreaOfOrigin) ;
+          newPlaqueTextBoxLine1 += localStorage.AreaOfOrigin ;
+          // don't state area unless it's the only thing known
+          //if ((localStorage.ProvinceOfOrigin != 'Unk') || (localStorage.CountryOfOrigin != 'Unk')) {
+          //    newPlaqueTextBoxLine1 += localStorage.AreaOfOrigin+', ' ;
+          //}
+          }
+      else if (localStorage.AreaOfOrigin == 'Unk') {
+              console.log("localStorage.AreaOfOrigin != 'Unk'; =="+localStorage.AreaOfOrigin) ;
+              newPlaqueTextBoxLine1 += "Unknown" ;
+              // don't state area unless it's the only thing known
+              //if ((localStorage.ProvinceOfOrigin != 'Unk') || (localStorage.CountryOfOrigin != 'Unk')) {
+              //    newPlaqueTextBoxLine1 += localStorage.AreaOfOrigin+', ' ;
+              //}
+          }
+      else {
+          console.log("All 'Unk'") ;
+          newPlaqueTextBoxLine1 += "Unknown" ;
+          // don't state area unless it's the only thing known... no, have map so just state "Unknown"
+          //if ((localStorage.ProvinceOfOrigin != 'Unk') || (localStorage.CountryOfOrigin != 'Unk')) {
+          //    newPlaqueTextBoxLine1 += localStorage.RegionOfOrigin+', ' ;
+          //}
+      }
+      //document.getElementById("plaqueTextBoxL1").innerHTML = newPlaqueTextBoxLine1 ;
+      console.log("EchoPlaqueTextBox(): newPlaqueTextBoxLine1=="+newPlaqueTextBoxLine1) ;
+*/
+      document.getElementById("plaqueTextBoxL1").innerHTML = 'Plaque Line 1: '+newPlaqueTextBoxLine1 ;
+      document.getElementById("plaqueTextBoxL2").innerHTML = 'Plaque Line 2: '+newPlaqueTextBoxLine2 ;
+      document.getElementById("plaqueTextBoxL3").innerHTML = 'Plaque Line 3: '+newPlaqueTextBoxLine3UnPacked ;
+      document.getElementById("plaqueTextBoxL4").innerHTML = 'Plaque Line 4: '+newPlaqueTextBoxLine4 ;
+  } // function EchoPlaqueTextBox()
+
+  // This version of AcceptCurrentOrigins() stays on the page
+function AcceptCurrentOrigins() {
+      var ProposedOriginsText ;
+      if (localStorage.CityOfOrigin=="Unk") {
+          if (localStorage.ProvinceOfOrigin=="Unk") {
+              if (localStorage.CountryOfOrigin=="Unk") {
+                  if (localStorage.AreaOfOrigin=="Unk") {
+                      // no new information, so no-op
+                      ProposedOriginsText = '' ;
+                  }
+                  else {
+                      // only region, so
+                      ProposedOriginsText = 'Origins: '+localStorage.AreaOfOrigin ;
+                  }
+              }
+              else {
+                  // region and country.  Just use country
+                  ProposedOriginsText = 'Origins: '+localStorage.CountryOfOrigin ;
+              }
+          }
+          else {
+              // region, country, and province.  Combine province and country
+              // ### note that this could go wrong if have city/province but not country, etc. ###
+              ProposedOriginsText = 'Origins: '+localStorage.ProvinceOfOrigin+', '+localStorage.CountryOfOrigin ;
+          }
+      }
+      else {
+          // region, country, province, and city.  Combine city, province, and country
+          ProposedOriginsText = 'Origins: '+localStorage.CityOfOrigin+' in '+localStorage.ProvinceOfOrigin+','+localStorage.CountryOfOrigin+'' ;
+      }
+      if (ProposedOriginsText==localStorage.OriginsLine1) {
+          //if (confirm('Origins Text Box: Current Line 1 reads:"'+localStorage.OriginsLine1+'". Accept and Continue?')) {
+          if (true) {
+              localStorage.OriginsLine1 = ProposedOriginsText ;
+              //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+              // ### window.location.assign(nextPage) ;
+          }
+      }
+      //else if (ProposedOriginsText && confirm('Current Line 1 of Origins text box reads:"'+localStorage.OriginsLine1+'". Change it to:"'+ProposedOriginsText+'" and Continue?')) {
+      else if (ProposedOriginsText) {
+          localStorage.OriginsLine1 = ProposedOriginsText ;
+          //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+          // ### window.location.assign(nextPage) ;
+      }
+      //else if (confirm('Continuing with Line 1 of Origins Text Box as:"'+localStorage.OriginsLine1+'"')) {
+      else {
+              //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+              // ### window.location.assign(nextPage) ;
+          //else just continue
+      }
+  }
+
+
+  // ### This version of AcceptCurrentOrigins goes to the next page... ###
+  function AcceptCurrentPlaqueLinesAndExit() {
+    var PreviousPlaqueText = "";
+    var ProposedPlaqueText = document.getElementById("appreciationLeader").value
+                            + " " + document.getElementById("appreciationBody").value
+                            + " " + document.getElementById("appreciationTimePeriod").value
+                            + " " + document.getElementById("wordingForCrossing").value ;
+    PreviousPlaqueText = localStorage.PlaqueLine1 ;
+    if(PreviousPlaqueText==undefined) {
+      // ### assuming here that if first line empty, all are ###
+      window.location.assign(nextPage) ;
+    }
+    else {
+      for(i=2; i<=8; i++) {
+        // if PlaqueLine is defined, add to string
+        if(!(eval('(localStorage.PlaqueLine'+i+'==undefined)|(localStorage.PlaqueLine'+i+'=="")'))) {
+          PreviousPlaqueText += " " + eval("localStorage.PlaqueLine"+i);
+        }
+        else {
+          //no-op
+        }
+      }
+    }
+    if(ProposedPlaqueText==PreviousPlaqueText) {
+      window.location.assign(nextPage) ;
+    }
+    else if(confirm('Replace previous plaque text "'+PreviousPlaqueText+'" with "'+ProposedPlaqueText+'"?')){
+      localStorage.PlaqueLine1=document.getElementById("appreciationLeader").value ;
+      localStorage.PlaqueLine2=document.getElementById("appreciationBody").value ;
+      localStorage.PlaqueLine3=document.getElementById("appreciationTimePeriod").value ;
+      localStorage.PlaqueLine4=document.getElementById("wordingForCrossing").value ;
+      localStorage.PlaqueLine5="" ;
+      localStorage.PlaqueLine6="" ;
+      localStorage.PlaqueLine7="" ;
+      localStorage.PlaqueLine8="" ;
+      window.location.assign(nextPage) ;
+    }
+    //else just carry on...
+  }
+// ]]></script>
+<script>// <![CDATA[
+  function add_map_of_the_times() {
+    var currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+    // This doesn't work because (?) stepping on prev val? >>> var prevThisNextAvailMapYears = prevThisNextMapYears(getDefaultYear()
+    var availableMapYear = localStorage.currRteMapYear ; //2016 ; //getDefaultYear() ;
+    var shopifyPrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+    //### making this smaller for ship-on-slider
+    var shopifyImgSizePostfix = "_256x256" ;
+    var currMapFile = shopifyPrefix + availableMapYear+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+
+    // "https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png"
+    //alert("currMapFile=="+currMapFile) ;
+    var src = currMapFile ;
+    //var src = "https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png";
+    //show_image("https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png", 276,110, "MapOfTheTimes");
+//###
+//currMapFile = "https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png" ;
+//alert("calling show_image(currMapFile, 276,110, MapOfTheTimes) with currMapFile=="+currMapFile) ;
+//###
+    show_image(currMapFile, 276,110, "MapOfTheTimes");
+    //return(currMapFile) ;
+  }
+
+
+  // ### this looks like it is all about the ship vs the text... ###
+  function displayEraTextOnAntiqueMap(newXingYrValue) {
+      var textOrShipTopOffset = 140 ; //### vs 180 for text? ###
+      var textOffsetFromTop = placementTop + textOrShipTopOffset ; // ### would like this to align with map height
+      var routeImageTextStr = "" ;
+      var describeYearModeTxt = "" ; ;
+      var currMapFile ;
+      var shopifyPrefix ;
+      var shopifyImgSizePostfix ;
+      var routeImageDisplayStr = "";
+      var routeImageStyleStr = "";
+      var routeImageTextStr = "";
+      var displayLabeledImageHTML ;
+      var placementTop ;
+      var placementLeft ;
+      var placementWidth ;
+      var placementHeight ;
+      var placementBorder ;
+      var placementBorderMultiplier = 10 ;
+      var placementLineStyle ;
+      var placementLineColor ;
+      var placementImgOverwrite ;
+      var placementImgZIndex = 1 ;
+      var placementTxtZIndex = 2 ;
+
+      placementTop = 20;
+      placementLeft = 40;
+      placementWidth = 650; // 1.75*400
+      placementHeight = 350; // 1.75*400
+      placementBorder = 3;
+      placementLineStyle = "solid";
+      placementLineColor = "red";
+      var placementImgOverwrite = 20;
+
+      var settingLowerDate = true ; // ###Ugh###
+      if (settingLowerDate) {
+              //describeYearModeTxt = "Main Routes in Departure (or Earliest-Possible) Year: " ;
+              describeYearModeTxt = "Main Routes in Year " + newXingYrValue;
+          }
+          else {
+              //describeYearModeTxt = "Main Routes in Arrival (or Latest-Possible) Year: " ;
+              describeYearModeTxt = "Main Routes in Year "  + newXingYrValue;
+          }
+         var shipInfoStr = shipRepresentativeOfYear(newXingYrValue) ;
+         var shipImageStr = shipInfoStr[0] ;
+         var shipImageAltStr = shipInfoStr[1] ;
+          var sliderLeft = 70 ;
+          var sliderXRange = 730 ;
+          var currYear = Number(newXingYrValue) ;
+          var yearStart = 1600 ;
+          var yearEnd = 2016 ;
+          var yearRange = yearEnd-yearStart ;
+          var yearSinceStart = currYear-yearStart ;
+          var yearLeft = (sliderLeft + (yearSinceStart/yearRange)*sliderXRange) ;
+          var shipImgX = 200 ; // ### want this to be the actual ship image width
+          var shipBottom = placementTop+placementHeight ;
+  //        var shipLeft = placementLeft+(placementWidth-shipImgX)/2 ;
+          var shipLeft = placementWidth/2-shipImgX/2 ;
+          var flipShipStr ;
+          switch (localStorage.RegionOfOriginAbbrev) {
+            case "EuM" :
+            case "Afr" :
+            case "SAm" :
+              flipShipStr = "" ;
+              break
+            case "SoA" :
+            case "Pac" :
+              flipShipStr = "-webkit-transform: scaleX(-1); transform: scaleX(-1);" ;
+         break
+            default:
+              flipShipStr = "" ;
+          }
+
+          routeImageTextStr += "<div ";
+          routeImageTextStr += "style=\"position: absolute; ";
+          //routeImageTextStr += "top: "+ placementTop +"px; ";
+          //routeImageTextStr += "left: "+ placementLeft +"px; ";
+  //        routeImageTextStr += "bottom: "+ shipBottom +"px; ";
+  //        routeImageTextStr += "left: "+ shipLeft +"px; ";
+          routeImageTextStr += "top: "+ placementTop +"px; ";
+          routeImageTextStr += "left: "+ placementLeft +"px; ";
+          routeImageTextStr += "width: "+ placementWidth +"px; ";
+          routeImageTextStr += "height: "+ placementHeight +"px; ";
+          routeImageTextStr += "font-size: large;";
+          routeImageTextStr += "color: Cornsilk;";
+          routeImageTextStr += "z-index: "+ placementTxtZIndex +"; ";
+          routeImageTextStr += "\"";
+          routeImageTextStr += ">";
+
+          routeImageTextStr +=  "Major Crossing Routes in:" + newXingYrValue ;
+          routeImageTextStr +=  "<br>" ;
+          routeImageTextStr +=  "<br>" ;
+
+          routeImageTextStr += "<div ";
+          routeImageTextStr += "style=\"position: absolute; ";
+  //        routeImageTextStr += "top: "+ placementTop +"px; ";
+          routeImageTextStr += "left: "+ 70 +"px; ";
+  //        routeImageTextStr += "width: "+ placementWidth +"px; ";
+  //        routeImageTextStr += "height: "+ placementHeight +"px; ";
+          routeImageTextStr += flipShipStr;
+  //routeImageTextStr += "z-index: "+ placementTxtZIndex +"; ";
+          routeImageTextStr += "\"";
+          routeImageTextStr += ">";
+          routeImageTextStr += '<img src="';
+         routeImageTextStr += shipImageStr;
+          routeImageTextStr += '" alt="';
+         routeImageTextStr += shipImageAltStr;
+          routeImageTextStr += ' width="100" height="100">';
+          routeImageTextStr += "</div>";
+  /*
+          routeImageTextStr += "<mark style=\"background-color: Cornsilk;\">";
+          routeImageTextStr += describeYearModeTxt ;
+          routeImageTextStr += "</mark>";
+  */
+          routeImageTextStr +=  "Typical Ship-of-Crossing:" ;
+          routeImageTextStr += "</div>";
+
+          routeImageTextStr += "<div ";
+          routeImageTextStr += "style=\"position: absolute; ";
+  //        routeImageTextStr += "top: "+ placementTop +"px; ";
+          routeImageTextStr += "top: "+ textOffsetFromTop +"px; ";
+          //routeImageTextStr += "left: "+ placementLeft +"px; ";
+          routeImageTextStr += "left: "+ yearLeft +"px; ";
+          routeImageTextStr += "width: "+ placementWidth +"px; ";
+          routeImageTextStr += "height: "+ placementHeight +"px; ";
+          routeImageTextStr += "font-size: large;";
+  //        routeImageTextStr += "background-color: Cornsilk;";
+          routeImageTextStr += "z-index: "+ placementTxtZIndex +"; ";
+          routeImageTextStr += "\"";
+          routeImageTextStr += ">";
+/*
+          routeImageTextStr += '<svg xmlns="http://www.w3.org/2000/svg" mlns:xlink="http://www.w3.org/1999/xlink">' ;
+          routeImageTextStr += '<text x="10" y="50" transform="rotate(-90 20 30)" style="fill:white" >'
+          //routeImageTextStr += '<text x="10" y="50" transform="rotate(90 20 30)" >'
+          routeImageTextStr += '<tspan font-weight="bold" fill="cornsilk">' ;
+          routeImageTextStr += newXingYrValue ;
+          routeImageTextStr += '</tspan>';
+          routeImageTextStr += '</text>';
+          routeImageTextStr += '</svg>'
+*/
+  /*
+          routeImageTextStr += "<mark style=\"background-color: Cornsilk;\">";
+          routeImageTextStr += describeYearModeTxt ;
+          routeImageTextStr += "</mark>";
+  */
+          routeImageTextStr += "</div>";    console.log("displayEraTextOnAntiqueMap(newXingYrValue=="+newXingYrValue+")>> placementTop=="+placementTop+" placementLeft=="+placementLeft);
+      return routeImageTextStr ;
+  }
+
+  /*
+      function show_image(src, width, height, alt) {
+      var img = document.createElement("img");
+      img.src = src;
+      img.width = width;
+      img.height = height;
+      img.alt = alt;
+  */
+
+      // This next line will just add it to the <body> tag
+      // document.body.appendChild(img);
+      // add it to the <body> tag
+   //   document.getElementById("routeDisplay").innerHTML = img ;
+
+  function show_image(src, width, height, alt){
+    var currYear = localStorage.YearOfCrossing ;
+
+      var ImgOverlayHTML = "" ;
+      var routeImageStyleStr  = "" ;
+      var placementTop = 50;
+      var placementLeft = 40;
+      var placementWidth = 650; // 1.75*400
+      var placementHeight = 350; // 1.75*400
+      var placementBorder = 3;
+      var placementLineStyle = "solid";
+      var placementLineColor = "red";
+      var placementImgOverwrite = 20;
+
+  //EuM
+          placementTop = 30;
+          placementLeft = 275;
+          placementWidth = 375;
+          placementHeight = 200;
+          placementBorder = 3;
+          placementLineStyle = "solid";
+          placementLineColor = "red";
+
+
+          routeImageStyleStr = " style=\"position: absolute; ";
+          routeImageStyleStr += "top: "+ placementTop +"px; ";
+          routeImageStyleStr += "left: "+ placementLeft +"px; ";
+          routeImageStyleStr += "width: "+ placementWidth +"px; ";
+          routeImageStyleStr += "height: "+ placementHeight +"px; ";
+          routeImageStyleStr += "border: "+ placementBorder +"px; ";
+          routeImageStyleStr += placementLineStyle +" ";
+          routeImageStyleStr += placementLineColor +"; ";
+          routeImageStyleStr += "z-index: "+ placementImgOverwrite +"; ";
+          routeImageStyleStr += "\"";
+
+          /* map display */
+          ImgOverlayHTML +=   '<div' ;
+          //ImgOverlayHTML +=   ' style=\"position: absolute; bottom: 20px; left: 150px; z-index: 300;\">' ;
+          ImgOverlayHTML +=   routeImageStyleStr ;
+          ImgOverlayHTML +=   ' >' ;
+          ImgOverlayHTML +=     '<img src=' + src ;
+          ImgOverlayHTML +=     ' id=\"webMapImg\"';
+          ImgOverlayHTML +=     ' alt=\"'+alt+'\"';
+          ImgOverlayHTML +=     ' class=\"map\" width=\"500px\" height=250' ;
+          ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
+          /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
+          ImgOverlayHTML +=     '\" />' ;
+          ImgOverlayHTML += displayEraTextOnAntiqueMap(currYear) ;
+          ImgOverlayHTML +=   '</div>' ;
+  //        console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
+      document.getElementById("routeDisplay").innerHTML = ImgOverlayHTML;  // ### not routeDisplayDivID?? ###
+  //        document.getElementById(routeDisplayDivID).innerHTML = ImgOverlayHTML;
+  }
+
+  function shipRepresentativeOfYear(currTimelineYear) {
+  /*
+  "https://cdn.shopify.com/s/files/1/1336/0641/files/EarlySailKnownShipIconLabeled.png" ;
+  "https://cdn.shopify.com/s/files/1/1336/0641/files/ModernSailKnownShipIconLabeled.png" ;
+  "https://cdn.shopify.com/s/files/1/1336/0641/files/SteamSailKnownShipIconLabeled.png" ;
+  "https://cdn.shopify.com/s/files/1/1336/0641/files/ClassicPssgrLinerKnownShipIconLabeled.png" ;
+  "https://cdn.shopify.com/s/files/1/1336/0641/files/PssgrLinerKnownShipIconLabeled.png" ;
+  Ryndam_1951-1970_-mdlrend.png
+  "https://cdn.shopify.com/s/files/1/1336/0641/files/AgeOfAirTravelKnownPlaneIconLabeled.png" ;
+  */
+      var shipFilePrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+            var shipImage ;
+      var shipImageSize = 200 ;
+      var shipSizeSuffix = '_'+shipImageSize+'x'+shipImageSize ;
+            var shipImageAlt ;
+      if      (Number(currTimelineYear)<=1619) {
+                shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "EarlySail(1585?-1607)" ;
+            } //
+            else if (Number(currTimelineYear)<=1630) {
+                shipImage = "Mayflower_1604-1624_jimaworksMade-JenV-300ppi"+shipSizeSuffix+".png" ;
+                shipImageAlt = "Mayflower(1609?-1624?)" ;
+            }
+            else if (Number(currTimelineYear)<=1645) {
+                shipImage = "The_Arbella_1610-1640_-640x391-postcd"+shipSizeSuffix+".png" ;
+                shipImageAlt = "Arabella(1625?-1640?)" ;
+            }
+            else if (Number(currTimelineYear)<=1675) {
+                shipImage = "WinthropFleet-painting"+shipSizeSuffix+".png" ;
+                shipImageAlt = "WinthropFleet(1630-1640)" ;
+            }
+            else if (Number(currTimelineYear)<=1675) {
+                shipImage = "MarieSeraphique-painting"+shipSizeSuffix+".jpg" ;
+                shipImageAlt = "Marie Seraphique (1720-1820)" ;
+            }
+            else if (Number(currTimelineYear)<=1700) {
+                shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1725) {
+                shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1750) {
+                shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1784) {
+                shipImage = "EarlySailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(EarlySailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1800) {
+                shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1815) {
+                shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1825) {
+                shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1835) {
+                shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1840) {
+                shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1845) {
+                shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1850) {
+                shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1855) {
+                shipImage = "ModernSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ModernSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1860) {
+                shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1865) {
+                shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1870) {
+                shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1875) {
+                shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1880) {
+                shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1885) {
+                shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1890) {
+                shipImage = "SteamSailKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(SteamSailKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1895) {
+                shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1900) {
+                shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1905) {
+                shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1910) {
+                shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1914) {
+                shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1919) {
+                shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1923) {
+                shipImage = "ClassicPssgrLinerKnownShipIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(ClassicPssgrLinerKnownShipIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1938) {
+                shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1946) {
+                shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1950) {
+                shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1960) {
+                shipImage = "Ryndam_1951-1970_-mdlrend"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(Ryndam_1951-1970_-mdlrend.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1970) {
+                shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1980) {
+                shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=1990) {
+                shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=2000) {
+                shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=2010) {
+                shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+            }
+      else if (Number(currTimelineYear)<=2016) {
+                shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+            }
+      else if (currTimelineYear=="Present") {
+                shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+            }
+      else {
+                shipImage = "AgeOfAirTravelKnownPlaneIconLabeled"+shipSizeSuffix+".png" ;
+                shipImageAlt = "(AgeOfAirTravelKnownPlaneIconLabeled.png)" ;
+            }
+
+            return [shipFilePrefix+shipImage, shipImageAlt] ;
+}
+
+
+// ]]></script>
+<script>// <![CDATA[
+  <style>
+  map-animation {
+    width: 100px;
+    height: 100px;
+    background: red;
+    position: relative;
+    animation: myfirst 5s 2;
+    animation-direction: alternate;
+  }
+
+  @keyframes myfirst {
+    0%   {background: red; left: 0px; top: 0px;}
+    25%  {background: yellow; left: 200px; top: 0px;}
+    50%  {background: blue; left: 200px; top: 200px;}
+    75%  {background: green; left: 0px; top: 200px;}
+    100% {background: red; left: 0px; top: 0px;}
+  }
+  </style>
+
+  function dynamically_move_map(src, width, height, alt){
+      var ImgOverlayHTML = "" ;
+      var routeImageStyleStr  = "" ;
+      var placementTop = 50;
+      var placementLeft = 40;
+      var placementWidth = 650; // 1.75*400
+      var placementHeight = 350; // 1.75*400
+      var placementBorder = 3;
+      var placementLineStyle = "solid";
+      var placementLineColor = "red";
+      var placementImgOverwrite = 20;
+
+  //EuM
+          placementTop = 30;
+          placementLeft = 275;
+          placementWidth = 375;
+          placementHeight = 200;
+          placementBorder = 3;
+          placementLineStyle = "solid";
+          placementLineColor = "red";
+
+
+          routeImageStyleStr = " style=\"position: absolute; ";
+          routeImageStyleStr += "top: "+ placementTop +"px; ";
+          routeImageStyleStr += "left: "+ placementLeft +"px; ";
+          routeImageStyleStr += "width: "+ placementWidth +"px; ";
+          routeImageStyleStr += "height: "+ placementHeight +"px; ";
+          routeImageStyleStr += "border: "+ placementBorder +"px; ";
+          routeImageStyleStr += placementLineStyle +" ";
+          routeImageStyleStr += placementLineColor +"; ";
+          routeImageStyleStr += "z-index: "+ placementImgOverwrite +"; ";
+          routeImageStyleStr += "\"";
+
+          /* map display */
+          ImgOverlayHTML +=   '<div' ;
+          //ImgOverlayHTML +=   ' style=\"position: absolute; bottom: 20px; left: 150px; z-index: 300;\">' ;
+          ImgOverlayHTML +=   routeImageStyleStr ;
+          ImgOverlayHTML +=   ' >' ;
+          ImgOverlayHTML +=     '<img src=' + src ;
+          ImgOverlayHTML +=     ' id=\"webMapImg\"';
+          ImgOverlayHTML +=     ' alt=\"'+alt+'\"';
+          ImgOverlayHTML +=     ' class=\"map\" width=\"500px\" height=250' ;
+          ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
+          /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
+          ImgOverlayHTML +=     '\" />' ;
+          ImgOverlayHTML +=   '</div>' ;
+  //        console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
+      document.getElementById("routeDisplay").innerHTML = ImgOverlayHTML;  // ### not routeDisplayDivID?? ###
+  //        document.getElementById(routeDisplayDivID).innerHTML = ImgOverlayHTML;
+  }
+
+
+  
+// ]]></script>
+<script>// <![CDATA[
+  function BuildPlaqueFirstLineMenuFromRegionAndYear() {
+      BuildNewNextLevelMenuListFromThisLevelMenuSelection(["appreciationTimePeriod", "appreciationLeader"], ["AreaOfOrigin", "CountryOfOrigin"],"titleTextboxChoiceTree") ;
+  }
+
+
+  // add user option iff option 3 value=="UserProvided"
+  function BuildNewNextLevelMenuListFromThisLevelMenuSelection(menuIDs, localStorageNames, menuOptionsSource) {
+      if(menuIDs.length>=2) {
+            //alert("BuildNewNextLevelMenuListFromThisLevelMenuSelection()") ;
+            var thisLevelMenuList = document.getElementById(menuIDs[0]);
+            var currentLevelMenuSelection = thisLevelMenuList.options[thisLevelMenuList.selectedIndex].value;
+            console.log("thisLevelMenuList = "+thisLevelMenuList) ;
+            console.log("currentLevelMenuSelection == "+thisLevelMenuList.options[thisLevelMenuList.selectedIndex].value) ;
+
+          /*  review and decide if want this
+          */
+            console.log("eval string == "+'localStorage.'+localStorageNames[0]+'="'+currentLevelMenuSelection+'"') ;
+            eval('localStorage.'+localStorageNames[0]+'="'+currentLevelMenuSelection+'"');
+            // no matter what this level changes to, all lower levels perforce have to become "Unk"
+            if(true | currentLevelMenuSelection!='Unk') {
+                for (i = 1; i<localStorageNames.length; i++) {
+                    eval('localStorage.'+localStorageNames[i]+'="Unk"');
+                }
+            }
+            // get *current* unupdated countrylist
+            var nextLevelMenuList ;
+            // First two elements of the choice list are always the no-op header and the "Unknown" option
+            var titleNoOpOption ;
+            var unkOption ;
+            var userProvidedOptions ;
+            var nextLevelSourceElementsList ;
+            var nextLevelMenuListLength ;
+            // initially set the selection of the lower level menu to the category description
+            nextLevelMenuList = document.getElementById(menuIDs[1]);
+            nextLevelMenuList.selectedIndex = 0 ;
+            console.log("nextLevelMenuList = "+nextLevelMenuList) ;
+            console.log("nextLevelMenuList: current selection = "+nextLevelMenuList[nextLevelMenuList.selectedIndex].text) ;
+          /*
+           * can currentLevelMenuSelection ever be blank or unknown?
+           * [prob not if coming in from another page.  But prob yes if in a recursive call.  Use to implement propogation of "Unknown"'s?]
+          */
+              if (currentLevelMenuSelection=="") {
+                  console.log("Empty actions (i.e. value) selected.  Noop") ;
+                  //alert("Noop") ;
+              }
+              // handle "Unk" as just another value (that doesn't happen to have a defined set of sub-options)
+  /*
+              else if (currentLevelMenuSelection=="Unk") {
+                  AcceptCurrentOrigins() ;
+                  //alert("Exit") ;
+              }
+  */
+              else {
+                // Keep the first two options as in orig code, but here just remove all and add the first two back in.
+                titleNoOpOption = nextLevelMenuList[0];
+                unkOption = nextLevelMenuList[1];
+                if (nextLevelMenuList.length>2) {
+                    if(nextLevelMenuList[2]=="UserProvided"){
+                      userProvidedOptions = nextLevelMenuList[2] ;
+                    }
+                    else {
+                      userProvidedOptions = false ;
+                    }
+                }
+                nextLevelMenuListLength = nextLevelMenuList.options.length ;
+                for (i = 0; i<nextLevelMenuListLength; i++) {
+                  console.log("removing "+nextLevelMenuList.options[0].text) ;
+                  nextLevelMenuList.remove(0);
+                }
+            // First two elements of the choice list are always the no-op header and the "Unknown" option
+                nextLevelMenuList.options.add(titleNoOpOption);
+                console.log("added nextLevelMenuList.options[0].text=="+nextLevelMenuList.options[0].text) ;
+                nextLevelMenuList.options.add(unkOption);
+                console.log("added nextLevelMenuList.options[1].text=="+nextLevelMenuList.options[1].text) ;
+                if(userProvidedOptions) {
+                  nextLevelMenuList.options.add(userProvidedOptions);
+                  console.log("added nextLevelMenuList.options[2].text=="+nextLevelMenuList.options[2].text) ;
+                }
+
+                console.log("currentLevelMenuSelection=="+currentLevelMenuSelection) ;
+                console.log("nextLevelSourceElementsList = "+eval(menuOptionsSource+'["'+currentLevelMenuSelection+'"]')) ;
+                nextLevelSourceElementsList = eval(menuOptionsSource+'["'+currentLevelMenuSelection+'"]');
+                if (nextLevelSourceElementsList) {
+                  for (i = 0; i < nextLevelSourceElementsList.length; i++) {
+                    var nextLevelSourceElement = new Option(nextLevelSourceElementsList[i], nextLevelSourceElementsList[i]);
+                    //var nextLevelSourceElement = new Option(nextLevelSourceElementsList[i], i+2);
+                    nextLevelMenuList.options.add(nextLevelSourceElement);
+                    console.log("added nextLevelSourceElement.value=="+nextLevelSourceElement.value+". new nextLevelMenuList value: "+nextLevelMenuList.options[i+2]) ;
+          /*
+                    if (nextLevelSourceElement[i]==localStorage.RegionOfOrigin) {
+                        // add two because have two addl options at the front of the list
+                        nextLevelMenuList.selectedIndex = i;
+                    }
+          */
+                  }
+                }
+              // Always set next menu selection to category heading, since prev higher category has changed
+              // (But might want to consider unions of lower level if higher leve is unknown)
+              nextLevelMenuList.selectedIndex = 0 ;
+
+              //### check this...###
+              //### need to do this no matter what the menu choice was...EchoPlaqueTextBox() ;
+  /* would like these recursive calls to handle all menu builds at once
+              menuIDs.shift() ;
+              BuildNewNextLevelMenuListFromThisLevelMenuSelection(menuIDs, menuOptionsSource) ;
+  */
+              }
+          EchoPlaqueTextBox() ;
+      }
+  }
+
+
+
+  
+// ]]></script>
+<script>// <![CDATA[
+      BuildMigrationListFromRegionAndYarOfCrossing() ;
+      add_map_of_the_times() ;
+  
+// ]]></script>
+      </div>
+  
+    </div>
+  
+  </div>
+  

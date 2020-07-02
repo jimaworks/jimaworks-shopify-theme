@@ -1,0 +1,41 @@
+<div id="info-page" class="module-wrapper">
+  <div class="module module-default-page">
+      <div class="module-body {% unless page.handle == "gallery" %}page-body{%endunless%} rte">
+	      <div class="page-sidebar">
+					<div class="sidebar">
+						 <ul>
+						 {% for link in linklists.get-help.links %}
+						   <li {% if page.url == link.url %}class="current"{% endif %}>
+								 <a href= "{{ link.url }}">{{ link.title }}</a>
+ 						   		{% if link.handle == "helpful-resources" %}
+							 	 		{% for sublink in linklists.helpful-resources.links %}
+							 		 		<li {% if page.url == sublink.url %}class="current"{% endif %}>
+ 								 				<a href= "{{ sublink.url }}" class="sublink">&nbsp;&nbsp;&raquo; {{ sublink.title }} </a>
+ 							 				</li>
+							 			{% endfor %}
+							 		{% endif %}
+							 </li>
+
+						 {% endfor %}
+						 </ul>
+					</div>
+	      </div>
+				<div class="page-content">
+		      <div class="module-title page-title">
+		        <h1>{{ page.title }}</h1>
+		      </div>
+					
+					{% if page.handle == "engineering-documents" %}
+						{% include 'engineering-documents--pogodan' %}
+					{% endif %}
+					
+					{% if page.handle == "how-to-documents" %}
+						{% include 'how-to-documents--pogodan' %}
+					{% endif %}
+					
+					{{ page.content }}
+				</div>
+				<div class="clearfix"></div>
+      </div>
+  </div>
+</div>

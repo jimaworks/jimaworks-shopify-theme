@@ -1,0 +1,1054 @@
+<div class="grid">
+
+    <div class="grid__item">
+  
+      <div class="section-header">
+        <h1 class="section-header--title">{{ page.title }}</h1>
+      </div>
+  
+      <div class="rte">
+        
+<!--
+    No UserProvided() options
+--> <!--  RelationShips CountryOfOrigin:  TextBox2: Origins: Where did this FirstGen come from?
+            Page: https://jimaworks.com/pages/3-origins-a-country-of-origin
+            Template:  page
+            Title: 1.d From Where did this First Generation come?
+      Apr 16 2019:1600 Start to construct CountryOforigin and StateDestination pages
+      Apr 19 2019:1400 Origin/Destination choices w "Unk", regions, & individ countries/states, plus addl sort choices
+      Apr 21 2019:0700 Functions for nested <select> w dynamic rebuilds of next options from chosen option
+      Apr 22 2019:1400 Load all regions and countries, add capability for user-provided provinces and cities
+      Apr 23 2019:0700 Add the history map background passed in from timeline page
+      Apr 25 2019:1430 Put in the correct "nextPage"'s to make it live.
+      Apr 26 2019:1130 Update text box with results of Country(++)OfOrigin.  (### note that this could go wrong if have city/province but not country, etc. ###)
+      Apr 27 2019:0830 Repair loop updating dynamics.  (It turs out that the loop tgt value is updated every cycle)
+      Jun 01 2019:0745 Improve wording of textbox acceptance dialog.
+      Jun 08 2019:1740 Integrate with text box orientation of new interaction model
+      Jun 12 2019:1600 Add text box contents to bottom of page and correct choice updates
+      Jun 14 2019:2015 Add Save and Come Back Later button
+      Jun 15 2019:0700 Lightgrey-ize textbox echo w darkblue new text and get the category descriptions to show on choice updates
+      Jun 18 2019:0815 streamline prompts: "Continue" to "Continue to TextBox3 - Port Of Departure"
+      Jul 15 2019:0725 Indents, note about future edit poss, Save&FinishLater to top of page
+      Aug 17 2019:0730 Set the menu choices to existing localStorage values, make "User Provided" functional
+      Aug 26 2019:0830 Minor fixes to TitleLine1 updating functions
+      Aug 27 2019:0700 Rename all menu functions and re-implement in a unified menu-constructing fn for better maintenance
+      Aug 28 2019:0900 Rename updateOriginsTextBoxLine1() and rebuild as EchoOriginsTextBoxL1 and the EchoCurrentOriginEntries functions
+      Sep 02 2019:1400 Reinstate updateOriginsMenuHeadings() to update prev-chosen values when return to page, etc.
+      Jan 24 2020:1000 Turn into simple CountryOfOrigin page - but no country graphics yet
+      Mar 08 2020:2030 Minimal Theme color style for menu titles/descriptions
+      Mar 20 2020:1515  Swap in to new jimaworks page sequence
+      Apr 19 2020:1400  Fix menu headers so don't have mixed regions in choice set
+      Apr 25 2020:1300  Show both Origns lines
+
+      Next: Add abbviations in the generated text.
+-->
+<style>
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      border-bottom: 1px dotted black;
+    }
+    
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 240px;
+      background-color: #05537a; /* jimaworks top bar blue */
+      /* color: #fff; */
+      color: Cornsilk;
+      text-align: left;
+      border-radius: 6px;
+      padding: 5px 0;
+    
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+      /* top: -5px; */
+      /* left: 105%; */
+      top: 40px;
+      left: 10px;
+    }
+    
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }
+</style>
+
+    <div style="color: #0e5478; font-size: large; font-weight: bold; line-height: 80%; z-index: 20;">Chose down to the level you know:</div>
+    <div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');"><!--
+        <div id="AdjustMapAndMenus" style="position: absolute; top: 140px; z-index: 15; ">
+        <div id="AdjustMapAndMenus" style="position: absolute; z-index: 15; ">
+          <div id="routeGrfx"></div>
+          <div id="routeDisplay"></div>
+        </div>
+        -->
+    <div id="routeDisplay"></div>
+    <!-- ## Upcoming terrible hack:  just burying province and city menus.  Must remov sometime! ### -->
+    <div style="position: absolute; z-index: 50; top: 25px; left: 70px; width: 180px; height: 130px;"><select id="regionArea" style="color: #05537a; font-weight: bold;" onchange="BuildNewCountriesListFromSelectedRegion()" title="Select that region of the world where your story originates">
+    <option id="AreaHeading" value="">-- Part of World --</option>
+    <option id="AreaUnknown" value="Unk" title="Don't know more detail">Unknown</option>
+    <!--
+            <option value="NorthernEurope">Northern Europe</option>
+            <option value="SouthernEurope">Southern Europe</option>
+            <option value="EasternEurope">Eastern Europe</option>
+            <option value="WesternEurope">Western Europe</option>
+            --></select></div>
+    <div style="position: absolute; z-index: 50; top: 25px; left: 270px; width: 180px; height: 130px;"><select id="areaCountry" onload="BuildNewProvinceListFromSelectedCountry()" style="color: #05537a; font-weight: bold;" onchange="BuildNewProvinceListFromSelectedCountry()" title="Select the Country of Origin if you know it">
+    <option id="CountryHeading" value="">-- Country of Origin --</option>
+    <option id="CountryUnknown" value="Unk" title="Don't know more detail">Unknown</option>
+    </select></div>
+    <div style="position: absolute; z-index: 25; top: 25px; left: 470px; width: 180px; height: 130px;"><select id="countryProvince" style="color: #05537a; font-weight: bold;" onchange="BuildNewCitiesListFromSelectedProvince()" title="Select the province if you know it">
+    <option id="ProvinceHeading" value="">-- Province --</option>
+    <option id="ProvinceUnknown" value="Unk" title="Don't know more detail">Unknown</option>
+    <option id="ProvinceUserOption" value="UserProvided" title="Provide the province name">User-provided</option>
+    </select></div>
+    <div style="position: absolute; z-index: 25; top: 25px; left: 670px; width: 180px; height: 130px;"><select id="provinceCity" style="color: #05537a; font-weight: bold;" onchange="BuildNewStreetListFromSelectedCity()" title="Enter the city or town if you know it"><!--<select id="provinceCity" title="Enter the city or town if you know it">-->
+    <option id="CityHeading" value="">-- City/Town --</option>
+    <option id="CityUnknown" value="Unk" title="Don't know more detail">Unknown</option>
+    <option id="CityUserOption" value="UserProvided" title="Provide the city name">User-provided</option>
+    </select></div>
+    <!--
+    <div id="TextBoxDisplay" color="Ivory" style="position: absolute; z-index: 50; top: 120px; left: 70px; width: 540px; height: 30px; color: White; font-weight: bold; text-shadow: 1px 1px 0px Black;">
+    </div>
+    <div id="CurrentSelectionDisplay" color="Ivory" style="position: absolute; z-index: 50; top: 280px; left: 70px; width: 540px; height: 30px; color: White; font-weight: bold; text-shadow: 1px 1px 0px Black;">
+    </div>
+    -->
+    <div style="position: absolute; z-index: 2250; top: 215px; left: 70px; width: 800px; height: 60px; font-size: x-large;">
+    <h4><span style="color: cornsilk;"> <span id="originsTextBoxL1">[Origins Line 1: "Country of Origin"- provided by you on this page]</span> <br /> <span id="originsTextBoxL2">[Origins Line 2: "Port of Departure" - provided by you on next page]</span> <!--
+      <br />
+      <span id="titleTextBoxL3">[Title Line 3: "Year-of-Crossing" - provided by you on next page]</span> </span>
+    --> </span></h4>
+    </div>
+    <div style="font-weight: bold; line-height: 80%; position: absolute; z-index: 50; top: 310px; left: 70px;">
+    <h4>(Later, if you choose to customize, you can change to anything you want.)</h4>
+    </div>
+    <!--
+    -->
+    <script>
+        // <![CDATA[
+    // AY.  Hack.  Figure out why Region is getting set and used.
+    localStorage.AreaOfOrigin = localStorage.RegionOfOrigin ;
+    /*
+    if ((localStorage.OriginsLine1===undefined)||(localStorage.OriginsLine1==="undefined")||(localStorage.OriginsLine1==="")) {
+            document.getElementById("originsTextBoxL1").innerHTML = "&lt;Country of Origin&gt;" ;
+        }
+        else {
+            document.getElementById("originsTextBoxL1").innerHTML = localStorage.OriginsLine1 ;
+        }
+        if ((localStorage.OriginsLine2===undefined)||(localStorage.OriginsLine2==="undefined")||(localStorage.OriginsLine2==="")) {
+            document.getElementById("originsTextBoxL2").innerHTML = "&lt;Port of Departure&gt;" ;
+        }
+        else {
+            document.getElementById("originsTextBoxL2").innerHTML = localStorage.OriginsLine2 ;
+        }
+    */
+    
+    // ### only fill origins Line 1 on this page. ###
+    //    document.getElementById("originsTextBoxL2").innerHTML = localStorage.AreaOfOrigin ;
+    // ]]>
+    </script>
+
+    <div id="doneButton" 
+        style="position: absolute; z-index: 22250; color: #05537a; top: 350px; left: 70px;">
+
+        <button id="nextButton"
+            style="color: #05537a; font-weight: bold;" 
+            onclick="AcceptCurrentOriginsAndExit()"> Continue to Departure </button>
+    </div>
+    </div>
+
+    <!--
+    <br>
+    <br>
+    <button onclick="actionOnSave()">(Click here to save and come back later)</button></div>
+    -->
+    <script>// <![CDATA[
+    function actionOnSave() {
+        var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+        window.location.assign(SaveForLaterPage);
+    }
+
+    var nextPage = "https://jimaworks.com/pages/3-origins-b-port-of-departure" ;
+    if (document.referrer == 'https://jimaworks.com/pages/001-edit-your-relationships')
+    {
+        $('#nextButton').text('Return to Edit page');
+        nextPage = "https://jimaworks.com/pages/001-edit-your-relationships" ;
+    }
+    
+    // ### VVV shouldn't this all be guaranteed in the way the defaults are defined and handled? ###
+    if ((localStorage.AreaOfOrigin==undefined)||(localStorage.AreaOfOrigin=='')) {
+        localStorage.AreaOfOrigin = "Unk" ;
+    }
+    /*
+    if ((localStorage.CountryOfOrigin==undefined)||(localStorage.CountryOfOrigin=='')) {
+        localStorage.CountryOfOrigin = "Unk" ;
+    }
+    if ((localStorage.ProvinceOfOrigin==undefined)||(localStorage.ProvinceOfOrigin=='')) {
+        localStorage.ProvinceOfOrigin = "Unk" ;
+    }
+    if ((localStorage.CityOfOrigin==undefined)||(localStorage.CityOfOrigin=='')) {
+        localStorage.CityOfOrigin = "Unk" ;
+    }
+    */
+    
+    localStorage.CountryOfOrigin = "Unk" ;
+    localStorage.ProvinceOfOrigin = "Unk" ;
+    localStorage.CityOfOrigin = "Unk" ;
+    
+    // ### ^^^^ shouldn't this all be guaranteed in the way the defaults are defined and handled? ###
+    
+    //jimaworksRegionOfOrigin datatypes and their subregions
+    var regionAndCountries = {};
+    regionAndCountries['WholeWorldAmCtr'] = ['EuropeAndTheMediterranean', 'Africa', 'PacificRim', 'SouthAmericaAndTheCaribbean', 'SouthAsia'];
+    
+    regionAndCountries['EuropeAndTheMediterranean'] = ['Eastern Europe', 'Western Europe', 'Northern Europe', 'Southern Europe', 'Northern Africa', 'Western Asia'];
+    regionAndCountries['Africa'] = ['Northern Africa', 'Sub-Saharan Africa'];
+    regionAndCountries['PacificRim'] = ['Eastern Asia', 'Australia and New Zealand', 'South-eastern Asia', 'Melanesia', 'Micronesia','Polynesia' ];
+    regionAndCountries['SouthAmericaAndTheCaribbean'] = ['Latin America and the Caribbean'];
+    regionAndCountries['SouthAsia'] = ['Southern Asia', 'South-eastern Asia', 'Central Asia'];
+    //regionAndCountries['WholeWorldEuCtr'] = ['Sweden', 'Norway', 'Iceland'];
+    //regionAndCountries['WholeWorldAmCtr'] = ['Sweden', 'Norway', 'Iceland'];
+    //regionAndCountries['WholeWorldDoubled2Left/R'] = ['Sweden', 'Norway', 'Iceland'];
+    
+    /*
+    regionAndCountries['NorthernEurope'] = ['Sweden', 'Norway', 'Iceland'];
+    regionAndCountries['SouthernEurope'] = ['Italy', 'Spain', 'Portugal', 'Greece'];
+    regionAndCountries['EasternEurope'] = ['Poland', 'Russia', 'Ukraine'];
+    regionAndCountries['WesternEurope'] = ['UnitedKingdom', 'France', 'NetherlandsL'];
+    */
+    
+    regionAndCountries['Northern Africa'] = [   'Algeria',  'Egypt',    'Libya',    'Morocco',  'Sudan',    'Tunisia',  'Western Sahara'    ] ;
+    regionAndCountries['Sub-Saharan Africa'] = [    'British Indian Ocean Territory',   'Burundi',  'Comoros',  'Djibouti',     'Eritrea',  'Ethiopia',     'French Southern Territories',  'Kenya',    'Madagascar',   'Malawi',   'Mauritius',    'Mayotte',  'Mozambique',   'Réunion',  'Rwanda',   'Seychelles',   'Somalia',  'South Sudan',  'Tanzania, United Republic of',     'Uganda',   'Zambia',   'Zimbabwe',     'Angola',   'Cameroon',     'Central African Republic',     'Chad',     'Congo',    'Congo, Democratic Republic of the',    'Equatorial Guinea',    'Gabon',    'Sao Tome and Principe',    'Botswana',     'Eswatini',     'Lesotho',  'Namibia',  'South Africa',     'Benin',    'Burkina Faso',     'Cape Verde',   'Côte d\'Ivoire',    'Gambia',   'Ghana',    'Guinea',   'Guinea-Bissau',    'Liberia',  'Mali',     'Mauritania',   'Niger',    'Nigeria',  'Saint Helena, Ascension and Tristan da Cunha',     'Senegal',  'Sierra Leone', 'Togo'] ;
+    regionAndCountries['Latin America and the Caribbean'] = [   'Anguilla',     'Antigua and Barbuda',  'Aruba',    'Bahamas',  'Barbados',     'Bonaire, Sint Eustatius and Saba',     'Cayman Islands',   'Cuba',     'Curaçao',  'Dominica',     'Dominican Republic',   'Grenada',  'Guadeloupe',   'Haiti',    'Jamaica',  'Martinique',   'Montserrat',   'Puerto Rico',  'Saint Barthélemy',     'Saint Kitts and Nevis',    'Saint Lucia',  'Saint Martin (French part)',   'Saint Vincent and the Grenadines',     'Sint Maarten (Dutch part)',    'Trinidad and Tobago',  'Turks and Caicos Islands',     'Virgin Islands (British)',     'Virgin Islands (U.S.)',    'Belize',   'Costa Rica',   'El Salvador',  'Guatemala',    'Honduras',     'Mexico',   'Nicaragua',    'Panama',   'Argentina',    'Bolivia (Plurinational State of)',     'Bouvet Island',    'Brazil',   'Chile',    'Colombia',     'Ecuador',  'Falkland Islands (Malvinas)',  'French Guiana',    'Guyana',   'Paraguay',     'Peru',     'South Georgia and the South Sandwich Islands',     'Suriname',     'Uruguay',  'Venezuela (Bolivarian Republic of)'    ] ;
+    regionAndCountries['Northern America'] = [  'Bermuda',  'Canada',   'Greenland',    'Saint Pierre and Miquelon',    'United States of America'  ] ;
+    regionAndCountries['Central Asia'] = [  'Kazakhstan',   'Kyrgyzstan',   'Tajikistan',   'Turkmenistan',     'Uzbekistan'    ] ;
+    regionAndCountries['Eastern Asia'] = [  'China',    'Hong Kong',    'Japan',    'Korea (Democratic People\'s Republic of)',  'Korea, Republic of',   'Macao',    'Mongolia',     'Taiwan, Province of China' ] ;
+    regionAndCountries['South-eastern Asia'] = [    'Brunei Darussalam',    'Cambodia',     'Indonesia',    'Lao People\'s Democratic Republic',     'Malaysia',     'Myanmar',  'Philippines',  'Singapore',    'Thailand',     'Timor-Leste',  'Viet Nam'  ] ;
+    regionAndCountries['Southern Asia'] = [ 'Afghanistan',  'Bangladesh',   'Bhutan',   'India',    'Iran (Islamic Republic of)',   'Maldives',     'Nepal',    'Pakistan',     'Sri Lanka' ] ;
+    regionAndCountries['Western Asia'] = [  'Armenia',  'Azerbaijan',   'Bahrain',  'Cyprus',   'Georgia',  'Iraq',     'Israel',   'Jordan',   'Kuwait',   'Lebanon',  'Oman',     'Palestine, State of',  'Qatar',    'Saudi Arabia',     'Syrian Arab Republic',     'Turkey',   'United Arab Emirates',     'Yemen' ] ;
+    regionAndCountries['Eastern Europe'] = [    'Belarus',  'Bulgaria',     'Czechia',  'Hungary',  'Moldova, Republic of',     'Poland',   'Romania',  'Russian Federation',   'Slovakia',     'Ukraine'   ] ;
+    regionAndCountries['Northern Europe'] = [   'Denmark',  'Estonia',  'Faroe Islands',    'Finland',  'Iceland',  'Ireland',  'Isle of Man',  'Latvia',   'Lithuania',    'Norway',   'Svalbard and Jan Mayen',   'Sweden',   'United Kingdom'  ] ; //### replacing "United Kingdom of Great Britain and Northern Ireland" with just UK ###
+    regionAndCountries['Southern Europe'] = [   'Albania',  'Andorra',  'Bosnia and Herzegovina',   'Croatia',  'Gibraltar',    'Greece',   'Holy See',     'Italy',    'Malta',    'Montenegro',   'North Macedonia',  'Portugal',     'San Marino',   'Serbia',   'Slovenia',     'Spain' ] ;
+    regionAndCountries['Western Europe'] = [    'Austria',  'Belgium',  'France',   'Germany',  'Liechtenstein',    'Luxembourg',   'Monaco',   'Netherlands',  'Switzerland'   ] ;
+    regionAndCountries['Australia and New Zealand'] = [ 'Australia',    'Christmas Island',     'Cocos (Keeling) Islands',  'Heard Island and McDonald Islands',    'New Zealand',  'Norfolk Island'    ] ;
+    regionAndCountries['Melanesia'] = [ 'Fiji',     'New Caledonia',    'Papua New Guinea',     'Solomon Islands',  'Vanuatu'   ] ;
+    regionAndCountries['Micronesia'] = [    'Guam',     'Kiribati',     'Marshall Islands',     'Micronesia (Federated States of)',     'Nauru',    'Northern Mariana Islands',     'Palau',    'United States Minor Outlying Islands'  ] ;
+    regionAndCountries['Polynesia'] = [ 'American Samoa',   'Cook Islands',     'French Polynesia',     'Niue',     'Pitcairn',     'Samoa',    'Tokelau',  'Tonga',    'Tuvalu',   'Wallis and Futuna' ] ;
+    regionAndCountries['Antarctica'] = [   'Antarctica'    ] ;
+    
+    var countriesAndProvinces = {};
+    /*
+    countriesAndProvinces['Sweden'] = ['SwedenProvince1', 'SwedenProvince1', 'SwedenProvince1'];
+    countriesAndProvinces['Norway'] = ['NorwayProvince1', 'NorwayProvince1', 'NorwayProvince1'];
+    countriesAndProvinces['Iceland'] = ['IcelandProvince1', 'IcelandProvince1', 'IcelandProvince1'];
+    
+    countriesAndProvinces['Italy'] = ['ItalyProvince1', 'ItalyProvince1', 'ItalyProvince1'];
+    countriesAndProvinces['Spain'] = ['SpainProvince1', 'SpainProvince1', 'SpainProvince1'];
+    countriesAndProvinces['Portugal'] = ['PortugalProvince1', 'PortugalProvince1', 'PortugalProvince1'];
+    */
+    var provincesAndCities = {};
+    /*
+    provincesAndCities['SwedenProvince1'] = ['City1SwedenProvince', 'City2SwedenProvince1'];
+    */
+    
+    
+    // not updating the WorldRegionsList.
+    // Start from a given region, e.g., Africa, and update the areas depending on those of that region
+    // ### would like to replace this with the menu-building template function ###
+    function BuildNewAreaListFromSelectedRegion() {
+      //alert("BuildNewAreaListFromSelectedRegion()") ;
+      //var selRegion = regionList.options[areaList.selectedIndex].value;
+      var AreaStr,RegionStr,CountryStr,ProvinceStr,CityStr ;
+      var regionList = regionAndCountries['WholeWorldAmCtr'] ;
+      var selRegion = localStorage.RegionOfOrigin ;
+      console.log("selRegion = "+selRegion+". regionList = "+regionList) ;
+    
+      var areaList = document.getElementById("regionArea");
+      console.log('areaList == document.getElementById("regionArea")=='+areaList) ;
+      var titleNoOpOption = areaList[0];
+      var unkOption = areaList[1];
+      console.log("areaList after noOp and Unk added = "+areaList) ;
+    
+        AreaStr=localStorage.AreaOfOrigin ;
+        CountryStr=localStorage.CountryOfOrigin ;
+        ProvinceStr=localStorage.ProvinceOfOrigin ;
+        CityStr=localStorage.CityOfOrigin ;
+    
+    /* none of this should happen because the region is previously set, right? */
+        if (selRegion==undefined) {
+          alert('Region not defined!?  Will use "EuropeAndTheMediterranean"') ;
+          selRegion = "EuropeAndTheMediterranean" ;  // carry on with the most common "origins" value
+        }
+        else if (selRegion=="") {
+          alert('Region empty!?  Will use "EuropeAndTheMediterranean"') ;
+          selRegion = "EuropeAndTheMediterranean" ;  // carry on with the most common "origins" value
+    //        console.log("Empty actions (i.e. value) selected.  Noop") ;
+            //alert("Noop") ;
+        }
+        /* default "Unk" triggers Exit... Let's confirm that it's what's wanted
+        */
+        else if (selRegion=="Unk") {
+            AcceptCurrentOrigins() ;
+        }
+        else {
+          // Keep the first two options
+          var i;
+          var origNumberOfOptions = areaList.options.length ;
+          for (i = 0; i<origNumberOfOptions; i++) {
+            console.log("removing (0) from "+areaList) ;
+            areaList.remove(0);
+          }
+          areaList.options.add(titleNoOpOption);
+          areaList.options.add(unkOption);
+          var areas = regionAndCountries[selRegion];
+          if (areas) {
+            for (i = 0; i < areas.length; i++) {
+              //var area = new Option(areas[i], i+2);
+              var area = new Option(areas[i], areas[i]);
+              areaList.options.add(area);
+              console.log("added area.value=="+area.value+". areaList is now "+areaList) ;
+              /*
+              if (area[i]==localStorage.AreaOfOrigin) {
+                  if(i==1) { // if value is "Unk" then show the category name instead
+                    areaList.selectedIndex = 0 ;
+                  }
+                  else {
+                    areaList.selectedIndex = i ;
+                  }
+              }
+              */
+            }
+          }
+        // set to category description
+        areaList.selectedIndex = 0 ;
+        }
+        EchoCurrentOriginEntries() ;
+        EchoOriginsTextBoxL1() ;
+    
+    }
+    
+    function BuildNewProvinceListFromSelectedCountry() {
+      //alert("BuildNewProvinceListFromSelectedCountry()") ;
+      console.log("BuildNewProvinceListFromSelectedCountry()") ;
+      var countryList = document.getElementById("areaCountry");
+      console.log("countryList = "+countryList) ;
+      var provinceList = document.getElementById("countryProvince");
+      var AreaStr=localStorage.AreaOfOrigin ;
+      var CountryStr=localStorage.CountryOfOrigin ;
+      var ProvinceStr=localStorage.ProvinceOfOrigin ;
+      var CityStr=localStorage.CityOfOrigin ;
+      var titleNoOpOption = provinceList[0];
+      var unkOption = provinceList[1];
+      var userProvideOption = provinceList[2];
+      console.log("provinceList = "+provinceList) ;
+      var selCountry = countryList.options[countryList.selectedIndex].value;
+      if (localStorage.CountryOfOrigin != selCountry) {
+          localStorage.CountryOfOrigin = selCountry ;
+          localStorage.ProvinceOfOrigin = 'Unk' ;
+          localStorage.CityOfOrigin = 'Unk' ;
+      }
+    
+      console.log("selCountry  == localStorage.CountryOfOrigin ==  "+selCountry) ;
+    
+        if (selCountry=="") {
+            console.log("Empty actions (i.e. value) selected.  Noop") ;
+            //alert("Noop") ;
+        }
+        else if (selCountry=="Unk") {
+            AcceptCurrentOrigins() ;
+            //alert("Exit") ;
+        }
+        /* disallowing the naming of countries
+        else if (selCountry=="UserProvided") {
+            UserProvidedPlacename("homeProvince") ;
+        }
+        */
+        else {
+          // Keep the first two options
+          var i;
+          for (i = 3; i<provinceList.options.length; i++) {
+            console.log("removing.. provinceList=="+provinceList) ;
+            provinceList.remove(3);
+          }
+          provinceList.options.add(titleNoOpOption);
+          provinceList.options.add(unkOption);
+          provinceList.options.add(userProvideOption);
+          var countries = countriesAndProvinces[selCountry];
+          if (countries) {
+            for (i = 0; i < countries.length; i++) {
+              var country = new Option(countries[i], countries[i]);
+              provinceList.options.add(country);
+              console.log("added country.value=="+country.value+". provinceList is now "+provinceList) ;
+            }
+          }
+        // set to category description
+        provinceList.selectedIndex = 0 ;
+        }
+    
+        //### check this...###
+        EchoCurrentOriginEntries() ;
+        EchoOriginsTextBoxL1() ;
+    
+    }
+    
+    
+    // function name a bit of a misnomer since it also handled the manual naming of the province
+    function BuildNewCitiesListFromSelectedProvince() {
+      //alert("BuildNewCitiesListFromSelectedProvince()") ;
+      var AreaStr=localStorage.AreaOfOrigin ;
+      var CountryStr=localStorage.CountryOfOrigin ;
+      var ProvinceStr=localStorage.ProvinceOfOrigin ;
+      var CityStr=localStorage.CityOfOrigin ;
+      var provinceList = document.getElementById("countryProvince");
+      var cityOrTownList = document.getElementById("provinceCity");
+      var selProvince = provinceList.options[provinceList.selectedIndex].value;
+      if (localStorage.ProvinceOfOrigin != selProvince) {
+          localStorage.ProvinceOfOrigin = selProvince ;
+          localStorage.CityOfOrigin = 'Unk' ;
+      }
+    
+        if (selProvince=="") {
+            console.log("Empty actions (i.e. value) selected.  Noop") ;
+            //alert("Noop") ;
+        }
+        else if (selProvince=="Unk") {
+            AcceptCurrentOrigins() ;
+            //alert("Exit") ;
+        }
+    //### take this out until can figure out how to handle UserProvided ###
+        else if (selProvince=="UserProvided") {
+            alert("User-provided option under development.  Contact jimaworks to add the province and we will add.") ;
+            localStorage.ProvinceOfOrigin = "Unk" ;
+            AcceptCurrentOrigins() ;
+    //###        UserProvidedPlacename("homeProvince") ;
+        }
+        else {
+          // Keep the first two options
+          var i;
+          for (i = 3; i<cityOrTownList.options.length; i++) {
+            cityOrTownList.remove(3);
+          }
+          var provinces = countriesAndProvinces[selProvince];
+          if (provinces) {
+            for (i = 0; i < provinces.length; i++) {
+              var province = new Option(provinces[i], provinces[i]);
+              cityOrTownList.options.add(province);
+            }
+          }
+        }
+    
+        EchoCurrentOriginEntries() ;
+        EchoOriginsTextBoxL1() ;
+    
+    }
+    
+    // function name a bit of a misnomer since it also handled the manual naming of the city
+    function BuildNewStreetListFromSelectedCity() {
+      //alert("BuildNewStreetListFromSelectedCity()") ;
+      var AreaStr=localStorage.AreaOfOrigin ;
+      var CountryStr=localStorage.CountryOfOrigin ;
+      var ProvinceStr=localStorage.ProvinceOfOrigin ;
+      var CityStr=localStorage.CityOfOrigin ;
+      var cityList = document.getElementById("provinceCity");
+      var streetList = document.getElementById("cityStreet");
+      var selCity = cityList.options[cityList.selectedIndex].value;
+      if (localStorage.CityOfOrigin != selCity) {
+          localStorage.CityOfOrigin = selCity ;
+      }
+    
+        if (selCity=="") {
+            console.log("Empty actions (i.e. value) selected.  Noop") ;
+            //alert("Noop") ;
+        }
+        else if (selCity=="Unk") {
+            AcceptCurrentOrigins() ;
+            //alert("Exit") ;
+        }
+    //### take this out until can figure out how to handle UserProvided ###
+       else if (selCity=="UserProvided") {
+    //###        UserProvidedPlacename("homeCity") ;
+            alert("User-provided option under development.  Contact jimaworks to add the ciy/town and we will add.") ;
+            localStorage.CityOfOrigin = "Unk" ;
+            AcceptCurrentOrigins() ;
+        }
+        else {
+          // Keep the first two options
+          var i;
+          for (i = 3; i<streetList.options.length; i++) {
+            console.log("removing.. cityList=="+cityList) ;
+            cityList.remove(3);
+          }
+          var countries = countriesAndProvinces[selCity];
+          if (countries) {
+            for (i = 0; i < countries.length; i++) {
+              var country = new Option(countries[i], countries[i]);
+              cityList.options.add(country);
+              console.log("added country.value=="+country.value+". cityList is now "+cityList) ;
+            }
+          }
+        }
+        EchoCurrentOriginEntries() ;
+        EchoOriginsTextBoxL1() ;
+    
+    }
+    
+    //function updateOriginsMenuHeadings2() { } // no=op
+    
+    function updateOriginsMenuHeadings() {
+        //alert('updateOriginsMenuHeadings()') ;
+        console.log('updateOriginsMenuHeadings()') ;
+        if ((localStorage.AreaOfOrigin != 'Unk') & (localStorage.AreaOfOrigin != 'Unknown') & (localStorage.AreaOfOrigin != '')) {
+            console.log('*****localStorage.AreaOfOrigin=='+localStorage.AreaOfOrigin+'*********') ;
+            document.getElementById("AreaHeading").text = "Choose a subregion of "+localStorage.AreaOfOrigin ;
+        }
+        else { // -- Part of World --
+            document.getElementById("AreaHeading").text = "-- Part of World --" ;
+            console.log('***** setting AreaHeading to -- Part of World -- *********') ;
+        }
+    
+        if ((localStorage.CountryOfOrigin != 'Unk') & (localStorage.CountryOfOrigin != 'Unknown') & (localStorage.CountryOfOrigin != '')) {
+            document.getElementById("CountryHeading").text = localStorage.CountryOfOrigin ;
+        }
+        else { // -- Country of Origin --
+            document.getElementById("CountryHeading").text = "-- Country of Origin --" ;
+        }
+    
+        if ((localStorage.ProvinceOfOrigin != 'Unk') & (localStorage.ProvinceOfOrigin != 'Unknown') & (localStorage.ProvinceOfOrigin != '')) {
+            document.getElementById("ProvinceHeading").text = localStorage.ProvinceOfOrigin ;
+        }
+    //    else if (localStorage.ProvinceOfOrigin == '') {
+    //        document.getElementById("ProvinceHeading").text = "-- Province --" ;
+    //    }
+    //### take this out until can figure out how to handle UserProvided ###
+    //###    else if (localStorage.ProvinceOfOrigin == 'UserProvided') {
+    //###        UserProvidedPlacename("homeProvince") ;
+    //###     }
+        else { // -- Province --
+           document.getElementById("ProvinceHeading").text = "-- Province --" ;
+        }
+    
+        if ((localStorage.CityOfOrigin != 'Unk') & (localStorage.CityOfOrigin != 'Unknown') & (localStorage.CityOfOrigin != '')) {
+            document.getElementById("CityHeading").text = localStorage.CityOfOrigin ;
+        }
+    //    else if (localStorage.CityOfOrigin == '') {
+    //        document.getElementById("CityHeading").text = "-- City/Town --" ;
+    //    }
+    //### take this out until can figure out how to handle UserProvided ###
+    //###    else if (localStorage.CityOfOrigin == 'UserProvided') {
+    //###        UserProvidedPlacename("homeCity") ;
+    //###     }
+        else { // -- City --
+           document.getElementById("CityHeading").text = "-- City/Town --" ;
+        }
+    
+    }
+    
+    function EchoOriginsTextBoxL1() {
+    /*
+    ### need to resolve how these vars relate to ultimate output... ###
+        var newOriginsTextBoxLine1  = 'Origins: ' ;
+    */
+        var newOriginsTextBoxLine1  = '' ;
+        console.log("****EchoOriginsTextBoxL1()****") ;
+        if (localStorage.CityOfOrigin != 'Unk') {
+            console.log("localStorage.CityOfOrigin != 'Unk'; =="+localStorage.CityOfOrigin) ;
+            if (localStorage.CountryOfOrigin != 'Unk') {
+                // ## should be able to *look up* the country from the port ##
+                newOriginsTextBoxLine1 += localStorage.CityOfOrigin+', '+localStorage.CountryOfOrigin ;  // Use the abbrev here??
+            }
+            else if (localStorage.ProvinceOfOrigin != 'Unk') {
+                // ## will we ever be able to *look up* the province from the port or country ##
+                newOriginsTextBoxLine1 += localStorage.CityOfOrigin+', '+localStorage.ProvinceOfOrigin ;
+            }
+            else {
+                // ## will we ever be able to *look up* the province from the port or country ##
+                newOriginsTextBoxLine1 += localStorage.CityOfOrigin ;
+            }
+        }
+        else if (localStorage.ProvinceOfOrigin != 'Unk') {
+            console.log("localStorage.ProvinceOfOrigin != 'Unk'; =="+localStorage.ProvinceOfOrigin) ;
+            if (localStorage.CountryOfOrigin != 'Unk') {
+                newOriginsTextBoxLine1 += localStorage.ProvinceOfOrigin+', '+localStorage.CountryOfOrigin ;
+            }
+            else {
+                newOriginsTextBoxLine1 += localStorage.ProvinceOfOrigin ;
+            }
+        }
+        else if (localStorage.CountryOfOrigin != 'Unk') {
+            console.log("localStorage.CountryOfOrigin != 'Unk'; =="+localStorage.CountryOfOrigin) ;
+            newOriginsTextBoxLine1 += localStorage.CountryOfOrigin ;
+            // don't state area unless it's the only thing known
+            //if ((localStorage.ProvinceOfOrigin != 'Unk') || (localStorage.CountryOfOrigin != 'Unk')) {
+            //    newOriginsTextBoxLine1 += localStorage.CountryOfOrigin+', ' ;
+            //}
+        }
+        else if (localStorage.AreaOfOrigin != 'Unk') {
+            console.log("localStorage.AreaOfOrigin != 'Unk'; =="+localStorage.AreaOfOrigin) ;
+            newOriginsTextBoxLine1 += localStorage.AreaOfOrigin ;
+            // don't state area unless it's the only thing known
+            //if ((localStorage.ProvinceOfOrigin != 'Unk') || (localStorage.CountryOfOrigin != 'Unk')) {
+            //    newOriginsTextBoxLine1 += localStorage.AreaOfOrigin+', ' ;
+            //}
+            }
+        else if (localStorage.AreaOfOrigin == 'Unk') {
+                console.log("localStorage.AreaOfOrigin != 'Unk'; =="+localStorage.AreaOfOrigin) ;
+                newOriginsTextBoxLine1 += "Unknown" ;
+                // don't state area unless it's the only thing known
+                //if ((localStorage.ProvinceOfOrigin != 'Unk') || (localStorage.CountryOfOrigin != 'Unk')) {
+                //    newOriginsTextBoxLine1 += localStorage.AreaOfOrigin+', ' ;
+                //}
+            }
+        else {
+            console.log("All 'Unk'") ;
+            newOriginsTextBoxLine1 += "Unknown" ;
+            // don't state area unless it's the only thing known... no, have map so just state "Unknown"
+            //if ((localStorage.ProvinceOfOrigin != 'Unk') || (localStorage.CountryOfOrigin != 'Unk')) {
+            //    newOriginsTextBoxLine1 += localStorage.RegionOfOrigin+', ' ;
+            //}
+        }
+        updateOriginsMenuHeadings() ;
+        //document.getElementById("originsTextBoxL1").innerHTML = newOriginsTextBoxLine1 ;
+        console.log("EchoOriginsTextBoxL1(): newOriginsTextBoxLine1=="+newOriginsTextBoxLine1) ;
+    
+        document.getElementById("originsTextBoxL1").innerHTML = 'Origins: '+newOriginsTextBoxLine1 ;
+    } // function EchoOriginsTextBoxL1()
+    
+    // This version of AcceptCurrentOrigins() stays on the page
+    function AcceptCurrentOrigins() {
+        var ProposedOriginsText ;
+        if (localStorage.CityOfOrigin=="Unk") {
+            if (localStorage.ProvinceOfOrigin=="Unk") {
+                if (localStorage.CountryOfOrigin=="Unk") {
+                    if (localStorage.AreaOfOrigin=="Unk") {
+                        // no new information, so no-op
+                        ProposedOriginsText = '' ;
+                    }
+                    else {
+                        // only region, so
+                        ProposedOriginsText = 'Origins: '+localStorage.AreaOfOrigin ;
+                    }
+                }
+                else {
+                    // region and country.  Just use country
+                    ProposedOriginsText = 'Origins: '+localStorage.CountryOfOrigin ;
+                }
+            }
+            else {
+                // region, country, and province.  Combine province and country
+                // ### note that this could go wrong if have city/province but not country, etc. ###
+                ProposedOriginsText = 'Origins: '+localStorage.ProvinceOfOrigin+', '+localStorage.CountryOfOrigin ;
+            }
+        }
+        else {
+            // region, country, province, and city.  Combine city, province, and country
+            ProposedOriginsText = 'Origins: '+localStorage.CityOfOrigin+' in '+localStorage.ProvinceOfOrigin+','+localStorage.CountryOfOrigin+'' ;
+        }
+        if (ProposedOriginsText==localStorage.OriginsLine1) {
+            //if (confirm('Origins Text Box: Current Line 1 reads:"'+localStorage.OriginsLine1+'". Accept and Continue?')) {
+            if (true) {
+                localStorage.OriginsLine1 = ProposedOriginsText ;
+                //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+                // ### window.location.assign(nextPage) ;
+            }
+        }
+        //else if (ProposedOriginsText && confirm('Current Line 1 of Origins text box reads:"'+localStorage.OriginsLine1+'". Change it to:"'+ProposedOriginsText+'" and Continue?')) {
+        else if (ProposedOriginsText) {
+            localStorage.OriginsLine1 = ProposedOriginsText ;
+            //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+            // ### window.location.assign(nextPage) ;
+        }
+        //else if (confirm('Continuing with Line 1 of Origins Text Box as:"'+localStorage.OriginsLine1+'"')) {
+        else {
+                //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+                // ### window.location.assign(nextPage) ;
+            //else just continue
+        }
+    }
+    
+    function EchoCurrentOriginEntries() {
+    /*
+        var AreaStr=localStorage.AreaOfOrigin ;
+        var CountryStr=localStorage.CountryOfOrigin ;
+        var ProvinceStr=localStorage.ProvinceOfOrigin ;
+        var CityStr=localStorage.CityOfOrigin ;
+    
+        document.getElementById("CurrentSelectionDisplay").innerHTML  = 'Currently-provided Origins Info: ';
+        document.getElementById("CurrentSelectionDisplay").innerHTML += '<br>Region: '+AreaStr ; //### region vs area again ###
+        document.getElementById("CurrentSelectionDisplay").innerHTML += '; <br>Country: '+CountryStr ;
+        document.getElementById("CurrentSelectionDisplay").innerHTML += '; <br>Province: '+ProvinceStr ;
+        document.getElementById("CurrentSelectionDisplay").innerHTML += '; <br>City: '+CityStr ;
+        */
+      }
+    
+    
+    
+    // ### This version of AcceptCcurrentOrigins goes to the next page... ###
+    function AcceptCurrentOriginsAndExit() {
+        var ProposedOriginsText ;
+        if (localStorage.CityOfOrigin=="Unk") {
+            if (localStorage.ProvinceOfOrigin=="Unk") {
+                if (localStorage.CountryOfOrigin=="Unk") {
+                    if (localStorage.AreaOfOrigin=="Unk") {
+                        // no new information, so no-op
+                        ProposedOriginsText = '' ;
+                    }
+                    else {
+                        // only region, so
+                        ProposedOriginsText = 'Origins: '+localStorage.AreaOfOrigin ;
+                    }
+                }
+                else {
+                    // region and country.  Just use country
+                    ProposedOriginsText = 'Origins: '+localStorage.CountryOfOrigin ;
+                }
+            }
+            else {
+                // region, country, and province.  Combine province and country
+                // ### note that this could go wrong if have city/province but not country, etc. ###
+                ProposedOriginsText = 'Origins: '+localStorage.ProvinceOfOrigin+', '+localStorage.CountryOfOrigin ;
+            }
+        }
+        else {
+            // region, country, province, and city.  Combine city, province, and country
+            ProposedOriginsText = 'Origins: '+localStorage.CityOfOrigin+' in '+localStorage.ProvinceOfOrigin+','+localStorage.CountryOfOrigin+'' ;
+        }
+
+        if (ProposedOriginsText==localStorage.OriginsLine1) {
+            //if (confirm('Origins Text Box: Current Line 1 reads:"'+localStorage.OriginsLine1+'". Accept and Continue?')) {
+            if (true) {
+                localStorage.OriginsLine1 = ProposedOriginsText ;
+                //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+                window.location.assign(nextPage) ;
+            }
+        }
+        //else if (ProposedOriginsText && confirm('Current Line 1 of Origins text box reads:"'+localStorage.OriginsLine1+'". Change it to:"'+ProposedOriginsText+'" and Continue?')) {
+        else if (ProposedOriginsText) {
+            localStorage.OriginsLine1 = ProposedOriginsText ;
+            //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+            window.location.assign(nextPage) ;
+        }
+        //else if (confirm('Continuing with Line 1 of Origins Text Box as:"'+localStorage.OriginsLine1+'"')) {
+        else {
+        }
+          /*
+                    localStorage.Origins  = {City: localStorage.CityOfOrigin,
+                                             Province:localStorage.ProvinceOfOrigin,
+                                             Country: localStorage.CountryOfOrigin,
+                                             Area: localStorage.AreaOfOrigin};
+                    window.location.assign(nextPage) ;
+          */
+                  //else just continue
+              localStorage.Origins  = "CityOfOrigin "+localStorage.CityOfOrigin
+                                    + ", ProvinceOfOrigin "+localStorage.ProvinceOfOrigin
+                                    + ", CountryOfOrigin "+localStorage.CountryOfOrigin
+                                    + ", RegionOfOrigin "+localStorage.AreaOfOrigin ;
+              window.location.assign(nextPage) ;
+    }
+    
+    
+    //### all calls to UserProvidedPlacename removed until figure out how to do this right ###
+    function UserProvidedPlacename(locationType) {
+        //alert("UserProvidedPlacename()") ;
+        console.log("UserProvidedPlacename()") ;
+        if (locationType=="homeProvince") {
+            localStorage.ProvinceOfOrigin = prompt("Enter the name of the home province.") ;
+        }
+        else if (locationType=="homeCity") {
+            localStorage.CityOfOrigin = prompt("Enter the name of the home city.") ;
+        }
+        /*
+        if (locationType=="destinationCounty") {
+            localStorage.CityOfOrigin = prompt("Enter the name of the destination country.") ;
+        }
+        if (locationType=="destinationCity") {
+            localStorage.CityOfOrigin = prompt("Enter the name of the destination city.") ;
+        }
+        */
+        else  {
+            alert('Type of location for user-provided placename, "'+locationType+'" is unrecognized.') ;
+        }
+    }
+    // ]]></script>
+    <script>// <![CDATA[
+    function add_map_of_the_times() {
+      var currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+      // This doesn't work because (?) stepping on prev val? >>> var prevThisNextAvailMapYears = prevThisNextMapYears(getDefaultYear())
+      var availableMapYear = localStorage.currRteMapYear ; //2016 ; //getDefaultYear() ;
+      var shopifyPrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+      //### making this smaller for ship-on-slider
+      var shopifyImgSizePostfix = "_256x256" ;
+      var currMapFile = shopifyPrefix + availableMapYear+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+    
+      // "https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png"
+      //alert("currMapFile=="+currMapFile) ;
+      var src = currMapFile ;
+      //var src = "https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png";
+      //show_image("https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png", 276,110, "MapOfTheTimes");
+      show_image(currMapFile, 276,110, "MapOfTheTimes");
+      //return(currMapFile) ;
+    }
+    
+    /*
+        function show_image(src, width, height, alt) {
+        var img = document.createElement("img");
+        img.src = src;
+        img.width = width;
+        img.height = height;
+        img.alt = alt;
+    */
+    
+        // This next line will just add it to the <body> tag
+        // document.body.appendChild(img);
+        // add it to the <body> tag
+     //   document.getElementById("routeDisplay").innerHTML = img ;
+    
+    function show_image(src, width, height, alt){
+        var ImgOverlayHTML = "" ;
+        var routeImageStyleStr  = "" ;
+        var placementTop = 50;
+        var placementLeft = 40;
+        var placementWidth = 650; // 1.75*400
+        var placementHeight = 350; // 1.75*400
+        var placementBorder = 3;
+        var placementLineStyle = "solid";
+        var placementLineColor = "red";
+        var placementImgOverwrite = 20;
+    
+    //EuM
+            placementTop = 30;
+            placementLeft = 275;
+            placementWidth = 375;
+            placementHeight = 200;
+            placementBorder = 3;
+            placementLineStyle = "solid";
+            placementLineColor = "red";
+    
+    
+            routeImageStyleStr = " style=\"position: absolute; ";
+            routeImageStyleStr += "top: "+ placementTop +"px; ";
+            routeImageStyleStr += "left: "+ placementLeft +"px; ";
+            routeImageStyleStr += "width: "+ placementWidth +"px; ";
+            routeImageStyleStr += "height: "+ placementHeight +"px; ";
+            routeImageStyleStr += "border: "+ placementBorder +"px; ";
+            routeImageStyleStr += placementLineStyle +" ";
+            routeImageStyleStr += placementLineColor +"; ";
+            routeImageStyleStr += "z-index: "+ placementImgOverwrite +"; ";
+            routeImageStyleStr += "\"";
+    
+            /* map display */
+            ImgOverlayHTML +=   '<div' ;
+            //ImgOverlayHTML +=   ' style=\"position: absolute; bottom: 20px; left: 150px; z-index: 300;\">' ;
+            ImgOverlayHTML +=   routeImageStyleStr ;
+            ImgOverlayHTML +=   ' >' ;
+            ImgOverlayHTML +=     '<img src=' + src ;
+            ImgOverlayHTML +=     ' id=\"webMapImg\"';
+            ImgOverlayHTML +=     ' alt=\"'+alt+'\"';
+            ImgOverlayHTML +=     ' class=\"map\" width=\"500px\" height=250' ;
+            ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
+            /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
+            ImgOverlayHTML +=     '\" />' ;
+            ImgOverlayHTML +=   '</div>' ;
+    //        console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
+        document.getElementById("routeDisplay").innerHTML = ImgOverlayHTML;  // ### not routeDisplayDivID?? ###
+    //        document.getElementById(routeDisplayDivID).innerHTML = ImgOverlayHTML;
+    }
+    // ]]></script>
+    
+    <style>
+    map-animation {
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: relative;
+      animation: myfirst 5s 2;
+      animation-direction: alternate;
+    }
+    
+    @keyframes myfirst {
+      0%   {background: red; left: 0px; top: 0px;}
+      25%  {background: yellow; left: 200px; top: 0px;}
+      50%  {background: blue; left: 200px; top: 200px;}
+      75%  {background: green; left: 0px; top: 200px;}
+      100% {background: red; left: 0px; top: 0px;}
+    }
+    </style>
+
+    <script>
+    function dynamically_move_map(src, width, height, alt){
+        var ImgOverlayHTML = "" ;
+        var routeImageStyleStr  = "" ;
+        var placementTop = 50;
+        var placementLeft = 40;
+        var placementWidth = 650; // 1.75*400
+        var placementHeight = 350; // 1.75*400
+        var placementBorder = 3;
+        var placementLineStyle = "solid";
+        var placementLineColor = "red";
+        var placementImgOverwrite = 20;
+    
+    //EuM
+            placementTop = 30;
+            placementLeft = 275;
+            placementWidth = 375;
+            placementHeight = 200;
+            placementBorder = 3;
+            placementLineStyle = "solid";
+            placementLineColor = "red";
+    
+    
+            routeImageStyleStr = " style=\"position: absolute; ";
+            routeImageStyleStr += "top: "+ placementTop +"px; ";
+            routeImageStyleStr += "left: "+ placementLeft +"px; ";
+            routeImageStyleStr += "width: "+ placementWidth +"px; ";
+            routeImageStyleStr += "height: "+ placementHeight +"px; ";
+            routeImageStyleStr += "border: "+ placementBorder +"px; ";
+            routeImageStyleStr += placementLineStyle +" ";
+            routeImageStyleStr += placementLineColor +"; ";
+            routeImageStyleStr += "z-index: "+ placementImgOverwrite +"; ";
+            routeImageStyleStr += "\"";
+    
+            /* map display */
+            ImgOverlayHTML +=   '<div' ;
+            //ImgOverlayHTML +=   ' style=\"position: absolute; bottom: 20px; left: 150px; z-index: 300;\">' ;
+            ImgOverlayHTML +=   routeImageStyleStr ;
+            ImgOverlayHTML +=   ' >' ;
+            ImgOverlayHTML +=     '<img src=' + src ;
+            ImgOverlayHTML +=     ' id=\"webMapImg\"';
+            ImgOverlayHTML +=     ' alt=\"'+alt+'\"';
+            ImgOverlayHTML +=     ' class=\"map\" width=\"500px\" height=250' ;
+            ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
+            /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
+            ImgOverlayHTML +=     '\" />' ;
+            ImgOverlayHTML +=   '</div>' ;
+    //        console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
+        document.getElementById("routeDisplay").innerHTML = ImgOverlayHTML;  // ### not routeDisplayDivID?? ###
+    //        document.getElementById(routeDisplayDivID).innerHTML = ImgOverlayHTML;
+    }
+    // ]]></script>
+    <script>// <![CDATA[
+        BuildNewAreaListFromSelectedRegion() ;
+        /*
+        BuildNewCountriesListFromSelectedRegion() ;
+        BuildNewProvinceListFromSelectedCountry() ;
+        BuildNewCitiesListFromSelectedProvince() ;
+        BuildNewStreetListFromSelectedCity() ;
+        */
+        add_map_of_the_times() ;
+        updateOriginsMenuHeadings() ;
+    // ]]></script>
+    <script>// <![CDATA[
+    function BuildNewCountriesListFromSelectedRegion() {
+        BuildNewNextLevelMenuListFromThisLevelMenuSelection(["regionArea", "areaCountry"], ["AreaOfOrigin", "CountryOfOrigin"],"regionAndCountries") ;
+    }
+    
+    // add user option iff option 3 value=="UserProvided"
+    function BuildNewNextLevelMenuListFromThisLevelMenuSelection(menuIDs, localStorageNames, menuOptionsSource) {
+        if(menuIDs.length>=2) {
+              //alert("BuildNewNextLevelMenuListFromThisLevelMenuSelection()") ;
+              var thisLevelMenuList = document.getElementById(menuIDs[0]);
+              var currentLevelMenuSelection = thisLevelMenuList.options[thisLevelMenuList.selectedIndex].value;
+              console.log("thisLevelMenuList = "+thisLevelMenuList) ;
+              console.log("currentLevelMenuSelection == "+thisLevelMenuList.options[thisLevelMenuList.selectedIndex].value) ;
+    
+            /*  review and decide if want this
+            */
+              console.log("eval string == "+'localStorage.'+localStorageNames[0]+'="'+currentLevelMenuSelection+'"') ;
+              eval('localStorage.'+localStorageNames[0]+'="'+currentLevelMenuSelection+'"');
+              // no matter what this level changes to, all lower levels perforce have to become "Unk"
+              if(true | currentLevelMenuSelection!='Unk') {
+                  for (i = 1; i<localStorageNames.length; i++) {
+                      eval('localStorage.'+localStorageNames[i]+'="Unk"');
+                  }
+              }
+              // get *current* unupdated countrylist
+              var nextLevelMenuList ;
+              // First two elements of the choice list are always the no-op header and the "Unknown" option
+              var titleNoOpOption ;
+              var unkOption ;
+              var userProvidedOptions ;
+              var nextLevelSourceElementsList ;
+              var nextLevelMenuListLength ;
+              // initially set the selection of the lower level menu to the category description
+              nextLevelMenuList = document.getElementById(menuIDs[1]);
+              nextLevelMenuList.selectedIndex = 0 ;
+              console.log("nextLevelMenuList = "+nextLevelMenuList) ;
+              console.log("nextLevelMenuList: current selection = "+nextLevelMenuList[nextLevelMenuList.selectedIndex].text) ;
+            /*
+             * can currentLevelMenuSelection ever be blank or unknown?
+             * [prob not if coming in from another page.  But prob yes if in a recursive call.  Use to implement propogation of "Unknown"'s?]
+            */
+                if (currentLevelMenuSelection=="") {
+                    console.log("Empty actions (i.e. value) selected.  Noop") ;
+                    //alert("Noop") ;
+                }
+                // handle "Unk" as just another value (that doesn't happen to have a defined set of sub-options)
+    /*
+                else if (currentLevelMenuSelection=="Unk") {
+                    AcceptCurrentOrigins() ;
+                    //alert("Exit") ;
+                }
+    */
+                else {
+                  // Keep the first two options as in orig code, but here just remove all and add the first two back in.
+                  titleNoOpOption = nextLevelMenuList[0];
+                  unkOption = nextLevelMenuList[1];
+                  if (nextLevelMenuList.length>2) {
+                      if(nextLevelMenuList[2]=="UserProvided"){
+                        userProvidedOptions = nextLevelMenuList[2] ;
+                      }
+                      else {
+                        userProvidedOptions = false ;
+                      }
+                  }
+                  nextLevelMenuListLength = nextLevelMenuList.options.length ;
+                  for (i = 0; i<nextLevelMenuListLength; i++) {
+                    console.log("removing "+nextLevelMenuList.options[0].text) ;
+                    nextLevelMenuList.remove(0);
+                  }
+              // First two elements of the choice list are always the no-op header and the "Unknown" option
+                  nextLevelMenuList.options.add(titleNoOpOption);
+                  console.log("added nextLevelMenuList.options[0].text=="+nextLevelMenuList.options[0].text) ;
+                  nextLevelMenuList.options.add(unkOption);
+                  console.log("added nextLevelMenuList.options[1].text=="+nextLevelMenuList.options[1].text) ;
+                  if(userProvidedOptions) {
+                    nextLevelMenuList.options.add(userProvidedOptions);
+                    console.log("added nextLevelMenuList.options[2].text=="+nextLevelMenuList.options[2].text) ;
+                  }
+    
+                  console.log("currentLevelMenuSelection=="+currentLevelMenuSelection) ;
+                  console.log("nextLevelSourceElementsList = "+eval(menuOptionsSource+'["'+currentLevelMenuSelection+'"]')) ;
+                  nextLevelSourceElementsList = eval(menuOptionsSource+'["'+currentLevelMenuSelection+'"]');
+                  if (nextLevelSourceElementsList) {
+                    for (i = 0; i < nextLevelSourceElementsList.length; i++) {
+                      var nextLevelSourceElement = new Option(nextLevelSourceElementsList[i], nextLevelSourceElementsList[i]);
+                      //var nextLevelSourceElement = new Option(nextLevelSourceElementsList[i], i+2);
+                      nextLevelMenuList.options.add(nextLevelSourceElement);
+                      console.log("added nextLevelSourceElement.value=="+nextLevelSourceElement.value+". new nextLevelMenuList value: "+nextLevelMenuList.options[i+2]) ;
+            /*
+                      if (nextLevelSourceElement[i]==localStorage.RegionOfOrigin) {
+                          // add two because have two addl options at the front of the list
+                          nextLevelMenuList.selectedIndex = i;
+                      }
+            */
+                    }
+                  }
+                // Always set next menu selection to category heading, since prev higher category has changed
+                // (But might want to consider unions of lower level if higher leve is unknown)
+                nextLevelMenuList.selectedIndex = 0 ;
+    
+                //### check this...###
+                //### need to do this no matter what the menu choice was...EchoOriginsTextBoxL1() ;
+    /* would like these recursive calls to handle all menu builds at once
+                menuIDs.shift() ;
+                BuildNewNextLevelMenuListFromThisLevelMenuSelection(menuIDs, menuOptionsSource) ;
+    */
+                }
+            EchoOriginsTextBoxL1() ;
+            EchoCurrentOriginEntries() ;
+        }
+    }
+    // ]]></script>
+      </div>
+  
+    </div>
+  
+  </div>

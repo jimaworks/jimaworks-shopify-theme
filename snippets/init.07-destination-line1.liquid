@@ -1,0 +1,126 @@
+<script id="init-07-destination-line1">
+  "use strict";
+  window.Jimaworks.Pages = ( window.Jimaworks.Pages || {} );
+  window.Jimaworks.Pages.DestinationLine1 = {
+    initializeDefaults: function DestinationLine1_initializeDefaults() {
+      /*
+        Seventh page (8/02/2019) == Destination Text Box Line 1. 
+
+        3. American Destiny. Where did they land?
+
+        https://jimaworks.com/pages/textbox3-destination-where-did-they-land
+
+        OriginsLine1&2 are already defined
+
+        ###
+
+          Issues with the titling of this file:
+
+        Lne 669:  else if (localStorage.PortOfDeparture != selPort) {
+              ### set up graphics ### 
+            portInfoStr = extractPortInfoFromName(selPort, "arrivalPort") ;
+            RecordNewPortChoice(selPort, portInfoStr, portRole) ;       
+            localStorage.PortOfEntry = selPort ;
+          }
+          console.log("ChangeCountryPortsList() selPort(###change###)=="+selPort)
+
+        line 727: function portsState(port) {
+          // ### find the port's info and extract the country it's from ###
+          if (localStorage.EntryState != 'Unk') {
+            return(localStorage.EntryStat) ;     
+          }
+          else { // ### add in the port's country ###
+            return("portsState(PortOfEntry)") ;                 
+          }
+        }
+
+        line 811 (and thereafter) : function UserProvidedPlacename(locationType) {
+          var newPlaceName ;
+          if (locationType=="homeProvince") {
+            newPlaceName = prompt("Enter the name of the home province.") ;
+            localStorage.DepartureCountry = newPlaceName ;
+            return(newPlaceName) ;
+          }
+        ...
+        RegionOfOrigin; Arrival/Departure Port/struct/Sort/Filter options; webMapImg
+
+        ###
+      */
+
+      /* "DestinyLine1"  "DestinyLine1Default"  "DestinyLine1DefaultAbbrev"  */
+      var DestinyLine1Default = "Arrival: A New World Port";
+      localStorage.setItem("DestinyLine1Default", DestinyLine1Default);
+      if (localStorage.DestinyLine1 == undefined) {
+        localStorage.setItem("DestinyLine1", DestinyLine1Default);
+      }
+
+      /* "DestinyLine2"  "DestinyLine2Default"  "DestinyLine2DefaultAbbrev"  */
+      var DestinyLine2Default = "Destiny: An American Lineage";
+      localStorage.setItem("DestinyLine2Default", DestinyLine2Default);
+      if (localStorage.DestinyLine2 == undefined) {
+        localStorage.setItem("DestinyLine2", DestinyLine2Default);
+      }
+
+      /* "RegionOfArrival"  "RegionOfArrivalDefault"  "RegionOfArrivalDefaultAbbrev"  */
+      var RegionOfArrivalDefault = "";
+      localStorage.setItem("RegionOfArrivalDefault", RegionOfArrivalDefault);
+      if (localStorage.RegionOfArrival == undefined) {
+        localStorage.setItem("RegionOfArrival", RegionOfArrivalDefault);
+      }
+
+      /* "Approaches"  "ApproachesDefault"  "ApproachesDefaultAbbrev"  */
+      var ApproachesDefault = "";
+      localStorage.setItem("ApproachesDefault", ApproachesDefault);
+      if (localStorage.Approaches == undefined) {
+        localStorage.setItem("Approaches", ApproachesDefault);
+      }
+
+      /* "EntryState"  "EntryStateDefault"  "EntryStateDefaultAbbrev"  */
+      var EntryStateDefault = "";
+      localStorage.setItem("EntryStateDefault", EntryStateDefault);
+      if (localStorage.EntryState == undefined) {
+        localStorage.setItem("EntryState", EntryStateDefault);
+      }
+
+      /* "PortOfEntry"  "PortOfEntryDefault"  "PortOfEntryDefaultAbbrev"  */
+      var PortOfEntryDefault = "";
+      localStorage.setItem("PortOfEntryDefault", PortOfEntryDefault);
+      if (localStorage.PortOfEntry == undefined) {
+        localStorage.setItem("PortOfEntry", PortOfEntryDefault);
+      }
+    }, // initializeDefaults
+    clearLocalStorageVars: function DestinationLine1_clearLocalStorageVars() {
+      /*
+        Seventh page (8/02/2019) == Destination Text Box Line 1. 
+
+        3. American Destiny. Where did they land?
+
+        https://jimaworks.com/pages/textbox3-destination-where-did-they-land
+      */
+
+      /* "DestinyLine1"  "DestinyLine1Default"  "DestinyLine1DefaultAbbrev"  */
+      localStorage.removeItem("DestinyLine1Default");
+      localStorage.removeItem("DestinyLine1");
+
+      /* "DestinyLine2"  "DestinyLine2Default"  "DestinyLine2DefaultAbbrev"  */
+      localStorage.removeItem("DestinyLine2Default");
+      localStorage.removeItem("DestinyLine2");
+
+      /* "RegionOfArrival"  "RegionOfArrivalDefault"  "RegionOfArrivalDefaultAbbrev"  */
+      localStorage.removeItem("RegionOfArrivalDefault");
+      localStorage.removeItem("RegionOfArrival");
+
+      /* "Approaches"  "ApproachesDefault"  "ApproachesDefaultAbbrev"  */
+      localStorage.removeItem("ApproachesDefault");
+      localStorage.removeItem("Approaches");
+
+      /* "EntryState"  "EntryStateDefault"  "EntryStateDefaultAbbrev"  */
+      localStorage.removeItem("EntryStateDefault");
+      localStorage.removeItem("EntryState");
+
+      /* "PortOfEntry"  "PortOfEntryDefault"  "PortOfEntryDefaultAbbrev"  */
+      localStorage.removeItem("PortOfEntryDefault");
+      localStorage.removeItem("PortOfEntry");
+    } // clearLocalStorageVars
+  };
+</script>

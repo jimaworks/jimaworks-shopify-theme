@@ -1,0 +1,491 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  
+   <!-- Wishpond tracking code  --> 
+  <script type="text/javascript" src="//cdn.wishpond.net/connect.js?merchantId=1464980&writeKey=606f0195f60f" async></script>
+  
+  <!-- JIMAWORKS EDIT LIGHTBOX -->
+  {{ 'lightbox.css' | asset_url | stylesheet_tag }}
+  <!-- JIMAWORKS EDIT LIGHTBOX -->
+
+  <!-- JIMAWORKS EDIT EXTERN ACCESS -->
+  {{ 'testExternAccess.js' | asset_url | script_tag }}
+  <!-- JIMAWORKS EDIT EXTERN ACCESS -->
+
+  <!-- Basic page needs ================================================== -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  {% if settings.favicon %}
+  <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png" />
+  {% endif %}
+
+  <!-- Title and description ================================================== -->
+  <title>
+  {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <!-- Social meta ================================================== -->
+  {% include 'social-meta-tags' %}
+
+  <!-- Helpers ================================================== -->
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+
+  <!-- CSS ================================================== -->
+  {{ 'timber.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+	{{ 'jquery-ui.min.css' | asset_url | stylesheet_tag }}
+	{{ 'pogodan.scss.css' | asset_url | stylesheet_tag }}
+	<!-- {{ 'popup-modals.css' | asset_url | stylesheet_tag }} -->
+	{{ 'timeline-slider.scss' | asset_url | stylesheet_tag }}
+
+  {% include 'google-fonts' %}
+
+  <script>
+    /*
+      Generally speaking we should avoid global variables & side-effects,
+      but in this case we need to make sure the variable is not being reset
+      each time the function is called.
+      
+      On first invocation, the overlay rendering will occur inside the
+      `DOMContentLoaded` event listener, so we can be sure
+      `document.getElementById("DisplayOverlays")` will be non-null, and
+      can therefore set `innerHTML` without issue.
+
+      The `DOMContentLoaded` event only occurs once though, so we need
+      to flip `overlaysRendered` to `true` after the first render, and then
+      subsequent renders will call `innerHTML` outside of the event.
+
+      See bottom of `RelationShipsPreviewZ` for implementation.
+    */
+    window.Jimaworks = ( window.Jimaworks || {} ); // Singleton for namespacing; avoids global variable conflicts
+    
+    Jimaworks.isDev = /^jimaworks-dev\.myshopify\.com/.test( window.location.host );
+    Jimaworks._shopifyFilePrefixDev = "https://cdn.shopify.com/s/files/1/0263/8148/4080/files/";
+    Jimaworks._shopifyFilePrefixProd = "https://cdn.shopify.com/s/files/1/1336/0641/files/";
+
+    if ( Jimaworks.isDev ) {
+      Jimaworks.shopifyFilePrefix = Jimaworks._shopifyFilePrefixDev;
+    } else {
+      Jimaworks.shopifyFilePrefix = Jimaworks._shopifyFilePrefixProd;
+    }
+
+    Jimaworks.overlaysRendered = (
+      ( typeof window.overlaysRendered !== "undefined" )
+      ? window.overlaysRendered
+      : false
+    );
+
+    Jimaworks.initializePreview = function initializePreview( callback ) {
+      if ( callback && ( typeof callback !== 'function' ) ) {
+        console.error( 'Parameter `callback` must be of type function' );
+      }
+
+      Jimaworks.Preview = ( Jimaworks.Preview || {} );
+      Jimaworks.Preview.$ = {
+        "previewLayoutContainer": document.getElementById( 'map' ),
+        "previewTemplate": document.getElementById( 'preview-template' ),
+        "previewScript": null,
+        "preview": null
+      };
+      Jimaworks.Preview._callbackQueue = [];
+
+      Jimaworks.Preview.$.previewLayoutContainer.innerHTML = Jimaworks.Preview.$.previewTemplate.innerHTML;
+      Jimaworks.Preview.$.previewLayoutContainer.removeChild( Jimaworks.Preview.$.previewLayoutContainer.querySelector( 'script' ) );
+
+      if ( 'content' in Jimaworks.Preview.$.previewTemplate ) {
+        // Supports HTML5 <template>
+        Jimaworks.Preview.$.previewScript = Jimaworks.Preview.$.previewTemplate.content.querySelector( 'script' );
+      } else {
+        Jimaworks.Preview.$.previewScript = Jimaworks.Preview.$.previewTemplate.querySelector( 'script' );
+      }
+
+      if ( callback ) {
+        Jimaworks.Preview._callbackQueue.push( callback ); 
+      }
+
+      Jimaworks.Preview.$.previewLayoutContainer.appendChild( Jimaworks.Preview.$.previewScript );
+      Jimaworks.Preview.$.preview = Jimaworks.Preview.$.previewLayoutContainer.querySelector( '.jw-relationships-preview' );      
+    };
+
+    window.theme = window.theme || {};
+
+    var theme = {
+      strings: {
+        zoomClose: {{ "products.zoom.close" | t | json }},
+        zoomPrev: {{ "products.zoom.prev" | t | json }},
+        zoomNext: {{ "products.zoom.next" | t | json }}
+      },
+      settings: {
+        // Adding some settings to allow the editor to update correctly when they are changed
+        themeBgImage: {{ settings.theme_bg_image }},
+        customBgImage: '{{ settings.bg_custom }}',
+        enableWideLayout: {{ settings.enable_wide_layout }},
+        typeAccentTransform: {{ settings.type_accent_transform }},
+        typeAccentSpacing: {{ settings.type_accent_spacing }},
+        baseFontSize: '{{ settings.type_base_size }}',
+        headerBaseFontSize: '{{ settings.type_header_size }}',
+        accentFontSize: '{{ settings.type_accent_size }}'
+      },
+      variables: {
+        mediaQueryMedium: 'screen and (max-width: 768px)',
+        bpSmall: false
+      },
+      moneyFormat: {{ shop.money_format | json }}
+    }
+    !function(e){var t=function(t,o,n){"use strict";var r,a=e.document.getElementsByTagName("script")[0],c=e.document.createElement("script");return"boolean"==typeof o&&(r=n,n=o,o=r),c.src=t,c.async=!n,a.parentNode.insertBefore(c,a),o&&"function"==typeof o&&(c.onload=o),c};"undefined"!=typeof module?module.exports=t:e.loadJS=t}("undefined"!=typeof global?global:this);                                        
+  </script>
+
+  {% if settings.is-speed_optimized %}
+    {% capture asyncLoad %}
+    window.addEventListener('load', function load(event){setTimeout(function(){ asyncLoad(); document.dispatchEvent(new CustomEvent('StartAppLoading'));}, 3500)},false);
+    document.addEventListener("StartAsyncLoading", function(event)
+    {
+      document.dispatchEvent(new CustomEvent('StartKLoad'));
+
+    });
+    {% endcapture %}
+
+    {% capture KernalHead %}
+      document.addEventListener('StartKernelLoading', function() { var customDocumentWrite = 
+    {% endcapture %}
+
+    {% capture KernalFooter %}
+      loadJS(eventsListenerScript.src); });
+    {% endcapture %}
+
+
+    {% capture content_header %}
+      {{
+        content_for_header
+      | replace: ' x.parentNode.insertBefore(s, x)', 'loadJS(urls[i])' 
+      | remove: "window.attachEvent('onload', asyncLoad)" 
+      | replace: "window.addEventListener('load', asyncLoad, false);", asyncLoad 
+      | replace: 'var customDocumentWrite = ', KernalHead 
+      | replace: "document.getElementsByTagName('head')[0].appendChild(eventsListenerScript);", KernalFooter
+      | replace: "DOMContentLoaded", 'StartKLoad'
+      }}
+    {% endcapture %}
+
+    {{ content_header }}
+
+  {% else %}
+    {{ content_for_header }}
+  {% endif %}
+
+  {% include 'oldIE-js' %}
+
+  {% if settings.is-speed_optimized %}
+    <script>
+      {% include 'jquery.min.js' %}
+    </script>
+  {% else %}  
+    {{ '//ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js' | script_tag }}
+  {% endif %}
+
+  {{ 'theme.js' | asset_url | script_tag }}
+
+  {% if settings.is-speed_optimized %}
+    <script>
+      {% include 'jquery-ui.min.js' %}
+    </script>
+    
+    <script defer src="{{ 'lightbox.js' | asset_url }}"></script>
+    <script defer src="{{ 'my-gallery.js' | asset_url }}"></script>
+  {% else %} 
+    {{ 'jquery-ui.min.js' | asset_url | script_tag }}
+    {{ 'lightbox.js' | asset_url | script_tag }}
+    {{ 'my-gallery.js' | asset_url | script_tag }}
+  {% endif %}
+
+  {% comment %}
+    If you store has customer accounts disabled, you can remove the following JS file
+  {% endcomment %}
+  {% if template.directory == 'customers' %}
+    {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {% endif %}
+  
+  {{ 'ActiveCampaign_Tracking.js' | asset_url | script_tag }}
+
+  {% if settings.is-speed_optimized %}
+  <script>
+    var trackByDefault = true;
+
+    function acEnableTracking() {
+      var expiration = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 30);
+      document.cookie = "ac_enable_tracking=1; expires= " + expiration + "; path=/";
+      acTrackVisit();
+    }
+
+    function acTrackVisit() {
+      var trackcmp_email = '';
+      var trackcmp = document.createElement("script");
+      trackcmp.async = true;
+      trackcmp.type = 'text/javascript';
+      trackcmp.src = '//trackcmp.net/visit?actid=798894651&e='+encodeURIComponent(trackcmp_email)+'&r='+encodeURIComponent(document.referrer)+'&u='+encodeURIComponent(window.location.href);
+      var trackcmp_s = document.getElementsByTagName("script");
+      if (trackcmp_s.length) {
+        trackcmp_s[0].parentNode.appendChild(trackcmp);
+      } else {
+        var trackcmp_h = document.getElementsByTagName("head");
+        trackcmp_h.length && trackcmp_h[0].appendChild(trackcmp);
+      }
+    }
+
+    if (trackByDefault || /(^|; )ac_enable_tracking=([^;]+)/.test(document.cookie)) {
+      acEnableTracking();
+    }
+  </script>
+  {% else %} 
+  {{ 'ActiveCampaign_Tracking.js' | asset_url | script_tag }}
+  {% endif %}
+
+  <!--Start of Tawk.to Script-->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/5af83a4a5f7cdf4f05342761/default';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
+  <!--End of Tawk.to Script-->
+
+  <!-- start jimaworks adds for date picker... -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Datepicker - Restrict date range</title>
+
+  {% unless settings.is-speed_optimized %}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  {% endunless %}
+
+  <script>
+    $( function() {
+      $( "#datepicker" ).datepicker({ minDate: -20, maxDate: "+1M +10D" });
+    });
+  </script>
+
+  <!-- Add javascript for Wishpond email campaigns -->
+  <script type="text/javascript" src="//cdn.wishpond.net/connect.js?merchantId=1464980&writeKey=606f0195f60f" async></script>
+
+  <!-- BeginConsistentCartAddon -->  
+  <script>  
+  {% if customer %}  
+    Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}' ;  
+    Shopify.customer_logged_in = true ;  
+    Shopify.customer_email = "{{ customer.email }}" ;  
+    Shopify.log_uuids = true;  
+  {% else %}  
+    Shopify.customer_logged_in = false ;  
+    Shopify.customer_email = "" ;  
+    Shopify.log_uuids = true;  
+  {% endif %}  
+  </script>  
+  <!-- EndConsistentCartAddon -->
+</head>
+
+<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+
+  <!-- Comments start here...
+  {% assign Origins = "EuropeAndTheMediterranean" %}
+  {% assign Era = "EraOfThePassengerLiner(1890-1970)" %}
+  {% assign Artery = "Northern" %}
+  {% assign Ship = "Vaderland(1890-1930)" %}
+  ... -->
+  <!-- comments end here -->  
+
+  {% section 'header' %}
+
+  <main class="wrapper main-content" role="main">
+    {% case page.handle %}
+      {% when 'your-relationships-project' %}
+        {{ content_for_layout }}
+      {% else %}
+        <div class="grid">
+          <div class="grid__item">
+           {{ content_for_layout }}
+          </div>
+        </div>
+    {% endcase %}
+  </main>
+
+  {% section 'footer' %}
+  
+  {% comment %}
+    {% if template == 'index' %}
+      {% include 'pop-up' %}
+    {% endif %}
+  {% endcomment %}
+    
+	<script src="https://use.fontawesome.com/69dbdeb4be.js"></script>
+  {{ 'typeahead.bundle.js' | asset_url | script_tag }}
+
+	<script>
+    Array.prototype.unique = function() {
+      return this.filter(function (value, index, self) {
+        return self.indexOf(value) === index;
+      });
+    }
+
+    var all_routes = {{ shop.metafields.automatik.routes }};
+    var ships = {{ shop.metafields.automatik.ships }};
+		
+    var datasets = {};
+  
+    var typeaheads = {
+    //arrival: ['Baltimore','Boston','Charleston','Corpus Christi','Houston','Miami','New Orleans','New York/New Jersey','Philadelphia','Galveston'],
+    //departure: ['Antwerp, Belgium','Le Havre, France','Bremen, Germany','Bremerhaven, Germany','Hamburg, Germany','Cork, Ireland','Haifa, Israel','Genoa, Italy','Napoli (Naples), Italy','Palermo, Italy','Trieste, Italy','Rotterdam, Netherlands','Gdansk, Poland','Lisbon, Portugal','St Petersburg, Russia','Istanbul, Turkey','Liverpool, United Kingdom','Southampton, United Kingdom'],
+      ships: new Bloodhound({datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: [] }),
+      arrival: new Bloodhound({datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: [] }),
+      departure: new Bloodhound({datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: [] })
+    };
+
+    var get_routes = function(){
+      var year      = $('#historical-date-of-map').val();
+      var departure = $('#trailer-line-2').val();
+      var arrival   = $('#trailer-line-3').val();
+      console.log("init route filtered typeaheads: " + year + " | " + departure + " | " + arrival);
+
+      var routes = all_routes;
+
+      var filtered_routes = all_routes.filter(function(r){
+        if(year == null){ return r };
+
+        if(r.start < year && r.end > year){
+          return r;
+        }
+      });
+
+      filtered_routes = filtered_routes.filter(function(r){
+        if(departure == ""){ return r };
+
+        if(r.port_of_origin == departure){
+          return r;
+        }
+      });
+
+      return filtered_routes.filter(function(r){
+        if(arrival == ""){ return r };
+
+        if(r.port_of_arrival == arrival){
+          return r;
+        }
+      });
+    };
+
+    var init_ship_typahead = function(routes){
+      var ship_names = routes.map(function(r){ return r.ship_name }).unique().sort();
+      console.log(ship_names);
+      typeaheads.ships.clear();
+      typeaheads.ships.local = datasets.ships = ship_names;
+      typeaheads.ships.initialize(true);
+    };
+
+    var init_departure_typahead = function(routes){
+      var departures = routes.map(function(r){ return r.port_of_origin }).unique().sort();
+      console.log(departures);
+      typeaheads.departure.clear();
+      typeaheads.departure.local = datasets.departure = departures;
+      typeaheads.departure.initialize(true);
+    };
+
+    var init_arrival_typahead = function(routes){
+      var arrivals = routes.map(function(r){ return r.port_of_arrival }).unique().sort();
+
+      console.log(arrivals);
+      typeaheads.arrival.clear();
+      typeaheads.arrival.local = datasets.arrival = arrivals;
+      typeaheads.arrival.initialize(true);
+    };
+
+    var init_typeaheads = function(){
+      console.log("changed - typeahead init");
+      var routes = get_routes();
+
+      init_ship_typahead(routes);
+      init_departure_typahead(routes);
+      init_arrival_typahead(routes);
+    };
+
+	  init_typeaheads();
+
+    $('#historical-date-of-map').change(init_typeaheads);
+    $('#trailer-line-2').change(init_typeaheads);
+    $('#trailer-line-3').change(init_typeaheads);
+
+    jQuery('#trailer-line-2').on('typeahead:selected', init_typeaheads);
+    jQuery('#trailer-line-3').on('typeahead:selected', init_typeaheads);
+    
+    var typeaheads_search = function(key, q, sync){
+      if (q === '') {
+        sync(typeaheads[key].get(datasets[key]));
+      }
+
+      else {
+        typeaheads[key].search(q, sync);
+      }
+    };
+      
+    var typeaheads_search_fn = {
+      ships: 		function(q, sync){ typeaheads_search('ships', q, sync) },
+      arrival: 	function(q, sync){ typeaheads_search('arrival', q, sync) },
+      departure:  function(q, sync){ typeaheads_search('departure', q, sync) }
+    };
+        
+    Object.keys(typeaheads).forEach(function(key){
+			$('#' + key + ' .typeahead').typeahead({
+				limit: 3,
+			  hint: true,
+			  highlight: true,
+			  minLength: 0
+			},
+      {
+  	  	name: key,
+  	  	source: typeaheads_search_fn[key]
+			});
+  	});
+
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith#Polyfill
+    if (!String.prototype.endsWith) {
+      String.prototype.endsWith = function(search, this_len) {
+        if (this_len === undefined || this_len > this.length) {
+          this_len = this.length;
+        }
+        return this.substring(this_len - search.length, this_len) === search;
+      };
+    }
+
+    $( function() {
+      // TODO: Make the same across both environments
+      // if ( !window.Jimaworks || !window.Jimaworks.isDev ) {
+      if ( !window.Jimaworks || !window.location.pathname.endsWith('follow-preview') ) {
+        $( ".accordion" ).accordion({
+          heightStyle: "content"
+        });
+      }
+	  } );
+		
+		$( document ).tooltip({
+		  position: { my: "left bottom", at: "left top-5" }
+		});
+	</script>
+</body>
+</html>

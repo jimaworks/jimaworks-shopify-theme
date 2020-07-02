@@ -1,0 +1,161 @@
+<style>
+  .newsletter-grid__item {
+    background-color: {{ section.settings.color_bg }};
+  }
+
+  .newsletter-grid__item:first-child {
+    background-color: {{ section.settings.color_bg | color_modify: 'alpha', 0.5 }};
+  }
+</style>
+
+<div class="grid-uniform newsletter-grid">
+  <div class="grid__item newsletter-grid__item post-large--one-half">
+    <div class="newsletter-content-wrapper">
+      <div class="newsletter-content">
+        {% unless section.settings.heading == blank %}
+        <div class="section-header section-header--small">
+          <h2 class="section-header__title{% unless section.settings.subtext == blank %} section-header__title-spacing{% endunless %}">
+            {{ section.settings.heading | escape }}
+          </h2>
+        </div>
+        {% endunless %}
+        {% unless section.settings.subtext == blank %}
+          {{ section.settings.subtext }}
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+
+  <div class="grid__item newsletter-grid__item post-large--one-half">
+    <div class="newsletter-content-wrapper">
+      <div class="newsletter-content">
+        {% form 'customer' %}
+          {{ form.errors | default_errors }}
+          {% if form.posted_successfully? %}
+            <p class="note form-success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+          {% else %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="input-group">
+              <label for="Email" class="visually-hidden">{{ 'contact.form.email' | t }}</label>
+              <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="contact[email]" id="Email" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+              <span class="input-group-btn">
+                <button type="submit" class="btn" name="commit" id="subscribe">{{ 'general.newsletter_form.submit' | t }}</button>
+              </span>
+            </div>
+          {% endif %}
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+  "name": {
+    "de": "Newsletter",
+    "en": "Newsletter",
+    "es": "Boletín",
+    "fr": "Newsletter",
+    "it": "Newsletter",
+    "ja": "メールマガジン",
+    "pt-BR": "Newsletter"
+  },
+  "class": "newsletter-section index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": {
+        "de": "Titel",
+        "en": "Heading",
+        "es": "Título",
+        "fr": "Titre",
+        "it": "Heading",
+        "ja": "見出し",
+        "pt-BR": "Título"
+      },
+      "default": {
+        "de": "Unseren Newsletter abonnieren",
+        "en": "Subscribe to our newsletter",
+        "es": "Suscríbete a nuestro boletín de noticias",
+        "fr": "Inscription à la newsletter",
+        "it": "Iscriviti alla nostra newsletter",
+        "ja": "ストアからのお知らせを受け取る",
+        "pt-BR": "Assine a nossa newsletter"
+      }
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": {
+        "de": "Subtext",
+        "en": "Subtext",
+        "es": "Subtexto",
+        "fr": "Sous-texte",
+        "it": "Sottotesto",
+        "ja": "サブテキスト",
+        "pt-BR": "Subtexto"
+      },
+      "default": {
+        "de": "<p>Werbeaktionen, neue Produkte und Sonderangebote. Direkt in Ihrem Posteingang.</p>",
+        "en": "<p>Promotions, new products and sales. Directly to your inbox.</p>",
+        "es": "<p>Promociones, nuevos productos y ventas. Directamente a tu bandeja de entrada.</p>",
+        "fr": "<p>Promotions, nouveaux produits et soldes. Directement dans votre boîte de réception.</p>",
+        "it": "<p>Promozioni, nuovi prodotti e offerte. Direttamente nella tua inbox.</p>",
+        "ja": "<p>プロモーション、新商品、セールについて、あなたの受信箱に直接知らせる。</p>",
+        "pt-BR": "<p>Promoções, novos produtos e ofertas, diretamente em sua caixa de entrada.</p>"
+      }
+    },
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": {
+        "de": "Hintergrundfarbe",
+        "en": "Background color",
+        "es": "Color de fondo",
+        "fr": "Couleur de fond",
+        "it": "Colore sfondo",
+        "ja": "背景の色",
+        "pt-BR": "Cor do fundo"
+      },
+      "default": "#eeeeee"
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "de": "Alle Kunden, die sich eintragen, bekommen ein Konto in Shopify. [Kunden ansehen](/admin/customers?query=&accepts_marketing=1)",
+        "en": "Any customers who sign up will have an account created for them in Shopify. [View customers](/admin/customers?query=&accepts_marketing=1)",
+        "es": "Todos los clientes que se registren tendrán una cuenta creada para ellos en Shopify. [Ver clientes](/admin/customers?query=&accepts_marketing=1)",
+        "fr": "Tous les clients qui s'inscrivent auront un compte créé pour eux sur Shopify. [Voir les clients](/admin/customers?query=&accepts_marketing=1)",
+        "it": "Qualsiasi cliente che si iscrive avrà un account creato appositamente su Shopify. [Visualizza clienti](/admin/customers?query=&accepts_marketing=1)",
+        "ja": "サインアップしたお客様は、Shopifyでアカウントが作成されます。[お客様を表示](/admin/customers?query=&accepts_marketing=1)",
+        "pt-BR": "Todos os clientes que se inscreverem terão uma conta criada para eles na Shopify. [Ver clientes](/admin/customers?query=&accepts_marketing=1)"
+      }
+    }
+  ],
+  "presets": [
+    {
+      "name": {
+        "de": "Newsletter",
+        "en": "Newsletter",
+        "es": "Boletín",
+        "fr": "Newsletter",
+        "it": "Newsletter",
+        "ja": "メールマガジン",
+        "pt-BR": "Newsletter"
+      },
+      "category": {
+        "de": "Promotional",
+        "en": "Promotional",
+        "es": "Promocional",
+        "fr": "Promotionnel",
+        "it": "Promozionale",
+        "ja": "プロモーション用",
+        "pt-BR": "Promocional"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,28 @@
+<script id="init-11-artist-credit">
+    "use strict";
+    window.Jimaworks.Pages = ( window.Jimaworks.Pages || {} );
+    window.Jimaworks.Pages.ArtistCredit = {
+      initializeDefaults: function OriginsLine1_initializeDefaults() {
+        var artistTextDefault = "Painting by H R Albrechit";
+        localStorage.setItem("ArtistInfoxDefault", artistTextDefault);
+        if (localStorage.originsTextBoxL2 == undefined) {
+            localStorage.setItem("ArtistInfo", artistTextDefault);
+        }
+
+        var printIdTextDefault = "Jimaworkks203:04182020";
+        localStorage.setItem("PrintIdDefault", printIdTextDefault);
+        if (localStorage.originsTextBoxL2 == undefined) {
+            localStorage.setItem("PrintId", printIdTextDefault);
+        }
+      }, // initializeDefaults
+      clearLocalStorageVars: function ArtistCredit_clearLocalStorageVars() {
+
+        localStorage.removeItem("ArtistInfo");
+        localStorage.removeItem("ArtistInfoDefault");
+
+        localStorage.removeItem("PrintId");
+        localStorage.removeItem("PrintIdDefault");
+
+      } // clearLocalStorageVars
+    };
+  </script>

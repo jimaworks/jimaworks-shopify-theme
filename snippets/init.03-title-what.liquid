@@ -1,0 +1,134 @@
+<script id="init-03-title-what">
+  "use strict";
+  window.Jimaworks.Pages = ( window.Jimaworks.Pages || {} );
+  window.Jimaworks.Pages.TitleWhat = {
+    initializeDefaults: function TitleWhat_initializeDefaults() {
+      /*
+        Third page (7/31/2019) == Title Text Box Line 1. 
+        "1. Title. What Is This Story About?"
+      */
+      /* localVarNam      localVarDefault     localVarDefaultAbbrev  */
+      /* e.g., "RegionOfOrigin"  "EuropeAndTheMediterranean"  "EuM"  */
+      /* localStorage.RelationShipMember... not used */
+
+      //###localStorage.FirstGenLastName ... = "<Provide a Name>"?
+
+      /* "FirstGenLastName"  "FirstGenLastNameDefault"  "FirstGenLastNameDefaultAbbrev"  */
+      var FirstGenLastNameDefault = "<Provide a Name>";
+      localStorage.setItem("FirstGenLastNameDefault", FirstGenLastNameDefault);
+      if (localStorage.FirstGenLastName == undefined) {
+        localStorage.setItem("FirstGenLastName", FirstGenLastNameDefault);
+      }
+
+      /* "TitleLine1"  "TitleLine1Default"  "TitleLine1DefaultAbbrev"  */
+      var TitleLine1Default = "The Family Crossing: First Generation";
+      localStorage.setItem("TitleLine1Default", TitleLine1Default);
+      if (localStorage.TitleLine1 == undefined) {
+        localStorage.setItem("TitleLine1", TitleLine1Default);
+      }
+
+      /* "TitleLine2"  "TitleLine2Default"  "TitleLine2DefaultAbbrev"  */
+      var TitleLine2Default = "A Thread in the Great Tapistry that is America";
+      localStorage.setItem("TitleLine2Default", TitleLine2Default);
+      if (localStorage.TitleLine2 == undefined) {
+        localStorage.setItem("TitleLine2", TitleLine2Default);
+      }
+
+      /* "TitleLine3"  "TitleLine3Default"  "TitleLine3DefaultAbbrev"  */
+      var TitleLine3Default = "";
+      localStorage.setItem("TitleLine3Default", TitleLine3Default);
+      if (localStorage.TitleLine3 == undefined) {
+        localStorage.setItem("TitleLine3", TitleLine3Default);
+      }
+
+      /*
+        Third(b) page:  invocation of Preview fn.
+        PreviewFn -- The Story So Far...
+        page.initialize-jimaworks
+        
+        Defines
+          localStorage.viewingTripVisuals
+          localStorage.viewingTextBoxes
+        
+        Uses
+          localStorage.TitleLine1 = titleTextBoxEntry1 ;
+          localStorage.TitleLine2 = titleTextBoxEntry2 ;
+          localStorage.TitleLine3 = titleTextBoxEntry3 ;
+
+          localStorage.OriginsLine1 = originTextBoxEntry1 ;
+          localStorage.OriginsLine2 = originTextBoxEntry2 ;
+
+          localStorage.DestinyLine1 = destinationTextBoxEntry1 ;
+          localStorage.DestinyLine2 = destinationTextBoxEntry2 ;
+
+            localStorage.ShipInfoLine1 = shipInfoTextBoxEntry1 ;
+            localStorage.ShipInfoLine2 = shipInfoTextBoxEntry2 ;
+
+          localStorage.PlaqueLine###
+              localStorage.PlaqueLine1 = plaqueTextBoxEntry1 ;
+              localStorage.PlaqueLine2 = plaqueTextBoxEntry2 ;
+              localStorage.PlaqueLine3 = plaqueTextBoxEntry3 ;
+              localStorage.PlaqueLine4 = plaqueTextBoxEntry4 ;
+              localStorage.PlaqueLine5 = plaqueTextBoxEntry5 ;
+              localStorage.PlaqueLine6 = plaqueTextBoxEntry6 ;
+              localStorage.PlaqueLine7 = plaqueTextBoxEntry7 ;
+              
+          localStorage.MapStyle
+          localStorage.MapStyleAbbrev ;
+          localStorage.webMapImg    
+          localStorage.shipPic
+          localStorage.Frame
+          localStorage.shipImageTransparentBackground   
+          
+          ### in the Safari page, the imgWidth is 1024 and the height is 713 ###
+          ### in the defaults, the imgWidth 640 and the height isi 237 ###
+          ### set the former as the defaults??
+          
+          ### also, shouldn't these always be set in Preview? ###
+              localStorage.webShipImgWidth =width;
+              localStorage.webShipImgHeight =height;
+              
+        in comments:
+            var webFrameImg = localStorage.FrameImg ;
+            var webShipImg = localStorage.shipPicImg ;
+      */
+      /* "viewingTripVisuals"  "viewingTripVisualsDefault"  "viewingTripVisualsDefaultAbbrev"  */
+      var viewingTripVisualsDefault = "";
+      localStorage.setItem(
+        "viewingTripVisualsDefault",
+        viewingTripVisualsDefault
+      );
+      if (localStorage.viewingTripVisuals == undefined) {
+        localStorage.setItem("viewingTripVisuals", viewingTripVisualsDefault);
+      }
+
+      /* "viewingTextBoxes"  "viewingTextBoxesDefault"  "viewingTextBoxesDefaultAbbrev"  */
+      var viewingTextBoxesDefault = "";
+      localStorage.setItem("viewingTextBoxesDefault", viewingTextBoxesDefault);
+      if (localStorage.viewingTextBoxes == undefined) {
+        localStorage.setItem("viewingTextBoxes", viewingTextBoxesDefault);
+      }
+    }, // initializeDefaults
+    clearLocalStorageVars: function TitleWhat_clearLocalStorageVars() {
+      /*
+        Third page (7/31/2019) == Title Text Box Line 1. 
+        "1. Title. What Is This Story About?"
+      */
+      /* localVarNam      localVarDefault     localVarDefaultAbbrev  */
+      /* e.g., "RegionOfOrigin"  "EuropeAndTheMediterranean"  "EuM"  */
+      /* localStorage.RelationShipMember... not used */
+
+      /* "TitleLine1"  "TitleLine1Default"  "TitleLine1DefaultAbbrev"  */
+      localStorage.removeItem("TitleLine1Default");
+      localStorage.removeItem("TitleLine1");
+
+      /* "TitleLine2"  "TitleLine2Default"  "TitleLine2DefaultAbbrev"  */
+      localStorage.removeItem("TitleLine2Default");
+      localStorage.removeItem("TitleLine2");
+
+      /* "TitleLine3"  "TitleLine3Default"  "TitleLine3DefaultAbbrev"  */
+      localStorage.removeItem("TitleLine3Default");
+      localStorage.removeItem("TitleLine3");
+    } // clearLocalStorageVars
+  };
+</script>

@@ -1,0 +1,502 @@
+<!--   
+  initialize-defaults.liquid
+  Original Nov 7, 2018
+  Nxt: Dec 6, 2018
+  
+  Jul 31 2019:1400 Update Save&Return variables in view of changes to the user interaction.
+  Aug 03 2019:0600 Set localStorage defaults, construct clearAllJimaworksLocalStorage function
+  Aug 04 2019:0800 Extend/debug initializeDefaults()
+  Aug 04 2019:1800 Build up writeOutContextVars() 
+  Aug 05 2019:1800 Hugh G. global replace of "localStorage.clear(<varname>)" with "localStorage.removeItem(<varname>)"
+  Aug 06 2019:1515 Start selecting the variables that need to be restored...
+  Aug 06 2019:1800 Start splitting the functions up and sending to approp files...
+  Aug 20 2019:0800 Remove the window.onbefore function to restore intended page-transition behavior
+  
+  Title:
+    localStorage.setItem("RegionOfOrigin", regionName) ;
+    localStorage.setItem("RegionOfOriginDefault", "UserProvided") ;
+    localStorage.setItem("RegionOfOriginAbbrev", regionAbbrev) ;
+    localStorage.setItem("RegionOfOriginImageFileName", regionImageFileNm) ;
+  Era:
+    localStorage.setItem("YearOfCrossing", YrOfXing) ;
+    localStorage.setItem("currRteMapFile", currRteMapFileNm) ;
+    localStorage.setItem("currRteMapYear", currRteMapYear) ;
+    localStorage.setItem("prevRteMapYear", prevRteMapYear) ;
+    localStorage.setItem("nextMapYear", nextRteMapYear) ;
+    console.log("1") ;
+    
+    localStorage.setItem("Era", erasArray[eraIndex]) ;
+    localStorage.setItem("EraAbbrev", eraAbbrevs[eraIndex]) ;
+    localStorage.setItem("CommemorationTimePeriodStart", eraStartArray[eraIndex]) ;
+    localStorage.setItem("CommemorationTimePeriodEnd", eraEndArray[eraIndex]) ;
+    localStorage.setItem("CommemorationTimePeriodReprYr", eraRepresentativeYearArray[eraIndex]) ;
+    //  ###?###      localStorage.setItem("EraImageFileName", eraImageFileNm) ;
+
+  Ship:
+    var currentShipFilterMethod = "eraFilter"  ; /* localStorage.ShipFilter ; */
+    localStorage.ShipSort = "alpha" ;
+    webShipImg = localStorage.shipPic;  
+    localStorage.setItem("TransportCraft", shipInfo[IDIndex]) ;
+    localStorage.setItem("shipName", shipInfo[nameIndex]) ;
+    localStorage.setItem("shippingLine", shipInfo[operatorIndex]) ;
+    localStorage.setItem("shipTotPsgrVolume", shipInfo[totalPsgrsIndex]) ;
+    localStorage.setItem("shipCareerEnd", eraEndArray[eraIndex]) ; /*  ### shipCareerBegin? ### */
+    localStorage.setItem("shipImageIndex", shipImageIndex) ;
+    localStorage.setItem("shipPic", shipImageFile) ;
+    localStorage.setItem("shipImageTransparentBackground", shipImageBackground) ;
+    /* this requires the target string "localStorage.userProvidedShipName" to be set up first */
+    var tgtShipName = localStorage.userProvidedShipName;
+    
+    -- or --
+    var IDIndex =  0 ; 
+    var nameIndex =  1 ; 
+    var eraIndex =  2 ; 
+    var operatorIndex =  3 ; 
+    var classIndex =  4 ; 
+    var careerStartIndex =  5 ; 
+    var careerEndIndex =  6 ; 
+    var totalPsgrsIndex =  7 ; 
+    var imageryIndex =  8 ; 
+    var backgroundIndex =  9 ;
+
+  localStorage.setItem("TransportCraft", shipInfo[IDIndex]) ;
+  localStorage.setItem("shipName", shipInfo[nameIndex]) ;
+  localStorage.setItem("shipName", shipInfo[nameIndex]) ;
+  localStorage.setItem("shippingLine", shipInfo[operatorIndex]) ;
+  localStorage.setItem("shipTotPsgrVolume", shipInfo[totalPsgrsIndex]) ;
+  localStorage.setItem("shipCareerStart", shipInfo[careerStartIndex]) ; /*  ### shipCareerBegin? ### */
+  localStorage.setItem("shipCareerEnd", shipInfo[careerEndIndex]) ; /*  ### shipCareerBegin? ### */
+  localStorage.setItem("shipImageIndex", shipImageIndex) ;
+  localStorage.setItem("shipPic", shipImageFile) ;
+  localStorage.setItem("shipImageTransparentBackground", shipImageBackground) ;
+
+  Route:
+-->
+<script id="init">
+  "use strict";
+  // ###  Aug 06 2019:1515 Start selecting the variables that need to be restored... send initializeDefaults() to page.initialize-jimaworks.liquid
+
+  function initializeDefaults(callback) {
+    /*
+      console.log("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
+      alert("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
+    */
+    if ( window.Jimaworks.Pages && !window.Jimaworks.defaultsHaveBeenInitialized ) {
+      var pages = Object.keys(window.Jimaworks.Pages);
+      for (var index = 0; index < pages.length; index++) {
+        var page = pages[index];
+        console.warn(page + '_initializeDefaults()');
+        // console.warn(Object.assign({}, localStorage));
+        window.Jimaworks.Pages[page].initializeDefaults();
+      }
+      window.Jimaworks.defaultsHaveBeenInitialized = true;
+    }
+    if ( callback ) {
+      callback();
+    }
+  } // initializeDefaults
+
+  function clearLocalStorageVars() {
+    /*
+      console.log("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
+      alert("Alert:RecordRegionOfOriginChoice: regionName=="+regionName+" regionIndex=="+regionIndex+" regionImageFileNm=="+regionImageFileNm ) ;
+    */
+
+    var pages = Object.keys(window.Jimaworks.Pages);
+    for (var index = 0; index < pages.length; index++) {
+      var page = pages[index];
+      console.warn(page + '_clearLocalStorageVars()');
+      window.Jimaworks.Pages[page].clearLocalStorageVars();
+    }
+    window.Jimaworks.defaultsHaveBeenInitialized = false;
+  }
+
+  function WriteOutContextVars(
+    prefixString,
+    lastPage,
+    ConnectorString,
+    suffixString
+  ) {
+    var contextVarsString = prefixString;
+    contextVarsString += "OriginatingPage" + "=" + lastPage;
+    contextVarsString += GenerateHTMLContextVarsString(ConnectorString);
+    contextVarsString += suffixString;
+    /* alert("WriteOutContextVars(): contextVarsString=="+contextVarsString); */
+    return contextVarsString;
+  }
+
+  function GenerateHTMLContextVarsString(ConnectorString) {
+    // expect to first invoke the "initializeDefaults" function.
+    // so don't restore defaults, since they will have been set again
+
+    var contextVarsString = "";
+
+    //  contextVarsString   += ConnectorString+'RegionOfOriginDefault'+'='+localStorage.RegionOfOriginDefault ;
+    contextVarsString +=
+      ConnectorString + "RegionOfOrigin" + "=" + localStorage.RegionOfOrigin;
+    contextVarsString +=
+      ConnectorString +
+      "RegionOfOriginAbbrev" +
+      "=" +
+      localStorage.RegionOfOriginAbbrev;
+    
+    /*
+      Third p age (7/31/2019) == Title Text Box Line 1. 
+      "1. Title. What Is This Story About?"
+    */
+    //contextVarsString   += ConnectorString+'TitleLine1Default'+'='+localStorage.TitleLine1Default ;
+    contextVarsString +=
+      ConnectorString + "TitleLine1" + "=" + localStorage.TitleLine1;
+    //contextVarsString   += ConnectorString+'TitleLine2Default'+'='+localStorage.TitleLine2Default ;
+    contextVarsString +=
+      ConnectorString + "TitleLine2" + "=" + localStorage.TitleLine2;
+    //contextVarsString   += ConnectorString+'TitleLine3Default'+'='+localStorage.TitleLine3Default ;
+    contextVarsString +=
+      ConnectorString + "TitleLine3" + "=" + localStorage.TitleLine3;
+    
+    /*
+      Fourth page (7/31/2019) == Title Text Box Line 2. 
+      "1. Title. Line2: When did it take place?"
+      ### EraImageFileName ? ### 
+    */
+    // contextVarsString   += ConnectorString+'EraDefault'+'='+localStorage.EraDefault ;
+    contextVarsString +=
+      ConnectorString + "EraAbbrev" + "=" + localStorage.EraAbbrev;
+    // contextVarsString   += ConnectorString+'CommemorationTimePeriodStartDefault'+'='+localStorage.CommemorationTimePeriodStartDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "CommemorationTimePeriodStart" +
+      "=" +
+      localStorage.CommemorationTimePeriodStart;
+    // contextVarsString   += ConnectorString+'CommemorationTimePeriodEndDefault'+'='+localStorage.CommemorationTimePeriodEndDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "CommemorationTimePeriodEnd" +
+      "=" +
+      localStorage.CommemorationTimePeriodEnd;
+    // contextVarsString   += ConnectorString+'CommemorationTimePeriodReprYrDefault'+'='+localStorage.CommemorationTimePeriodReprYrDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "CommemorationTimePeriodReprYr" +
+      "=" +
+      localStorage.CommemorationTimePeriodReprYr;
+    // contextVarsString   += ConnectorString+'EarliestPossibleYearOfCrossingDefault'+'='+localStorage.EarliestPossibleYearOfCrossingDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "EarliestPossibleYearOfCrossing" +
+      "=" +
+      localStorage.EarliestPossibleYearOfCrossing;
+    // contextVarsString   += ConnectorString+'LatestPossibleYearOfCrossingDefault'+'='+localStorage.LatestPossibleYearOfCrossingDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "LatestPossibleYearOfCrossing" +
+      "=" +
+      localStorage.LatestPossibleYearOfCrossing;
+    // contextVarsString   += ConnectorString+'YearOfCrossingDefault'+'='+localStorage.YearOfCrossingDefault ;
+    contextVarsString +=
+      ConnectorString + "YearOfCrossing" + "=" + localStorage.YearOfCrossing;
+    // contextVarsString   += ConnectorString+'currRteMapFileDefault'+'='+localStorage.currRteMapFileDefault ;
+    contextVarsString +=
+      ConnectorString + "currRteMapFile" + "=" + localStorage.currRteMapFile;
+    // contextVarsString   += ConnectorString+'currRteMapYearDefault'+'='+localStorage.currRteMapYearDefault ;
+    contextVarsString +=
+      ConnectorString + "currRteMapYear" + "=" + localStorage.currRteMapYear;
+    // contextVarsString   += ConnectorString+'prevRteMapYearDefault'+'='+localStorage.prevRteMapYearDefault ;
+    contextVarsString +=
+      ConnectorString + "prevRteMapYear" + "=" + localStorage.prevRteMapYear;
+    // contextVarsString   += ConnectorString+'nextRteMapYearDefault'+'='+localStorage.nextRteMapYearDefault ;
+    contextVarsString +=
+      ConnectorString + "nextRteMapYear" + "=" + localStorage.nextRteMapYear;
+    
+    /*
+      Fifth page (8/02/2019) == Origins Text Box Line 1. 
+      "###title?### Origins: 1.d From Where did this First Generation come?"
+      ### anything like "seaLaneDepartureCountries" on this page? ###
+    */
+    // contextVarsString   += ConnectorString+'originsTextBoxL1Default'+'='+localStorage.originsTextBoxL1Default ;
+    contextVarsString +=
+      ConnectorString +
+      "originsTextBoxL1" +
+      "=" +
+      localStorage.originsTextBoxL1;
+    // contextVarsString   += ConnectorString+'originsTextBoxL2Default'+'='+localStorage.originsTextBoxL2Default ;
+    contextVarsString +=
+      ConnectorString +
+      "originsTextBoxL2" +
+      "=" +
+      localStorage.originsTextBoxL2;
+    // contextVarsString   += ConnectorString+'AreaOfOriginDefault'+'='+localStorage.AreaOfOriginDefault ;
+    contextVarsString +=
+      ConnectorString + "AreaOfOrigin" + "=" + localStorage.AreaOfOrigin;
+    // contextVarsString   += ConnectorString+'CountryOfOriginDefault'+'='+localStorage.CountryOfOriginDefault ;
+    contextVarsString +=
+      ConnectorString + "CountryOfOrigin" + "=" + localStorage.CountryOfOrigin;
+    // contextVarsString   += ConnectorString+'ProvinceOfOriginDefault'+'='+localStorage.ProvinceOfOriginDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "ProvinceOfOrigin" +
+      "=" +
+      localStorage.ProvinceOfOrigin;
+    // contextVarsString   += ConnectorString+'CityOfOriginDefault'+'='+localStorage.CityOfOriginDefault ;
+    contextVarsString +=
+      ConnectorString + "CityOfOrigin" + "=" + localStorage.CityOfOrigin;
+    
+    /*
+      Sixth page (8/02/2019) == Origins Text Box Line 2. 
+    */
+    // contextVarsString   += ConnectorString+'AreaOfDepartureDefault'+'='+localStorage.AreaOfDepartureDefault ;
+    contextVarsString +=
+      ConnectorString + "AreaOfDeparture" + "=" + localStorage.AreaOfDeparture;
+    // contextVarsString   += ConnectorString+'SeaLaneDefault'+'='+localStorage.SeaLaneDefault ;
+    contextVarsString +=
+      ConnectorString + "SeaLane" + "=" + localStorage.SeaLane;
+    // contextVarsString   += ConnectorString+'DepartureCountryDefault'+'='+localStorage.DepartureCountryDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "DepartureCountry" +
+      "=" +
+      localStorage.DepartureCountry;
+    // contextVarsString   += ConnectorString+'PortOfDepartureDefault'+'='+localStorage.PortOfDepartureDefault ;
+    contextVarsString +=
+      ConnectorString + "PortOfDeparture" + "=" + localStorage.PortOfDeparture;
+    // contextVarsString   += ConnectorString+'seaLaneDepartureCountriesDefault'+'='+localStorage.seaLaneDepartureCountriesDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "seaLaneDepartureCountries" +
+      "=" +
+      localStorage.seaLaneDepartureCountries;
+    // contextVarsString   += ConnectorString+'ArrivalPortSortMethodDefault'+'='+localStorage.ArrivalPortSortMethodDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "ArrivalPortSortMethod" +
+      "=" +
+      localStorage.ArrivalPortSortMethod;
+    // contextVarsString   += ConnectorString+'ArrivalPortFilterDefault'+'='+localStorage.ArrivalPortFilterDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "ArrivalPortFilter" +
+      "=" +
+      localStorage.ArrivalPortFilter;
+    // contextVarsString   += ConnectorString+'ArrivalPortStructDefault'+'='+localStorage.ArrivalPortStructDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "ArrivalPortStruct" +
+      "=" +
+      localStorage.ArrivalPortStruct;
+    // contextVarsString   += ConnectorString+'arrivalPortDefault'+'='+localStorage.arrivalPortDefault ;
+    contextVarsString +=
+      ConnectorString + "arrivalPort" + "=" + localStorage.arrivalPort;
+    // contextVarsString   += ConnectorString+'DeparturePortSortMethodDefault'+'='+localStorage.DeparturePortSortMethodDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "DeparturePortSortMethodAbbrev" +
+      "=" +
+      localStorage.DeparturePortSortMethodAbbrev;
+    // contextVarsString   += ConnectorString+'DeparturePortFilterDefault'+'='+localStorage.DeparturePortFilterDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "DeparturePortFilter" +
+      "=" +
+      localStorage.DeparturePortFilter;
+    // contextVarsString   += ConnectorString+'DeparturePortStructDefault'+'='+localStorage.DeparturePortStructDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "DeparturePortStruct" +
+      "=" +
+      localStorage.DeparturePortStruct;
+    contextVarsString +=
+      ConnectorString +
+      "departurePortDefault" +
+      "=" +
+      localStorage.departurePortDefault;
+    contextVarsString +=
+      ConnectorString + "departurePort" + "=" + localStorage.departurePort;
+    // contextVarsString   += ConnectorString+'webMapImgDefault'+'='+localStorage.webMapImgDefault ;
+    contextVarsString +=
+      ConnectorString + "webMapImg" + "=" + localStorage.webMapImg;
+
+    /*
+      Seventh page (8/02/2019) == Destination Text Box Line 1. 
+
+      3. American Destiny. Where did they land?
+
+      https://jimaworks.com/pages/textbox3-destination-where-did-they-land
+    */
+    // contextVarsString   += ConnectorString+'DestinyLine1Default'+'='+localStorage.DestinyLine1Default ;
+    contextVarsString +=
+      ConnectorString + "DestinyLine1" + "=" + localStorage.DestinyLine1;
+    // contextVarsString   += ConnectorString+'DestinyLine2Default'+'='+localStorage.DestinyLine2Default ;
+    contextVarsString +=
+      ConnectorString + "DestinyLine2" + "=" + localStorage.DestinyLine2;
+    // contextVarsString   += ConnectorString+'RegionOfArrivalDefault'+'='+localStorage.RegionOfArrivalDefault ;
+    contextVarsString +=
+      ConnectorString + "RegionOfArrival" + "=" + localStorage.RegionOfArrival;
+    // contextVarsString   += ConnectorString+'ApproachesDefault'+'='+localStorage.ApproachesDefault ;
+    contextVarsString +=
+      ConnectorString + "Approaches" + "=" + localStorage.Approaches;
+    // contextVarsString   += ConnectorString+'EntryStateDefault'+'='+localStorage.EntryStateDefault ;
+    contextVarsString +=
+      ConnectorString + "EntryState" + "=" + localStorage.EntryState;
+    // contextVarsString   += ConnectorString+'PortOfEntryDefault'+'='+localStorage.PortOfEntryDefault ;
+    contextVarsString +=
+      ConnectorString + "PortOfEntry" + "=" + localStorage.PortOfEntry;
+    
+    /*
+      Eighth page (8/02/2019) == Destination Text Box Line 2. 
+
+      3: Destination: Where did they end up?
+
+      https://jimaworks.com/pages/textbox3-destination-where-did-they-end-up
+    */
+    // contextVarsString   += ConnectorString+'DestinationSectionDefault'+'='+localStorage.DestinationSectionDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "DestinationSection" +
+      "=" +
+      localStorage.DestinationSection;
+    // contextVarsString   += ConnectorString+'DestinationStateDefault'+'='+localStorage.DestinationStateDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "DestinationState" +
+      "=" +
+      localStorage.DestinationState;
+    // contextVarsString   += ConnectorString+'DestinationCountyDefault'+'='+localStorage.DestinationCountyDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "DestinationCounty" +
+      "=" +
+      localStorage.DestinationCounty;
+    // contextVarsString   += ConnectorString+'DestinationCityDefault'+'='+localStorage.DestinationCityDefault ;
+    contextVarsString +=
+      ConnectorString + "DestinationCity" + "=" + localStorage.DestinationCity;
+    
+    /*
+      Ninth page (8/02/2019) == Type of Ship Image. 
+
+      Ship Image - Options
+
+      https://jimaworks.com/pages/000-knownshipoptions
+    */
+    // contextVarsString   += ConnectorString+'ShipInfoLine1Default'+'='+localStorage.ShipInfoLine1Default ;
+    contextVarsString +=
+      ConnectorString + "ShipInfoLine1" + "=" + localStorage.ShipInfoLine1;
+    // contextVarsString   += ConnectorString+'ShipInfoLine2Default'+'='+localStorage.ShipInfoLine2Default ;
+    contextVarsString +=
+      ConnectorString + "ShipInfoLine2" + "=" + localStorage.ShipInfoLine2;
+    // contextVarsString   += ConnectorString+'ShipSortDefault'+'='+localStorage.ShipSortDefault ;
+    contextVarsString +=
+      ConnectorString + "ShipSort" + "=" + localStorage.ShipSort;
+    // contextVarsString   += ConnectorString+'shipPicDefault'+'='+localStorage.shipPicDefault ;
+    contextVarsString +=
+      ConnectorString + "shipPic" + "=" + localStorage.shipPic;
+
+    /*
+      Ten(a)th page (8/02/2019) == Historic Ship Image. 
+
+      4. How did they get here? The Ship.
+
+      https://jimaworks.com/pages/textbox4-tripinfo-how-did-they-get-here
+    */
+    // contextVarsString   += ConnectorString+'TransportCraftDefault'+'='+localStorage.TransportCraftDefault ;
+    contextVarsString +=
+      ConnectorString + "TransportCraft" + "=" + localStorage.TransportCraft;
+    // contextVarsString   += ConnectorString+'shipEraDefault'+'='+localStorage.shipEraDefault ;
+    contextVarsString +=
+      ConnectorString + "shipEra" + "=" + localStorage.shipEra;
+    // contextVarsString   += ConnectorString+'shipNameDefault'+'='+localStorage.shipNameDefault ;
+    contextVarsString +=
+      ConnectorString + "shipName" + "=" + localStorage.shipName;
+    // contextVarsString   += ConnectorString+'shippingLineDefault'+'='+localStorage.shippingLineDefault ;
+    contextVarsString +=
+      ConnectorString + "shippingLine" + "=" + localStorage.shippingLine;
+    // contextVarsString   += ConnectorString+'shipTotPsgrVolumeDefault'+'='+localStorage.shipTotPsgrVolumeDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "shipTotPsgrVolume" +
+      "=" +
+      localStorage.shipTotPsgrVolume;
+    // contextVarsString   += ConnectorString+'shipCareerStartDefault'+'='+localStorage.shipCareerStartDefault ;
+    contextVarsString +=
+      ConnectorString + "shipCareerStart" + "=" + localStorage.shipCareerStart;
+    // contextVarsString   += ConnectorString+'shipCareerEndDefault'+'='+localStorage.shipCareerEndDefault ;
+    contextVarsString +=
+      ConnectorString + "shipCareerEnd" + "=" + localStorage.shipCareerEnd;
+    // contextVarsString   += ConnectorString+'shipImageIndexDefault'+'='+localStorage.shipImageIndexDefault ;
+    contextVarsString +=
+      ConnectorString + "shipImageIndex" + "=" + localStorage.shipImageIndex;
+    // contextVarsString   += ConnectorString+'shipImageTransparentBackgroundDefault'+'='+localStorage.shipImageTransparentBackgroundDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "shipImageTransparentBackground" +
+      "=" +
+      localStorage.shipImageTransparentBackground;
+    // contextVarsString   += ConnectorString+'shipImageTypeDefault'+'='+localStorage.shipImageTypeDefault ;
+    contextVarsString +=
+      ConnectorString + "shipImageType" + "=" + localStorage.shipImageType;
+    /*
+      Ten(b)th page (8/02/2019) == jimaworks Ship Image. 
+
+      1.g.ii. jimaworks-made Ship Imagery
+
+      https://jimaworks.com/pages/1-g-ii-jimaworks-madeshipimagery
+    */
+    // contextVarsString   += ConnectorString+'userProvidedShipNameDefault'+'='+localStorage.userProvidedShipNameDefault ;
+    contextVarsString +=
+      ConnectorString +
+      "userProvidedShipName" +
+      "=" +
+      localStorage.userProvidedShipName;
+    /*
+      Eleventh page (8/02/2019) == maps. 
+
+      2: Define the Look and Feel of your Commemoration. a: Your Map.
+
+      https://jimaworks.com/pages/6-a-choose-map
+    */
+    // contextVarsString   += ConnectorString+'MapStyleDefault'+'='+localStorage.MapStyleDefault ;
+    contextVarsString +=
+      ConnectorString + "MapStyle" + "=" + localStorage.MapStyle;
+    /*
+      Twelfth page (8/02/2019) == choose a format. 
+
+      Choose a format for your RelationShips delivery
+
+      https://jimaworks.com/pages/choose-a-format-for-your-relationships-delivery
+    */
+    // contextVarsString   += ConnectorString+'FrameDefault'+'='+localStorage.FrameDefault ;
+    contextVarsString += ConnectorString + "Frame" + "=" + localStorage.Frame;
+    // contextVarsString   += ConnectorString+'FrameImgDefault'+'='+localStorage.FrameImgDefault ;
+    contextVarsString +=
+      ConnectorString + "FrameImg" + "=" + localStorage.FrameImg;
+    /*
+      Thirteenth page (8/02/2019) ... depending on path.  Could be frame, or could be at the accordian page...
+
+      2. b: Pick your Frame.
+
+      https://jimaworks.com/pages/6-b-choose-frame
+    */
+
+    /*
+      Fourteenth page (8/02/2019) == accordian page (if not already there). 
+
+      RelationShips commemoration - Framed
+
+      https://jimaworks.com/products/genericrelationshipsproduct-framed
+    */
+    // contextVarsString   += ConnectorString+'SizeDefault'+'='+localStorage.SizeDefault ;
+    contextVarsString += ConnectorString + "Size" + "=" + localStorage.Size;
+    contextVarsString +=
+      ConnectorString + "SizeAbbrev" + "=" + localStorage.SizeAbbrev;
+    // contextVarsString   += ConnectorString+'OptionsDefault'+'='+localStorage.OptionsDefault ;
+    contextVarsString +=
+      ConnectorString + "Options" + "=" + localStorage.Options;
+    contextVarsString +=
+      ConnectorString + "OptionsAbbrev" + "=" + localStorage.OptionsAbbrev;
+
+    return contextVarsString;
+  }
+
+  // Test it out
+  // WriteOutContextVars(prefixString, lastPage, ConnectorString, suffixString)
+  WriteOutContextVars("?", document.referrer, "&amp;", "");
+</script>

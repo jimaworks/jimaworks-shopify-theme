@@ -1,0 +1,76 @@
+{% capture contents %}
+
+<div class="preview_container post-large--two-thirds">
+  <article class="jw-relationships-tour">
+    <!-- <nav class="jw-relationships-tour__actions"></nav> -->
+    <div id="relationships-tour-content" class="jw-relationships-tour__content jw-relationships-tour__content--active">
+      <div id="map" class="jw-relationships-tour__map scale"></div>
+      <aside id="sidebar" class="jw-relationships-tour__sidebar jw-relationships-tour__sidebar--active">
+        <!-- <nav class="jw-relationships-tour__navigation">
+          <span id="tour-actions" class="jw-tour__actions">
+            <a id="previous" class="jw-tour__action --disabled" href="javascript:void(0);">Previous</a>
+            <a id="next" class="jw-tour__action" href="javascript:void(0);">Next</a>
+          </span>
+        </nav> -->
+        <div id="tour" class="jw-tour --expanded">
+          <div class="jw-tour__descriptions">
+            <article id="frame-description" class="jw-tour__description jw-tour__description--active" style="width: 100%;">
+              <!-- <h3 class="jw-tour-spot__heading">Size</h3> -->
+              <div class="jw-tour-spot__body"><label for="size-selection">Size</label>
+                <select id="size-selection" name="sizeSelection">
+                  <option data-variant-id="Gem" value="gem">Gem</option>
+                  <option data-variant-id="Small" value="small">Small</option>
+                  <option data-variant-id="Medium" value="medium">Medium</option>
+                  <option data-variant-id="Large" value="large">Large</option>
+                </select>
+                <p style="margin-top: -.75rem; font-size: .9rem;">Dimensions vary by frame style.</p>
+                <p style="margin-top: 1.5rem;"><a class="jw-link-button" href="/products/genericrelationshipsproduct-framed">Continue</a></p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </article>
+</div>
+
+<script>
+// <![CDATA[
+  window.addEventListener( "DOMContentLoaded", function chooseASize__onDomContentLoaded() {
+  Jimaworks.initializePreview();
+
+  var $sizeSelection = document.getElementById( 'size-selection' );
+  var $sizes = $sizeSelection.querySelectorAll( 'option' );
+  var savedSizeId = Jimaworks.Preview.mapElements.size.saved;
+
+  console.log("savedSizeId = " + savedSizeId);
+
+  var defaultSizeId = Jimaworks.Preview.mapElements.frame.default;
+
+  for ( var i = 0; i < $sizes.length; i++ ) {
+    var $size = $sizes[i];
+    
+    $size.value = Jimaworks.Preview.frameToClassId[savedSizeId] + '-' + $size.value;
+  }
+  
+  Jimaworks.Preview.setShipBackgroundBorder();
+  Jimaworks.Preview.populateDimensions( $sizeSelection );
+  Jimaworks.Preview.preloadFrameImages( $sizeSelection );
+
+  $sizeSelection.addEventListener( 'change', function sizeSelectionChanged( event ) {
+    var $selectedOption = Jimaworks.Preview.getSelectedOption( event.target );
+    var newValue = Jimaworks.Preview.getVariantIdFromOption( $selectedOption );
+
+    Jimaworks.Preview.updateFrame( newValue );
+    Jimaworks.Preview.recordSizeChoice( newValue );
+  }, false );
+
+  if ( savedSizeId !== defaultSizeId ) {
+    Jimaworks.Preview.selectOptionWithVariantId( $sizeSelection, savedSizeId );
+  }
+} );
+  // ]]>
+</script>
+{% endcapture %}
+
+{% include 'page-preview-contents', contents : contents %}

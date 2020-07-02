@@ -1,0 +1,1111 @@
+{
+  "current": {
+    "enable_wide_layout": true,
+    "theme_bg_image": false,
+    "bg_custom": "shopify:\/\/shop_images\/jimaworks_background_19610c5f-6b06-477d-9ffd-d2a878a018e6.jpg",
+    "bg_image_display": "stretch",
+    "color_topbar_bg": "#05537a",
+    "color_body_bg": "#ffffff",
+    "color_footer_bg": "#eeeeee",
+    "color_borders": "#dddddd",
+    "color_primary": "#0081a3",
+    "color_button_primary_text": "#ffffff",
+    "color_secondary": "#767676",
+    "color_button_secondary_text": "#ffffff",
+    "color_topbar_text": "#ffffff",
+    "color_header_text": "#666666",
+    "color_body_text": "#555555",
+    "color_footer_text": "#555555",
+    "color_footer_social_link": "#555555",
+    "is-speed_optimized": true,
+    "type_base_family": "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+    "type_base_size": "16px",
+    "type_header_family": "Google_Arvo_400_serif",
+    "type_header_size": "32px",
+    "type_accent_family": "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+    "type_accent_size": "14px",
+    "type_accent_transform": false,
+    "type_accent_spacing": false,
+    "favicon": "",
+    "social_twitter_link": "",
+    "social_facebook_link": "https:\/\/www.facebook.com\/pages\/jimaworks-LLC\/649754905161441",
+    "social_pinterest_link": "",
+    "social_google_plus_link": "",
+    "social_instagram_link": "",
+    "social_snapchat_link": "",
+    "social_tumblr_link": "",
+    "social_youtube_link": "",
+    "social_vimeo_link": "",
+    "social_fancy_link": "",
+    "social_rss_link": "",
+    "share_facebook": false,
+    "share_twitter": false,
+    "share_pinterest": false,
+    "social_sharing_style": "is-clean",
+    "checkout_header_image": "",
+    "checkout_logo_image": "",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "medium",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#ffffff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "Arvo",
+    "checkout_body_font": "Helvetica Neue",
+    "checkout_accent_color": "#0081a3",
+    "checkout_button_color": "#0081a3",
+    "checkout_error_color": "#e42c00",
+    "collections_center_grid_link": false,
+    "twittercard_handle": "",
+    "share_fancy": true,
+    "share_google": true,
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo": "shopify:\/\/shop_images\/RelationShipsPoweredByJimaworks-jimaworksBlue-Lg_9d2751ea-6129-469d-88b4-f375057d4809.png",
+          "logo_max_width": "800",
+          "nav_menu": "2-2-dynamic-flow-main",
+          "nav_below_logo": false,
+          "left_aligned_logo": false,
+          "show_header_lines": true,
+          "header_text": "",
+          "header_search_enable": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "1493997591626": {
+            "type": "menu",
+            "settings": {
+              "menu_title": "Getting Started",
+              "menu": "resources"
+            }
+          },
+          "footer-2": {
+            "type": "social",
+            "settings": {}
+          },
+          "footer-1": {
+            "type": "menu",
+            "settings": {
+              "menu_title": "Quick Links",
+              "menu": "footer"
+            }
+          },
+          "1493824716831": {
+            "type": "text",
+            "settings": {
+              "title": "Company",
+              "richtext": "<p><strong>Jimaworks, LLC<\/strong><\/p>\n<p><a href=\"https:\/\/jimaworks.com\/pages\/000experimenting-product-page\" title=\"https:\/\/jimaworks.com\/pages\/000experimenting-product-page\">Products<\/a><\/p>\n<p><a href=\"\/pages\/jimaworks-tech-consulting\" title=\"jimaworks Tech Consulting\">Jimaworks Tech Consulting<\/a><\/p>\n<p><a href=\"\/pages\/contact-us\" title=\"Contact Us\">Contact jimaworks<\/a><\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "1493997591626",
+          "footer-2",
+          "footer-1",
+          "1493824716831"
+        ],
+        "settings": {
+          "show_methods_of_payment": true
+        }
+      },
+      "rich-text": {
+        "type": "rich-text",
+        "disabled": true,
+        "blocks": {
+          "1495819776105": {
+            "type": "page",
+            "settings": {
+              "show_heading": true,
+              "home_page_content": ""
+            }
+          },
+          "1532530463541": {
+            "type": "text",
+            "settings": {
+              "title": "In America, Everyone's Deepest Roots are Elsewhere.",
+              "home_page_richtext": "<p>Honor Them.<\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "1495819776105",
+          "1532530463541"
+        ],
+        "settings": {
+          "home_page_full_width": true
+        }
+      },
+      "collection-list": {
+        "type": "collection-list",
+        "settings": {
+          "title": "Collection list"
+        }
+      },
+      "product-template": {
+        "type": "product-template",
+        "settings": {
+          "product_vendor_enable": true,
+          "product_quantity_enable": false,
+          "product_image_zoom_type": "lightbox",
+          "product_thumbnails_position": "right",
+          "show_extra_tab": false,
+          "extra_tab_content": "",
+          "social_sharing": false,
+          "product_related_enable": true,
+          "vendor_enable": false,
+          "show_sale_circle": false,
+          "show_sold_out_circle": false,
+          "center_grid_link": false
+        }
+      },
+      "collection-template": {
+        "type": "collection-template",
+        "settings": {
+          "vendor_enable": false,
+          "show_sale_circle": false,
+          "show_sold_out_circle": false,
+          "sort_enable": false,
+          "tags_enable": false,
+          "center_grid_link": false
+        }
+      },
+      "article-template": {
+        "type": "article-template",
+        "settings": {
+          "article_author_enable": false,
+          "social_sharing": false
+        }
+      },
+      "1493741708411": {
+        "type": "slider",
+        "disabled": true,
+        "blocks": {
+          "1493741708411-0": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-homepage.jpg",
+              "link": ""
+            }
+          },
+          "1517584941324": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/004EraOfThePassengerLiner1910CustomLaconiaGold.png",
+              "link": ""
+            }
+          },
+          "1517585028014": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/002EraOfModernSail1885EmpressTealMenaiStraitsCherry.png",
+              "link": ""
+            }
+          },
+          "1517585174380": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/004EraOfThePassengerLiner1907MayanGlowStPetersburgBlackRoped.png",
+              "link": ""
+            }
+          },
+          "1517585214924": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/004EraOfThePassengerLiner1910SeaSprayBlueBremenBlackRoped.png",
+              "link": ""
+            }
+          },
+          "1517585279802": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/005EraOfTheAirlinerPalaceRosa1952BlackRoped.png",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "1493741708411-0",
+          "1517584941324",
+          "1517585028014",
+          "1517585174380",
+          "1517585214924",
+          "1517585279802"
+        ],
+        "settings": {
+          "slider_home_auto": true,
+          "slider_home_show_dots": false,
+          "slider_home_rate": "4000",
+          "slider_home_transition": "slide"
+        }
+      },
+      "product-customizable-template": {
+        "type": "product-customizable-template",
+        "settings": {
+          "product_vendor_enable": false,
+          "product_quantity_enable": true,
+          "product_image_zoom_type": "lightbox",
+          "product_thumbnails_position": "right",
+          "show_extra_tab": false,
+          "extra_tab_content": "",
+          "social_sharing": false,
+          "product_related_enable": false,
+          "vendor_enable": false,
+          "show_sale_circle": false,
+          "show_sold_out_circle": false,
+          "center_grid_link": false
+        }
+      },
+      "gallery": {
+        "type": "gallery",
+        "blocks": {
+          "1496681776800": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-1-Style2BGale1786PTG.jpg",
+              "link": ""
+            }
+          },
+          "1496681788062": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-2-Style2BGrtBritDkTurqOcn1848DRW.jpg",
+              "link": ""
+            }
+          },
+          "1496681799630": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-3-Style2BGrtBritDkTurqOcn1848SIL.jpg",
+              "link": ""
+            }
+          },
+          "1496681808346": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-4-Style2BGrtBritNoOcn1848SIL.jpg",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "1496681776800",
+          "1496681788062",
+          "1496681799630",
+          "1496681808346"
+        ],
+        "settings": {}
+      },
+      "gallery-2": {
+        "type": "gallery-2",
+        "blocks": {
+          "1497966483735": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-5-Style2BMaasdam1958Render.jpg",
+              "link": ""
+            }
+          },
+          "1497966493577": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-6-Style2BSnowGryGrnOcn1786DRW.jpg",
+              "link": ""
+            }
+          },
+          "1497966559009": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-7-Style2BSnowLtBlOcn1786DRW.jpg",
+              "link": ""
+            }
+          },
+          "1497966569322": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-8-Style2BUkn1786Silh.jpg",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "1497966483735",
+          "1497966493577",
+          "1497966559009",
+          "1497966569322"
+        ],
+        "settings": {}
+      },
+      "gallery-3": {
+        "type": "gallery-3",
+        "blocks": {
+          "1497968153982": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-9-Style2Stuttgart1931Poster.jpg",
+              "link": ""
+            }
+          },
+          "1497968162082": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-10-Style3Bark1835DRW.jpg",
+              "link": ""
+            }
+          },
+          "1497968172960": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-11-Style3Mayflower1620Painting.jpg",
+              "link": ""
+            }
+          },
+          "1497968183580": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-13-Style4KaiserinaAugusteVictoria1911Painting.jpg",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "1497968153982",
+          "1497968162082",
+          "1497968172960",
+          "1497968183580"
+        ],
+        "settings": {}
+      },
+      "gallery-4": {
+        "type": "gallery-4",
+        "blocks": {
+          "1497968212212": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-14-Style4Westerdam1949Drawing.jpg",
+              "link": ""
+            }
+          },
+          "1497968285495": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/spacer.png",
+              "link": ""
+            }
+          },
+          "1497968335093": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/spacer_e02f497d-1127-4582-b7fb-354e86820cef.png",
+              "link": ""
+            }
+          },
+          "1497968344011": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/spacer_4ac6e5eb-16b8-48bc-be00-1d6c02c3ae27.png",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "1497968212212",
+          "1497968285495",
+          "1497968335093",
+          "1497968344011"
+        ],
+        "settings": {}
+      },
+      "1504990579889": {
+        "type": "rich-text",
+        "disabled": true,
+        "blocks": {
+          "1581869927533": {
+            "type": "page",
+            "settings": {
+              "show_heading": true,
+              "home_page_content": "textbox2-origins-from-what-region-did-this-firstgen-come"
+            }
+          }
+        },
+        "block_order": [
+          "1581869927533"
+        ],
+        "settings": {
+          "home_page_full_width": true
+        }
+      },
+      "product-customizable-2018": {
+        "type": "product-customizable-2018",
+        "settings": {
+          "product_vendor_enable": false,
+          "product_quantity_enable": false,
+          "product_image_zoom_type": "lightbox",
+          "product_thumbnails_position": "right",
+          "show_extra_tab": false,
+          "extra_tab_content": "resources",
+          "social_sharing": false,
+          "product_related_enable": false,
+          "vendor_enable": false,
+          "show_sale_circle": false,
+          "show_sold_out_circle": false,
+          "center_grid_link": false
+        }
+      },
+      "cart-template": {
+        "type": "cart-template",
+        "settings": {
+          "cart_notes_enable": true
+        }
+      },
+      "1526685393677": {
+        "type": "slider",
+        "blocks": {
+          "1526685393677-0": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/jimaworks-homepage_2048x_8a714500-82dd-4f45-98a2-2032a6c71c2e.jpg",
+              "link": ""
+            }
+          },
+          "1564767634441": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/HomePagePic_WishpondOnMap300ppi.png",
+              "link": ""
+            }
+          },
+          "1538517611974": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/1958Maasdam640W.png",
+              "link": ""
+            }
+          },
+          "1538517121127": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/CoverSlides-1784Gale_IdealFacebookRect.png",
+              "link": ""
+            }
+          },
+          "1558176855020": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/CoverSlides-1910America_IdealFacebookRect.png",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "1526685393677-0",
+          "1564767634441",
+          "1538517611974",
+          "1538517121127",
+          "1558176855020"
+        ],
+        "settings": {
+          "slider_home_auto": true,
+          "slider_home_show_dots": false,
+          "slider_home_rate": "5000",
+          "slider_home_transition": "slide"
+        }
+      },
+      "1526685704254": {
+        "type": "feature-row",
+        "disabled": true,
+        "settings": {
+          "image": "shopify:\/\/shop_images\/antique-binoculars.jpg",
+          "layout": "right",
+          "title": "Honor your first-generation ancestors who crossed to these new lands.",
+          "text": "",
+          "button_label": "",
+          "button_link": ""
+        }
+      },
+      "1532530941469": {
+        "type": "rich-text",
+        "disabled": true,
+        "blocks": {
+          "1532530941469-0": {
+            "type": "text",
+            "settings": {
+              "title": "In America, Everyone's Deepest Roots are Elsewhere.",
+              "home_page_richtext": ""
+            }
+          }
+        },
+        "block_order": [
+          "1532530941469-0"
+        ],
+        "settings": {
+          "home_page_full_width": true
+        }
+      },
+      "1540575714256": {
+        "type": "newsletter",
+        "disabled": true,
+        "settings": {
+          "heading": "Subscribe to our newsletter",
+          "subtext": "<p>Promotions, new products and sales. Directly to your inbox.<\/p>",
+          "color_bg": "#eeeeee"
+        }
+      },
+      "1d71c6b85bb3": {
+        "type": "featured-collection",
+        "disabled": true,
+        "settings": {
+          "title": "Onsite Special!  Southern California 50th Genealogy Jamboree (must buy at booth - table 123)",
+          "featured_collection": "have-jimaworks-prepare-it",
+          "num_per_row": "3",
+          "num_rows": "1",
+          "vendor_enable": false,
+          "show_sale_circle": false,
+          "show_sold_out_circle": false,
+          "center_grid_link": true
+        }
+      },
+      "1833bbec1270": {
+        "type": "custom-html",
+        "settings": {
+          "custom_html": "<h1>Your Family's Story in Art<\/h1>\n<h2>In America, our deepest roots are elsewhere.\n<\/h2>\n<h2>Commemorate your First Gens' momentous transition to a New World.\n<\/h2>\n<h2>Honor your earliest American roots with a RelationShips® display.<\/h2>\n<a href=\"https:\/\/jimaworks.com\/pages\/0-set-the-stage\"> <button>Start<\/button><\/a>"
+        }
+      }
+    },
+    "content_for_index": [
+      "1526685393677",
+      "1833bbec1270",
+      "1532530941469",
+      "1493741708411",
+      "rich-text",
+      "1504990579889",
+      "1526685704254",
+      "1540575714256",
+      "1d71c6b85bb3"
+    ]
+  },
+  "presets": {
+    "Fashion": {
+      "enable_wide_layout": true,
+      "theme_bg_image": false,
+      "bg_image_display": "tile",
+      "color_body_bg": "#ffffff",
+      "color_footer_bg": "#222222",
+      "color_borders": "#dddddd",
+      "color_topbar_bg": "#222222",
+      "color_topbar_text": "#bbbbbb",
+      "color_primary": "#e42c00",
+      "color_button_primary_text": "#ffffff",
+      "color_secondary": "#767676",
+      "color_button_secondary_text": "#ffffff",
+      "color_header_text": "#333333",
+      "color_body_text": "#555555",
+      "color_footer_text": "#dddddd",
+      "color_footer_social_link": "#dddddd",
+      "type_base_family": "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      "type_base_size": "16px",
+      "type_header_family": "Google_Asap_400_sans",
+      "type_header_size": "32px",
+      "type_accent_family": "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      "type_accent_size": "16px",
+      "favicon_enable": false,
+      "social_twitter_link": "",
+      "social_facebook_link": "",
+      "social_pinterest_link": "",
+      "social_google_plus_link": "",
+      "social_instagram_link": "",
+      "social_tumblr_link": "",
+      "social_youtube_link": "",
+      "social_vimeo_link": "",
+      "social_fancy_link": "",
+      "social_rss_link": "",
+      "twittercard_handle": "",
+      "social_sharing_style": "normal",
+      "share_facebook": true,
+      "share_twitter": true,
+      "share_pinterest": true,
+      "checkout_heading_font": "Helvetica Neue",
+      "checkout_body_font": "Helvetica Neue",
+      "checkout_accent_color": "#e42c00",
+      "checkout_button_color": "#e42c00",
+      "checkout_error_color": "#e42c00",
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "logo_max_width": "450",
+            "nav_below_logo": false,
+            "show_header_lines": true,
+            "header_text": "",
+            "header_search_enable": true
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "menu",
+              "settings": {
+                "menu": "footer"
+              }
+            },
+            "footer-1": {
+              "type": "social",
+              "settings": {}
+            },
+            "footer-2": {
+              "type": "newsletter",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "footer-0",
+            "footer-1",
+            "footer-2"
+          ],
+          "settings": {
+            "show_methods_of_payment": true
+          }
+        },
+        "slider": {
+          "type": "slider",
+          "blocks": {
+            "slider-0": {
+              "type": "image",
+              "settings": {}
+            },
+            "slider-1": {
+              "type": "image",
+              "settings": {}
+            },
+            "slider-2": {
+              "type": "image",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "slider-0",
+            "slider-1",
+            "slider-2"
+          ],
+          "settings": {
+            "slider_home_auto": true,
+            "slider_home_show_dots": false,
+            "slider_home_rate": "7000",
+            "slider_home_transition": "slide"
+          }
+        },
+        "rich-text": {
+          "type": "rich-text",
+          "blocks": {
+            "rich-text-0": {
+              "type": "text",
+              "settings": {
+                "title": "Talk about your brand",
+                "home_page_richtext": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>"
+              }
+            }
+          },
+          "block_order": [
+            "rich-text-0"
+          ],
+          "settings": {
+            "home_page_full_width": true
+          }
+        },
+        "featured-collection": {
+          "type": "featured-collection",
+          "settings": {
+            "featured_collection": "frontpage",
+            "num_per_row": "4",
+            "num_rows": "1"
+          }
+        },
+        "collection-list": {
+          "type": "collection-list",
+          "settings": {}
+        },
+        "product-template": {
+          "type": "product-template",
+          "settings": {
+            "product_vendor_enable": true,
+            "product_quantity_enable": false,
+            "product_image_zoom_type": "lightbox",
+            "product_thumbnails_position": "right",
+            "product_related_enable": true
+          }
+        },
+        "collection-template": {
+          "type": "collection-template",
+          "settings": {
+            "vendor_enable": true,
+            "show_sale_circle": true,
+            "show_sold_out_circle": true,
+            "sort_enable": true,
+            "tags_enable": true,
+            "center_grid_link": false
+          }
+        }
+      },
+      "content_for_index": [
+        "slider",
+        "featured-collection",
+        "rich-text"
+      ]
+    },
+    "Vintage": {
+      "enable_wide_layout": false,
+      "theme_bg_image": false,
+      "bg_image_display": "tile",
+      "color_body_bg": "#ffffff",
+      "color_footer_bg": "#eeeeee",
+      "color_borders": "#dddddd",
+      "color_topbar_bg": "#eeeeee",
+      "color_topbar_text": "#666666",
+      "color_primary": "#0081a3",
+      "color_button_primary_text": "#ffffff",
+      "color_secondary": "#767676",
+      "color_button_secondary_text": "#ffffff",
+      "color_header_text": "#666666",
+      "color_body_text": "#555555",
+      "color_footer_text": "#555555",
+      "color_footer_social_link": "#555555",
+      "type_base_family": "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      "type_base_size": "16px",
+      "type_header_family": "Google_Arvo_400_serif",
+      "type_header_size": "32px",
+      "type_accent_family": "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      "type_accent_size": "16px",
+      "social_twitter_link": "",
+      "social_facebook_link": "",
+      "social_pinterest_link": "",
+      "social_google_plus_link": "",
+      "social_instagram_link": "",
+      "social_tumblr_link": "",
+      "social_youtube_link": "",
+      "social_vimeo_link": "",
+      "social_fancy_link": "",
+      "social_rss_link": "",
+      "collections_center_grid_link": false,
+      "twittercard_handle": "",
+      "social_sharing_style": "normal",
+      "share_facebook": true,
+      "share_twitter": true,
+      "share_pinterest": true,
+      "checkout_heading_font": "Arvo",
+      "checkout_body_font": "Helvetica Neue",
+      "checkout_accent_color": "#0081a3",
+      "checkout_button_color": "#0081a3",
+      "checkout_error_color": "#e42c00",
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "logo_max_width": "450",
+            "nav_below_logo": false,
+            "show_header_lines": true,
+            "header_text": "",
+            "header_search_enable": true
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "blog",
+              "settings": {
+                "blog": "news"
+              }
+            },
+            "footer-1": {
+              "type": "menu",
+              "settings": {
+                "menu": "footer"
+              }
+            },
+            "footer-2": {
+              "type": "social",
+              "settings": {}
+            },
+            "footer-3": {
+              "type": "newsletter",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "footer-0",
+            "footer-1",
+            "footer-2",
+            "footer-3"
+          ],
+          "settings": {
+            "show_methods_of_payment": true
+          }
+        },
+        "slider": {
+          "type": "slider",
+          "blocks": {
+            "slider-0": {
+              "type": "image",
+              "settings": {}
+            },
+            "slider-1": {
+              "type": "image",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "slider-0",
+            "slider-1"
+          ],
+          "settings": {
+            "slider_home_auto": true,
+            "slider_home_show_dots": false,
+            "slider_home_rate": "7000",
+            "slider_home_transition": "slide"
+          }
+        },
+        "rich-text": {
+          "type": "rich-text",
+          "blocks": {
+            "rich-text-0": {
+              "type": "text",
+              "settings": {
+                "title": "Talk about your brand",
+                "home_page_richtext": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>"
+              }
+            }
+          },
+          "block_order": [
+            "rich-text-0"
+          ],
+          "settings": {
+            "home_page_full_width": true
+          }
+        },
+        "featured-collection": {
+          "type": "featured-collection",
+          "settings": {
+            "featured_collection": "frontpage",
+            "num_per_row": "4",
+            "num_rows": "1"
+          }
+        },
+        "collection-list": {
+          "type": "collection-list",
+          "settings": {}
+        },
+        "product-template": {
+          "type": "product-template",
+          "settings": {
+            "product_vendor_enable": true,
+            "product_quantity_enable": false,
+            "product_image_zoom_type": "lightbox",
+            "product_thumbnails_position": "right",
+            "product_related_enable": true
+          }
+        },
+        "collection-template": {
+          "type": "collection-template",
+          "settings": {
+            "vendor_enable": true,
+            "show_sale_circle": true,
+            "show_sold_out_circle": true,
+            "sort_enable": true,
+            "tags_enable": true,
+            "center_grid_link": false
+          }
+        },
+        "article-template": {
+          "type": "article-template",
+          "settings": {}
+        }
+      },
+      "content_for_index": [
+        "slider",
+        "rich-text",
+        "featured-collection"
+      ]
+    },
+    "Music": {
+      "enable_wide_layout": false,
+      "theme_bg_image": true,
+      "bg_image_display": "tile",
+      "color_body_bg": "#ffffff",
+      "color_footer_bg": "rgba(0,0,0,0)",
+      "color_borders": "#aaaaaa",
+      "color_topbar_bg": "#222222",
+      "color_topbar_text": "#bbbbbb",
+      "color_primary": "#e42c00",
+      "color_button_primary_text": "#ffffff",
+      "color_secondary": "#767676",
+      "color_button_secondary_text": "#ffffff",
+      "color_header_text": "#111111",
+      "color_body_text": "#555555",
+      "color_footer_text": "#555555",
+      "color_footer_social_link": "#767676",
+      "type_base_family": "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      "type_base_size": "16px",
+      "type_header_family": "Google_Asap_400_sans",
+      "type_header_size": "32px",
+      "type_accent_family": "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      "type_accent_size": "16px",
+      "social_twitter_link": "",
+      "social_facebook_link": "",
+      "social_pinterest_link": "",
+      "social_google_plus_link": "",
+      "social_instagram_link": "",
+      "social_tumblr_link": "",
+      "social_youtube_link": "",
+      "social_vimeo_link": "",
+      "social_fancy_link": "",
+      "social_rss_link": "",
+      "collections_center_grid_link": false,
+      "twittercard_handle": "",
+      "social_sharing_style": "normal",
+      "share_facebook": true,
+      "share_twitter": true,
+      "share_pinterest": true,
+      "share_fancy": true,
+      "share_google": true,
+      "checkout_heading_font": "Helvetica Neue",
+      "checkout_body_font": "Helvetica Neue",
+      "checkout_accent_color": "#767676",
+      "checkout_button_color": "#e42c00",
+      "checkout_error_color": "#e42c00",
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "logo_max_width": "450",
+            "nav_below_logo": false,
+            "show_header_lines": true,
+            "header_text": "",
+            "header_search_enable": true
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "blog",
+              "settings": {
+                "blog": "news"
+              }
+            },
+            "footer-1": {
+              "type": "menu",
+              "settings": {
+                "menu": "footer"
+              }
+            },
+            "footer-2": {
+              "type": "social",
+              "settings": {}
+            },
+            "footer-3": {
+              "type": "newsletter",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "footer-0",
+            "footer-1",
+            "footer-2",
+            "footer-3"
+          ],
+          "settings": {
+            "show_methods_of_payment": true
+          }
+        },
+        "slider": {
+          "type": "slider",
+          "blocks": {
+            "slider-0": {
+              "type": "image",
+              "settings": {}
+            },
+            "slider-1": {
+              "type": "image",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "slider-0",
+            "slider-1"
+          ],
+          "settings": {
+            "slider_home_auto": true,
+            "slider_home_show_dots": false,
+            "slider_home_rate": "7000",
+            "slider_home_transition": "slide"
+          }
+        },
+        "rich-text": {
+          "type": "rich-text",
+          "blocks": {
+            "rich-text-0": {
+              "type": "text",
+              "settings": {
+                "title": "Talk about your brand",
+                "home_page_richtext": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>"
+              }
+            }
+          },
+          "block_order": [
+            "rich-text-0"
+          ],
+          "settings": {
+            "home_page_full_width": true
+          }
+        },
+        "featured-collection": {
+          "type": "featured-collection",
+          "settings": {
+            "featured_collection": "frontpage",
+            "num_per_row": "4",
+            "num_rows": "1"
+          }
+        },
+        "collection-list": {
+          "type": "collection-list",
+          "settings": {}
+        },
+        "product-template": {
+          "type": "product-template",
+          "settings": {
+            "product_vendor_enable": true,
+            "product_quantity_enable": false,
+            "product_image_zoom_type": "lightbox",
+            "product_thumbnails_position": "right",
+            "product_related_enable": true
+          }
+        },
+        "article-template": {
+          "type": "article-template",
+          "settings": {}
+        },
+        "collection-template": {
+          "type": "collection-template",
+          "settings": {
+            "vendor_enable": true,
+            "show_sale_circle": true,
+            "show_sold_out_circle": true,
+            "sort_enable": true,
+            "tags_enable": true,
+            "center_grid_link": false
+          }
+        }
+      },
+      "content_for_index": [
+        "slider",
+        "rich-text",
+        "featured-collection"
+      ]
+    }
+  }
+}

@@ -1,0 +1,228 @@
+{% capture contents %}
+
+<!--
+https://jimaworks.com/pages/textbox0-set-the-stage-in-what-part-of-the-world-did-this-story-start
+template:  page.initialize-jimaworks
+Title: 1.b In What Part of the World did this Story Start?
+
+localStorage variables used on this page:
+    *None*
+
+localStorage variables set on this page:
+
+    localStorage.RegionOfOrigin
+    localStorage.RegionOfOriginDefault
+    localStorage.RegionOfOriginAbbrev
+    localStorage.RegionOfOriginImageFileName
+
+Feb 08 2019:1637  Change "onclick" fn so that can easily change action per region
+Apr 15 2019:1200  Take out Africa, offer "pre-release" for now...
+Apr 22 2019:1800  Incorporate new timeline and origins/destinations pages w all defaults updated
+Jun 09 2019:1830  Incorporate into TextBox regimen as TextBox0
+Jun 18 2019:0600  Change "this FirstGen" to "your FirstGen"
+Aug 07 2019:1045  Initialize localStorage from here, so use page.initialize-jimaworks and run the initialization function
+Jan 23 2020:1815  Bring all regions except SoAm back online...
+Mar 08 2020:0815  Add First Nations and hover with migration micro-narrative
+Mar 12 2020:1515  Align page styles - display first two Title Lines and explicit next page button
+Mar 20 2020:1515  Swap in to new jimaworks page sequence
+Apr 01 2020:1345  Draw SoAm bounding box w dotted
+Apr 23 2020:1615  No Title Lines on this page.  Eliminate "Update Text Boxes"
+
+Next?  Keep customer on page until explicityly go to When
+--> <!-- Begin stage wrapper -->
+<script>
+// <![CDATA[
+// want to run the localStorage from as early as possible
+        // ### check to make sure not invoked multiple times ###
+        // ### like, if decide to add the introductory page... maybe add a tag that says it has been run? ###
+        initializeDefaults() ;
+// ]]>
+</script>
+
+<style>
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 320px;
+    background-color: #05537a; /* jimaworks top bar blue */
+    /* color: #fff; */
+    color: Cornsilk;
+    text-align: left;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1000;
+    /* top: -5px; */
+    /* left: 105%; */
+    top: 40px;
+    left: 10px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+</style>
+
+<div style="position: relative;">
+
+    <div id = "map_hover_contents" style = "display: none;">
+        <ul id="continents3">
+
+            <li id="landbrige_rect">
+                <strong class="title">Land Bridge</strong>
+                <a onclick="RecordRegionOfOriginChoice(&quot;LandBridge&quot;, &quot;SAm&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SAm-AirTr-Pari.png&quot;)">
+                    <strong class="title">Land Bridge</strong>
+                    <span> 
+                        Land Bridge
+                    </span>
+                </a>
+            </li>
+            <li id="southamerica_rect">
+                <strong class="title">South America</strong>
+                <a onclick="RecordRegionOfOriginChoice(&quot;SouthAmericaAndTheCaribbean&quot;, &quot;SAm&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SAm-AirTr-Pari.png&quot;)">
+                    <strong class="title">South America</strong>
+                    <span>
+                        South America
+                    </span>
+                </a>
+            </li>    
+            <li id="asia_rect">
+                <strong class="title">South Asia</strong>
+                <a onclick="RecordRegionOfOriginChoice(&quot;SouthAsia&quot;, &quot;SoA&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/SoA-AirTr-Pari.png&quot;)">
+                    <strong class="title">South Asia</strong>
+                    <span>
+                        South Asia
+                    </span>
+                </a>
+            </li>
+            <li id="australia_rect">
+                <strong class="title">Pacific Rim</strong>
+                <a onclick="RecordRegionOfOriginChoice(&quot;PacificRim&quot;, &quot;Pac&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/Pac-AirTr-Pari.png&quot;)">
+                    <strong class="title">Pacific Rim</strong>
+                    <span>
+                        Pacific Rim
+                    </span>
+                </a>
+            </li>
+            <li id="africa_rect">
+                <strong class="title">Africa</strong>
+                <a onclick="RecordRegionOfOriginChoice(&quot;Africa&quot;, &quot;Afr&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/Afr-AirTr-Pari.png&quot;)"> 
+                    <strong class="title">Africa</strong>
+                    <span>
+                        Africa
+                    </span>
+                </a>
+            </li>
+            <li id="europe_rect">
+                <strong class="title">Europe and the <br /> Mediterranean</strong>
+                <a onclick="RecordRegionOfOriginChoice(&quot;EuropeAndTheMediterranean&quot;, &quot;EuM&quot;, &quot;https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-AirTr-Pari.png&quot;)">
+                    <strong class="title">Europe and the <br /> Mediterranean</strong>
+                    <span>
+                        Europe and the <br /> Mediterranean
+                    </span>
+                </a>
+            </li>
+        </ul>    
+    </div>
+</div>
+
+<div class="set_the_stage preview_container post-large--two-thirds{% comment %}push--post-large--one-sixth{% endcomment %}">
+    <article class="jw-relationships-tour">
+        <!-- <nav class="jw-relationships-tour__actions"></nav> -->
+        <div id="relationships-tour-content" class="jw-relationships-tour__content jw-relationships-tour__content--active">
+        <div id="map" class="jw-relationships-tour__map"></div>
+        <aside id="sidebar" class="jw-relationships-tour__sidebar jw-relationships-tour__sidebar--active">
+            <div id="donebutton_text">
+                <h4>(Later, choose to customize and change the text boxes to reflect your specific story.)</h4>
+            </div>
+            <div id="doneButton">
+                <button style="color: #05537a; font-weight: bold;" onclick="ContinueToNextPage()"> Continue to "Title: What is this commemoration about?" </button>
+            </div>
+        </aside>
+        </div>
+    </article>
+</div>  
+
+<script type="text/javascript">
+
+    var nextPage = "https://jimaworks.com/pages/1-title-c-what" ;
+
+    function RecordRegionOfOriginChoice(regionName, regionAbbrev, regionImageFileNm) {
+/*
+        window.location.href="https://jimaworks.com/pages/x1b-time-period-europe-and-the-mediterranean" ;
+*/
+        localStorage.setItem("RegionOfOrigin", regionName) ;
+        localStorage.setItem("RegionOfOriginDefault", "UserProvided") ;
+        localStorage.setItem("RegionOfOriginAbbrev", regionAbbrev) ;
+        localStorage.setItem("RegionOfOriginImageFileName", regionImageFileNm) ;
+        
+        ContinueToNextPage();
+    }
+
+    function ContinueToNextPage() {
+        window.location.assign(nextPage) ;
+    }
+
+    Jimaworks.initializePreview();
+
+    $(document).ready(function(){
+        var map = document.getElementById('map_image');
+        var continents3 = document.getElementById('continents3');
+
+//      continents3.style.width = map.offsetWidth + "px";  
+        continents3.style.height = map.offsetHeight + "px";  
+
+        var landbrige_rect = document.getElementById('landbrige_rect');
+        landbrige_rect.style.width = map.offsetWidth * 0.15 + "px";
+        landbrige_rect.style.height = map.offsetHeight * 0.265 + "px";
+        landbrige_rect.style.top = map.offsetHeight * 0.226 + "px";
+        landbrige_rect.style.left = map.offsetWidth * 0.84 + "px";
+
+        var southamerica_rect = document.getElementById('southamerica_rect');
+        southamerica_rect.style.width = map.offsetWidth * 0.199 + "px";
+        southamerica_rect.style.height = map.offsetHeight * 0.33 + "px";
+        southamerica_rect.style.top = map.offsetHeight * 0.669 + "px";
+        southamerica_rect.style.left = map.offsetWidth * 0.226 + "px";
+
+        var asia_rect = document.getElementById('asia_rect');
+        asia_rect.style.width = map.offsetWidth * 0.1212 + "px";
+        asia_rect.style.height = map.offsetHeight * 0.26 + "px";
+        asia_rect.style.top = map.offsetHeight * 0.495 + "px";
+        asia_rect.style.left = map.offsetWidth * 0.66 + "px";
+
+        var australia_rect = document.getElementById('australia_rect');
+        australia_rect.style.width = map.offsetWidth * 0.199 + "px";
+        australia_rect.style.height = map.offsetHeight * 0.495 + "px";
+        australia_rect.style.top = map.offsetHeight * 0.495 + "px";
+        australia_rect.style.left = map.offsetWidth * 0.789 + "px";
+
+        var africa_rect = document.getElementById('africa_rect');
+        africa_rect.style.width = map.offsetWidth * 0.212 + "px";
+        africa_rect.style.height = map.offsetHeight * 0.369 + "px";
+        africa_rect.style.top = map.offsetHeight * 0.574 + "px";
+        africa_rect.style.left = map.offsetWidth * 0.439 + "px";
+
+        var europe_rect = document.getElementById('europe_rect');
+        europe_rect.style.width = map.offsetWidth * 0.226 + "px";
+        europe_rect.style.height = map.offsetHeight * 0.273 + "px";
+        europe_rect.style.top = map.offsetHeight * 0.295 + "px";
+        europe_rect.style.left = map.offsetWidth * 0.431 + "px";
+
+        var map_hover_contents = document.getElementById('map_hover_contents');
+        var map_background = document.getElementById('map-background');
+        map_background.innerHTML += map_hover_contents.innerHTML;
+        map_hover_contents.innerHTML = '';
+        
+    });
+</script>
+  
+{% endcapture %}
+
+{% include 'page-preview-contents', contents : contents %}

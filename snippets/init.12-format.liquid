@@ -1,0 +1,66 @@
+<script id="init-12-format">
+  "use strict";
+  window.Jimaworks.Pages = ( window.Jimaworks.Pages || {} );
+  window.Jimaworks.Pages.Format = {
+    initializeDefaults: function Format_initializeDefaults() {
+      /*
+        Twelfth page (8/02/2019) == choose a format. 
+
+        Choose a format for your RelationShips delivery
+
+        https://jimaworks.com/pages/choose-a-format-for-your-relationships-delivery
+        ###
+
+          Issues with this file:
+        > 
+        
+        Uses:
+
+
+        defines; 
+        localStorage.setItem("Frame", "NoFrame") ;
+        localStorage.setItem("FrameImg"
+          
+        ###
+      */
+
+      /* "Frame"  "FrameDefault"  "FrameDefaultAbbrev"  */
+
+      var FrameDefault = "BlackWalnut";
+      var FrameAbbrevDefault = "Walnut";
+      /* var FrameImgFileName = "..."; */
+      localStorage.setItem("FrameDefault", FrameDefault);
+      if (localStorage.Frame == undefined) {
+        localStorage.setItem("Frame", FrameDefault);
+        localStorage.setItem("FrameAbbrev", FrameAbbrevDefault);
+        /* localStorage.setItem("FrameImageFileName", FrameImgFileName) ; */
+      }
+
+      /* "FrameImg"  "FrameImgDefault"  "FrameImgDefaultAbbrev"  */
+      // ### got the default by comparing prev code in Safari w new code in Chrome...  ###
+      var FrameImgDefault =
+        "https://cdn.shopify.com/s/files/1/1336/0641/files/GoldRatio-Med-Walnut-NoPlaque-NoRuler-72ppi.png.png";
+      localStorage.setItem("FrameImgDefault", FrameImgDefault);
+      if (localStorage.FrameImg == undefined) {
+        localStorage.setItem("FrameImg", FrameImgDefault);
+      }
+    }, // initializeDefaults
+    clearLocalStorageVars: function Format_clearLocalStorageVars() {
+      /*
+        Twelfth page (8/02/2019) == choose a format. 
+
+        Choose a format for your RelationShips delivery
+
+        https://jimaworks.com/pages/choose-a-format-for-your-relationships-delivery
+      */
+
+      /* "Frame"  "FrameDefault"  "FrameDefaultAbbrev"  */
+      localStorage.removeItem("FrameDefault");
+      localStorage.removeItem("Frame");
+
+      /* "FrameImg"  "FrameImgDefault"  "FrameImgDefaultAbbrev"  */
+      localStorage.removeItem("FrameImgDefault");
+      localStorage.removeItem("FrameImg");
+    } // clearLocalStorageVars
+  };
+</script>

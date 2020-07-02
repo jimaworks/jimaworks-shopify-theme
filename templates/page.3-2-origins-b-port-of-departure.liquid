@@ -1,0 +1,3308 @@
+<div class="grid">
+
+    <div class="grid__item">
+  
+      <div class="section-header">
+        <h1 class="section-header--title">{{ page.title }}</h1>
+      </div>
+  
+      <div class="rte">
+        <!--  RelationShips Port of Departure
+            Page: https://jimaworks.com/pages/3-origins-b-port-of-departure
+            Template:  page.initalize-jimaworks
+            Title: 3. Origins. (b) From where did they depart?
+
+      Apr 16 2019:1600 Start to construct CountryOforigin and StateDestination pages
+      Apr 19 2019:1400 Origin/Destination choices w "Unk", regions, & individ countries/states, plus addl sort choices
+      Apr 21 2019:0700 Functions for nested <select> w dynamic rebuilds of next options from chosen option
+      Apr 22 2019:1400 Load all regions and countries, add capability for user-provided provinces and cities
+      Apr 23 2019:0700 Add the history map background passed in from timeline page
+      Apr 25 2019:1430 Put in the correct "nextPage"'s to make it live.
+      Apr 26 2019:1130 Update text box with results of Country(++)OfOrigin.  (### note that this could go wrong if have city/province but not country, etc. ###)
+      Apr 27 2019:0830 Repair loop updating dynamics.  (It turs out that the loop tgt value is updated every cycle)
+      Jun 01 2019:0745 Improve wording of textbox acceptance dialog.
+      Jun 08 2019:1740 Integrate with text box orientation of new interaction model
+      Jun 12 2019:1600 Add text box contents to bottom of page and correct choice updates
+      Jun 14 2019:2015 Add Save and Come Back Later button
+      Jun 15 2019:0700 Lightgrey-ize textbox echo w darkblue new text and get the category descriptions to show on choice updates
+      Jun 18 2019:0815 streamline prompts: "Continue" to "Continue to TextBox3 - Port Of Departure"
+      Jun 25 2019:1900 adding regionAndNavigationRoutes, e.g.,['Eastern Europe'] = ['BalticRoutes', 'NorthSeaRoutes' ], routesAndCountries, and countriesAndPorts
+      Jun 26 2019:1900 thread region, nav, countries, and ports together.  Change from "Region" to "Area" as name of top level
+      Jun 28 2019:0845 update prompts and helps, fix so that updating Origins Line 2 vs Origins Line 1.
+      Jul 02 2019:0800 Add graphics code...
+      Jul 05 2019:0915 Rework the TextBox line generation procedure.
+      Jul 06 2019:0900 ... finishing TextBox work...
+      Jul 09 2019:0530 Replace all xxx.length accessors in for loops with a non-changing variable for length
+      Jul 15 2019:0945 Save&FinishLater to top of page
+      Aug 30 2019:0745 Fix undefined ChooseTypicalPort() issue.
+      Mar 09 2020:0900 Minimal Theme color style for menu titles/descriptions
+      Mar 20 2020:1515  Swap in to new jimaworks page sequence
+      Apr 08 2020:1700 Define localStorage.Departure
+      Apr 19 2020:1415 Missing sea lanes, etc.  Fill in menu choices
+      Apr 25 2020:1315 Show both Origins lines
+      ### remove redundant port defs ###
+      Next: Add abbviations in the generated text.
+-->
+<div style="color: #0e5478; font-size: large; font-weight: bold; line-height: 80%; z-index: 20;">Chose down to the level you know:</div>
+<div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+<div id="routeGrfx"></div>
+<div id="routeDisplay"></div>
+<div style="position: absolute; z-index: 25; top: 25px; left: 70px; width: 180px; height: 130px;"><select id="areaRegion" title="What's the region from which your FirstGen started this crossing?" style="color: #05537a; font-weight: bold;" onchange="ChangeAreasRegionsList()">
+<option value="">-- Part of World --</option>
+<option value="Unk" title="Don't know more detail">Unknown</option>
+<!--
+    <option value="NorthernEurope">Northern Europe</option>
+    <option value="SouthernEurope">Southern Europe</option>
+    <option value="EasternEurope">Eastern Europe</option>
+    <option value="WesternEurope">Western Europe</option>
+    --></select></div>
+<div style="position: absolute; z-index: 25; top: 25px; left: 270px; width: 180px; height: 130px;"><select id="regionNavRoute" title="Select the sea lane if you know it" style="color: #05537a; font-weight: bold;" onchange="ChangeRegionsNavRoutesList()">
+<option value="">-- Sea Lanes --</option>
+<option value="Unk" title="Don't know more detail">Unknown</option>
+</select></div>
+<div style="position: absolute; z-index: 25; top: 25px; left: 470px; width: 180px; height: 130px;"><select id="navRouteCountry" title="Select the country of departure if you know it" style="color: #05537a; font-weight: bold;" onchange="ChangeNavRoutesCountriesList()">
+<option value="">-- Departure Country --</option>
+<option value="Unk" title="Don't know more detail">Unknown</option>
+<!-- no "UserProvided" option for countries
+    <option value="UserProvided" title="Provide the province name">User-provided</option>
+    --></select></div>
+<div style="position: absolute; z-index: 25; top: 25px; left: 670px; width: 180px; height: 130px;"><select id="countryPorts" title="Select (or add) the port of departure if you know it" style="color: #05537a; font-weight: bold;" onchange="ChangeCountryPortsList()"><!--<select id="countryPorts" title="Enter the city or town if you know it">-->
+<option value="">-- Ports --</option>
+<option value="Unk" title="Don't know more detail">Unknown</option>
+<option value="UserProvided" title="Provide the departure port name">User-provided</option>
+</select></div>
+<!--
+<div style="position: absolute; z-index: 25; top: 420px; ">
+<p>
+    <span id="doneButton">
+        <button onclick="AcceptCurrentDeparture()">Click here to continue</button>
+    </span>
+</p>
+</div>
+
+
+<div id="TextBoxDisplay" color="Ivory" style="position: absolute; z-index: 50; top: 180px; left: 70px; width: 540px; height: 30px; color: white; font-weight: bold; text-shadow: 1px 1px 0px Black;"></div>
+<div id="CurrentSelectionDisplay" color="Ivory" style="position: absolute; z-index: 50; top: 340px; left: 70px; width: 540px; height: 30px; color: white; font-weight: bold; text-shadow: 1px 1px 0px Black;"></div>
+--> <!--
+<div style="color: grey;">
+    <h4>Your Origins Text Box contents are currently:
+    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Line1: <span id="originsTextBoxL1" style=""> " " </span>
+    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Line2: <span id="originsTextBoxL2" style="color: darkblue;"> " " </span>
+    <br />(You'll have opportunities to edit later)
+    </h4>
+</div>
+<script>// <![CDATA[
+// this page sets only Line 2 of the Origins TextBox:
+if ((localStorage.OriginsLine1===undefined)||(localStorage.OriginsLine1==="undefined")||(localStorage.OriginsLine1==="")) {
+        document.getElementById("originsTextBoxL1").innerHTML = "&lt;Country of Origin&gt;" ;
+    }
+else {
+    document.getElementById("originsTextBoxL1").innerHTML = localStorage.OriginsLine1 ;
+}
+
+if ((localStorage.OriginsLine2===undefined)||(localStorage.OriginsLine2==="undefined")||(localStorage.OriginsLine2==="")) {
+    document.getElementById("originsTextBoxL2").innerHTML = "&lt;Port of Departure&gt;" ;
+}
+else {
+    document.getElementById("originsTextBoxL2").innerHTML = localStorage.OriginsLine2 ;
+}
+// ]]></script>
+-->
+<div style="position: absolute; z-index: 2250; top: 215px; left: 70px; width: 800px; height: 60px; font-size: x-large;">
+<h4><span style="color: cornsilk;"> <span id="originsTextBoxL1">[Origins Line 1: "Country of Origin"</span> <br /> <span id="originsTextBoxL2">[Origins Line 2: "Port of Departure" - provided by you on this page]</span> <!--
+  <br />
+  <span id="titleTextBoxL3">[Title Line 3: "Year-of-Crossing" - provided by you on next page]</span> </span>
+--> </span></h4>
+</div>
+<div style="font-weight: bold; line-height: 80%; position: absolute; z-index: 50; top: 310px; left: 70px;">
+<h4>(Later, if you choose to customize, you can change to anything you want.)</h4>
+</div>
+<div id="doneButton" style="position: absolute; z-index: 22250; top: 350px; left: 70px;"><button style="color: #05537a; font-weight: bold;" onclick="AcceptCurrentDeparture()"> Continue to "American Arrival" </button></div>
+<!--
+<br />
+<br />
+<button onclick="actionOnSave()">(Click here to save and come back later)</button>
+-->
+<script>// <![CDATA[
+function actionOnSave() {
+    var SaveForLaterPage = "https://jimaworks.com/pages/saveandreturnlater" ;
+    window.location.assign(SaveForLaterPage);
+}
+// ]]></script>
+<script>// <![CDATA[
+//originAreasRegionsArray.push()[["Europe","NorthernEurope"]]
+
+// ### rip out as much of localStorage as possible, starting with these page-local intermediate (?) results ###
+//var nextPage = "https://jimaworks.com/pages/1-e-where-did-they-end-up" ; //"https://jimaworks.com/pages/where-did-thy-end-up";
+//https://jimaworks.com/pages/textbox3-destination-where-did-they-land" ;
+//var nextPage = "https://jimaworks.com/pages/000-test-arrival-port" ;
+//var nextPage = "https://jimaworks.com/pages/0-0-portofentry" ;
+var nextPage = "https://jimaworks.com/pages/4-destination-a-port-of-entry" ;
+
+if ((localStorage.AreaOfDeparture==undefined)||(localStorage.AreaOfDeparture=='')) {
+    localStorage.AreaOfDeparture = "Unk" ;
+}
+if ((localStorage.SeaLane==undefined)||(localStorage.SeaLane=='')) {
+    localStorage.SeaLane = "Unk" ;
+}
+if ((localStorage.DepartureCountry==undefined)||(localStorage.DepartureCountry=='')) {
+    localStorage.DepartureCountry = "Unk" ;
+}
+if ((localStorage.PortOfDeparture==undefined)||(localStorage.PortOfDeparture=='')) {
+    localStorage.PortOfDeparture = "Unk" ;
+}
+
+//jimaworksRegionOfOrigin datatypes and their subregions
+var regionAndCountries = {};
+regionAndCountries['WholeWorldAmCtr'] = ['EuropeAndTheMediterranean', 'Africa', 'PacificRim', 'SouthAmericaAndTheCaribbean', 'SouthAsia'];
+
+regionAndCountries['EuropeAndTheMediterranean'] = ['Eastern Europe', 'Western Europe', 'Northern Europe', 'Southern Europe', 'Northern Africa', 'Western Asia'];
+regionAndCountries['Africa'] = ['Northern Africa', 'Sub-Saharan Africa'];
+regionAndCountries['PacificRim'] = ['Eastern Asia', 'Australia and New Zealand', 'South-eastern Asia', 'Melanesia', 'Micronesia','Polynesia' ];
+regionAndCountries['SouthAmericaAndTheCaribbean'] = ['Latin America and the Caribbean'];
+regionAndCountries['SouthAsia'] = ['Southern Asia', 'South-eastern Asia', 'Central Asia'];
+//regionAndCountries['WholeWorldEuCtr'] = ['Sweden', 'Norway', 'Iceland'];
+//regionAndCountries['WholeWorldAmCtr'] = ['Sweden', 'Norway', 'Iceland'];
+//regionAndCountries['WholeWorldDoubled2Left/R'] = ['Sweden', 'Norway', 'Iceland'];
+
+/*
+regionAndCountries['NorthernEurope'] = ['Sweden', 'Norway', 'Iceland'];
+regionAndCountries['SouthernEurope'] = ['Italy', 'Spain', 'Portugal', 'Greece'];
+regionAndCountries['EasternEurope'] = ['Poland', 'Russia', 'Ukraine'];
+regionAndCountries['WesternEurope'] = ['UnitedKingdom', 'France', 'NetherlandsL'];
+*/
+
+regionAndCountries['Northern Africa'] = [   'Algeria',  'Egypt',    'Libya',    'Morocco',  'Sudan',    'Tunisia',  'Western Sahara'    ] ;
+regionAndCountries['Sub-Saharan Africa'] = [    'British Indian Ocean Territory',   'Burundi',  'Comoros',  'Djibouti',     'Eritrea',  'Ethiopia',     'French Southern Territories',  'Kenya',    'Madagascar',   'Malawi',   'Mauritius',    'Mayotte',  'Mozambique',   'Réunion',  'Rwanda',   'Seychelles',   'Somalia',  'South Sudan',  'Tanzania, United Republic of',     'Uganda',   'Zambia',   'Zimbabwe',     'Angola',   'Cameroon',     'Central African Republic',     'Chad',     'Congo',    'Congo, Democratic Republic of the',    'Equatorial Guinea',    'Gabon',    'Sao Tome and Principe',    'Botswana',     'Eswatini',     'Lesotho',  'Namibia',  'South Africa',     'Benin',    'Burkina Faso',     'Cape Verde',   'Côte d\'Ivoire',    'Gambia',   'Ghana',    'Guinea',   'Guinea-Bissau',    'Liberia',  'Mali',     'Mauritania',   'Niger',    'Nigeria',  'Saint Helena, Ascension and Tristan da Cunha',     'Senegal',  'Sierra Leone', 'Togo'] ;
+regionAndCountries['Latin America and the Caribbean'] = [   'Anguilla',     'Antigua and Barbuda',  'Aruba',    'Bahamas',  'Barbados',     'Bonaire, Sint Eustatius and Saba',     'Cayman Islands',   'Cuba',     'Curaçao',  'Dominica',     'Dominican Republic',   'Grenada',  'Guadeloupe',   'Haiti',    'Jamaica',  'Martinique',   'Montserrat',   'Puerto Rico',  'Saint Barthélemy',     'Saint Kitts and Nevis',    'Saint Lucia',  'Saint Martin (French part)',   'Saint Vincent and the Grenadines',     'Sint Maarten (Dutch part)',    'Trinidad and Tobago',  'Turks and Caicos Islands',     'Virgin Islands (British)',     'Virgin Islands (U.S.)',    'Belize',   'Costa Rica',   'El Salvador',  'Guatemala',    'Honduras',     'Mexico',   'Nicaragua',    'Panama',   'Argentina',    'Bolivia (Plurinational State of)',     'Bouvet Island',    'Brazil',   'Chile',    'Colombia',     'Ecuador',  'Falkland Islands (Malvinas)',  'French Guiana',    'Guyana',   'Paraguay',     'Peru',     'South Georgia and the South Sandwich Islands',     'Suriname',     'Uruguay',  'Venezuela (Bolivarian Republic of)'    ] ;
+regionAndCountries['Northern America'] = [  'Bermuda',  'Canada',   'Greenland',    'Saint Pierre and Miquelon',    'United States of America'  ] ;
+regionAndCountries['Central Asia'] = [  'Kazakhstan',   'Kyrgyzstan',   'Tajikistan',   'Turkmenistan',     'Uzbekistan'    ] ;
+regionAndCountries['Eastern Asia'] = [  'China',    'Hong Kong',    'Japan',    'Korea (Democratic People\'s Republic of)',  'Korea, Republic of',   'Macao',    'Mongolia',     'Taiwan, Province of China' ] ;
+regionAndCountries['South-eastern Asia'] = [    'Brunei Darussalam',    'Cambodia',     'Indonesia',    'Lao People\'s Democratic Republic',     'Malaysia',     'Myanmar',  'Philippines',  'Singapore',    'Thailand',     'Timor-Leste',  'Viet Nam'  ] ;
+regionAndCountries['Southern Asia'] = [ 'Afghanistan',  'Bangladesh',   'Bhutan',   'India',    'Iran (Islamic Republic of)',   'Maldives',     'Nepal',    'Pakistan',     'Sri Lanka' ] ;
+regionAndCountries['Western Asia'] = [  'Armenia',  'Azerbaijan',   'Bahrain',  'Cyprus',   'Georgia',  'Iraq',     'Israel',   'Jordan',   'Kuwait',   'Lebanon',  'Oman',     'Palestine, State of',  'Qatar',    'Saudi Arabia',     'Syrian Arab Republic',     'Turkey',   'United Arab Emirates',     'Yemen' ] ;
+regionAndCountries['Eastern Europe'] = [    'Belarus',  'Bulgaria',     'Czechia',  'Hungary',  'Moldova, Republic of',     'Poland',   'Romania',  'Russian Federation',   'Slovakia',     'Ukraine'   ] ;
+regionAndCountries['Northern Europe'] = [   'Denmark',  'Estonia',  'Faroe Islands',    'Finland',  'Iceland',  'Ireland',  'Isle of Man',  'Latvia',   'Lithuania',    'Norway',   'Svalbard and Jan Mayen',   'Sweden',   'United Kingdom of Great Britain and Northern Ireland'  ] ;
+regionAndCountries['Southern Europe'] = [   'Albania',  'Andorra',  'Bosnia and Herzegovina',   'Croatia',  'Gibraltar',    'Greece',   'Holy See',     'Italy',    'Malta',    'Montenegro',   'North Macedonia',  'Portugal',     'San Marino',   'Serbia',   'Slovenia',     'Spain' ] ;
+regionAndCountries['Western Europe'] = [    'Austria',  'Belgium',  'France',   'Germany',  'Liechtenstein',    'Luxembourg',   'Monaco',   'Netherlands',  'Switzerland'   ] ;
+regionAndCountries['Australia and New Zealand'] = [ 'Australia',    'Christmas Island',     'Cocos (Keeling) Islands',  'Heard Island and McDonald Islands',    'New Zealand',  'Norfolk Island'    ] ;
+regionAndCountries['Melanesia'] = [ 'Fiji',     'New Caledonia',    'Papua New Guinea',     'Solomon Islands',  'Vanuatu'   ] ;
+regionAndCountries['Micronesia'] = [    'Guam',     'Kiribati',     'Marshall Islands',     'Micronesia (Federated States of)',     'Nauru',    'Northern Mariana Islands',     'Palau',    'United States Minor Outlying Islands'  ] ;
+regionAndCountries['Polynesia'] = [ 'American Samoa',   'Cook Islands',     'French Polynesia',     'Niue',     'Pitcairn',     'Samoa',    'Tokelau',  'Tonga',    'Tuvalu',   'Wallis and Futuna' ] ;
+regionAndCountries['Antarctica'] = [   'Antarctica'    ] ;
+// ]]></script>
+<script>// <![CDATA[
+//NEW org of regionAndNavigationRoutes
+var regionAndNavigationRoutes = {};
+var navRoutesAndCountries = {};
+
+/*
+regionAndNavigationRoutes['Northern America'] = ['Bermuda',  'Canada',   'Greenland',    'Saint Pierre and Miquelon',    'United States of America'  ] ;
+regionAndNavigationRoutes['Bermuda'] = ['Bermuda'] ;
+regionAndNavigationRoutes['Canada'] = ['Canada'] ;
+regionAndNavigationRoutes['Greenland'] = ['Greenland'] ;
+regionAndNavigationRoutes['Saint Pierre and Miquelon'] = ['Saint Pierre and Miquelon'] ;
+regionAndNavigationRoutes['United States of America'] = ['United States of America'] ;
+*/
+
+/*
+regionAndCountries['EuropeAndTheMediterranean'] = ['Eastern Europe', 'Western Europe', 'Northern Europe', 'Southern Europe', 'Northern Africa', 'Western Asia'];
+*/
+regionAndNavigationRoutes['Western Asia'] = [  'EasternMediterranean', 'ArabianSea'] ;
+regionAndNavigationRoutes['Eastern Europe'] = [    'BalticRoutes', 'NorthSeaRoutes' ] ;
+regionAndNavigationRoutes['Northern Europe'] = [   'NorthSeaRoutes', 'EnglishChannelRoutes' ] ;
+regionAndNavigationRoutes['Southern Europe'] = [   'EasternMediterranean',  'WesternMediterranean', 'IberianRoutes' ] ;
+regionAndNavigationRoutes['Western Europe'] = [    'NorthSeaRoutes', 'EnglishChannelRoutes', 'IrishSeaRoutes', 'IberianRoutes', 'BalticRoutes' ] ;
+regionAndNavigationRoutes['Northern Africa'] = ['EasternMediterranean',  'WesternMediterranean'] ;
+
+/*
+regionAndCountries['Africa'] = ['Northern Africa', 'Sub-Saharan Africa'];
+SeaLanes: 'CapeVerdeBasin',  'GuianaBasin'
+*/
+// already defined: regionAndNavigationRoutes['Northern Africa']
+regionAndNavigationRoutes['Sub-Saharan Africa'] = ['CapeVerdeBasin',  'GuianaBasin'] ;
+
+/*
+regionAndCountries['PacificRim'] = ['Eastern Asia', 'Australia and New Zealand', 'South-eastern Asia', 'Melanesia', 'Micronesia','Polynesia' ];
+SeaLanes: 'Alaska', 'NorthPacific', 'CentralPacific', 'SouthChinaSea', 'SouthPacific'
+*/
+regionAndNavigationRoutes['Eastern Asia'] = [  'Alaska', 'NorthPacific', 'CentralPacific', 'SouthChinaSea'] ;
+regionAndNavigationRoutes['Australia and New Zealand'] = ['SouthChinaSea', 'SouthPacific' ] ;
+regionAndNavigationRoutes['South-eastern Asia'] = ['SouthChinaSea' ] ;
+regionAndNavigationRoutes['Melanesia'] = ['SouthPacific' ] ;
+regionAndNavigationRoutes['Micronesia'] = ['SouthPacific' ] ;
+regionAndNavigationRoutes['Polynesia'] = ['SouthPacific'] ;
+
+/*
+regionAndCountries['SouthAmericaAndTheCaribbean'] = ['Latin America and the Caribbean'];
+*/
+regionAndNavigationRoutes['Latin America and the Caribbean'] = [  'EastCoast', 'Florida', 'Gulf', 'WestCoast'] ;
+
+
+/*
+regionAndCountries['SouthAsia'] = ['Southern Asia', 'South-eastern Asia', 'Central Asia'];
+*/
+regionAndNavigationRoutes['Southern Asia'] = [    'BalticRoutes', 'NorthSeaRoutes' ] ;
+regionAndNavigationRoutes['South-eastern Asia'] = [   'NorthSeaRoutes', 'EnglishChannelRoutes' ] ;
+regionAndNavigationRoutes['Central Asia'] = [   'EasternMediterranean',  'WesternMediterranean', 'IberianRoutes' ] ;
+
+
+// Eu and Med navroutes and associated countries
+navRoutesAndCountries['EnglishChannelRoutes'] = [   'Austria',  'Belgium',  'France',   'Germany',  'Liechtenstein',    'Luxembourg',   'Monaco',   'Netherlands',  'Switzerland',
+                                                    'Denmark',  'Estonia',  'Faroe Islands',    'Finland',  'Iceland',  'Ireland',  'Isle of Man',  'Latvia',   'Lithuania',    'Norway',   'Svalbard and Jan Mayen',   'Sweden',   'United Kingdom of Great Britain and Northern Ireland'  ] ;
+
+navRoutesAndCountries['NorthSeaRoutes'] = [    'Austria',  'Belgium',  'France',   'Germany',  'Liechtenstein',    'Luxembourg',   'Monaco',   'Netherlands',  'Switzerland',
+                                               'Belarus',  'Bulgaria',     'Czechia',  'Hungary',  'Moldova, Republic of',     'Poland',   'Romania',  'Russian Federation',   'Slovakia',     'Ukraine',
+                                               'Denmark',  'Estonia',  'Faroe Islands',    'Finland',  'Iceland',  'Ireland',  'Isle of Man',  'Latvia',   'Lithuania',    'Norway',   'Svalbard and Jan Mayen',   'Sweden',   'United Kingdom of Great Britain and Northern Ireland'  ] ;
+
+navRoutesAndCountries['IrishSeaRoutes'] = [    'Faroe Islands',    'Ireland',  'Isle of Man',  'United Kingdom of Great Britain and Northern Ireland'  ] ;
+
+navRoutesAndCountries['IberianRoutes'] = [  'Austria',  'Belgium',  'France',   'Germany',  'Liechtenstein',    'Luxembourg',   'Monaco',   'Netherlands',  'Switzerland',
+                                            'Albania',  'Andorra',  'Bosnia and Herzegovina',   'Croatia',  'Gibraltar',    'Greece',   'Holy See',     'Italy',    'Malta',    'Montenegro',   'North Macedonia',  'Portugal',     'San Marino',   'Serbia',   'Slovenia',     'Spain' ] ;
+
+navRoutesAndCountries['BalticRoutes'] = [   'Belarus',  'Bulgaria',     'Czechia',  'Hungary',  'Moldova, Republic of',     'Poland',   'Romania',  'Russian Federation',   'Slovakia',     'Ukraine','Austria',  'Belgium',  'France',   'Germany',  'Liechtenstein',    'Luxembourg',   'Monaco', 'Netherlands',  'Switzerland'   ] ;
+
+navRoutesAndCountries['EasternMediterranean'] = [  'Armenia',  'Azerbaijan',   'Cyprus',   'Georgia',  'Israel',   'Jordan',   'Lebanon',  'Palestine, State of',  'Syrian Arab Republic',  'Turkey','Egypt',    'Libya',   'Sudan',    'Tunisia', 'Albania', 'Greece', 'Montenegro', 'North Macedonia', 'Slovenia'] ;
+
+navRoutesAndCountries['WesternMediterranean'] = [   'Algeria', 'Morocco', 'Western Sahara', 'Andorra', 'Bosnia and Herzegovina', 'Croatia', 'Gibraltar', 'Holy See', 'Italy', 'Malta', 'Portugal',  'San Marino', 'Serbia', 'Spain' ] ;
+
+navRoutesAndCountries['ArabianSea'] = [  'Bahrain',  'Iraq',   'Kuwait',   'Oman',   'Qatar',    'Saudi Arabia',  'United Arab Emirates',     'Yemen' ] ;
+
+
+// (SubSaharan) Africa navroutes and associated countries
+
+navRoutesAndCountries['CapeVerdeBasin'] = [    'British Indian Ocean Territory',   'Burundi',  'Comoros',  'Djibouti',     'Eritrea',  'Ethiopia',     'French Southern Territories',  'Kenya',    'Madagascar',   'Malawi',   'Mauritius',    'Mayotte',  'Mozambique',   'Réunion',  'Rwanda',   'Seychelles',   'Somalia',  'South Sudan',  'Tanzania, United Republic of',     'Uganda',   'Zambia',   'Zimbabwe',     'Angola',   'Cameroon',     'Central African Republic',     'Chad',     'Congo',    'Congo, Democratic Republic of the',    'Equatorial Guinea',    'Gabon',    'Sao Tome and Principe',    'Botswana',     'Eswatini',     'Lesotho',  'Namibia',  'South Africa',     'Benin',    'Burkina Faso',     'Cape Verde',   'Côte d\'Ivoire',    'Gambia',   'Ghana',    'Guinea',   'Guinea-Bissau',    'Liberia',  'Mali',     'Mauritania',   'Niger',    'Nigeria',  'Saint Helena, Ascension and Tristan da Cunha',     'Senegal',  'Sierra Leone', 'Togo'] ;
+
+navRoutesAndCountries['GuianaBasin'] = [    'British Indian Ocean Territory',   'Burundi',  'Comoros',  'Djibouti',     'Eritrea',  'Ethiopia',     'French Southern Territories',  'Kenya',    'Madagascar',   'Malawi',   'Mauritius',    'Mayotte',  'Mozambique',   'Réunion',  'Rwanda',   'Seychelles',   'Somalia',  'South Sudan',  'Tanzania, United Republic of',     'Uganda',   'Zambia',   'Zimbabwe',     'Angola',   'Cameroon',     'Central African Republic',     'Chad',     'Congo',    'Congo, Democratic Republic of the',    'Equatorial Guinea',    'Gabon',    'Sao Tome and Principe',    'Botswana',     'Eswatini',     'Lesotho',  'Namibia',  'South Africa',     'Benin',    'Burkina Faso',     'Cape Verde',   'Côte d\'Ivoire',    'Gambia',   'Ghana',    'Guinea',   'Guinea-Bissau',    'Liberia',  'Mali',     'Mauritania',   'Niger',    'Nigeria',  'Saint Helena, Ascension and Tristan da Cunha',     'Senegal',  'Sierra Leone', 'Togo'] ;
+
+// East Asia navroutes and associated countries
+
+navRoutesAndCountries['Alaska'] = [  'China',    'Hong Kong',    'Japan',    'Korea (Democratic People\'s Republic of)',  'Korea, Republic of',   'Macao',    'Mongolia',     'Taiwan, Province of China', 'Brunei Darussalam',    'Cambodia',     'Indonesia',    'Lao People\'s Democratic Republic',     'Malaysia',     'Myanmar',  'Philippines',  'Singapore',    'Thailand',     'Timor-Leste',  'Viet Nam'  ];
+
+navRoutesAndCountries['NorthPacific'] = [  'China',    'Hong Kong',    'Japan',    'Korea (Democratic People\'s Republic of)',  'Korea, Republic of',   'Macao',    'Mongolia',     'Taiwan, Province of China', 'Brunei Darussalam',    'Cambodia',     'Indonesia',    'Lao People\'s Democratic Republic',     'Malaysia',     'Myanmar',  'Philippines',  'Singapore',    'Thailand', 'Timor-Leste',  'Viet Nam'  ];
+
+navRoutesAndCountries['CentralPacific'] = [  'China',    'Hong Kong',    'Japan',    'Korea (Democratic People\'s Republic of)',  'Korea, Republic of',   'Macao',    'Mongolia',     'Taiwan, Province of China', 'Brunei Darussalam',    'Cambodia',     'Indonesia',    'Lao People\'s Democratic Republic',     'Malaysia',     'Myanmar',  'Philippines',  'Singapore',   'Thailand',   'Timor-Leste',  'Viet Nam'  ];
+
+// same as geo region "South-eastern Asia" plus some of EastAsia
+navRoutesAndCountries['SouthChinaSea'] = [  'China',    'Hong Kong',   'Macao', 'Brunei Darussalam',    'Cambodia',     'Indonesia',    'Lao People\'s Democratic Republic',     'Malaysia',     'Myanmar',  'Philippines',  'Singapore',    'Thailand',     'Timor-Leste',  'Viet Nam'  ];
+
+// same as geo region "South-eastern Asia"
+navRoutesAndCountries['SouthPacific'] = ['Australia',    'Christmas Island',     'Cocos (Keeling) Islands',  'Heard Island and McDonald Islands',    'New Zealand',  'Norfolk Island', 'Fiji',     'New Caledonia',    'Papua New Guinea',     'Solomon Islands',  'Vanuatu', 'Guam',     'Kiribati',     'Marshall Islands',     'Micronesia (Federated States of)',     'Nauru',    'Northern Mariana Islands',     'Palau',    'United States Minor Outlying Islands', 'American Samoa',   'Cook Islands',     'French Polynesia',     'Niue',     'Pitcairn',     'Samoa',    'Tokelau',  'Tonga',    'Tuvalu',   'Wallis and Futuna' ] ;
+
+// South Asia navroutes and associated countries
+
+navRoutesAndCountries['SouthChinaSea'] = [  'China',    'Hong Kong',   'Macao', 'Brunei Darussalam',    'Cambodia',     'Indonesia',    'Lao People\'s Democratic Republic',     'Malaysia',     'Myanmar',  'Philippines',  'Singapore',    'Thailand',     'Timor-Leste',  'Viet Nam'  ];
+
+
+/*
+regionAndCountries['Eastern Asia'] = [  'China',    'Hong Kong',    'Japan',    'Korea (Democratic People\'s Republic of)',  'Korea, Republic of',   'Macao',    'Mongolia',     'Taiwan, Province of China' ] ;
+regionAndCountries['South-eastern Asia'] = [    'Brunei Darussalam',    'Cambodia',     'Indonesia',    'Lao People\'s Democratic Republic',     'Malaysia',     'Myanmar',  'Philippines',  'Singapore',    'Thailand',     'Timor-Leste',  'Viet Nam'  ] ;
+*/
+
+/*
+regionAndCountries['SouthAmericaAndTheCaribbean'] = ['Latin America and the Caribbean'];
+*/
+navRoutesAndCountries['EastCoast'] = [   'Anguilla',     'Antigua and Barbuda',  'Aruba',    'Bahamas',  'Barbados',     'Bonaire, Sint Eustatius and Saba',     'Cayman Islands',   'Cuba',     'Curaçao',  'Dominica',     'Dominican Republic',   'Grenada',  'Guadeloupe',   'Haiti',    'Jamaica',  'Martinique',   'Montserrat',   'Puerto Rico',  'Saint Barthélemy',     'Saint Kitts and Nevis',    'Saint Lucia',  'Saint Martin (French part)',   'Saint Vincent and the Grenadines',     'Sint Maarten (Dutch part)',    'Trinidad and Tobago',  'Turks and Caicos Islands',     'Virgin Islands (British)',     'Virgin Islands (U.S.)',    'Belize',   'Costa Rica',   'El Salvador',  'Guatemala',    'Honduras',     'Mexico',   'Nicaragua',    'Panama',   'Argentina',    'Bolivia (Plurinational State of)',     'Bouvet Island',    'Brazil',   'Chile',    'Colombia',     'Ecuador',  'Falkland Islands (Malvinas)',  'French Guiana',    'Guyana',   'Paraguay',     'Peru',     'South Georgia and the South Sandwich Islands',     'Suriname',     'Uruguay',  'Venezuela (Bolivarian Republic of)'    ] ;
+
+navRoutesAndCountries['Florida'] = [   'Anguilla',     'Antigua and Barbuda',  'Aruba',    'Bahamas',  'Barbados',     'Bonaire, Sint Eustatius and Saba',     'Cayman Islands',   'Cuba',     'Curaçao',  'Dominica',     'Dominican Republic',   'Grenada',  'Guadeloupe',   'Haiti',    'Jamaica',  'Martinique',   'Montserrat',   'Puerto Rico',  'Saint Barthélemy',     'Saint Kitts and Nevis',    'Saint Lucia',  'Saint Martin (French part)',   'Saint Vincent and the Grenadines',     'Sint Maarten (Dutch part)',    'Trinidad and Tobago',  'Turks and Caicos Islands',     'Virgin Islands (British)',     'Virgin Islands (U.S.)',    'Belize',   'Costa Rica',   'El Salvador',  'Guatemala',    'Honduras',     'Mexico',   'Nicaragua',    'Panama',   'Argentina',    'Bolivia (Plurinational State of)',     'Bouvet Island',    'Brazil',   'Chile',    'Colombia',     'Ecuador',  'Falkland Islands (Malvinas)',  'French Guiana',    'Guyana',   'Paraguay',     'Peru',     'South Georgia and the South Sandwich Islands',     'Suriname',     'Uruguay',  'Venezuela (Bolivarian Republic of)'    ] ;
+
+navRoutesAndCountries['Gulf'] = [   'Anguilla',     'Antigua and Barbuda',  'Aruba',    'Bahamas',  'Barbados',     'Bonaire, Sint Eustatius and Saba',     'Cayman Islands',   'Cuba',     'Curaçao',  'Dominica',     'Dominican Republic',   'Grenada',  'Guadeloupe',   'Haiti',    'Jamaica',  'Martinique',   'Montserrat',   'Puerto Rico',  'Saint Barthélemy',     'Saint Kitts and Nevis',    'Saint Lucia',  'Saint Martin (French part)',   'Saint Vincent and the Grenadines',     'Sint Maarten (Dutch part)',    'Trinidad and Tobago',  'Turks and Caicos Islands',     'Virgin Islands (British)',     'Virgin Islands (U.S.)',    'Belize',   'Costa Rica',   'El Salvador',  'Guatemala',    'Honduras',     'Mexico',   'Nicaragua',    'Panama',   'Argentina',    'Bolivia (Plurinational State of)',     'Bouvet Island',    'Brazil',   'Chile',    'Colombia',     'Ecuador',  'Falkland Islands (Malvinas)',  'French Guiana',    'Guyana',   'Paraguay',     'Peru',     'South Georgia and the South Sandwich Islands',     'Suriname',     'Uruguay',  'Venezuela (Bolivarian Republic of)'    ] ;
+
+navRoutesAndCountries['WestCoast'] = [   'Anguilla',     'Antigua and Barbuda',  'Aruba',    'Bahamas',  'Barbados',     'Bonaire, Sint Eustatius and Saba',     'Cayman Islands',   'Cuba',     'Curaçao',  'Dominica',     'Dominican Republic',   'Grenada',  'Guadeloupe',   'Haiti',    'Jamaica',  'Martinique',   'Montserrat',   'Puerto Rico',  'Saint Barthélemy',     'Saint Kitts and Nevis',    'Saint Lucia',  'Saint Martin (French part)',   'Saint Vincent and the Grenadines',     'Sint Maarten (Dutch part)',    'Trinidad and Tobago',  'Turks and Caicos Islands',     'Virgin Islands (British)',     'Virgin Islands (U.S.)',    'Belize',   'Costa Rica',   'El Salvador',  'Guatemala',    'Honduras',     'Mexico',   'Nicaragua',    'Panama',   'Argentina',    'Bolivia (Plurinational State of)',     'Bouvet Island',    'Brazil',   'Chile',    'Colombia',     'Ecuador',  'Falkland Islands (Malvinas)',  'French Guiana',    'Guyana',   'Paraguay',     'Peru',     'South Georgia and the South Sandwich Islands',     'Suriname',     'Uruguay',  'Venezuela (Bolivarian Republic of)'    ] ;
+// ]]></script>
+<script>// <![CDATA[
+var countriesAndProvinces = {};
+/*
+*/
+countriesAndProvinces['Sweden'] = ['SwedenProvince1', 'SwedenProvince1', 'SwedenProvince1'];
+countriesAndProvinces['Norway'] = ['NorwayProvince1', 'NorwayProvince1', 'NorwayProvince1'];
+countriesAndProvinces['Iceland'] = ['IcelandProvince1', 'IcelandProvince1', 'IcelandProvince1'];
+
+countriesAndProvinces['Italy'] = ['ItalyProvince1', 'ItalyProvince1', 'ItalyProvince1'];
+countriesAndProvinces['Spain'] = ['SpainProvince1', 'SpainProvince1', 'SpainProvince1'];
+countriesAndProvinces['Portugal'] = ['PortugalProvince1', 'PortugalProvince1', 'PortugalProvince1'];
+
+var provincesAndCities = {};
+/*
+provincesAndCities['SwedenProvince1'] = ['City1SwedenProvince', 'City2SwedenProvince1'];
+
+### but instead, *countries*AndCities... ###
+
+*/
+// ]]></script>
+<script>// <![CDATA[
+var countriesAndPorts = {} ;
+
+//regionAndCountries['Northern Africa']
+countriesAndPorts['Algeria'] = [''] ;
+countriesAndPorts['Egypt'] = [''] ;
+countriesAndPorts['Libya'] = [''] ;
+countriesAndPorts['Morocco'] = [''] ;
+countriesAndPorts['Sudan'] = [''] ;
+countriesAndPorts['Tunisia'] = [''] ;
+countriesAndPorts['Western Sahara'] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Sub-Saharan Africa']
+countriesAndPorts['British Indian Ocean Territory'] = [''] ;
+countriesAndPorts['Burundi'] = [''] ;
+countriesAndPorts['Comoros'] = [''] ;
+countriesAndPorts['Djibouti'] = [''] ;
+countriesAndPorts['Eritrea'] = [''] ;
+countriesAndPorts['Ethiopia'] = [''] ;
+countriesAndPorts['French Southern Territories'] = [''] ;
+countriesAndPorts['Kenya'] = [''] ;
+countriesAndPorts['Madagascar'] = [''] ;
+countriesAndPorts['Malawi'] = [''] ;
+countriesAndPorts['Mauritius'] = [''] ;
+countriesAndPorts['Mayotte'] = [''] ;
+countriesAndPorts['Mozambique'] = [''] ;
+countriesAndPorts['Réunion'] = [''] ;
+countriesAndPorts['Rwanda'] = [''] ;
+countriesAndPorts['Seychelles'] = [''] ;
+countriesAndPorts['Somalia'] = [''] ;
+countriesAndPorts['South Sudan'] = [''] ;
+countriesAndPorts['Tanzania, United Republic of'] = [''] ;
+countriesAndPorts['Uganda'] = [''] ;
+countriesAndPorts['Zambia'] = [''] ;
+countriesAndPorts['Zimbabwe'] = [''] ;
+countriesAndPorts['Angola'] = [''] ;
+countriesAndPorts['Cameroon'] = [''] ;
+countriesAndPorts['Central African Republic'] = [''] ;
+countriesAndPorts['Chad'] = [''] ;
+countriesAndPorts['Congo'] = [''] ;
+countriesAndPorts['Congo, Democratic Republic of the'] = [''] ;
+countriesAndPorts['Equatorial Guinea'] = [''] ;
+countriesAndPorts['Gabon'] = [''] ;
+countriesAndPorts['Sao Tome and Principe'] = [''] ;
+countriesAndPorts['Botswana'] = [''] ;
+countriesAndPorts['Eswatini'] = [''] ;
+countriesAndPorts['Lesotho'] = [''] ;
+countriesAndPorts['Namibia'] = [''] ;
+countriesAndPorts['South Africa'] = [''] ;
+countriesAndPorts['Benin'] = [''] ;
+countriesAndPorts['Burkina Faso'] = [''] ;
+countriesAndPorts['Cape Verde'] = [''] ;
+countriesAndPorts['Côte d\'Ivoire'] = [''] ;
+countriesAndPorts['Gambia'] = [''] ;
+countriesAndPorts['Ghana'] = [''] ;
+countriesAndPorts['Guinea'] = [''] ;
+countriesAndPorts['Guinea-Bissau'] = [''] ;
+countriesAndPorts['Liberia'] = [''] ;
+countriesAndPorts['Mali'] = [''] ;
+countriesAndPorts['Mauritania'] = [''] ;
+countriesAndPorts['Niger'] = [''] ;
+countriesAndPorts['Nigeria'] = [''] ;
+countriesAndPorts['Saint Helena, Ascension and Tristan da Cunha'] = [''] ;
+countriesAndPorts['Senegal'] = [''] ;
+countriesAndPorts['Sierra Leone'] = [''] ;
+countriesAndPorts['Togo'] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Latin America and the Caribbean']
+countriesAndPorts[   'Anguilla'] = [''] ;
+countriesAndPorts[     'Antigua and Barbuda'] = [''] ;
+countriesAndPorts[  'Aruba'] = [''] ;
+countriesAndPorts[    'Bahamas'] = [''] ;
+countriesAndPorts[  'Barbados'] = [''] ;
+countriesAndPorts[     'Bonaire, Sint Eustatius and Saba'] = [''] ;
+countriesAndPorts[     'Cayman Islands'] = [''] ;
+countriesAndPorts[   'Cuba'] = [''] ;
+countriesAndPorts[     'Curaçao'] = [''] ;
+countriesAndPorts[  'Dominica'] = [''] ;
+countriesAndPorts[     'Dominican Republic'] = [''] ;
+countriesAndPorts[   'Grenada'] = [''] ;
+countriesAndPorts[  'Guadeloupe'] = [''] ;
+countriesAndPorts[   'Haiti'] = [''] ;
+countriesAndPorts[    'Jamaica'] = [''] ;
+countriesAndPorts[  'Martinique'] = [''] ;
+countriesAndPorts[   'Montserrat'] = [''] ;
+countriesAndPorts[   'Puerto Rico'] = [''] ;
+countriesAndPorts[  'Saint Barthélemy'] = [''] ;
+countriesAndPorts[     'Saint Kitts and Nevis'] = [''] ;
+countriesAndPorts[    'Saint Lucia'] = [''] ;
+countriesAndPorts[  'Saint Martin (French part)'] = [''] ;
+countriesAndPorts[   'Saint Vincent and the Grenadines'] = [''] ;
+countriesAndPorts[     'Sint Maarten (Dutch part)'] = [''] ;
+countriesAndPorts[    'Trinidad and Tobago'] = [''] ;
+countriesAndPorts[  'Turks and Caicos Islands'] = [''] ;
+countriesAndPorts[     'Virgin Islands (British)'] = [''] ;
+countriesAndPorts[     'Virgin Islands (U.S.)'] = [''] ;
+countriesAndPorts[    'Belize'] = [''] ;
+countriesAndPorts[   'Costa Rica'] = [''] ;
+countriesAndPorts[   'El Salvador'] = [''] ;
+countriesAndPorts[  'Guatemala'] = [''] ;
+countriesAndPorts[    'Honduras'] = [''] ;
+countriesAndPorts[     'Mexico'] = [''] ;
+countriesAndPorts[   'Nicaragua'] = [''] ;
+countriesAndPorts[    'Panama'] = [''] ;
+countriesAndPorts[   'Argentina'] = [''] ;
+countriesAndPorts[    'Bolivia (Plurinational State of)'] = [''] ;
+countriesAndPorts[     'Bouvet Island'] = [''] ;
+countriesAndPorts[    'Brazil'] = [''] ;
+countriesAndPorts[   'Chile'] = [''] ;
+countriesAndPorts[    'Colombia'] = [''] ;
+countriesAndPorts[     'Ecuador'] = [''] ;
+countriesAndPorts[  'Falkland Islands (Malvinas)'] = [''] ;
+countriesAndPorts[  'French Guiana'] = [''] ;
+countriesAndPorts[    'Guyana'] = [''] ;
+countriesAndPorts[   'Paraguay'] = [''] ;
+countriesAndPorts[     'Peru'] = [''] ;
+countriesAndPorts[     'South Georgia and the South Sandwich Islands'] = [''] ;
+countriesAndPorts[     'Suriname'] = [''] ;
+countriesAndPorts[     'Uruguay'] = [''] ;
+countriesAndPorts[  'Venezuela (Bolivarian Republic of)'    ] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Northern America'
+countriesAndPorts['Bermuda'] = [''] ;
+countriesAndPorts['Canada'] = [''] ;
+countriesAndPorts['Greenland'] = [''] ;
+countriesAndPorts['Saint Pierre and Miquelon'] = [''] ;
+countriesAndPorts['United States of America'] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+// East Asia countries and associated ports
+countriesAndPorts[ 'China'] = ['Hong Kong', 'Fuzhou', 'Guangzhou', 'Shanghai', 'Tianjin'] ;
+countriesAndPorts[    'Hong Kong'] = ['Hong Kong'] ;
+countriesAndPorts[    'Japan'] = ['Kobe', 'Osaka', 'Tokyo', 'Yokohama'] ;
+countriesAndPorts[    'Korea (Democratic People\'s Republic of)'] = [''] ;
+countriesAndPorts[  'Korea, Republic of'] = [''] ;
+countriesAndPorts[   'Macao'] = [''] ;
+countriesAndPorts[    'Mongolia'] = [''] ;
+countriesAndPorts[     'Taiwan, Province of China'] = ['Kaohsiung', 'Keelung'] ;
+countriesAndPorts[ 'Brunei Darussalam'] = [''] ;
+countriesAndPorts[    'Cambodia'] = [''] ;
+countriesAndPorts[     'Indonesia'] = [''] ;
+countriesAndPorts[    'Lao People\'s Democratic Republic'] = [''] ;
+countriesAndPorts[     'Malaysia'] = [''] ;
+countriesAndPorts[     'Myanmar'] = [''] ;
+countriesAndPorts[  'Philippines'] = ['Manila'] ;
+countriesAndPorts[  'Singapore'] = ['Singapore'] ;
+countriesAndPorts[    'Thailand'] = ['Bangkok'] ;
+countriesAndPorts[     'Timor-Leste'] = [''] ;
+countriesAndPorts[  'Viet Nam' ] = ['Haiphong', 'Ho Chi Min City'] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Central Asia'] = [''] ;
+countriesAndPorts['Kazakhstan'] = [''] ;
+countriesAndPorts[   'Kyrgyzstan'] = [''] ;
+countriesAndPorts[   'Tajikistan'] = [''] ;
+countriesAndPorts[   'Turkmenistan'] = [''] ;
+countriesAndPorts[     'Uzbekistan' ] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Southern Asia'] = [''] ;
+countriesAndPorts[ 'Afghanistan'] = [''] ;
+countriesAndPorts[  'Bangladesh'] = [''] ;
+countriesAndPorts[   'Bhutan'] = [''] ;
+countriesAndPorts[   'India'] = [''] ;
+countriesAndPorts[    'Iran (Islamic Republic of)'] = [''] ;
+countriesAndPorts[   'Maldives'] = [''] ;
+countriesAndPorts[     'Nepal'] = [''] ;
+countriesAndPorts[    'Pakistan'] = [''] ;
+countriesAndPorts[     'Sri Lanka' ] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Western Asia']
+countriesAndPorts['Armenia'] = [''] ;
+countriesAndPorts['Azerbaijan'] = [''] ;
+countriesAndPorts['Bahrain'] = [''] ;
+countriesAndPorts['Cyprus'] = [''] ;
+countriesAndPorts['Georgia'] = [''] ;
+countriesAndPorts['Iraq'] = [''] ;
+countriesAndPorts['Israel'] = ['Haifa'] ;
+countriesAndPorts['Jordan'] = [''] ;
+countriesAndPorts['Kuwait'] = [''] ;
+countriesAndPorts['Lebanon'] = [''] ;
+countriesAndPorts['Oman'] = [''] ;
+countriesAndPorts['Palestine, State of'] = [''] ;
+countriesAndPorts['Qatar'] = [''] ;
+countriesAndPorts['Saudi Arabia'] = [''] ;
+countriesAndPorts['Syrian Arab Republic'] = [''] ;
+countriesAndPorts['Turkey'] = ['Istanbul'] ;
+countriesAndPorts['United Arab Emirates'] = [''] ;
+countriesAndPorts['Yemen'] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Eastern Europe']
+countriesAndPorts['Belarus'] = [''] ;
+countriesAndPorts['Bulgaria'] = [''] ;
+countriesAndPorts['Czechia'] = [''] ;
+countriesAndPorts['Hungary'] = [''] ;
+countriesAndPorts['Moldova, Republic of'] = [''] ;
+countriesAndPorts['Poland'] = ['Gdansk'] ;
+countriesAndPorts['Romania'] = [''] ;
+countriesAndPorts['Russian Federation'] = ['St Petersburg'] ;
+countriesAndPorts['Slovakia'] = [''] ;
+countriesAndPorts['Ukraine'] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Northern Europe']
+countriesAndPorts['Denmark'] = [''] ;
+countriesAndPorts['Estonia'] = [''] ;
+countriesAndPorts['Faroe Islands'] = [''] ;
+countriesAndPorts['Finland'] = [''] ;
+countriesAndPorts['Iceland'] = [''] ;
+countriesAndPorts['Ireland'] = ['Cork'] ;
+countriesAndPorts['Isle of Man'] = [''] ;
+countriesAndPorts['Latvia'] = [''] ;
+countriesAndPorts['Lithuania'] = [''] ;
+countriesAndPorts['Norway'] = [''] ;
+countriesAndPorts['Svalbard and Jan Mayen'] = [''] ;
+countriesAndPorts['Sweden'] = [''] ;
+countriesAndPorts['United Kingdom of Great Britain and Northern Ireland'] = ['Liverpool', 'Southampton'] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Southern Europe']
+countriesAndPorts['Albania'] = [''] ;
+countriesAndPorts['Andorra'] = [''] ;
+countriesAndPorts['Bosnia and Herzegovina'] = [''] ;
+countriesAndPorts['Croatia'] = [''] ;
+countriesAndPorts['Gibraltar'] = [''] ;
+countriesAndPorts['Greece'] = [''] ;
+countriesAndPorts['Holy See'] = [''] ;
+countriesAndPorts['Italy'] = ['Genoa', 'Napoli (Naples)', 'Palermo','Trieste'] ;
+countriesAndPorts['Malta'] = [''] ;
+countriesAndPorts['Montenegro'] = [''] ;
+countriesAndPorts['North Macedonia'] = [''] ;
+countriesAndPorts['Portugal'] = ['Lisbon'] ;
+countriesAndPorts['San Marino'] = [''] ;
+countriesAndPorts['Serbia'] = [''] ;
+countriesAndPorts['Slovenia'] = [''] ;
+countriesAndPorts['Spain'] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Western Europe']
+countriesAndPorts['Austria'] = [''] ;
+countriesAndPorts['Belgium'] = ['Antwerp'] ;
+countriesAndPorts['France'] = ['Le Havre'] ;
+countriesAndPorts['Germany'] = ['Bremen', 'Bremerhaven', 'Hamburg'] ;
+countriesAndPorts['Liechtenstein'] = [''] ;
+countriesAndPorts['Luxembourg'] = [''] ;
+countriesAndPorts['Monaco'] = [''] ;
+countriesAndPorts['Netherlands'] = ['Rotterdam'] ;
+countriesAndPorts['Switzerland'] = [''] ;
+
+//regionAndCountries['sub-Saharan Africa']
+countriesAndPorts['British Indian Ocean Territory'] = [''] ;
+countriesAndPorts[   'Burundi'] = [''] ;
+countriesAndPorts[  'Comoros'] = [''] ;
+countriesAndPorts[  'Djibouti'] = [''] ;
+countriesAndPorts[     'Eritrea'] = [''] ;
+countriesAndPorts[  'Ethiopia'] = [''] ;
+countriesAndPorts[     'French Southern Territories'] = [''] ;
+countriesAndPorts[  'Kenya'] = [''] ;
+countriesAndPorts[    'Madagascar'] = [''] ;
+countriesAndPorts[   'Malawi'] = [''] ;
+countriesAndPorts[   'Mauritius'] = [''] ;
+countriesAndPorts[    'Mayotte'] = [''] ;
+countriesAndPorts[  'Mozambique'] = [''] ;
+countriesAndPorts[   'Réunion'] = [''] ;
+countriesAndPorts[  'Rwanda'] = [''] ;
+countriesAndPorts[   'Seychelles'] = [''] ;
+countriesAndPorts[   'Somalia'] = [''] ;
+countriesAndPorts[  'South Sudan'] = [''] ;
+countriesAndPorts[  'Tanzania, United Republic of'] = [''] ;
+countriesAndPorts[     'Uganda'] = [''] ;
+countriesAndPorts[   'Zambia'] = [''] ;
+countriesAndPorts[   'Zimbabwe'] = [''] ;
+countriesAndPorts[     'Angola'] = [''] ;
+countriesAndPorts[   'Cameroon'] = [''] ;
+countriesAndPorts[     'Central African Republic'] = [''] ;
+countriesAndPorts[     'Chad'] = [''] ;
+countriesAndPorts[     'Congo'] = [''] ;
+countriesAndPorts[    'Congo, Democratic Republic of the'] = [''] ;
+countriesAndPorts[    'Equatorial Guinea'] = [''] ;
+countriesAndPorts[    'Gabon'] = [''] ;
+countriesAndPorts[    'Sao Tome and Principe'] = [''] ;
+countriesAndPorts[    'Botswana'] = [''] ;
+countriesAndPorts[     'Eswatini'] = [''] ;
+countriesAndPorts[     'Lesotho'] = [''] ;
+countriesAndPorts[  'Namibia'] = [''] ;
+countriesAndPorts[  'South Africa'] = [''] ;
+countriesAndPorts[     'Benin'] = [''] ;
+countriesAndPorts[    'Burkina Faso'] = [''] ;
+countriesAndPorts[     'Cape Verde'] = [''] ;
+countriesAndPorts[   'Côte d\'Ivoire'] = [''] ;
+countriesAndPorts[    'Gambia'] = [''] ;
+countriesAndPorts[   'Ghana'] = [''] ;
+countriesAndPorts[    'Guinea'] = [''] ;
+countriesAndPorts[   'Guinea-Bissau'] = [''] ;
+countriesAndPorts[    'Liberia'] = [''] ;
+countriesAndPorts[  'Mali'] = [''] ;
+countriesAndPorts[     'Mauritania'] = [''] ;
+countriesAndPorts[   'Niger'] = [''] ;
+countriesAndPorts[    'Nigeria'] = [''] ;
+countriesAndPorts[  'Saint Helena, Ascension and Tristan da Cunha'] = [''] ;
+countriesAndPorts[     'Senegal'] = [''] ;
+countriesAndPorts[  'Sierra Leone'] = [''] ;
+countriesAndPorts[ 'Togo'] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+//regionAndCountries['Australia and New Zealand'] = [''] ;
+countriesAndPorts[ 'Australia'] = ['Melbourne', 'Sydney'] ;
+countriesAndPorts[    'Christmas Island'] = [''] ;
+countriesAndPorts[     'Cocos (Keeling) Islands'] = [''] ;
+countriesAndPorts[  'Heard Island and McDonald Islands'] = [''] ;
+countriesAndPorts[    'New Zealand'] = ['Auckland', 'Wellington'] ;
+countriesAndPorts[  'Norfolk Island'    ] = [''] ;
+
+//regionAndCountries['Melanesia']
+countriesAndPorts[     'Fiji'] = [''] ;
+countriesAndPorts[     'New Caledonia'] = [''] ;
+countriesAndPorts[    'Papua New Guinea'] = [''] ;
+countriesAndPorts[     'Solomon Islands'] = [''] ;
+countriesAndPorts[  'Vanuatu'   ] = [''] ;
+
+//regionAndCountries['Micronesia']
+countriesAndPorts[     'Guam'] = [''] ;
+countriesAndPorts[     'Kiribati'] = [''] ;
+countriesAndPorts[     'Marshall Islands'] = [''] ;
+countriesAndPorts[     'Micronesia (Federated States of)'] = [''] ;
+countriesAndPorts[     'Nauru'] = [''] ;
+countriesAndPorts[    'Northern Mariana Islands'] = [''] ;
+countriesAndPorts[     'Palau'] = [''] ;
+countriesAndPorts[    'United States Minor Outlying Islands'  ] = [''] ;
+
+//regionAndCountries['Polynesia']
+countriesAndPorts[     'American Samoa'] = [''] ;
+countriesAndPorts[   'Cook Islands'] = [''] ;
+countriesAndPorts[     'French Polynesia'] = [''] ;
+countriesAndPorts[     'Niue'] = [''] ;
+countriesAndPorts[     'Pitcairn'] = [''] ;
+countriesAndPorts[     'Samoa'] = [''] ;
+countriesAndPorts[    'Tokelau'] = [''] ;
+countriesAndPorts[  'Tonga'] = [''] ;
+countriesAndPorts[    'Tuvalu'] = [''] ;
+countriesAndPorts[   'Wallis and Futuna' ] = [''] ;
+// ]]></script>
+<script>// <![CDATA[
+regionAndCountries['Australia and New Zealand'] = [ 'Australia',    'Christmas Island',     'Cocos (Keeling) Islands',  'Heard Island and McDonald Islands',    'New Zealand',  'Norfolk Island'    ] ;
+regionAndCountries['Melanesia'] = [ 'Fiji',     'New Caledonia',    'Papua New Guinea',     'Solomon Islands',  'Vanuatu'   ] ;
+regionAndCountries['Micronesia'] = [    'Guam',     'Kiribati',     'Marshall Islands',     'Micronesia (Federated States of)',     'Nauru',    'Northern Mariana Islands',     'Palau',    'United States Minor Outlying Islands'  ] ;
+regionAndCountries['Polynesia'] = [ 'American Samoa',   'Cook Islands',     'French Polynesia',     'Niue',     'Pitcairn',     'Samoa',    'Tokelau',  'Tonga',    'Tuvalu',   'Wallis and Futuna' ] ;
+regionAndCountries['Antarctica'] = [   'Antarctica'    ] ;
+
+// not updating the WorldRegionsList.
+// Start from a given region, e.g., Africa, and update the areas depending on those of that region
+function UpdateAreaRegionsList() {
+  //alert("UpdateAreaRegionsList()") ;
+  //var selRegion = regionList.options[areaList.selectedIndex].value;
+  var AreaStr,RegionStr,SeaLaneStr,ProvinceStr,CityStr ;
+  var selRegion = localStorage.RegionOfOrigin ;
+  var regionList = regionAndCountries['WholeWorldAmCtr'] ;
+  console.log("selRegion = "+selRegion+". regionList = "+regionList) ;
+
+  var areaList = document.getElementById("areaRegion");
+  console.log("areaList = "+areaList) ;
+  var titleNoOpOption = areaList[0];
+  var unkOption = areaList[1];
+  console.log("areaList = "+areaList) ;
+
+    /* none of this should happen because the region is previously set, right? */
+  if (selRegion==undefined) {
+      alert('Region not defined!?  Will use "EuropeAndTheMediterranean"') ;
+      selRegion = "EuropeAndTheMediterranean" ;  // carry on with the most common "origins" value
+  }
+  else if (selRegion=="") {
+      alert('Region empty!?  Will use "EuropeAndTheMediterranean"') ;
+      selRegion = "EuropeAndTheMediterranean" ;  // carry on with the most common "origins" value
+//        console.log("Empty actions (i.e. value) selected.  Noop") ;
+        //alert("Noop") ;
+  }
+/* default "Unk" triggers Exit...  Actually, don't do this.
+    else if (selRegion=="Unk") {
+        AcceptCurrentDeparture() ;
+        //alert("Exit") ;
+    }
+*/
+    else {
+      // Keep the first two options
+      var i;
+      var origNumberOfOptions = areaList.options.length ;
+      for (i = 0; i<origNumberOfOptions; i++) {
+        console.log("removing (0) from "+areaList) ;
+        areaList.remove(0);
+      }
+      areaList.options.add(titleNoOpOption);
+      areaList.options.add(unkOption);
+      var areas = regionAndCountries[selRegion];
+      if (areas) {
+        for (i = 0; i < areas.length; i++) {
+          //var area = new Option(areas[i], i+2);
+          var area = new Option(areas[i], areas[i]);
+          areaList.options.add(area);
+          console.log("added area.value=="+area.value+". areaList is now "+areaList) ;
+          /*
+          */
+          if (area[i]==localStorage.AreaOfDeparture) {
+              if(i==1) { // if value is "Unk" then show the category name instead
+                areaList.selectedIndex = 0 ;
+              }
+              else {
+                areaList.selectedIndex = i ;
+              }
+          }
+        }
+      }
+    // set to category description
+    areaList.selectedIndex = 0 ;
+    }
+    echoCurrentChoices() ;
+}
+
+function echoCurrentChoices() {
+    //document.getElementById("TextBoxDisplay").innerHTML = 'Current Origins Text Box Line1: "'+localStorage.OriginsLine1+'"' ;
+    /*
+    AreaStr=localStorage.AreaOfDeparture ;
+    if (localStorage.AreaOfDeparture=='Unk') {
+        AreaStr="Unknown";
+    } ;
+    SeaLaneStr=localStorage.SeaLane ;
+    if (localStorage.SeaLane=='Unk') {
+        SeaLaneStr="Unknown";
+    } ;
+    ProvinceStr=localStorage.DepartureCountry ;
+    if (localStorage.DepartureCountry=='Unk') {
+        ProvinceStr="Unknown";
+    } ;
+    CityStr=localStorage.PortOfDeparture ;
+    if (localStorage.PortOfDeparture=='Unk') {
+        CityStr="Unknown";
+    } ;
+    document.getElementById("CurrentSelectionDisplay").innerHTML  = 'Currently-provided Departure Info: ';
+    document.getElementById("CurrentSelectionDisplay").innerHTML += '<br>Region left from: '+AreaStr ; //### region vs area again ###
+    document.getElementById("CurrentSelectionDisplay").innerHTML += '; <br>Sea Lane: '+SeaLaneStr ;
+    document.getElementById("CurrentSelectionDisplay").innerHTML += '; <br>Departure Country: '+ProvinceStr ;
+    document.getElementById("CurrentSelectionDisplay").innerHTML += '; <br>Departure Port: '+CityStr ;
+    */
+}
+
+function ChangeAreasRegionsList() {
+  //alert("ChangeAreasRegionsList()") ;
+  var areaList = document.getElementById("areaRegion");
+  console.log("areaList = "+areaList) ;
+  var selArea = areaList.options[areaList.selectedIndex].value;
+  if (localStorage.AreaOfDeparture != selArea) {
+      localStorage.AreaOfDeparture = selArea ;
+      localStorage.SeaLane = 'Unk' ;
+      localStorage.DepartureCountry = 'Unk' ;
+      localStorage.PortOfDeparture = 'Unk' ;
+  }
+
+  echoCurrentChoices() ;
+  updateOriginsTextBoxLine2() ;
+
+  console.log("selArea == localStorage.AreaOfDeparture == "+selArea) ;
+
+  // get *current* unupdated countrylist
+  var countryList = document.getElementById("regionNavRoute");
+  var titleNoOpOption = countryList[0];
+  var unkOption = countryList[1];
+  console.log("countryList = "+countryList) ;
+/*
+    if (selArea=="") {
+        console.log("Empty actions (i.e. value) selected.  Noop") ;
+        //alert("Noop") ;
+    }
+    else if (selArea=="Unk") {
+        AcceptCurrentDeparture() ;
+        //alert("Exit") ;
+    }
+    else {
+*/
+      // Keep the first two options
+      var i;
+      var origCountryListLength = countryList.options.length ;
+      for (i = 0; i<origCountryListLength; i++) {
+        console.log("removing "+countryList.options[0].value+".  countrylist is now: "+countryList.options) ;
+        countryList.remove(0);
+      }
+      countryList.options.add(titleNoOpOption);
+      countryList.options.add(unkOption);
+      // ### note: just changing regionsAndCountries for regionAndNavigationRoutes.  All other var names remain ###
+      var regions = regionAndNavigationRoutes[selArea];
+      if (regions) {
+        for (i = 0; i < regions.length; i++) {
+          var region = new Option(regions[i], regions[i]);
+          //var region = new Option(regions[i], i+2);
+          countryList.options.add(region);
+          console.log("added region.value=="+region.value+". countryList is now "+countryList.options) ;
+          if (region[i]==localStorage.RegionOfOrigin) {
+              // add two because have two addl options at the front of the list
+              // ### this is confused, right?  should this be regionList of countryList? ###
+              regionList.selectedIndex = i;
+          }
+        }
+      }
+      //?countryList[0].option = 0 ;
+    // set to category description
+    countryList.selectedIndex = 0 ;
+}
+
+function portOnSeaLane(currPort, selNavRoutes) {
+    console.log("portOnSeaLane(currPort=="+currPort+", selNavRoutes=="+selNavRoutes+")") ;
+    if (currPort=='') {
+        return(false) ;
+    }
+    if (currPort) {
+        return(true) ;
+    }
+    else {
+        return(false) ;
+    }
+}
+
+
+function ChangeRegionsNavRoutesList() {
+  //alert("ChangeRegionsNavRoutesList()") ;
+  console.log("ChangeRegionsNavRoutesList()") ;
+  var seaLaneList = document.getElementById("regionNavRoute");
+  console.log("seaLaneList = "+seaLaneList) ;
+  var seaLaneDepartureCountries = document.getElementById("navRouteCountry");
+  var titleNoOpOption = seaLaneDepartureCountries.options[0];
+  var unkOption = seaLaneDepartureCountries.options[1];
+  // not using "userProvideOption" since providing all possible countries
+  // var userProvideOption = seaLaneDepartureCountries[2];
+
+  var navPortsList ;
+  var seaLaneDeparturePorts = document.getElementById("countryPorts");
+
+  var countries ;
+  var country ;
+  var portOption ;
+  var portCount = 0;
+
+  console.log("seaLaneDepartureCountries = "+seaLaneDepartureCountries) ;
+  //var selSeaLane = seaLaneList.options[seaLaneList.selectedIndex].value;
+  var selSeaLane = seaLaneList.value ;
+  if (localStorage.SeaLane != selSeaLane) {
+      localStorage.SeaLane = selSeaLane ;
+      localStorage.seaLaneDepartureCountries = 'Unk' ;
+      localStorage.PortOfDeparture = 'Unk' ;
+  }
+
+  echoCurrentChoices() ;
+  updateOriginsTextBoxLine2() ;
+
+  console.log("selSeaLane  == localStorage.SeaLane ==  "+selSeaLane) ;
+
+    if (selSeaLane=="") {
+        console.log("Empty actions (i.e. value) selected.  Noop") ;
+        alert("Noop") ;
+    }
+    /* disallowing the naming of countries
+    else if (selSeaLane=="UserProvided") {
+        UserProvidedPlacename("homeProvince") ;
+    }
+    */
+    else if ((selSeaLane=="Unk")||(selSeaLane=="Unknown")) {
+        //###dont AcceptCurrentDeparture() ; yet###
+      alert('selSeaLane=="Unk"') ;
+      // Keep the first two options
+    }
+    else {
+      // Keep the first two options
+      var i;
+      var numSeaLaneDepartureCountries = seaLaneDepartureCountries.options.length ;
+/* hm.  Don't have to leave the first N elements, just prepend those options before cyclingn through the options list
+      for (i = 3; i<numSeaLaneDepartureCountries; i++) {
+        console.log("removing.. seaLaneDepartureCountries=="+seaLaneDepartureCountries) ;
+        seaLaneDepartureCountries.remove(3);
+      }
+      if(seaLaneDepartureCountries.options.length != 2) {
+         numSeaLaneDepartureCountries = seaLaneDepartureCountries.options.length ;
+         for (i = 0; i<numSeaLaneDepartureCountries; i++) {
+            console.log("seaLaneDepartureCountries["+i+"]=="+seaLaneDepartureCountries.options[i].value) ;
+          }
+          alert("?? why isn't the seaLaneDepartureCountries.options.length==2 ??") ;
+      }
+*/
+      for (i = 0; i<numSeaLaneDepartureCountries; i++) {
+        console.log("removing.. seaLaneDepartureCountries=="+seaLaneDepartureCountries) ;
+        seaLaneDepartureCountries.remove(1);
+      }
+      seaLaneDepartureCountries.options.add(titleNoOpOption);
+      seaLaneDepartureCountries.options.add(unkOption);
+      // all countries known so no option for userProvdeOption
+      //seaLaneDepartureCountries.options.add(userProvideOption);
+      // ### note: just changing regionsAndCountries for navRoutesAndCountries.  All other var names remain ###
+      console.log("selSeaLane=="+selSeaLane) ;
+      countries = navRoutesAndCountries[selSeaLane];
+      console.log("countries=="+countries) ;
+     if (countries) {
+         // First update the country list w countries that have ports (on this sealane, that is)
+        for (i = 0; i < countries.length; i++) {
+          // if country has a port <### on this SeaLane? ###>, add the country
+          navPortsList = countriesAndPorts[countries[i]];
+          for (j = 0; j<navPortsList.length; j++) {
+              var currPort = navPortsList[j];
+              if (portOnSeaLane(currPort, selSeaLane)) {
+                  portCount++ ;
+              }
+          }
+          if (portCount>0) {
+              country = new Option(countries[i], countries[i]);
+              seaLaneDepartureCountries.options.add(country);
+              console.log("added countries[i]=="+countries[i]+". seaLaneDepartureCountries is now "+seaLaneDepartureCountries) ;
+          }
+          else {
+              console.log("did NOT add countries[i]=="+countries[i]+" because it has no ports on sea lane "+selSeaLane) ;
+          }
+          portCount=0;
+        }
+        // Now update the ports list - reconstruct with only the ports on the sealane
+//### double check: is it correct to put the options-removal segment under the countries conditional? ###
+          console.log("removing.. seaLaneDeparturePorts.options=="+seaLaneDeparturePorts.options+" of length="+seaLaneDeparturePorts.options.length) ;
+          // This list includes "user provided" so needs to index from 4 vs 3??
+          var seaLaneDeparturePortsLength = seaLaneDeparturePorts.options.length ;
+          for (i = 3; i<seaLaneDeparturePortsLength; i++) {
+            seaLaneDeparturePorts.remove(3);
+          }
+          // ### note: just changing regionsAndCountries for countriesAndPorts.  All other var names remain ###
+            for (i = 0; i < countries.length; i++) {
+              country = countries[i] ;
+              // Does the country have a port from which people emigrated?
+              console.log("adding ports for country =="+country) ;
+              navPortsList = countriesAndPorts[country];
+              for (j = 0; j<navPortsList.length; j++) {
+                  var currPort = navPortsList[j];
+                  if (currPort) {
+                      console.log("...adding Port =="+currPort) ;
+                      portOption = new Option(currPort, currPort);
+                      seaLaneDeparturePorts.options.add(portOption);
+                      console.log("added portOption.value=="+portOption.value+". seaLaneDeparturePorts.options is now "+seaLaneDeparturePorts.options) ;
+                  }
+              }
+            }
+      }
+    // set to category description
+    seaLaneDepartureCountries.selectedIndex = 0 ;
+    }
+}
+
+
+// function name a bit of a misnomer since it also handled the manual naming of the province
+function ChangeNavRoutesCountriesList() { //departure
+  //alert("ChangeNavRoutesCountriesList()") ;
+  var navCountriesList = document.getElementById("navRouteCountry");
+  var cityOrTownList = document.getElementById("countryPorts");
+  var portListLen = cityOrTownList.options.length ;
+
+  //var selProvince = navCountriesList.options[navCountriesList.selectedIndex].value;
+  var selProvince = document.getElementById("navRouteCountry").value ;
+  if (localStorage.DepartureCountry != selProvince) {
+      localStorage.DepartureCountry = selProvince ;
+      localStorage.PortOfDeparture = 'Unk' ;
+  }
+  console.log("ChangeNavRoutesCountriesList() selProvince(###change varname###)=="+selProvince) ;
+//### check this...###
+  echoCurrentChoices() ;
+  updateOriginsTextBoxLine2() ;
+
+    if (selProvince=="") {
+        console.log("Empty actions (i.e. value) selected.  Noop") ;
+        //alert("Noop") ;
+    }
+    else if (selProvince=="Unk") {
+        //###dont AcceptCurrentDeparture() ; yet###
+    }
+    else if (selProvince=="UserProvided") {
+        UserProvidedPlacename("homeProvince") ;
+    }
+    else {
+      // Keep the first [### not two but###] three options
+      var i;
+      for (i = 3; i<portListLen; i++) {
+        cityOrTownList.remove(3);
+      }
+      // ### note: just changing regionsAndCountries for countriesAndPorts.  All other var names remain ###
+      var provinces = countriesAndPorts[selProvince];
+      if (provinces) {
+        for (i = 0; i < provinces.length; i++) {
+          var province = new Option(provinces[i], provinces[i]);
+          cityOrTownList.options.add(province);
+        }
+      }
+    }
+}
+
+// rebuild... ###function and variable names wrong, and last menu doesn't build a next menu###
+function ChangeCountryPortsList() { //departure
+  var portList = document.getElementById("countryPorts");
+  var selPort = portList.options[portList.selectedIndex].value;
+  var newPortName ;
+  var newPortOption ;
+  var portInfoStr ;
+  var portRole = "departurePort" ;
+
+    if (selPort=="") {
+        console.log("Empty actions (i.e. value) selected.  Noop") ;
+        //alert("Noop") ;
+    }
+    /*
+    else if (selPort=="Unk") {
+        AcceptCurrentDeparture() ;
+        //alert("Exit") ;
+    }
+    */
+    else if (selPort=="UserProvided") {
+        newPortName = UserProvidedPlacename("portOfDeparture") ;
+        newPortOption = new Option(newPortName, newPortName);
+        portList.options.add(newPortOption);
+        /* ### provide facility for adding port location ###
+         *  newGeoLoc = getGeoLocation() ;
+         *  portInfoStr = makeNewPortStruct(newPortName, newGeoLoc) ;
+         *  RecordNewPortChoice(newPortName, portInfoStr, portRole) ;
+         */
+    }
+
+  else if (localStorage.PortOfDeparture != selPort) {
+      /*    ### set up graphics ### */
+      portInfoStr = extractPortInfoFromName(selPort, "departurePort") ;
+      RecordNewPortChoice(selPort, portInfoStr, portRole) ;
+      localStorage.PortOfDeparture = selPort ;
+  }
+  console.log("ChangeCountryPortsList() selPort(###change###)=="+selPort)
+//### check...###
+  echoCurrentChoices() ;
+  updateOriginsTextBoxLine2() ;
+}
+
+// ###function and variable names wrong, and last menu doesn't build a next menu###
+function ChangeCountryPortsList2() {
+  //alert("ChangeCountryPortsList()") ;
+  var portList = document.getElementById("navRouteCountry");
+  var streetList = document.getElementById("countryPorts");
+  var selPort = portList.options[portList.selectedIndex].value;
+  if (localStorage.PortOfDeparture != selPort) {
+      localStorage.PortOfDeparture = selPort ;
+  }
+  console.log("ChangeCountryPortsList() selPort(###change###)=="+selPort)
+//### check...###
+  echoCurrentChoices() ;
+  updateOriginsTextBoxLine2() ;
+
+    if (selPort=="") {
+        console.log("Empty actions (i.e. value) selected.  Noop") ;
+        //alert("Noop") ;
+    }
+    /*
+    else if (selPort=="Unk") {
+        AcceptCurrentDeparture() ;
+        //alert("Exit") ;
+    }
+    */
+    else if (selPort=="UserProvided") {
+        alert("UserProvided") ;
+        UserProvidedPlacename("portOfDeparture") ;
+    }
+    else {
+      // Keep the first two options
+      var i;
+      for (i = 4; i<streetList.options.length; i++) {  // this menu also has "UserProvided" so needs to skip 4 vs 3 items
+        console.log("removing.. portList=="+portList) ;
+        portList.remove(4);
+      }
+      var countries = countriesAndProvinces[selPort];
+      if (countries) {
+        for (i = 0; i < countries.length; i++) {
+          var country = new Option(countries[i], countries[i]);
+          portList.options.add(country);
+          console.log("added country.value=="+country.value+". portList is now "+portList) ;
+        }
+      }
+    }
+}
+
+function portsCountry(port) {
+    // ### find the port's info and extract the country it's from ###
+    if (localStorage.DepartureCountry != 'Unk') {
+        return(localStorage.DepartureCountry) ;
+    }
+    else { // ### add in the port's country ###
+        return("portsCountry(PortOfDeparture)") ;
+    }
+}
+
+// ### Need to unify across pages ###
+// function GenerateVariableSpecificityPlaceString() {
+function GenerateVariableSpecificityOriginLine2() {
+    //alert("AcceptCurrentDeparture()") ;
+    var ProposedOriginsLine2Text ;
+    if (localStorage.PortOfDeparture=="Unk") {
+        if (localStorage.DepartureCountry=="Unk") {
+            if (localStorage.SeaLane=="Unk") {
+                if (localStorage.AreaOfDeparture=="Unk") {
+                    // no new information, so no-op
+                    ProposedOriginsLine2Text = 'Unknown' ;
+                }
+                else {
+                    // only region, so
+                    ProposedOriginsLine2Text = localStorage.AreaOfDeparture ;
+                }
+            }
+            else {
+                // region and country.  Just use country
+                ProposedOriginsLine2Text = localStorage.SeaLane ;
+            }
+        }
+        else {
+            // region, country, and province.  Combine province and country
+            // ### note that this could go wrong if have city/province but not country, etc. ###
+            ProposedOriginsLine2Text = localStorage.DepartureCountry ;
+        }
+    }
+    else {
+        // region, country, province, and city.  Combine city, province, and country
+        ProposedOriginsLine2Text = localStorage.PortOfDeparture ;
+    }
+
+    localStorage.OriginsLine2 = ProposedOriginsLine2Text ;
+    return (ProposedOriginsLine2Text) ;
+}
+
+function updateOriginsTextBoxLine2() {
+    var newOriginsTextBoxLine2  = GenerateVariableSpecificityOriginLine2() ;
+    document.getElementById("originsTextBoxL1").innerHTML = localStorage.OriginsLine1 ;
+    document.getElementById("originsTextBoxL2").innerHTML = "Departure: " + newOriginsTextBoxLine2 ;
+    console.log("updateOriginsTextBoxLine2(): newOriginsTextBoxLine2=="+newOriginsTextBoxLine2) ;
+}
+
+function OLDupdateOriginsTextBoxLine2() {
+    var newOriginsTextBoxLine2  = 'Departure: ' ;
+    if (localStorage.PortOfDeparture != 'Unk') {
+        newOriginsTextBoxLine2 += localStorage.PortOfDeparture ;
+        // ### add this in later: newOriginsTextBoxLine2 += ", "+portsCountry(localStorage.PortOfDeparture) ;
+    }
+    else if (localStorage.DepartureCountry != 'Unk') {// no PortOfDeparture, DepartureCountry avail
+        // want just to reflect country
+        newOriginsTextBoxLine2 += localStorage.DepartureCountry ;
+    }
+    else if (localStorage.SeaLane != 'Unk') {// no port or country of departure, but SeaLane avail
+        // want just to reflect sea lane
+        newOriginsTextBoxLine2 += localStorage.SeaLane ;
+    }
+    else if (localStorage.AreaOfDeparture != 'Unk') {// no port,country of departure, or sea lane, but AreaOfDeparture avail
+        // want just to reflect area
+        newOriginsTextBoxLine2 += localStorage.AreaOfDeparture ;
+    }
+    document.getElementById("originsTextBoxL2").innerHTML = newOriginsTextBoxLine2 ;
+    console.log("updateOriginsTextBoxLine2(): newOriginsTextBoxLine2=="+newOriginsTextBoxLine2) ;
+}
+
+// ### changing the "echo Origins Text Box" here again.  Need to unify. ###
+function AcceptCurrentDeparture() {
+    //alert("AcceptCurrentDeparture()") ;
+    var ProposedOriginsText = GenerateVariableSpecificityOriginLine2();
+    // ### work this out! ###
+    localStorage.DeparturePortStruct = localStorage.PortOfDeparture ;
+/*
+    if (localStorage.PortOfDeparture=="Unk") {
+        if (localStorage.DepartureCountry=="Unk") {
+            if (localStorage.SeaLane=="Unk") {
+                if (localStorage.AreaOfDeparture=="Unk") {
+                    // no new information, so no-op
+                    ProposedOriginsText = '' ;
+                }
+                else {
+                    // only region, so
+                    ProposedOriginsText = 'Origins: '+localStorage.AreaOfDeparture ;
+                }
+            }
+            else {
+                // region and country.  Just use country
+                ProposedOriginsText = 'Origins: '+localStorage.SeaLane ;
+            }
+        }
+        else {
+            // region, country, and province.  Combine province and country
+            // ### note that this could go wrong if have city/province but not country, etc. ###
+            ProposedOriginsText = 'Origins: '+localStorage.DepartureCountry+', '+localStorage.SeaLane ;
+        }
+    }
+    else {
+        // region, country, province, and city.  Combine city, province, and country
+        ProposedOriginsText = 'Origins: '+localStorage.PortOfDeparture+' in '+localStorage.DepartureCountry+','+localStorage.SeaLane+'' ;
+    }
+
+    if (ProposedOriginsText==localStorage.OriginsLine1) {
+        //if (confirm('Origins Text Box: Current Line 1 reads:"'+localStorage.OriginsLine1+'". Accept and Continue?')) {
+        if (true) {
+            localStorage.OriginsLine1 = ProposedOriginsText ;
+            //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+            window.location.assign(nextPage) ;
+        }
+    }
+    //else if (ProposedOriginsText && confirm('Current Line 1 of Origins text box reads:"'+localStorage.OriginsLine1+'". Change it to:"'+ProposedOriginsText+'" and Continue?')) {
+    else if (ProposedOriginsText) {
+        localStorage.OriginsLine1 = ProposedOriginsText ;
+        //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+        window.location.assign(nextPage) ;
+    }
+    //else if (confirm('Continuing with Line 1 of Origins Text Box as:"'+localStorage.OriginsLine1+'"')) {
+    else {
+            //var nextPage = "https://jimaworks.com/pages/1-c-map-background" ;
+            window.location.assign(nextPage) ;
+        //else just continue
+    }
+
+    if (localStorage.PortOfDeparture=="Unk") {
+        if (localStorage.DepartureCountry=="Unk") {
+            if (localStorage.SeaLane=="Unk") {
+                if (localStorage.AreaOfDeparture=="Unk") {
+
+*/
+    localStorage.Departure  = "PortOfDeparture "+localStorage.PortOfDeparture
+                          + ", DepartureCountry "+localStorage.DepartureCountry
+                          + ", SeaLane "+localStorage.SeaLane
+                          + ", AreaOfDeparture "+localStorage.AreaOfDeparture ;
+    window.location.assign(nextPage) ;
+}
+
+
+function UserProvidedPlacename(locationType) {
+    var newPlaceName ;
+    if (locationType=="homeProvince") {
+        newPlaceName = prompt("Enter the name of the home province.") ;
+        localStorage.DepartureCountry = newPlaceName ;
+        return(newPlaceName) ;
+    }
+    else if (locationType=="portOfDeparture") {
+        newPlaceName = prompt("Enter the name of the port of departure.") ;
+        localStorage.PortOfDeparture = newPlaceName ;
+        return(newPlaceName) ;
+    }
+    /*
+    if (locationType=="destinationCounty") {
+        localStorage.PortOfDeparture = prompt("Enter the name of the destination country.") ;
+    }
+    if (locationType=="destinationCity") {
+        localStorage.PortOfDeparture = prompt("Enter the name of the destination city.") ;
+    }
+    */
+    else  {
+        alert('Type of location for user-provided placename, "'+locationType+'" is unrecognized.') ;
+    }
+}
+// ]]></script>
+<script>// <![CDATA[
+function add_map_of_the_times() {
+    var currRegionAbbrev = localStorage.RegionOfOriginAbbrev ;
+    // This doesn't work because (?) stepping on prev val? >>> var prevThisNextAvailMapYears = prevThisNextMapYears(getDefaultYear())
+    var availableMapYear = localStorage.currRteMapYear ; //2016 ; //getDefaultYear() ;
+    var shopifyPrefix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+    //### making this smaller for ship-on-slider
+    var shopifyImgSizePostfix = "_256x256" ;
+    var currMapFile = shopifyPrefix + availableMapYear+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+
+    // "https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png"
+    //alert("currMapFile=="+currMapFile) ;
+    var src = currMapFile ;
+    //var src = "https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png";
+    //show_image("https://cdn.shopify.com/s/files/1/1336/0641/files/1946-Routes-EuM_256x256.png", 276,110, "MapOfTheTimes");
+    show_image(currMapFile, 276,110, "MapOfTheTimes");
+    //return(currMapFile) ;
+  }
+
+/*
+    function show_image(src, width, height, alt) {
+    var img = document.createElement("img");
+    img.src = src;
+    img.width = width;
+    img.height = height;
+    img.alt = alt;
+*/
+
+    // This next line will just add it to the <body> tag
+    // document.body.appendChild(img);
+    // add it to the <body> tag
+ //   document.getElementById("routeDisplay").innerHTML = img ;
+
+function show_image(src, width, height, alt){
+    var ImgOverlayHTML = "" ;
+    var routeImageStyleStr  = "" ;
+    var placementTop = 50;
+    var placementLeft = 40;
+    var placementWidth = 650; // 1.75*400
+    var placementHeight = 350; // 1.75*400
+    var placementBorder = 3;
+    var placementLineStyle = "solid";
+    var placementLineColor = "red";
+    var placementImgOverwrite = 20;
+
+//EuM
+        placementTop = 30;
+        placementLeft = 275;
+        placementWidth = 375;
+        placementHeight = 200;
+        placementBorder = 3;
+        placementLineStyle = "solid";
+        placementLineColor = "red";
+
+
+        routeImageStyleStr = " style=\"position: absolute; ";
+        routeImageStyleStr += "top: "+ placementTop +"px; ";
+        routeImageStyleStr += "left: "+ placementLeft +"px; ";
+        routeImageStyleStr += "width: "+ placementWidth +"px; ";
+        routeImageStyleStr += "height: "+ placementHeight +"px; ";
+        routeImageStyleStr += "border: "+ placementBorder +"px; ";
+        routeImageStyleStr += placementLineStyle +" ";
+        routeImageStyleStr += placementLineColor +"; ";
+        routeImageStyleStr += "z-index: "+ placementImgOverwrite +"; ";
+        routeImageStyleStr += "\"";
+
+        /* map display */
+        ImgOverlayHTML +=   '<div' ;
+        //ImgOverlayHTML +=   ' style=\"position: absolute; bottom: 20px; left: 150px; z-index: 300;\">' ;
+        ImgOverlayHTML +=   routeImageStyleStr ;
+        ImgOverlayHTML +=   ' >' ;
+        ImgOverlayHTML +=     '<img src=' + src ;
+        ImgOverlayHTML +=     ' id=\"webMapImg\"';
+        ImgOverlayHTML +=     ' alt=\"'+alt+'\"';
+        ImgOverlayHTML +=     ' class=\"map\" width=\"500px\" height=250' ;
+        ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
+        /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
+        ImgOverlayHTML +=     '\" />' ;
+        ImgOverlayHTML +=   '</div>' ;
+//        console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
+    document.getElementById("routeDisplay").innerHTML = ImgOverlayHTML;  // ### not routeDisplayDivID?? ###
+//        document.getElementById(routeDisplayDivID).innerHTML = ImgOverlayHTML;
+}
+// ]]></script>
+<script>// <![CDATA[
+UpdateAreaRegionsList() ;
+    /*
+    ChangeAreasRegionsList() ;
+    ChangeRegionsNavRoutesList() ;
+    ChangeNavRoutesCountriesList() ;
+    ChangeCountryPortsList() ;
+    */
+    add_map_of_the_times() ;
+// ]]></script>
+<script>// <![CDATA[
+var arrivalPortArray = [["PortID","OfficialPortName","LatLon","PortMapsNImages","PortWebSite"]] ;
+    var departurePortArray = [["PortID","OfficialPortName","LatLon","PortMapsNImages","PortWebSite"]] ;
+    var portIDIndex =  0 ; // e.g., "US BAL"
+    //var portNameIndex =  1 ; e.g., "Balmer" :)  but offical NY name is New York/New Jersey, Galveston doesn't have an entry, etc.
+    var portNameIndex =  1 ; // e.g., "Baltimore"
+    var portLatLonIndex =  2 ;  // e.g., "39.2904N,76.6122W"
+    var portOperatorsIndex =  3 ;  // e.g., "Red Star Line|Cunard Line"
+    //var passengersIndex =  4 ;  // e.g., "1900-1910:GB~36;FR~20;RU~45;IR~20;ZZ~90|1910-1920:GB~18;IT~10;FR~15;RU~25;ZZ~30|1920-1930:GB~10;FR~10;RU~15;ZZ~20"
+    var portMapsNImagesIndex =  4 ; // e.g., ""
+    var portWebPageIndex = 5;  // e.g., "www.mpa.maryland.gov"
+
+    // generated:
+    //arrivalPortArray.push([,"CA HAL","Halifax","44.65N-63.5666666666667W","www.portofhalifax.ca"]) ;
+
+    //arrivalPortArraypush(["CA MTR","Montreal","45.5N73.58W","","www.port-montreal.com"]) ;
+    //arrivalPortArraypush(["CA TOR","Toronto","43.63N79.38W","","www.torontoport.com"]) ;
+    //arrivalPortArraypush(["US BAL","Baltimore","39.28N76.58W","","www.mpa.maryland.gov"]) ;
+    //arrivalPortArraypush(["US BOS","Boston","42.35N71.08W","","www.massport.com/port-of-boston"]) ;
+    //arrivalPortArraypush(["US CHS","Charleston","32.78N79.93W","","www.scspa.com"]) ;
+    //arrivalPortArraypush(["US CRP","Corpus Christi","27.8N97.38W","","www.portofcorpuschristi.com"]) ;
+    //arrivalPortArraypush(["US HOU","Houston","29.75N95.33W","","www.portofhouston.com"]) ;
+    //arrivalPortArraypush(["US MIA","Miami","25.77N80.17W","","www.miamidade.gov/portofmiami"]) ;
+    //arrivalPortArraypush(["US NOL","New Orleans","29.95N90.07W","","www.portno.com"]) ;
+    //arrivalPortArraypush(["US NYC","New York/New Jersey","40.72N74W","","www.panynj.gov"]) ;
+    //arrivalPortArraypush(["US PHL","Philadelphia","39.95N75.17W","","www.philaport.com"]) ;
+    //arrivalPortArraypush(["US GAL","Galveston","29.75N95.33W","","www.portofhouston.com"]) ;
+
+    //departurePortArraypush(["BE ANR","Antwerp","51.23N4.38E","","www.portofantwerp.be"]) ;
+    //departurePortArraypush(["FR LEH","Le Havre","49.5N0.12W","","www.havre-port.net"]) ;
+    //departurePortArraypush(["DE BRE","Bremen","53.12N8.75E","","www.bremen-ports.de"]) ;
+    //departurePortArraypush(["DE BRV","Bremerhaven","53.55N8.58E","","n/a"]) ;
+    //departurePortArraypush(["DE HAM","Hamburg","53.55N9.98E","","www.hafen-hamburg.de"]) ;
+    //departurePortArraypush(["IE ORK","Cork","51.83N8.28W","","www.portofcork.ie"]) ;
+    //departurePortArraypush(["IL HFA","Haifa","32.82N35E","","www.haifaport.org.il"]) ;
+    //departurePortArraypush(["IT GOA","Genoa","44.4N8.9E","","www.porto.genova.it"]) ;
+    //departurePortArraypush(["IT NAP","Napoli (Naples)","40.83N14.25E","","www.porto.napoli.it/en"]) ;
+    //departurePortArraypush(["IT PMO","Palermo","38.12N13.33E","","www.autport.pa.it"]) ;
+    //departurePortArraypush(["IT TRS","Trieste","45.65N13.75E","","www.porto.trieste.it"]) ;
+    //departurePortArraypush(["NL RTM","Rotterdam","51.92N4.4E","","www.portofrotterdam.com"]) ;
+    //departurePortArraypush(["PL GDN","Gdansk","54.35N18.65E","","www.portgdansk.pl"]) ;
+    //departurePortArraypush(["PT LIS","Lisbon","38.7N9.1W","","www.porto-de-lisboa.pt"]) ;
+    //departurePortArraypush(["RU LED","St Petersburg","59.88N30.22E","","www.pasp.ru"]) ;
+    //departurePortArraypush(["TR IST","Istanbul","41.02N28.98E","","www.nrlmry.navy.mil/~cannon/medports/Istanbul/index.html"]) ;
+    //departurePortArraypush(["GB LIV","Liverpool","53.47N3.03W","","www.portofliverpool.co.uk"]) ;
+    //departurePortArraypush(["GB SOU","Southampton","50.9N1.4W","","www.abpmer.co.uk"]) ;
+
+/*
+Luanda, Angola  8°50′18″S 13°14′4″E
+Badagry, Nigeria    6°25′N 2°53′E
+Ouidah, Benin   6°22′N 2°05′E
+Elmina, Ghana   5°05′N 1°21′W
+Goree Island, Senegal   14°40′0″N 17°24′0″W
+
+Luanda, Angola  ATL LUA
+Badagry, Nigeria    ATL BAD
+Ouidah, Benin   ATL OUI
+Elmina, Ghana   ATL ELM
+Goree Island, Senegal   ATL GOR
+*/
+    //departurePortArraypush(["AO LUA","Luanda","8.8S13.3E","",""]) ;
+    //departurePortArraypush(["NG BAD","Badagry","6.5N2.9E","",""]) ;
+    //departurePortArraypush(["BJ OUI","Ouidah","6.4N2.0E","",""]) ;
+    //departurePortArraypush(["GH ELM","Elmira","5.0N1.4W","",""]) ;
+    //departurePortArraypush(["SN GOR","Goree Island","14.7N17.4E","",""]) ;
+
+//************
+
+    arrivalPortArray.push(["US BAL","Baltimore","39.28N76.58W","","www.mpa.maryland.gov"]) ;
+    arrivalPortArray.push(["US BOS","Boston","42.35N71.08W","","www.massport.com/port-of-boston"]) ;
+    arrivalPortArray.push(["US CHS","Charleston","32.78N79.93W","","www.scspa.com"]) ;
+    arrivalPortArray.push(["US CRP","Corpus Christi","27.8N97.38W","","www.portofcorpuschristi.com"]) ;
+    arrivalPortArray.push(["US HNL","Honolulu","21.31N157.86W","","www.hawaii.gov/dot"]) ;
+    arrivalPortArray.push(["US HOU","Houston","29.75N95.33W","","www.portofhouston.com"]) ;
+    arrivalPortArray.push(["US LAX","Los Angeles","33.71N82.91W","","www.portoflosangeles.org"]) ;
+    arrivalPortArray.push(["US MIA","Miami","25.76N80.16W","","www.miamidade.gov/portofmiami"]) ;
+    arrivalPortArray.push(["US NO","New Orleans","29.95N90.06W","","www.portno.com"]) ;
+    arrivalPortArray.push(["US NYC","New York/New Jersey","40.71N74W","","www.panynj.gov"]) ;
+    arrivalPortArray.push(["US OAK","Oakland","37.83N122.3W","","www.portofoakland.com"]) ;
+    arrivalPortArray.push(["US PHL","Philadelphia","39.95N75.16W","","www.philaport.com"]) ;
+    arrivalPortArray.push(["US PDX","Portland (Oregon)","45.5N122.66W","","www.portofportland.com"]) ;
+    arrivalPortArray.push(["US SEA","Seattle","47.6N122.33W","","www.portseattle.org"]) ;
+    arrivalPortArray.push(["US VDZ","Valdez","61.11N146.35W","","www.ci.valdez.ak.us/port"]) ;
+
+    arrivalPortArray.push(["CA HAL","Halifax","44.65N63.56W","","www.portofhalifax.ca"]) ;
+    arrivalPortArray.push(["CA MTR","Montreal","45.5N73.58W","","www.port-montreal.com"]) ;
+    arrivalPortArray.push(["CA TOR","Toronto","43.63N79.38W","","www.torontoport.com"]) ;
+    arrivalPortArray.push(["CA VAN","Vancouver","49.28N123.11W","","www.portmetrovancouver.com"]) ;
+
+    departurePortArray.push(["AU MEL","Melbourne","37.83S144.96E","","www.portofmelbourne.com"]) ;
+    departurePortArray.push(["AU SYD","Sydney","33.91S151.2E","","www.sydneyports.com.au"]) ;
+    departurePortArray.push(["BE ANR","Antwerp","51.23N4.38E","","www.portofantwerp.be"]) ;
+    departurePortArray.push(["CN FOC","Fuzhou","26.05N119.3E","","www.fjgh.gov.cn"]) ;
+    departurePortArray.push(["CN CAN","Guangzhou","23.1N113.23E","","www.gzport.com"]) ;
+    departurePortArray.push(["CN SHA","Shanghai","31.23N121.46E","","www.portshanghai.com.cn"]) ;
+    departurePortArray.push(["CN TSN","Tianjin","39.1N117.16E","","www.ptacn.com"]) ;
+    departurePortArray.push(["FR LEH","Le Havre","49.5N0.11W","","www.havre-port.net"]) ;
+    departurePortArray.push(["DE BRE","Bremen","53.11N8.75E","","www.bremen-ports.de"]) ;
+    departurePortArray.push(["DE BRV","Bremerhaven","53.55N8.58E","","n/a"]) ;
+    departurePortArray.push(["DE HAM","Hamburg","53.55N9.98E","","www.hafen-hamburg.de"]) ;
+    departurePortArray.push(["HK HKG","Hong Kong","22.3N114.16E","","www.info.gov.hk/mardep"]) ;
+    departurePortArray.push(["IE ORK","Cork","51.83N8.28W","","www.portofcork.ie"]) ;
+    departurePortArray.push(["IL HFA","Haifa","32.81N35E","","www.haifaport.org.il"]) ;
+    departurePortArray.push(["IT GOA","Genoa","44.4N8.9E","","www.porto.genova.it"]) ;
+    departurePortArray.push(["IT NAP","Napoli (Naples)","40.83N14.25E","","www.porto.napoli.it/en"]) ;
+    departurePortArray.push(["IT PMO","Palermo","38.11N13.33E","","www.autport.pa.it"]) ;
+    departurePortArray.push(["IT TRS","Trieste","45.65N13.75E","","www.porto.trieste.it"]) ;
+    departurePortArray.push(["JP UKB","Kobe","34.66N135.2E","","www.city.kobe.jp/cityoffice/39/port/index_e.htm"]) ;
+    departurePortArray.push(["JP OSA","Osaka","34.65N135.43E","","www.city.osaka.jp/port/"]) ;
+    departurePortArray.push(["JP TYO","Tokyo","35.71N139.76E","","www.kouwan.metro.tokyo.jp"]) ;
+    departurePortArray.push(["JP YOK","Yokohama","35.45N139.65E","","www.city.yokohama.jp/port/index-e.html"]) ;
+    departurePortArray.push(["NL RTM","Rotterdam","51.91N4.4E","","www.portofrotterdam.com"]) ;
+    departurePortArray.push(["NZ AKL","Auckland","36.85S174.75E","","www.poal.co.nz"]) ;
+    departurePortArray.push(["NZ WLG","Wellington","41.28S174.78E","","www.centreport.co.nz"]) ;
+    departurePortArray.push(["PH MNL","Manila","14.58N120.96E","","www.ppa.com.ph"]) ;
+    departurePortArray.push(["PL GDN","Gdansk","54.35N18.65E","","www.portgdansk.pl"]) ;
+    departurePortArray.push(["PT LIS","Lisbon","38.7N9.1W","","www.porto-de-lisboa.pt"]) ;
+    departurePortArray.push(["RU LED","St Petersburg","59.88N30.21E","","www.pasp.ru"]) ;
+    departurePortArray.push(["SG SIN","Singapore","1.26N103.83E","","www.mpa.gov.sg"]) ;
+    departurePortArray.push(["TW KHH","Kaohsiung","22.61N120.26E","","www.khb.gov.tw/english"]) ;
+    departurePortArray.push(["TW KEL","Keelung (Chilung)","25.15N121.73E","","www.klhb.gov.tw"]) ;
+    departurePortArray.push(["TH BKK","Bangkok","13.43N100.58E","","www.port.co.th"]) ;
+    departurePortArray.push(["TR IST","Istanbul","41.01N28.98E","","www.nrlmry.navy.mil/~cannon/medports/Istanbul/index.html"]) ;
+    departurePortArray.push(["GB LIV","Liverpool","53.46N3.03W","","www.portofliverpool.co.uk"]) ;
+    departurePortArray.push(["GB SOU","Southampton","50.9N1.4W","","www.abpmer.co.uk"]) ;
+    departurePortArray.push(["VN HPH","Haiphong","20.86N106.68E","","www.haiphongport.com.vn"]) ;
+    departurePortArray.push(["VN SGN","Ho Chi Minh City","10.83N106.75E","","www.csg.com.vn/index.jsp"]) ;
+    departurePortArray.push(["AO LUA","Luanda","8.83S13.23E","","-"]) ;
+    departurePortArray.push(["NG BAD","Badagry,","6.41N2.88E","","http://www.badagrygov.org"]) ;
+    departurePortArray.push(["BJ OUI","Ouidah","6.36N2.08E","","-"]) ;
+    departurePortArray.push(["GH ELM","Elmina","5.08N1.35E","","-"]) ;
+    departurePortArray.push(["SN GOR","Goree Island","14.66N17.4E","","-"]) ;
+
+function buildCountrysPortsLists() {
+
+}
+// ]]></script>
+<!--
+    ***********************************************************
+    adding graphics
+    ***********************************************************
+  -->
+<script type="text/javascript">// <![CDATA[
+/* define "matchTarget" in the local environment... */
+    var matchTarget ;
+/* then use to check for that target on elements of an array... */
+function matchArrayString(element) {
+    //console.log("matchArrayString()") ;
+    return element == matchTarget;
+}
+// ]]></script>
+<script type="text/javascript">// <![CDATA[
+localStorage.ArrivalPortSortMethod = "alpha" ;
+    localStorage.DeparturePortSortMethod = "alpha" ;
+    //processedPortsArray=processedPortsArray.filter(filterByRegion) ;
+    localStorage.ArrivalPortFilter = "filterArrivalPortsByRegion" ;
+    localStorage.DeparturePortFilter = "filterDeparturePortsByRegion" ;
+// ]]></script>
+<script>// <![CDATA[
+//console.log("Building new port datastructures...") ;
+    /*
+    US BAL
+    US BOS
+    US CHS
+    US CRP
+    US HOU
+    US MIA
+    US NOL
+    US NYC
+    US PHL
+    US GAL
+    */
+    //var portIndexNames = ["PortID","CustomPortName","OfficialPortName","LatLon", "Operators", "Passengers","PortWebSite","PortMapsNImages"] ;
+    var arrivalPortArray = [["PortID","OfficialPortName","LatLon","PortMapsNImages","PortWebSite"]] ;
+    var departurePortArray = [["PortID","OfficialPortName","LatLon","PortMapsNImages","PortWebSite"]] ;
+    var portIDIndex =  0 ; // e.g., "US BAL"
+    //var portNameIndex =  1 ; e.g., "Balmer" :)  but offical NY name is New York/New Jersey, Galveston doesn't have an entry, etc.
+    var portNameIndex =  1 ; // e.g., "Baltimore"
+    var portLatLonIndex =  2 ;  // e.g., "39.2904N,76.6122W"
+    var portOperatorsIndex =  3 ;  // e.g., "Red Star Line|Cunard Line"
+    //var passengersIndex =  4 ;  // e.g., "1900-1910:GB~36;FR~20;RU~45;IR~20;ZZ~90|1910-1920:GB~18;IT~10;FR~15;RU~25;ZZ~30|1920-1930:GB~10;FR~10;RU~15;ZZ~20"
+    var portMapsNImagesIndex =  4 ; // e.g., ""
+    var portWebPageIndex = 5;  // e.g., "www.mpa.maryland.gov"
+
+    // generated:
+    //arrivalPortArray.push([,"CA HAL","Halifax","44.65N-63.5666666666667W","www.portofhalifax.ca"]) ;
+
+    //arrivalPortArraypush(["CA MTR","Montreal","45.5N73.58W","","www.port-montreal.com"]) ;
+    //arrivalPortArraypush(["CA TOR","Toronto","43.63N79.38W","","www.torontoport.com"]) ;
+    //arrivalPortArraypush(["US BAL","Baltimore","39.28N76.58W","","www.mpa.maryland.gov"]) ;
+    //arrivalPortArraypush(["US BOS","Boston","42.35N71.08W","","www.massport.com/port-of-boston"]) ;
+    //arrivalPortArraypush(["US CHS","Charleston","32.78N79.93W","","www.scspa.com"]) ;
+    //arrivalPortArraypush(["US CRP","Corpus Christi","27.8N97.38W","","www.portofcorpuschristi.com"]) ;
+    //arrivalPortArraypush(["US HOU","Houston","29.75N95.33W","","www.portofhouston.com"]) ;
+    //arrivalPortArraypush(["US MIA","Miami","25.77N80.17W","","www.miamidade.gov/portofmiami"]) ;
+    //arrivalPortArraypush(["US NOL","New Orleans","29.95N90.07W","","www.portno.com"]) ;
+    //arrivalPortArraypush(["US NYC","New York/New Jersey","40.72N74W","","www.panynj.gov"]) ;
+    //arrivalPortArraypush(["US PHL","Philadelphia","39.95N75.17W","","www.philaport.com"]) ;
+    //arrivalPortArraypush(["US GAL","Galveston","29.75N95.33W","","www.portofhouston.com"]) ;
+
+    //departurePortArraypush(["BE ANR","Antwerp","51.23N4.38E","","www.portofantwerp.be"]) ;
+    //departurePortArraypush(["FR LEH","Le Havre","49.5N0.12W","","www.havre-port.net"]) ;
+    //departurePortArraypush(["DE BRE","Bremen","53.12N8.75E","","www.bremen-ports.de"]) ;
+    //departurePortArraypush(["DE BRV","Bremerhaven","53.55N8.58E","","n/a"]) ;
+    //departurePortArraypush(["DE HAM","Hamburg","53.55N9.98E","","www.hafen-hamburg.de"]) ;
+    //departurePortArraypush(["IE ORK","Cork","51.83N8.28W","","www.portofcork.ie"]) ;
+    //departurePortArraypush(["IL HFA","Haifa","32.82N35E","","www.haifaport.org.il"]) ;
+    //departurePortArraypush(["IT GOA","Genoa","44.4N8.9E","","www.porto.genova.it"]) ;
+    //departurePortArraypush(["IT NAP","Napoli (Naples)","40.83N14.25E","","www.porto.napoli.it/en"]) ;
+    //departurePortArraypush(["IT PMO","Palermo","38.12N13.33E","","www.autport.pa.it"]) ;
+    //departurePortArraypush(["IT TRS","Trieste","45.65N13.75E","","www.porto.trieste.it"]) ;
+    //departurePortArraypush(["NL RTM","Rotterdam","51.92N4.4E","","www.portofrotterdam.com"]) ;
+    //departurePortArraypush(["PL GDN","Gdansk","54.35N18.65E","","www.portgdansk.pl"]) ;
+    //departurePortArraypush(["PT LIS","Lisbon","38.7N9.1W","","www.porto-de-lisboa.pt"]) ;
+    //departurePortArraypush(["RU LED","St Petersburg","59.88N30.22E","","www.pasp.ru"]) ;
+    //departurePortArraypush(["TR IST","Istanbul","41.02N28.98E","","www.nrlmry.navy.mil/~cannon/medports/Istanbul/index.html"]) ;
+    //departurePortArraypush(["GB LIV","Liverpool","53.47N3.03W","","www.portofliverpool.co.uk"]) ;
+    //departurePortArraypush(["GB SOU","Southampton","50.9N1.4W","","www.abpmer.co.uk"]) ;
+
+/*
+Luanda, Angola  8°50′18″S 13°14′4″E
+Badagry, Nigeria    6°25′N 2°53′E
+Ouidah, Benin   6°22′N 2°05′E
+Elmina, Ghana   5°05′N 1°21′W
+Goree Island, Senegal   14°40′0″N 17°24′0″W
+
+Luanda, Angola  ATL LUA
+Badagry, Nigeria    ATL BAD
+Ouidah, Benin   ATL OUI
+Elmina, Ghana   ATL ELM
+Goree Island, Senegal   ATL GOR
+*/
+    //departurePortArraypush(["AO LUA","Luanda","8.8S13.3E","",""]) ;
+    //departurePortArraypush(["NG BAD","Badagry","6.5N2.9E","",""]) ;
+    //departurePortArraypush(["BJ OUI","Ouidah","6.4N2.0E","",""]) ;
+    //departurePortArraypush(["GH ELM","Elmira","5.0N1.4W","",""]) ;
+    //departurePortArraypush(["SN GOR","Goree Island","14.7N17.4E","",""]) ;
+
+//************
+
+    arrivalPortArray.push(["US BAL","Baltimore","39.28N76.58W","","www.mpa.maryland.gov"]) ;
+    arrivalPortArray.push(["US BOS","Boston","42.35N71.08W","","www.massport.com/port-of-boston"]) ;
+    arrivalPortArray.push(["US CHS","Charleston","32.78N79.93W","","www.scspa.com"]) ;
+    arrivalPortArray.push(["US CRP","Corpus Christi","27.8N97.38W","","www.portofcorpuschristi.com"]) ;
+    arrivalPortArray.push(["US HNL","Honolulu","21.31N157.86W","","www.hawaii.gov/dot"]) ;
+    arrivalPortArray.push(["US HOU","Houston","29.75N95.33W","","www.portofhouston.com"]) ;
+    arrivalPortArray.push(["US LAX","Los Angeles","33.71N82.91W","","www.portoflosangeles.org"]) ;
+    arrivalPortArray.push(["US MIA","Miami","25.76N80.16W","","www.miamidade.gov/portofmiami"]) ;
+    arrivalPortArray.push(["US NO","New Orleans","29.95N90.06W","","www.portno.com"]) ;
+    arrivalPortArray.push(["US NYC","New York/New Jersey","40.71N74W","","www.panynj.gov"]) ;
+    arrivalPortArray.push(["US OAK","Oakland","37.83N122.3W","","www.portofoakland.com"]) ;
+    arrivalPortArray.push(["US PHL","Philadelphia","39.95N75.16W","","www.philaport.com"]) ;
+    arrivalPortArray.push(["US PDX","Portland (Oregon)","45.5N122.66W","","www.portofportland.com"]) ;
+    arrivalPortArray.push(["US SEA","Seattle","47.6N122.33W","","www.portseattle.org"]) ;
+    arrivalPortArray.push(["US VDZ","Valdez","61.11N146.35W","","www.ci.valdez.ak.us/port"]) ;
+
+    arrivalPortArray.push(["CA HAL","Halifax","44.65N63.56W","","www.portofhalifax.ca"]) ;
+    arrivalPortArray.push(["CA MTR","Montreal","45.5N73.58W","","www.port-montreal.com"]) ;
+    arrivalPortArray.push(["CA TOR","Toronto","43.63N79.38W","","www.torontoport.com"]) ;
+    arrivalPortArray.push(["CA VAN","Vancouver","49.28N123.11W","","www.portmetrovancouver.com"]) ;
+
+    departurePortArray.push(["AU MEL","Melbourne","37.83S144.96E","","www.portofmelbourne.com"]) ;
+    departurePortArray.push(["AU SYD","Sydney","33.91S151.2E","","www.sydneyports.com.au"]) ;
+    departurePortArray.push(["BE ANR","Antwerp","51.23N4.38E","","www.portofantwerp.be"]) ;
+    departurePortArray.push(["CN FOC","Fuzhou","26.05N119.3E","","www.fjgh.gov.cn"]) ;
+    departurePortArray.push(["CN CAN","Guangzhou","23.1N113.23E","","www.gzport.com"]) ;
+    departurePortArray.push(["CN SHA","Shanghai","31.23N121.46E","","www.portshanghai.com.cn"]) ;
+    departurePortArray.push(["CN TSN","Tianjin","39.1N117.16E","","www.ptacn.com"]) ;
+    departurePortArray.push(["FR LEH","Le Havre","49.5N0.11W","","www.havre-port.net"]) ;
+    departurePortArray.push(["DE BRE","Bremen","53.11N8.75E","","www.bremen-ports.de"]) ;
+    departurePortArray.push(["DE BRV","Bremerhaven","53.55N8.58E","","n/a"]) ;
+    departurePortArray.push(["DE HAM","Hamburg","53.55N9.98E","","www.hafen-hamburg.de"]) ;
+    departurePortArray.push(["HK HKG","Hong Kong","22.3N114.16E","","www.info.gov.hk/mardep"]) ;
+    departurePortArray.push(["IE ORK","Cork","51.83N8.28W","","www.portofcork.ie"]) ;
+    departurePortArray.push(["IL HFA","Haifa","32.81N35E","","www.haifaport.org.il"]) ;
+    departurePortArray.push(["IT GOA","Genoa","44.4N8.9E","","www.porto.genova.it"]) ;
+    departurePortArray.push(["IT NAP","Napoli (Naples)","40.83N14.25E","","www.porto.napoli.it/en"]) ;
+    departurePortArray.push(["IT PMO","Palermo","38.11N13.33E","","www.autport.pa.it"]) ;
+    departurePortArray.push(["IT TRS","Trieste","45.65N13.75E","","www.porto.trieste.it"]) ;
+    departurePortArray.push(["JP UKB","Kobe","34.66N135.2E","","www.city.kobe.jp/cityoffice/39/port/index_e.htm"]) ;
+    departurePortArray.push(["JP OSA","Osaka","34.65N135.43E","","www.city.osaka.jp/port/"]) ;
+    departurePortArray.push(["JP TYO","Tokyo","35.71N139.76E","","www.kouwan.metro.tokyo.jp"]) ;
+    departurePortArray.push(["JP YOK","Yokohama","35.45N139.65E","","www.city.yokohama.jp/port/index-e.html"]) ;
+    departurePortArray.push(["NL RTM","Rotterdam","51.91N4.4E","","www.portofrotterdam.com"]) ;
+    departurePortArray.push(["NZ AKL","Auckland","36.85S174.75E","","www.poal.co.nz"]) ;
+    departurePortArray.push(["NZ WLG","Wellington","41.28S174.78E","","www.centreport.co.nz"]) ;
+    departurePortArray.push(["PH MNL","Manila","14.58N120.96E","","www.ppa.com.ph"]) ;
+    departurePortArray.push(["PL GDN","Gdansk","54.35N18.65E","","www.portgdansk.pl"]) ;
+    departurePortArray.push(["PT LIS","Lisbon","38.7N9.1W","","www.porto-de-lisboa.pt"]) ;
+    departurePortArray.push(["RU LED","St Petersburg","59.88N30.21E","","www.pasp.ru"]) ;
+    departurePortArray.push(["SG SIN","Singapore","1.26N103.83E","","www.mpa.gov.sg"]) ;
+    departurePortArray.push(["TW KHH","Kaohsiung","22.61N120.26E","","www.khb.gov.tw/english"]) ;
+    departurePortArray.push(["TW KEL","Keelung (Chilung)","25.15N121.73E","","www.klhb.gov.tw"]) ;
+    departurePortArray.push(["TH BKK","Bangkok","13.43N100.58E","","www.port.co.th"]) ;
+    departurePortArray.push(["TR IST","Istanbul","41.01N28.98E","","www.nrlmry.navy.mil/~cannon/medports/Istanbul/index.html"]) ;
+    departurePortArray.push(["GB LIV","Liverpool","53.46N3.03W","","www.portofliverpool.co.uk"]) ;
+    departurePortArray.push(["GB SOU","Southampton","50.9N1.4W","","www.abpmer.co.uk"]) ;
+    departurePortArray.push(["VN HPH","Haiphong","20.86N106.68E","","www.haiphongport.com.vn"]) ;
+    departurePortArray.push(["VN SGN","Ho Chi Minh City","10.83N106.75E","","www.csg.com.vn/index.jsp"]) ;
+    departurePortArray.push(["AO LUA","Luanda","8.83S13.23E","","-"]) ;
+    departurePortArray.push(["NG BAD","Badagry,","6.41N2.88E","","http://www.badagrygov.org"]) ;
+    departurePortArray.push(["BJ OUI","Ouidah","6.36N2.08E","","-"]) ;
+    departurePortArray.push(["GH ELM","Elmina","5.08N1.35E","","-"]) ;
+    departurePortArray.push(["SN GOR","Goree Island","14.66N17.4E","","-"]) ;
+
+
+//************
+    //region maps
+    var regionMapArray = [["regionName","regionAbbrev", "ULLatLon","LRLatLon","ULDoc","LRDoc"]] ;
+    var regionDeparturePortsBoundingBox = [["regionName","regionAbbrev", "EastLon","WestLon","NorthLat","SouthLat"]] ;
+    var regionArrivalPortsBoundingBox = [["regionName","regionAbbrev", "EastLon","WestLon","NorthLat","SouthLat"]] ;
+    var regionNameIndex =  0 ; // e.g., "Africa"
+    var regionAbbrevIndex =  1 ; // e.g., "Afr"
+    var ULLatLonIndex =  2 ; // e.g., "44N106W"
+    var LRLatLonIndex =  3 ;  // e.g., "38S40E"
+    var ULAIIndex =  4 ; // Illustrator, in inches. E.g., "81.3x100y"
+    var LRAIIndex =  5 ; // e.g., "106.8x84y"
+    var webDocWidthHeightIndex =  6 ; // e.g., "width: 185px; height: 170px; "
+    var webDocTopLeftIndex =  7 ; // e.g., "top: 160px; left: 490px;"
+    /*
+    WholeWorldDouble  ULLatLon: "45.5N73.58W"; LRLatLon: "45.5N73.58W"; ULDoctop: top: 160px; left: 490px; LRDoctop: 160px; left: 490px; width: 185px; height: 170px;
+            ###style="position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+    regionMapArray.push(["GB SOU","Southampton","50.9N1.4W","","www.abpmer.co.uk"]) ;
+    */
+    /*
+    WholeWorld - Europe centered:  88N180W  68.4x121y   60S180E 131.6x79y
+            style="position: relative; width: 1000px; height: 400px; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
+            ###
+                Illustrator maps go from 60S to 88N,
+                so if treat 88 as ~90 (yes?)
+                then need to add 28 degrees to the bottom of the map.
+                Illustrator map inches from 60N to 88N are 104.6" to 121"
+                so correspondingly, add 16.4 inches to the bottom of the map
+            ###
+    */
+    regionMapArray.push(["WholeWorldEuCtr", "WWE", "88N180W","58.33S180E", "68.4x121y","131.6x79y", "width: 185px; height: 170px; ", "top: 160px; left: 490px;"]) ;
+    regionDeparturePortsBoundingBox.push(["WholeWorldEuCtr", "WWE", "80N20W","50S180E"]) ;
+    regionArrivalPortsBoundingBox.push(["WholeWorldEuCtr", "WWE", "75N170W","25N60W"]) ;
+    /*
+    regionArrivalPortsBoundingBox.push(["AllUS", "USA", "50N170W","25S60E"]) ;
+    regionArrivalPortsBoundingBox.push(["EastUS", "EUS", "50N100W","25S60E"]) ;
+    regionArrivalPortsBoundingBox.push(["SouthUS", "SUS", "40N100W","25S60E"]) ;
+    regionArrivalPortsBoundingBox.push(["GulfUS", "GUS", "32N100W","25S82E"]) ;
+    regionArrivalPortsBoundingBox.push(["WestCoastUS", "CUS", "50N130W","25S100E"]) ;
+    regionArrivalPortsBoundingBox.push(["PacificUS", "PUS", "75N170W","18S100E"]) ;
+    */
+    /*
+    Africa 44N106W  81.3x100y   38S40E  106.8x84y ### check to see if identical to shopify SoA region ##
+            style="display: block; position: absolute; top: 160px; left: 490px; width: 185px; height: 170px; border: 4px solid green;"
+    */
+    regionMapArray.push(["Africa", "Afr", "44N106W","38S40E", "81.3x100y","106.8x84y", "width: 185px; height: 170px; ", "top: 160px; left: 490px;"]) ;
+    regionDeparturePortsBoundingBox.push(["Africa", "Afr", "40N20W","35S60E"]) ;
+    regionArrivalPortsBoundingBox.push(["Africa", "Afr", "50N100W","25N60W"]) ;
+    /*
+    SouthAsia: 68N33E   81.7x106y   57S65W  106.9x90.3y ### check to see if identical to shopify SoA region ##
+            style="display: block; position: absolute; top: 80px; left: 680px; width: 180px; height: 160px; border: 2px solid blue;"
+    */
+    regionMapArray.push(["SouthAsia", "SoA", "68N33E","57S65W", "81.7x106y","106.9x90.3y", "width: 185px; height: 170px; ", "top: 160px; left: 490px;"]) ;
+    regionDeparturePortsBoundingBox.push(["SouthAsia", "SoA", "40N50E","0N100E"]) ;
+    regionArrivalPortsBoundingBox.push(["SouthAsia", "SoA", "75N170W","18N100W"]) ;
+    /*
+    SouthAmericaAndTheCaribbean: Shopify horiz approx:  48N160W 72x105y 57S33W  105.8x79.5y; vert:  54.4N128W   75.6x102.8y 60S30W  94.8x79y
+            style="display: block; position: absolute; top: 150px; left: 220px; width: 260px; height: 230px; border: 3px solid purple;"
+    */
+    regionMapArray.push(["SouthAmericaAndTheCaribbean", "SAm", "48N160W","57S33W", "72x105y","105.8x79.5y", "width: 185px; height: 170px; ", "top: 160px; left: 490px;"]) ;
+    regionDeparturePortsBoundingBox.push(["SouthAmericaAndTheCaribbean", "SAm", "25N80W","60S30W"]) ;
+    regionArrivalPortsBoundingBox.push(["SouthAmericaAndTheCaribbean", "SAm", "50N170W","25N60W"]) ;
+    /*
+    PacificRim: 65N72E  49.2x106.y  47S66W  88.5x82.2y (PacRimRight 54N180W 68.5x102.4y 48S68.2W    88x80.9y)
+            style="display: block; position: absolute; top: 100px; left: 0px; width: 200px; height: 200px; border-style: solid; border-width: 2px 2px 2px 0px; border-color: orange;"
+    Pacific Rim: (PacRimLeft 54N94E  53x102.4y   48S180W 68.5x80.9y)
+            style="display: block; position: absolute; top: 100px; right: 0px; width: 135px; height: 200px; border-style: solid; border-width: 2px 0px 2px 2px; border-color: orange;"
+    */
+    regionMapArray.push(["PacificRim", "Pac", "65N72E","47S66W", "49.2x106.y","88.5x82.2y", "width: 185px; height: 170px; ", "top: 160px; left: 490px;"]) ;
+    regionDeparturePortsBoundingBox.push(["PacificRim", "Pac", "50N90E","50S180E"]) ;
+    regionArrivalPortsBoundingBox.push(["PacificRim", "Pac", "75N170W","18N100W"]) ;
+    /*
+    EuropeAndTheMediterranean&quot : 65N102W    82x106.5.y  5S38E   106.6x90.6y
+            style="display: block; position: absolute; top: 30px; left: 510px; width: 165px; height: 120px; border: 2px solid red;"
+    parseXY("82x106.5y"")
+    */
+    regionMapArray.push(["EuropeAndTheMediterranean", "EuM", "65N102W","5S38E", "82x106.5y","106.6x90.6y", "width: 185px; height: 170px; ", "top: 160px; left: 490px;"]) ;
+    regionDeparturePortsBoundingBox.push(["EuropeAndTheMediterranean", "EuM", "80N10W","40N50E"]) ;
+    regionArrivalPortsBoundingBox.push(["EuropeAndTheMediterranean", "EuM", "50N100W","25N60W"]) ;
+// ]]></script>
+<script type="text/javascript">// <![CDATA[
+function portInRegion(portName, portArray, regionName, regionArray) { // maybe move port/regionArray out of argument list
+    // PortArray = [["PortID","OfficialPortName","LatLon","PortMapsNImages","PortWebSite"]] ;
+    // E.g., (["IT GOA","Genoa","44.4N8.9E","","www.porto.genova.it"]) ;
+    //console.log("portInRegion(portName=="+portName+", portArray=="+portArray+", regionName=="+regionName+", regionArray=="+regionArray+")") ;
+    var portIndex = portArrayPortNameIndex(portName, portArray) ;
+    var portStruct = portArray[portIndex] ;
+    //console.log("portStruct = portArray[portIndex=="+portIndex+"]=="+portStruct) ;
+    if (portStruct == undefined) {
+        console.log("portInRegion(portName=="+portName+", regionName=="+regionName+") is undefined") ;
+        return false ;
+    }
+    var portLatLonStr = portStruct[portLatLonIndex];
+    var portLatLon = parseLatLon(portLatLonStr);
+    var portLat = portLatLon[0];
+    var portLon = portLatLon[1];  // X
+
+    var regionIndex = mapArrayRegionNameIndex(regionName, regionArray) ;
+    var regionStruct = regionArray[regionIndex] ;
+    //console.log("%%%%%%%%portInRegion(portName=="+portName+", regionName=="+regionName+")") ;
+    var regionULLatLonStr = regionStruct[ULLatLonIndex];
+    var regionLRLatLonStr = regionStruct[LRLatLonIndex];
+    var regionULLatLon = parseLatLon(regionULLatLonStr);
+    var regionLRLatLon = parseLatLon(regionLRLatLonStr);
+    var regionULLat = regionULLatLon[0];
+    var regionULLon = regionULLatLon[1];  // X
+    var regionLRLat = regionLRLatLon[0];
+    var regionLRLon = regionLRLatLon[1];  // X
+
+    //console.log("portLat=="+portLat+"; portLon=="+portLon+"regionULLat=="+regionULLat+"; regionULLon=="+regionULLon+"; regionLRLat=="+regionLRLat+"; regionLRLon=="+regionLRLon);
+    if ((regionLRLat<=portLat)&&(portLat<=regionULLat)) {
+        //console.log("clause2: regionLRLon=="+regionLRLon+"; regionULLon=="+regionULLon);
+        if ((regionULLon<=portLon)&&(portLon<=regionLRLon)) {
+            return true ;
+        }
+        else {
+            return false ;
+        }
+    }
+    else {
+        return false ;
+    }
+}
+    // ex.  portInRegion("portName"Bremen"", departurePortArray, "Africa", regionMapArray)
+    // ex.  portInRegion2("Bremen", departurePortArray, "EuropeAndTheMediterranean", regionMapArray)
+
+
+function testPortInRegion(regionName) {
+    var isPortInRegion ;
+    for (arrivalPortIndex = 1 ; arrivalPortIndex < arrivalPortArray.length; arrivalPortIndex++) {
+        isPortInRegion=portInRegion(arrivalPortArray[arrivalPortIndex][portNameIndex], arrivalPortArray, regionName, regionArrivalPortsBoundingBox) ;
+        console.log("arrivalPort == "+arrivalPortArray[arrivalPortIndex][portNameIndex]+".  InRegion? =="+isPortInRegion) ;
+    }
+    for (departurePortIndex = 1 ; departurePortIndex < departurePortArray.length; departurePortIndex++) {
+        isPortInRegion=portInRegion(departurePortArray[departurePortIndex][portNameIndex], departurePortArray, regionName, regionDeparturePortsBoundingBox) ;
+        console.log("departurePort == "+departurePortArray[departurePortIndex][portNameIndex]+".  InRegion? =="+isPortInRegion) ;
+    }
+}
+// ]]></script>
+<script type="text/javascript">// <![CDATA[
+function mapArrayRegionNameIndex(regionName, regionMapArray) {
+    //regionMapArray[0] is the row for the attributes names
+    for (var i = 1; i < regionMapArray.length; i++) {
+        if (regionName==regionMapArray[i][regionNameIndex]) {
+            return i ;
+        } ;
+    } ;
+    return -1 ;
+}
+
+function mapArrayRegionAbbrevIndex(regionAbbrev, regionMapArray) {
+    //regionMapArray[0] is the row for the attributes names
+    for (var i = 1; i < regionMapArray.length; i++) {
+        if (regionAbbrev==regionMapArray[i][regionAbbrevIndex]) {
+            return i ;
+        } ;
+    } ;
+    return -1 ;
+}
+
+function portArrayPortNameIndex(portName, portArray) {
+    //portArray[0] is the row for the attributes names
+    for (var i = 1; i < portArray.length; i++) {
+        if (portName==portArray[i][portNameIndex]) {
+            return i ;
+        } ;
+    } ;
+    return -1 ;
+}
+// ]]></script>
+<script>// <![CDATA[
+//var teststr= "45.5N73.58W" ;
+function parseLatLon(LLStr) {
+    var teststrN = LLStr.indexOf("N");
+    var teststrS = LLStr.indexOf("S");
+    var teststrE = LLStr.indexOf("E");
+    var teststrW = LLStr.indexOf("W");
+    var Lat;
+    var Lon;
+    if (teststrN>-1) {
+        Lat = Number(LLStr.slice(0,teststrN));
+    }
+    else {
+        Lat = - Number(LLStr.slice(0,teststrS));
+        teststrN=teststrS ;
+    }
+    if (teststrE>-1) {
+        Lon = Number(LLStr.slice(teststrN+1,teststrE));
+    }
+    else {
+        Lon = - Number(LLStr.slice(teststrN+1,teststrW));
+    }
+    return [Lat,Lon] ;
+}
+//document.getElementById("demoSVG").innerHTML = parseLatLon(returnStr);
+// ]]></script>
+<script>// <![CDATA[
+//var teststr= "45.5N73.58W" ;
+function parseXY(XYStr) {
+    var teststrx = XYStr.indexOf("x");
+    var teststrX = XYStr.indexOf("X");
+    var teststrE = XYStr.indexOf("y");
+    var teststrW = XYStr.indexOf("Y");
+    var X;
+    var Y;
+    if (teststrx>-1) {
+        X = Number(XYStr.slice(0,teststrx));
+    }
+    else {
+        X = Number(XYStr.slice(0,teststrX));
+        teststrx=teststrX ;
+    }
+    if (teststrE>-1) {
+        Y = Number(XYStr.slice(teststrx+1,teststrE));
+    }
+    else {
+        Y = Number(XYStr.slice(teststrx+1,teststrW));
+    }
+    return [X,Y] ;
+}
+//document.getElementById("demoSVG").innerHTML = parseLatLon(returnStr);
+// ]]></script>
+<script>// <![CDATA[
+function extractPortInfoFromName(portName, portRole) {  // specify what info, e.g., portLatLonIndex?
+//        console.log("extractPortInfoFromName: portName=="+portName+" portRole=="+portRole) ;
+    if (portRole=="arrivalPort") {
+        portInfoList=arrivalPortArray ;
+    }
+    else if (portRole=="departurePort") {
+        portInfoList=departurePortArray ;
+    }
+    else {
+        alert("extractPortInfoFromName() - neither an arrival nor a departure port?  Assuming departure port.") ;
+        portInfoList=departurePortArray ;
+    }
+    for (var i = 1; i < portInfoList.length; i++) {
+    //    console.log("extractPortInfoFromName: portInfoList[i]=="+portInfoList[i]) ;
+        if (portName==portInfoList[i][portNameIndex]) {
+            //return portInfoList[i][portLatLonIndex] ;
+            return portInfoList[i] ;
+            // unnec: i = portInfoList.length+1 ;
+        }
+    }
+}
+// ]]></script>
+<script>// <![CDATA[
+function screenSizeOfFullMap(wholeWorldX, wholeWorldY, screenRegionX, screenRegionY, screenRegionDegreesX, screenRegionDegreesY) {
+    var screenWholeWorldX, screenWholeWorldY ;
+    var wholeWorldRegionX, wholeWorldRegionY ;
+    wholeWorldRegionX = wholeWorldX * (screenRegionDegreesX/360) ;
+    wholeWorldRegionY = wholeWorldY * (screenRegionDegreesY/180) ;
+    screenWholeWorldX = wholeWorldX * (screenRegionX/wholeWorldRegionX) ;
+    screenWholeWorldY = wholeWorldY * (screenRegionY/wholeWorldRegionY) ;
+    return [screenWholeWorldX,screenWholeWorldY] ;
+}
+// ]]></script>
+<script>// <![CDATA[
+function docMapToScreenMapCoords(docMapX, docMapY, mapXDim, mapYDim) {
+    var screenMapX = docMapX ;
+    var screenMapY = mapYDim-docMapY ;
+//    alert('docMapToScreenMapCoords(): docMapX='+docMapX+', docMapY='+docMapY+', mapXDim='+mapXDim+', mapYDim='+mapYDim+' >> screenMapX='+screenMapX+', screenMapY='+screenMapY) ;
+   // ### already done in mecaor conversion??? ####
+    screenMapY = mapYDim-docMapY ;
+    return [screenMapX,screenMapY] ;
+}
+// ]]></script>
+<script>// <![CDATA[
+function mercatorXYFromLL(Lat, Lon, mapXDim, mapYDim) {
+    /*
+    latitude    = 41.145556; // (φ)
+    longitude   = -73.995;   // (λ)
+
+    mapWidth    = 200;  // so extrapolate to get th mapWidth?
+    mapHeight   = 100;  // extrapolate to get th mapHeight?
+                        // What about the X and Y offsets of the doc?
+    // get x value
+    x = (longitude+180)*(mapWidth/360)
+
+    // convert from degrees to radians
+    latRad = latitude*PI/180;
+
+    // get y value
+    mercN = ln(tan((PI/4)+(latRad/2)));
+    y     = (mapHeight/2)-(mapWidth*mercN/(2*PI));
+
+    // so [x,y] is from the lower left of the doc?
+     */
+    var X = Math.round((Lon + 180) * (mapXDim / 360)) ;
+
+    var LatInRadians = Lat * (Math.PI/180) ;
+    var adjustedLat = (Math.PI/4)+(LatInRadians/2) ;
+    var tanAdjustedLat = Math.tan(adjustedLat) ;
+    var mercN = Math.log(tanAdjustedLat) ;
+    var YDimOffset = (mapYDim/2) ;
+    var Y ;
+    //console.log("...Y: YDimOffset["+YDimOffset+"]-(mapXDim["+mapXDim+"]*mercN["+mercN+"]/(2*Math.PI["+(2*Math.PI)+"]))") ;
+    Y = YDimOffset-((mapXDim*mercN)/(2*Math.PI)) ;
+    //console.log("...YDimOffset-((mapXDim*mercN)/(2*Math.PI)):"+Y) ;
+
+/*
+
+    // ### LOWEST y     = (mapHeight/2)-(mapWidth*mercN/(2*PI));  ### really want dependency on width?  YES
+    LatInRadians = Lat * (Math.PI/180) ;
+    adjustedLat = (Math.PI/4)+(LatInRadians/2) ;
+    tanAdjustedLat = Math.tan(adjustedLat) ;
+    mercN = Math.log(tanAdjustedLat) ;
+    YDimOffset = .5*mapYDim ; //(mapYDim/2) ;
+    Y = YDimOffset-((mapYDim*mercN)/(2*Math.PI)) ;
+
+    // ### HIGHEST y     = (mapHeight/2)-(mapWidth*mercN/(2*PI));  ### really want dependency on width?  YES
+    LatInRadians = Lat * (Math.PI/180) ;
+    adjustedLat = (Math.PI/4)+(LatInRadians/2) ;
+    tanAdjustedLat = Math.tan(adjustedLat) ;
+    mercN = Math.log(tanAdjustedLat) ;
+    YDimOffset = .5*mapYDim ; //(mapYDim/2) ;
+    Y = YDimOffset-((mapYDim*mercN)/(2*Math.PI)) ;
+
+    // ### ZERO y     = (mapHeight/2)-(mapWidth*mercN/(2*PI));  ### really want dependency on width?  YES
+    LatInRadians = Lat * (Math.PI/180) ;
+    adjustedLat = (Math.PI/4)+(LatInRadians/2) ;
+    tanAdjustedLat = Math.tan(adjustedLat) ;
+    mercN = Math.log(tanAdjustedLat) ;
+    YDimOffset = .5*mapYDim ; //(mapYDim/2) ;
+    Y = YDimOffset-((mapYDim*mercN)/(2*Math.PI)) ;
+
+    // ### ACTUAL y     = (mapHeight/2)-(mapWidth*mercN/(2*PI));  ### really want dependency on width?  YES
+    LatInRadians = Lat * (Math.PI/180) ;
+    adjustedLat = (Math.PI/4)+(LatInRadians/2) ;
+    tanAdjustedLat = Math.tan(adjustedLat) ;
+    mercN = Math.log(tanAdjustedLat) ;
+    YDimOffset = .5*mapYDim ; //(mapYDim/2) ;
+    Y = YDimOffset-((mapYDim*mercN)/(2*Math.PI)) ;
+
+
+    // ### ZERO y     = (mapHeight/2)-(mapWidth*mercN/(2*PI));  ### really want dependency on width?  YES
+    //Lat = 64;
+    LatInRadians = Lat * (Math.PI/180) ;
+    adjustedLat = (Math.PI/4)+(LatInRadians/2) ;
+    tanAdjustedLat = Math.tan(adjustedLat) ;
+    mercN = Math.log(tanAdjustedLat) ;
+    YDimOffset = .5*mapYDim ; //(mapYDim/2) ;
+    Y = YDimOffset-((mapYDim*mercN)/(2*Math.PI)) ;
+
+*/
+    X = ((Lon + 180)/360) * mapXDim  ;
+    Y = ((Lat + 90)/180) * mapYDim ;
+
+    X = (Math.round(X*100))/100 ;
+    Y = (Math.round(Y*100))/100 ;
+//            alert("mercatorXYFromLL(Lat=="+Lat+", Lon=="+Lon+", mapXDim=="+mapXDim+", mapYDim=="+mapYDim+")==["+X+","+Y+"]") ;
+
+    return [X,Y] ;
+}
+// ]]></script>
+<script>// <![CDATA[
+var illustratorExtendMapToMinus60InDegrees = 1.67 ;
+var illustratorExtendMapToMinus60DegreeInches = .5 ;
+var illustratorAntarcticBufferInDegrees = 28 ;
+var illustratorAntarcticBufferInInches = 16.4 ;
+
+function docWindowXYFromDocWorldXY(docWorldTgtX, docWorldTgtY, docWorldXSpan, docWorldYSpan, regionXDim, regionYDim, webXLeftDelta, webYBottomDelta) {
+        /*
+        webXLeftDelta == docWorldXOrigin2RegionDelta
+
+        assuming the window is inside the doc
+        and window coords start at upper left and go down to the right
+        ### while world doc coords are from lower left and go up to the right ?? ###
+
+         */
+        //thisPortsX = Math.round(screenRegionStartX+Math.abs(x2LonRatio * (thisPortsLon -regionMapULLatLon[1]))) ;  //### abs??? ###
+        //alert("docWindowXYFromDocWorldXY(docWorldTgtX["+docWorldTgtX+"], docWorldTgtY["+docWorldTgtY+"], docWorldXSpan["+docWorldXSpan+"], docWorldYSpan["+docWorldYSpan+"], regionXDim["+regionXDim+"], regionYDim["+regionYDim+"], webXLeftDelta["+webXLeftDelta+"],webYBottomDelta["+webYBottomDelta+"]") ;
+
+    var thisPortsX ;
+    thisPortsX = docWorldTgtX - webXLeftDelta ;
+    thisPortsX = Math.round(100*thisPortsX)/100 ;
+
+webYBottomDelta=110;
+webYBottomDelta=75;
+    var thisPortsY ;
+    var bottom2DocYOriginDelta = (regionYDim+webYBottomDelta) ;
+    //console.log("---bottom2DocYOriginDelta["+bottom2DocYOriginDelta+"] from (regionYDim["+regionYDim+"]+webYBottomDelta["+webYBottomDelta+"])") ;
+    var topYdelta = docWorldYSpan - bottom2DocYOriginDelta ;
+    //console.log("---topYdelta["+topYdelta+"] from (docWorldYSpan["+docWorldYSpan+"]+bottom2DocYOriginDelta["+bottom2DocYOriginDelta+"])") ;
+    // ### OK, these two formulation look right.  Issue must be in the projection of the doc world LowerLeft origin ###
+    thisPortsY = regionYDim-(docWorldTgtY - webYBottomDelta) ;
+    //console.log("---thisPortsY["+thisPortsY+"] from (regionYDim["+regionYDim+"]-(docWorldTgtY["+docWorldTgtY+"] - webYBottomDelta["+webYBottomDelta+"]") ;
+    thisPortsY = (docWorldYSpan - docWorldTgtY) - topYdelta ;
+    //console.log("---thisPortsY["+thisPortsY+"] from (docWorldYSpan["+docWorldYSpan+"]-docWorldTgtY["+docWorldTgtY+"]) - topYdelta["+topYdelta+"]") ;
+    thisPortsY = (webYBottomDelta + regionYDim) - docWorldTgtY ;
+    //console.log("---thisPortsY["+thisPortsY+"] from (webYBottomDelta["+webYBottomDelta+"]+regionYDim["+regionYDim+"]) - docWorldTgtY["+docWorldTgtY+"]") ;
+
+    thisPortsY = docWorldTgtY - webYBottomDelta ;
+    thisPortsY = Math.round(100*thisPortsY)/100 ;
+
+    //alert("docWindowXYFromDocWorldXY( with shifted&invertes Y axis )==["+thisPortsX+","+thisPortsY+"]") ;
+    //console.log("docWindowXYFromDocWorldXY(X["+thisPortsX+"]=docWorldTgtX["+docWorldTgtX+"]-webXLeftDelta["+webXLeftDelta+"]; Y["+thisPortsY+"]=docWorldTgtY["+docWorldTgtY+"]-webYBottomDelta["+webYBottomDelta+"]") ;
+    return [thisPortsX,thisPortsY] ;
+}
+// ]]></script>
+<script>// <![CDATA[
+function mercatorXYDimsFromDisplayPane(PaneLatLonUL, PaneLatLonLR, PaneDocXYUL, PaneDocXYLR) {
+        /*
+        dirk.weissleer@dagv.org
+        latitude    = 41.145556; // (φ)
+        longitude   = -73.995;   // (λ)
+
+        mapWidth    = 200;  // so extrapolate to get th mapWidth?
+        mapHeight   = 100;  // extrapolate to get th mapHeight?
+                            // What about the X and Y offsets of the doc?
+
+        // get x dim
+        x1 = (lon1+180)*(mapWidth/360)
+        x2 = (lon2+180)*(mapWidth/360)
+        mapWidth = (x1/(lon1+180))*360
+        mapWidth = (x2/(lon2+180))*360
+        [ error = (x1/(lon1+180))*360-(x2/(lon2+180))*360 ]
+
+        // convert from degrees to radians
+        latRad1 = lat1*PI/180;
+        latRad2 = lat2*PI/180;
+
+        // get y dim
+        mercN1 = ln(tan((PI/4)+(latRad1/2)));
+        mercN2 = ln(tan((PI/4)+(latRad2/2)));
+        y1     = (mapHeight/2)-(mapWidth*mercN1/(2*PI));
+        y2     = (mapHeight/2)-(mapWidth*mercN2/(2*PI));
+        mapHeight = y1+(mapWidth*mercN1/(2*PI)) * 2
+        mapHeight = y2+(mapWidth*mercN2/(2*PI)) * 2
+        [ error = y1+(mapWidth*mercN1/(2*PI)) * 2)-(y2+(mapWidth*mercN2/(2*PI)) * 2) ]
+
+         */
+    //PaneLatLonUL, PaneLatLonLR, PaneDocXYUL, PaneDocXYLR
+    //console.log("mercatorXYDimsFromDisplayPane(PaneLatLonUL=="+PaneLatLonUL+", PaneLatLonLR=="+PaneLatLonLR+", PaneDocXYUL=="+PaneDocXYUL+", PaneDocXYLR=="+PaneDocXYLR+")") ;
+    var lon1 = PaneLatLonUL[1] ; // ### LatLon issues again?? top-to-bottom vs bottom-to-top... ###
+    var lat1 = PaneLatLonUL[0] ;
+    var lon2 = PaneLatLonLR[1] ;
+    var lat2 = PaneLatLonLR[0] ;
+    var x1 = PaneDocXYUL[0] ;
+    var y1 = PaneDocXYUL[1] ;
+    var x2 = PaneDocXYLR[0] ;
+    var y2 = PaneDocXYLR[1] ;
+    var mapWidth1 = (x1/(lon1+180))*360 ;
+    var mapWidth2 = (x2/(lon2+180))*360 ;
+    var mapWidthErr = mapWidth1-mapWidth2 ;
+    var avgMapWidth = (mapWidth1+mapWidth2)/2.0 ;
+
+    var latRad1 = lat1*Math.PI/180;
+    var latRad2 = lat2*Math.PI/180;
+    var mercN1 = Math.log(Math.tan((Math.PI/4)+(latRad1/2)));
+    var mercN2 = Math.log(Math.tan((Math.PI/4)+(latRad2/2)));
+    var mapHeight1 = y1+(mapWidth1*mercN1/(2*Math.PI)) * 2 ;
+    var mapHeight2 = y2+(mapWidth2*mercN2/(2*Math.PI)) * 2 ;
+    //console.log("mercatorXYDimsFromDisplayPane: mapHeight1==y1(=="+y1+")+(mapWidth1(=="+mapWidth1+")*mercN1(=="+mercN1+")/(2*Math.PI)) * 2 =="+mapHeight1) ;
+    //console.log("mercatorXYDimsFromDisplayPane: mapHeight2==y1(=="+y2+")+(mapWidth2(=="+mapWidth2+")*mercN2(=="+mercN2+")/(2*Math.PI)) * 2 =="+mapHeight2) ;
+    var mapHeightErr = mapHeight1-mapHeight2 ;
+    var avgMapHeight = (mapHeight1+mapHeight2)/2.0 ;
+    //console.log("...avgMapWidth=="+avgMapWidth+": mapWidthErr=="+mapWidthErr+"; avgMapHeight=="+avgMapHeight+": mapHeightErr=="+mapHeightErr+")") ;
+
+    return [[avgMapWidth,mapWidthErr],[avgMapHeight,mapHeightErr]] ;
+}
+// ]]></script>
+<script>// <![CDATA[
+/*
+    var regionMapArray = [["regionName","regionAbbrev", "ULLatLon","LRLatLon","ULDoc","LRDoc"]] ;
+    var regionNameIndex =  0 ; // e.g., "US BAL"
+    var regionAbbrevIndex =  1 ; // e.g., "US BAL"
+    var ULLatLonIndex =  2 ; // e.g., "Baltimore"
+    var LRLatLonIndex =  3 ;  // e.g., "39.2904N,76.6122W"
+    var ULAIIndex =  4 ; // Illustrator, in inches. E.g., "88x80.9y"
+    var LRAIIndex =  5 ; // e.g., "88x80.9y"
+    var webDocWidthHeightIndex =  6 ; // e.g., "width: 185px; height: 170px; "
+    var webDocTopLeftIndex =  7 ; // e.g., "top: 160px; left: 490px;"
+    */
+            // generate map grfx html
+function generateRouteGrfxHTML(arrivalPortsStruct, departurePortsStruct, screenRegionUL, screenRegionLR, mapDisplayDivID) {
+    // Draw port locs
+    // Note: arrival/departurePortsList are the *chosen* ports
+    // ### the split leaves sequences of "|"'s if ports have been added and deleted ###
+    var arrivalPortsList = arrivalPortsStruct.split("|") ;
+    var departurePortsList = departurePortsStruct.split("|") ;
+    //console.log("generateRouteGrfxHTM: arrivalPortsStruct=="+arrivalPortsStruct) ;
+    //console.log("                      departurePortsStruct=="+departurePortsStruct) ;
+
+/*
+*/
+    console.log("generateRouteGrfxHTM: arrivalPortsStruct=="+arrivalPortsStruct) ;
+    console.log("                      arrivalPortsList=="+arrivalPortsList) ;
+    console.log("                      departurePortsStruct=="+departurePortsStruct) ;
+    console.log("                      departurePortsList=="+departurePortsList) ;
+    console.log("                      screenRegionUL=="+screenRegionUL) ;
+    console.log("                      screenRegionLR=="+screenRegionLR) ;
+    console.log("                      mapDisplayDivID=="+mapDisplayDivID) ;
+
+    // world map in illustrator.  coordinates system from lower left up and to the right
+    var worldMapIndex = mapArrayRegionNameIndex("WholeWorldEuCtr", regionMapArray) ;
+    var worldMapStruct = regionMapArray[worldMapIndex] ;
+
+    console.log("--Illustrator map world :") ;
+    console.log("----worldMapStruct="+worldMapStruct) ;
+
+    var worldMapULLatLonStr = worldMapStruct[ULLatLonIndex];
+    var worldMapLRLatLonStr = worldMapStruct[LRLatLonIndex];
+    var worldMapULLatLon = parseLatLon(worldMapULLatLonStr);
+    var worldMapLRLatLon = parseLatLon(worldMapLRLatLonStr);
+
+    var worldMapStartLon = worldMapULLatLon[1]; //X
+    var worldMapEndLon = worldMapLRLatLon[1];
+    var worldMapStartLat = worldMapLRLatLon[0]; //### bottom-to-top enumeration of Lat to match XY below (and in Mercator calc?) ###
+    var worldMapEndLat = worldMapULLatLon[0];
+    // ### for the southmost world lattitude need to add the 28 degree ribbon at the bottom to accomodate the missing 60-90degrees on the illustrator maps ###
+    var worldMapFixedStartLat = worldMapStartLat-illustratorExtendMapToMinus60InDegrees ; // even out to -60 degrees...
+    worldMapFixedStartLat -= illustratorAntarcticBufferInDegrees ; // extend to -88 as in representation of Northern Hemisphere
+    var worldMapLonSpan = worldMapEndLon-worldMapStartLon;
+    var worldMapLatSpan = worldMapEndLat-worldMapFixedStartLat;
+
+    var worldMapULXYStr = worldMapStruct[ULAIIndex];
+    var worldMapLRXYStr = worldMapStruct[LRAIIndex];
+    var worldMapULXY = parseXY(worldMapULXYStr);
+    var worldMapLRXY = parseXY(worldMapLRXYStr);
+
+    var worldMapStartX = worldMapULXY[0]; //X
+    var worldMapEndX = worldMapLRXY[0];
+    var worldMapStartY = worldMapLRXY[1]; //### take a look at the top-to-bottom numeration in Y ###
+    var worldMapEndY = worldMapULXY[1];
+    // ### add the 16.4 inch ribbon at the bottom to accomodate the 60-90degrees of South lattitute ###
+    var worldMapFixedStartY = worldMapStartY - illustratorExtendMapToMinus60DegreeInches ; // even out to -60 degrees...
+    worldMapFixedStartY -= illustratorAntarcticBufferInInches ; // extend to -88 as in representation of Northern Hemisphere
+    var worldMapXSpan = worldMapEndX-worldMapStartX;
+    var worldMapYSpan = worldMapEndY-worldMapFixedStartY;
+
+/*
+    console.log("--Illustrator map world :") ;
+    console.log("----worldMapULLatLon="+worldMapULLatLon+" worldMapLRLatLon=="+worldMapLRLatLon) ;
+    console.log("----worldMapFixedStartLat="+worldMapFixedStartLat+" from worldMapStartLat["+worldMapStartLat+"]-illustratorExtendMapToMinus60InDegrees["+illustratorExtendMapToMinus60InDegrees+"]-illustratorAntarcticBufferInDegrees["+illustratorAntarcticBufferInDegrees+"]") ;
+    console.log("----worldMapLonSpan=="+worldMapLonSpan+" from worldMapEndLon(=="+worldMapEndLon+")-worldMapStartLon(=="+worldMapStartLon+")") ;
+    console.log("----worldMapLatSpan=="+worldMapLatSpan+" from worldMapEndLat(=="+worldMapEndLat+")-worldMapFixedStartLat(=="+worldMapFixedStartLat+")") ;
+    console.log("----worldMapULXY=="+worldMapULXY+" worldMapLRXY=="+worldMapLRXY) ;
+    console.log("----worldMapFixedStartY="+worldMapFixedStartY+" from worldMapStartY["+worldMapStartY+"]-illustratorExtendMapToMinus60DegreeInches["+illustratorExtendMapToMinus60DegreeInches+"]-illustratorAntarcticBufferInInches["+illustratorAntarcticBufferInInches+"]") ;
+    console.log("----worldMapXSpan=="+worldMapXSpan+" from worldMapEndX(=="+worldMapEndX+")-worldMapStartX(=="+worldMapStartX+")") ;
+    console.log("----worldMapYSpan=="+worldMapYSpan+" from worldMapEndY(=="+worldMapEndY+")-worldMapFixedStartY(=="+worldMapFixedStartY+")") ;
+*/
+
+//###############  ARE THESE LATS AND LONS RIGHT? ###################
+    var regionMapIndex = mapArrayRegionNameIndex(localStorage.RegionOfOrigin, regionMapArray) ;
+    var regionMapStruct = regionMapArray[regionMapIndex] ;
+    var regionMapULLatLonStr = regionMapStruct[ULLatLonIndex];
+    var regionMapLRLatLonStr = regionMapStruct[LRLatLonIndex];
+    var regionMapULLatLon = parseLatLon(regionMapULLatLonStr);
+    var regionMapLRLatLon = parseLatLon(regionMapLRLatLonStr);
+    var regionMapLonSpan = regionMapLRLatLon[1]-regionMapULLatLon[1];  // X
+    var regionMapLatSpan = regionMapULLatLon[0]-regionMapLRLatLon[0];
+
+    var regionMapULXYStr = regionMapStruct[ULAIIndex];
+    var regionMapLRXYStr = regionMapStruct[LRAIIndex];
+    var regionMapHeightWidthStr = regionMapStruct[webDocWidthHeightIndex];
+    var regionMapTopLeftStr = regionMapStruct[webDocTopLeftIndex];
+    var regionMapULXY = parseXY(regionMapULXYStr);
+    var regionMapLRXY = parseXY(regionMapLRXYStr);
+
+    var regionMapStartX = regionMapULXY[0]; //X
+    var regionMapEndX = regionMapLRXY[0];
+    var regionMapStartY = regionMapLRXY[1]; //### take a look at the top-ot-bottom numeration in Y ###
+    var regionMapEndY = regionMapULXY[1];
+    var regionMapXSpan = regionMapEndX-regionMapStartX;
+    var regionMapYSpan = regionMapEndY-regionMapStartY;
+
+    var worldLeftMapDelta = (regionMapStartX-worldMapStartX) ;
+    var worldLowerMap2RegionDelta = (regionMapStartY-worldMapFixedStartY) ;
+    var worldLeftMap2RegionXRatio = (worldLeftMapDelta/regionMapXSpan) ;
+    var worldBottomYDelta2RegionYSpanRatio  = (worldLowerMap2RegionDelta/regionMapYSpan) ;
+
+/*
+    console.log("--Illustrator map region :") ;
+    console.log("----regionMapStruct="+regionMapStruct) ;
+    console.log("----regionMapULLatLon="+regionMapULLatLon+" regionMapLRLatLon=="+regionMapLRLatLon) ;
+    console.log("----regionMapLonSpan=="+regionMapLonSpan+" from regionMapLRLatLon[1](=="+regionMapLRLatLon[1]+")-regionMapULLatLon[1](=="+regionMapULLatLon[1]) ;
+    console.log("----regionMapLatSpan=="+regionMapLatSpan+" from regionMapLRLatLon[0](=="+regionMapLRLatLon[0]+")-regionMapULLatLon[0](=="+regionMapULLatLon[0]) ;
+    console.log("----regionMapULXY=="+regionMapULXY+" regionMapLRXY=="+regionMapLRXY) ;
+    console.log("----regionMapXSpan=="+regionMapXSpan+" from regionMapEndX(=="+regionMapEndX+")-regionMapStartX(=="+regionMapStartX+")") ;
+    console.log("----regionMapYSpan=="+regionMapYSpan+" from regionMapEndY(=="+regionMapEndY+")-regionMapStartY(=="+regionMapStartY+")") ;
+
+    console.log("----worldLeftMapDelta=="+worldLeftMapDelta+" from regionMapStartX(=="+regionMapStartX+")-worldMapStartX(=="+worldMapStartX+")") ;
+    console.log("----worldLowerMap2RegionDelta=="+worldLowerMap2RegionDelta+" from regionMapStartY(=="+regionMapStartY+")-worldMapFixedStartY(=="+worldMapFixedStartY+")") ;
+    console.log("----worldLeftMap2RegionXRatio=="+worldLeftMap2RegionXRatio+" from (worldLeftMapDelta(=="+worldLeftMapDelta+")/regionMapXSpan(=="+regionMapXSpan+"))") ;
+    console.log("----worldBottomYDelta2RegionYSpanRatio =="+worldBottomYDelta2RegionYSpanRatio +" from (worldLowerMap2RegionDelta(=="+worldLowerMap2RegionDelta+")/regionMapYSpan(=="+regionMapYSpan+"))") ;
+*/
+
+    //var wholeWorldMapSpan = mercatorXYDimsFromDisplayPane(regionMapULLatLon, regionMapLRLatLon, screenRegionUL, screenRegionLR)  ;
+    //var worldMapXSpan = wholeWorldMapSpan[0][0];
+    //var worldMapYSpan = wholeWorldMapSpan[1][0];
+
+    // doc coordinate system rooted in the map region.  Need to know where the world origin (LowerLeft, right?) is...
+    //  (screenRegionStartX-regionRelativeDocWorldXOrigin) /  (regionMapStartX-worldMapStartX) = docWorldXSpan / worldMapXSpan
+    //  (screenRegionStartX-regionRelativeDocWorldXOrigin) = docXSpan2AIinchesXSpan*(regionMapStartX-worldMapStartX)
+    //  -regionRelativeDocWorldXOrigin = (docXSpan2AIinchesXSpan*(regionMapStartX-worldMapStartX))-screenRegionStartX
+    //  -regionRelativeDocWorldXOrigin = (docXSpan2AIinchesXSpan*regionMapStartX)-(docXSpan2AIinchesXSpan*worldMapStartX)-screenRegionStartX
+    //   regionRelativeDocWorldXOrigin = screenRegionStartX-(docXSpan2AIinchesXSpan*regionMapStartX)+(docXSpan2AIinchesXSpan*worldMapStartX)
+    //   regionRelativeDocWorldYOrigin = screenRegionStartY-(docYSpan2AIinchesYSpan*regionMapStartY)+(docYSpan2AIinchesYSpan*worldMapFixedStartY)
+//            var screenRegionUL = [0,0] ;
+//            var screenRegionLR = [400,180] ;
+    var screenRegionStartX = screenRegionUL[0]; // X
+    var screenRegionEndX = screenRegionLR[0];
+    var screenRegionStartY = screenRegionUL[1]; //### top-ot-bottom numeration in Y, so UL is the start ###
+    var screenRegionEndY = screenRegionLR[1];
+    var screenRegionXSpan = screenRegionEndX-screenRegionStartX;  // X
+    var screenRegionYSpan = screenRegionEndY-screenRegionStartY; //### take a look at the top-ot-bottom numeration in Y ###
+
+    var worldMap2RegionMapXRatio = (worldMapXSpan/regionMapXSpan) ;
+    var docWorldXSpan = screenRegionXSpan*worldMap2RegionMapXRatio;
+    var worldMap2RegionMapYRatio = (worldMapYSpan/regionMapYSpan) ;
+    var docWorldYSpan = screenRegionYSpan*worldMap2RegionMapYRatio;
+    //console.log("----worldMap2RegionMapXRatio=="+worldMap2RegionMapXRatio+" from (worldMapXSpan(=="+worldMapXSpan+")/regionMapXSpan(=="+regionMapXSpan+"))") ;
+    //console.log("----worldMap2RegionMapYRatio=="+worldMap2RegionMapYRatio+" from (worldMapYSpan(=="+worldMapYSpan+")/regionMapYSpan(=="+regionMapYSpan+"))") ;
+    // doc coordinate system rooted in the map region.  Need to know where the world origin (LowerLeft,r ight?) is...
+    // ### but docXSpan2AIinchesXSpan/YSpan don't seem to be put to any real use below ###
+    var docXSpan2AIinchesXSpan = (docWorldXSpan / worldMapXSpan) ;
+    var docYSpan2AIinchesYSpan = (docWorldYSpan / worldMapYSpan) ;
+
+    // docWorldXOrigin2RegionDelta/screenRegionXSpan = worldLeftMap2RegionXRatio/regionMapXSpan
+    // docWorldXOrigin2RegionDelta/screenRegionYSpan = worldBottomYDelta2RegionYSpanRatio /regionMapYSpan
+
+    var docWorldXOrigin2RegionDelta = worldLeftMap2RegionXRatio * screenRegionXSpan ;
+    var docWorldYOrigin2RegionDelta = worldBottomYDelta2RegionYSpanRatio  * screenRegionYSpan ;
+    var docInsetDeltaX = ((worldMapEndY - regionMapEndY)/regionMapYSpan)*docWorldYSpan ;
+    var docInsetDeltaY = ((worldMapEndX - regionMapEndX)/regionMapXSpan)*docWorldXSpan ;
+    // prev: var regionRelativeDocWorldXOrigin = screenRegionStartX-(docXSpan2AIinchesXSpan*regionMapStartX)+(docXSpan2AIinchesXSpan*worldMapStartX) ;
+    // prev: var regionRelativeDocWorldYOrigin = screenRegionStartY-(docYSpan2AIinchesYSpan*regionMapStartY)+(docYSpan2AIinchesYSpan*worldMapFixedStartY) ;
+    var regionRelativeDocWorldXOrigin = screenRegionStartX-docWorldXOrigin2RegionDelta ;
+    // recall that the Y origin is at the top of the region window vs its bottom...
+    var regionRelativeDocWorldYOrigin = screenRegionStartY-(docWorldYOrigin2RegionDelta+screenRegionYSpan) ;
+
+/*
+*/
+    //console.log("--Document world and region areas (x y ):") ;
+    //console.log("----screenRegionUL=="+screenRegionUL+" screenRegionLR=="+screenRegionLR) ;
+    //console.log("----screenRegionXSpan=="+screenRegionXSpan+" from (screenRegionEndX(=="+screenRegionEndX+")-screenRegionStartX(=="+screenRegionStartX+"))") ;
+    //console.log("----screenRegionYSpan=="+screenRegionYSpan+" from (screenRegionEndY(=="+screenRegionEndY+")-screenRegionStartY(=="+screenRegionStartY+"))") ;
+    //console.log("----docWorldXSpan=="+docWorldXSpan+" from (screenRegionXSpan(=="+screenRegionXSpan+")*worldMap2RegionMapXRatio(=="+worldMap2RegionMapXRatio+"))") ;
+    //console.log("----docWorldYSpan=="+docWorldYSpan+" from (screenRegionYSpan(=="+screenRegionYSpan+")*worldMap2RegionMapYRatio(=="+worldMap2RegionMapYRatio+"))") ;
+
+    //console.log("----docWorldXOrigin2RegionDelta=="+docWorldXOrigin2RegionDelta+"from (worldLeftMap2RegionXRatio["+worldLeftMap2RegionXRatio+"]*screenRegionXSpan["+screenRegionXSpan+"]") ;
+    //console.log("----docWorldYOrigin2RegionDelta=="+docWorldYOrigin2RegionDelta+"from (worldBottomYDelta2RegionYSpanRatio ["+worldBottomYDelta2RegionYSpanRatio +"]*screenRegionYSpan["+screenRegionYSpan+"]") ;
+    ////console.log("----regionRelativeDocWorldXOrigin=="+regionRelativeDocWorldXOrigin+" from screenRegionStartX-(docXSpan2AIinchesXSpan*regionMapStartX)+(docXSpan2AIinchesXSpan*worldMapStartX)") ;
+    ////console.log("----regionRelativeDocWorldYOrigin=="+regionRelativeDocWorldYOrigin+" from screenRegionStartY-(docYSpan2AIinchesYSpan*regionMapStartY)+(docYSpan2AIinchesYSpan*worldMapFixedStartY)") ;
+    //console.log("----regionRelativeDocWorldXOrigin=="+regionRelativeDocWorldXOrigin+" from screenRegionStartX["+screenRegionStartX+"]- docWorldXOrigin2RegionDelta["+docWorldXOrigin2RegionDelta+"]") ;
+    //console.log("----regionRelativeDocWorldYOrigin=="+regionRelativeDocWorldYOrigin+" from screenRegionStartY["+screenRegionStartY+"]- (docWorldYOrigin2RegionDelta["+docWorldYOrigin2RegionDelta+"]+screenRegionYSpan["+screenRegionYSpan+"]") ;
+
+    //console.log("----docInsetDeltaX["+docInsetDeltaX+"] from ((worldMapEndX["+worldMapEndX+"] - regionMapEndX["+regionMapEndX+"])/regionMapXSpan["+regionMapXSpan+"])*docWorldXSpan["+docWorldXSpan+"]") ;
+    //console.log("----docInsetDeltaY["+docInsetDeltaY+"] from ((worldMapEndY["+worldMapEndY+"] - regionMapEndY["+regionMapEndY+"])/regionMapYSpan["+regionMapYSpan+"])*docWorldYSpan["+docWorldYSpan+"]") ;
+
+    //console.log("----docXSpan2AIinchesXSpan=="+docXSpan2AIinchesXSpan+" from (docWorldXSpan(=="+docWorldXSpan+")/worldMapXSpan(=="+worldMapXSpan+"))") ;
+    //console.log("----docYSpan2AIinchesYSpan=="+docYSpan2AIinchesYSpan+" from (docWorldYSpan(=="+docWorldYSpan+")/worldMapYSpan(=="+worldMapYSpan+"))") ;
+
+    var mapImgEquator ;
+    var mapImgMeridian ;
+
+    // note that lat-lon is actually Y-X...
+//        console.log("mapDocDeltaX=="+mapDocDeltaX+" mapDocDeltaY=="+mapDocDeltaY+" mapDeltaLon=="+mapDeltaLon+" mapDeltaLat=="+mapDeltaLat) ;
+
+    var x2LonRatio =  screenRegionXSpan/regionMapLonSpan ;
+    var y2LatRatio =  screenRegionYSpan/regionMapLatSpan ;
+//        console.log("x2LonRatio=="+x2LonRatio+" y2LatRatio=="+y2LatRatio)
+    var lon2mapOffsetX =  x2LonRatio * regionMapULLatLon[1] ;
+    var lat2mapOffsetY =  screenRegionYSpan-y2LatRatio * regionMapULLatLon[0] ; // Y increases *downwards* so, e.g., 400 is at the top and decreases to 0
+//        console.log("LonOffset=="+LonOffset+" latOffset=="+latOffset+" lon2mapOffsetX=="+lon2mapOffsetX+" lon2mapOffsetY=="+lon2mapOffsetY) ;
+    //console.log("screenRegionStruct=="+regionMapStruct) ;
+    //console.log("----screenRegionXSpan=="+screenRegionXSpan+"; screenRegionYSpan=="+screenRegionYSpan) ;
+    //console.log("----x2LonRatio=="+x2LonRatio+"; y2LatRatio=="+y2LatRatio) ;
+    //console.log("----lon2mapOffsetX=="+lon2mapOffsetX+"; lat2mapOffsetY=="+lat2mapOffsetY) ;
+
+    // Honolulu 21.3069° N, 157.8583° W
+    var drawArrivalPortHTML = "" ;
+    var drawDeparturePortHTML = "" ;
+    var drawRouteHTML = "" ;
+    var drawWarningNoticeHTML = "" ;
+    var drawDebugHTML = "" ;
+/*
+*/
+    var thisPortsLatLon ;
+    var displayMapHTML = "" ;
+
+    /*
+
+    latitude    = 41.145556; // (φ)
+    longitude   = -73.995;   // (λ)
+
+    mapWidth    = 200;  // so extrapolate to get th mapWidth?
+    mapHeight   = 100;  // extrapolate to get th mapHeight?
+                        // What about the X and Y offsets of the doc?
+
+    // get x value
+    x = (longitude+180)*(mapWidth/360)
+
+    // convert from degrees to radians
+    latRad = latitude*PI/180;
+
+    // get y value
+    mercN = ln(tan((PI/4)+(latRad/2)));
+    y     = (mapHeight/2)-(mapWidth*mercN/(2*PI));
+
+    // so [x,y] is from the lower left of the doc?
+
+     */
+
+    var thisPortsX ;
+    var thisPortsY ;
+    var thisPortsLat ;
+    var thisPortsLon ;
+
+    var webXYFromLL ;
+
+/*  ### rebuilt something like this into a test function ###
+                    for (var thisPortIndex=0; thisPortIndex<9; thisPortIndex++) {
+                        thisPortsLat = (thisPortIndex*10)-30;
+                        thisPortsName = "[Latitude:"+thisPortsLat+",Longitude:-30]";
+                        thisPortsLatLon = [thisPortIndex*10,-30];
+                        thisPortsLon = thisPortsLatLon[1] ;
+                        console.log(">>>thisPortsName=="+thisPortsName+" thisPortsLatLon=="+thisPortsLatLon) ;
+                webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, docWorldXSpan, docWorldYSpan) ;
+docMapToScreenMapCoords(docMapX, docMapY, mapXDim, mapYDim)
+                console.log("...mercatorXYFromLL()=="+webXYFromLL) ;
+
+    //            thisPortsY = Math.round((regionRelativeDocWorldYOrigin-docInsetDeltaY)-(docWorldYSpan/2)-((docWorldXSpan*mercN)/(2*Math.PI))) ;  //### abs??? ###
+    //                    console.log("...update thisPortsY "+thisPortsY+" from subtract of previous from (regionRelativeDocWorldYOrigin=="+regionRelativeDocWorldYOrigin+"-docInsetDeltaY=="+docInsetDeltaY+")") ;
+                // docWindowXYFromDocWorldXY(): docWorldTgtX|Y == thisPortsX|Y ; docX|YDim == screenRegionX|YSpan ; webX|YDelta == docWorldX|YOrigin2RegionDelta
+    //            webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(thisPortsX, thisPortsY, docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+    //            console.log("...docWindowXYFromDocWorldXY()=="+webWindowXYFromDocWorldXY) ;
+                webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(webXYFromLL[0], webXYFromLL[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+                console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+
+    //            thisPortsY = Math.round(screenRegionEndY+Math.abs(y2LatRatio * (thisPortsLat -regionMapULLatLon[0]))) ;  //### abs??? ###
+                thisPortsX = webWindowXYFromDocWorldXY[0] ;
+                thisPortsY = webWindowXYFromDocWorldXY[1] ;
+                        // console.log("...replace thisPortsY with "+thisPortsY) ;
+                        // docWindowXYFromDocWorldXY(docWorldTgtX, docWorldTgtY, docWorldXSpan, docWorldYSpan, screenRegionXDim, screenRegionYDim, webXLeftDelta, webYBottomDelta) ;
+                        var circleRadius = thisPortIndex+2;
+                        //thisPortsX = mercXY[0] ;
+                        //thisPortsY = mercXY[1] ;
+                        drawDebugHTML+='<circle cx="' ;
+                        drawDebugHTML+=thisPortsX ;
+                        drawDebugHTML+='" cy="' ;
+                        drawDebugHTML+=thisPortsY ;
+                        drawDebugHTML+='" r="'+circleRadius+'" stroke="Yellow" stroke-width="4" fill="Purple" ';
+                        drawDebugHTML+="/>";
+                    }
+*/
+
+/*
+                thisPortsName = "[0,0]" ;
+                alert("***thisPortsName=="+thisPortsName+"***") ;
+                thisPortsX = 0 ;
+                thisPortsY = 0 ;
+
+                console.log(">>>[0,0]: thisPortsX=="+thisPortsX+"thisPortsY=="+thisPortsY) ;
+                drawDebugHTML+='<circle cx="' ;
+                drawDebugHTML+=thisPortsX ;
+                drawDebugHTML+='" cy="' ;
+                drawDebugHTML+=thisPortsY ;
+                drawDebugHTML+='" r="20" stroke="Blue" stroke-width="4" fill="ivory" ';
+                drawDebugHTML+="/>";
+*/
+
+
+    thisPortsName = "MapUpperLeft" ;
+    //console.log("***thisPortsName=="+thisPortsName+"***") ;
+    thisPortsLatLon = parseLatLon("65N102W") ;
+    thisPortsLon = thisPortsLatLon[1] ;
+    thisPortsLat = thisPortsLatLon[0] ;
+//                webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, docWorldXSpan, docWorldYSpan) ;
+// ### note use of regionMapLonSpan along with screen params.  Two independent sources.  Want this? ###
+    var regionMapScreenSize = screenSizeOfFullMap(worldMapXSpan, worldMapYSpan, screenRegionXSpan, screenRegionYSpan, regionMapLonSpan, regionMapLatSpan) ;
+//console.log('screenSizeOfFullMap(): wholeWorldX='+worldMapXSpan+', wholeWorldY='+worldMapYSpan+', screenRegionX='+screenRegionXSpan+', screenRegionY='+screenRegionYSpan+', screenRegionDegreesX='+regionMapLonSpan+', screenRegionDegreesY='+regionMapLatSpan+'>>regionMapScreenSize='+regionMapScreenSize)
+    webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+    // ### shouldn't docWorldXSpan,docWorldYSpan be regionMapScreenSize[0], regionMapScreenSize[1] ? ###
+screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+//console.log("$$$$$screenWorldMapCoords(mercatorXYFromLL()=="+webXYFromLL+") >> "+screenWorldMapCoords) ;
+    thisPortsX = screenWorldMapCoords[0]; //webWindowXYFromDocWorldXY[0] ;
+    thisPortsY = screenWorldMapCoords[1]; //webWindowXYFromDocWorldXY[1] ;
+    webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+//console.log("$$$$$docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+    thisPortsX = webWindowXYFromDocWorldXY[0] ;
+    thisPortsY = webWindowXYFromDocWorldXY[1] ;
+
+//                thisPortsX = 0 ;
+//                thisPortsY = 0 ;
+/*
+                console.log("----screenRegionUL=="+screenRegionUL+" screenRegionLR=="+screenRegionLR) ;
+                console.log("----screenRegionXSpan=="+screenRegionXSpan+" from (screenRegionEndX(=="+screenRegionEndX+")-screenRegionStartX(=="+screenRegionStartX+"))") ;
+                console.log("----screenRegionYSpan=="+screenRegionYSpan+" from (screenRegionEndY(=="+screenRegionEndY+")-screenRegionStartY(=="+screenRegionStartY+"))") ;
+                console.log("----docWorldXSpan=="+docWorldXSpan+" from (screenRegionXSpan(=="+screenRegionXSpan+")*worldMap2RegionMapXRatio(=="+worldMap2RegionMapXRatio+"))") ;
+                console.log("----docWorldYSpan=="+docWorldYSpan+" from (screenRegionYSpan(=="+screenRegionYSpan+")*worldMap2RegionMapYRatio(=="+worldMap2RegionMapYRatio+"))") ;
+
+                drawDebugHTML+='<circle cx="' ;
+                drawDebugHTML+= 0 ;
+                drawDebugHTML+='" cy="' ;
+                drawDebugHTML+= 0 ;
+                drawDebugHTML+='" r="50" stroke="yellow" stroke-width="4" fill="red" ';
+                drawDebugHTML+="/>";
+
+                [0,0] [499,310]
+*/
+
+
+/*
+                screenRegionStartX = 0 ;
+                screenRegionStartY = 0 ;
+                screenRegionEndX = 499 ;
+                screenRegionEndY = 310 ;
+
+                alert("DrawCorners:screenRegionUL=="+screenRegionUL+" screenRegionLR=="+screenRegionLR+" (screenRegionEndX=="+screenRegionEndX+"; screenRegionStartX=="+screenRegionStartX+"; screenRegionEndY=="+screenRegionEndY+"; screenRegionStartY=="+screenRegionStartY+")") ;
+
+                drawDebugHTML+='<circle cx="' ;
+                drawDebugHTML+=screenRegionStartX ;
+                drawDebugHTML+='" cy="' ;
+                drawDebugHTML+=screenRegionStartY ;
+                drawDebugHTML+='" r="50" stroke="yellow" stroke-width="4" fill="red" ';
+                drawDebugHTML+="/>";
+
+                drawDebugHTML+='<circle cx="' ;
+                drawDebugHTML+=screenRegionEndX ;
+                drawDebugHTML+='" cy="' ;
+                drawDebugHTML+=screenRegionStartY ;
+                drawDebugHTML+='" r="50" stroke="yellow" stroke-width="4" fill="red" ';
+                drawDebugHTML+="/>";
+
+                drawDebugHTML+='<circle cx="' ;
+                drawDebugHTML+=screenRegionStartX ;
+                drawDebugHTML+='" cy="' ;
+                drawDebugHTML+=screenRegionEndY ;
+                drawDebugHTML+='" r="50" stroke="yellow" stroke-width="4" fill="red" ';
+                drawDebugHTML+="/>";
+
+                drawDebugHTML+='<circle cx="' ;
+                drawDebugHTML+=screenRegionEndX ;
+                drawDebugHTML+='" cy="' ;
+                drawDebugHTML+=screenRegionEndY ;
+                drawDebugHTML+='" r="50" stroke="yellow" stroke-width="4" fill="red" ';
+                drawDebugHTML+="/>";
+*/
+
+/* start display corners and [0,0]
+                thisPortsName = "MapUpperRight" ;
+                console.log("***thisPortsName=="+thisPortsName+"***") ;
+                thisPortsLatLon = parseLatLon("65N38E") ;
+                thisPortsLon = thisPortsLatLon[1] ;
+                thisPortsLat = thisPortsLatLon[0] ;
+
+                webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+            screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+            console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+                console.log("...mercatorXYFromLL()=="+webXYFromLL) ;
+                webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+//                console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+                thisPortsX = webWindowXYFromDocWorldXY[0] ;
+                thisPortsY = webWindowXYFromDocWorldXY[1] ;
+                console.log(">>>thisPortsLatLon=="+thisPortsLatLon+" thisPortsX=="+thisPortsX+"thisPortsY=="+thisPortsY) ;
+                drawDebugHTML+='<circle cx="' ;
+                drawDebugHTML+=thisPortsX ;
+                drawDebugHTML+='" cy="' ;
+                drawDebugHTML+=thisPortsY ;
+                drawDebugHTML+='" r="20" stroke="yellow" stroke-width="4" fill="purple" ';
+                drawDebugHTML+="/>";
+
+                thisPortsName = "MapLowerLeft";
+                console.log("***thisPortsName=="+thisPortsName+"***") ;
+                thisPortsLatLon = parseLatLon("5S102W") ;
+                thisPortsLon = thisPortsLatLon[1] ;
+                thisPortsLat = thisPortsLatLon[0] ;
+                webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+            screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+            console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+                console.log("...mercatorXYFromLL()=="+webXYFromLL) ;
+                webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+                console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+                thisPortsX = webWindowXYFromDocWorldXY[0] ;
+                thisPortsY = webWindowXYFromDocWorldXY[1] ;
+                console.log(">>>thisPortsLatLon=="+thisPortsLatLon+" thisPortsX=="+thisPortsX+"thisPortsY=="+thisPortsY) ;
+                drawDebugHTML+='<circle cx="' ;
+                drawDebugHTML+=thisPortsX ;
+                drawDebugHTML+='" cy="' ;
+                drawDebugHTML+=thisPortsY ;
+                drawDebugHTML+='" r="20" stroke="Purple" stroke-width="4" fill="yellow" ';
+                drawDebugHTML+="/>";
+
+                thisPortsName = "MapLowerRight";
+                console.log("***thisPortsName=="+thisPortsName+"***") ;
+                thisPortsLatLon = parseLatLon("5S38E") ;
+                thisPortsLon = thisPortsLatLon[1] ;
+                thisPortsLat = thisPortsLatLon[0] ;
+                webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+            screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+        console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+                webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+                console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+                thisPortsX = webWindowXYFromDocWorldXY[0] ;
+                thisPortsY = webWindowXYFromDocWorldXY[1] ;
+                console.log(">>>thisPortsLatLon=="+thisPortsLatLon+" thisPortsX=="+thisPortsX+"thisPortsY=="+thisPortsY) ;
+                drawDebugHTML+='<circle cx="' ;
+                drawDebugHTML+=thisPortsX ;
+                drawDebugHTML+='" cy="' ;
+                drawDebugHTML+=thisPortsY ;
+                drawDebugHTML+='" r="20" stroke="Purple" stroke-width="4" fill="blue" ';
+                drawDebugHTML+="/>";
+
+
+                thisPortsName = "MapGreenwichEquatorOrigin";
+                console.log("***thisPortsName=="+thisPortsName+"***") ;
+                thisPortsLatLon = parseLatLon("0N0E") ;
+                thisPortsLon = thisPortsLatLon[1] ;
+                thisPortsLat = thisPortsLatLon[0] ;
+                webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+            screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+            console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+                webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+                console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+                thisPortsX = webWindowXYFromDocWorldXY[0] ;
+                thisPortsY = webWindowXYFromDocWorldXY[1] ;
+                console.log(">>>thisPortsLatLon=="+thisPortsLatLon+" thisPortsX=="+thisPortsX+"thisPortsY=="+thisPortsY) ;
+                drawDebugHTML+='<circle cx="' ;
+                drawDebugHTML+=thisPortsX ;
+                drawDebugHTML+='" cy="' ;
+                drawDebugHTML+=thisPortsY ;
+                drawDebugHTML+='" r="20" stroke="yellow" stroke-width="4" fill="purple" ';
+                drawDebugHTML+="/>";
+end display corners and [0,0] */
+
+/*
+
+
+
+*/
+
+/*  display latlons
+    var testLocLon ;
+    var lonStepInDegrees = 20 ;
+    var lonSpanDegrees = 360 ;
+    var lonOffsetDegrees = 180 ;
+    var testLocLat ;
+    var latStepInDegrees = 20 ;
+    var latSpanDegrees = 180 ;
+    var latOffsetDegrees = 90 ;
+    var testLocLatLon ;
+    var testLocName ;
+    for (var latIndex=0; latIndex<latSpanDegrees/latStepInDegrees; latIndex++) {
+        testLocLat = latIndex*latStepInDegrees-latOffsetDegrees;
+        for (var lonIndex=0; lonIndex<lonSpanDegrees/lonStepInDegrees; lonIndex++) {
+            testLocLon = lonIndex*lonStepInDegrees-lonOffsetDegrees;
+            testLocLatLon = [testLocLat,testLocLon];
+            //testLocName = "LL["+testLocLat+","+testLocLon+"]";
+            //### force 65N 5S
+            if (testLocLat<=-5) {
+                if (testLocLon<=0) {
+                    testLocName = "5S"+(-1.0*testLocLon)+"W";
+                }
+                else {
+                    testLocName = "5S"+testLocLon+"E";
+                }
+            }
+            else if (testLocLat<=0) {
+                if (testLocLon<=0) {
+                    testLocName = (-1.0*testLocLat)+"S"+(-1.0*testLocLon)+"W";
+                }
+                else {
+                    testLocName = (-1.0*testLocLat)+"S"+testLocLon+"E";
+                }
+            }
+            else if (testLocLat>=65) {
+                if (testLocLon<=0) {
+                    testLocName = "65N"+(-1.0*testLocLon)+"W";
+                }
+                else {
+                    testLocName = "65N"+testLocLon+"E";
+                }
+            }
+            else {
+                if (testLocLon<0) {
+                    testLocName = testLocLat+"N"+(-1.0*testLocLon)+"W";
+                }
+                else {
+                    testLocName = testLocLat+"N"+testLocLon+"E";
+                } ;
+            }
+    console.log(">>>testLocName=="+testLocName+" testLocLatLon=="+testLocLatLon) ;
+    console.log("@@@@@ LL was ["+testLocLat+","+testLocLon+"]");
+    testLocLatLon = parseLatLon(testLocName) ;
+    estLocLon =  testLocLatLon[1] ;
+    testLocLat =  testLocLatLon[0] ;
+    console.log("@@@@@ is now: ["+testLocLat+","+testLocLon+"]");
+
+            console.log(">>>testLocName=="+testLocName+" testLocLatLon=="+testLocLatLon) ;
+            webXYFromLL=mercatorXYFromLL(testLocLat, testLocLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+            screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+            console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+            webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+            console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+
+//            testLocY = Math.round(screenRegionEndY+Math.abs(y2LatRatio * (testLocLat -regionMapULLatLon[0]))) ;  //### abs??? ###
+            testLocX = webWindowXYFromDocWorldXY[0] ;
+            testLocY = webWindowXYFromDocWorldXY[1] ;
+            // console.log("...replace testLocY with "+testLocY) ;
+            // docWindowXYFromDocWorldXY(docWorldTgtX, docWorldTgtY, docWorldXSpan, docWorldYSpan, screenRegionXDim, screenRegionYDim, webXLeftDelta, webYBottomDelta) ;
+            var circleRadius = 2 ; //latIndex+lonIndex;
+            //testLocX = mercXY[0] ;
+            //testLocY = mercXY[1] ;
+            drawDebugHTML+='<circle cx="' ;
+            drawDebugHTML+=testLocX ;
+            drawDebugHTML+='" cy="' ;
+            drawDebugHTML+=testLocY ;
+            drawDebugHTML+='" r="'+circleRadius+'" stroke="Yellow" stroke-width="1" fill="Purple" ';
+            drawDebugHTML+="/>";
+
+            drawDebugHTML+='<text x="' ;
+             drawDebugHTML+=testLocX ;
+            drawDebugHTML+='" y="' ;
+            drawDebugHTML+=testLocY ;
+            drawDebugHTML+='" fill="black" font-family="\'Lucida Grande\', sans-serif" font-size="10"';
+            drawDebugHTML+=">";
+            drawDebugHTML+=testLocName;
+            drawDebugHTML+=" </text>";
+        }
+    }
+
+
+end display latlons */
+
+
+    // earlier... departurePortsList = departurePortsStruct.split("|") ;
+                // filter departurePortsList by localStorage.RegionOfOriginAbbrev
+                // filter arrivalPortsList by localStorage.RegionOfOriginAbbrev, but need to distinguish East vs West US ports
+
+    console.log("$$$$$Lines:departurePortsList=="+departurePortsList+"; arrivalPortsList=="+arrivalPortsList) ;
+    var departurePortInRegion, arrivalPortInRegion ;
+    var uncertainOfPortIdentity = "" ;
+    if (departurePortsList) {
+        //drawDeparturePortHTML = '<svg width="400" height="180" viewBox="0 0 1000 400">';
+        //drawDeparturePortHTML = '<svg width="400" height="180" position="absolute" top="0px" left="0px">';
+//        drawDeparturePortHTML = '<svg width="400" height="180">';
+        for (var thisPortIndex=0; thisPortIndex<departurePortsList.length; thisPortIndex++) {
+            thisPortInfo = extractPortInfoFromName(departurePortsList[thisPortIndex], "departurePort") ;
+            //console.log("                      thisPortInfo=="+thisPortInfo) ;
+            if ( !(thisPortInfo) ) { continue ; } ;
+            thisPortsName = thisPortInfo[portNameIndex];
+/*
+    regionMapArray.push(["EuropeAndTheMediterranean", "EuM", "65N102W","5S38E", "82x106.5y","106.6x90.6y", "width: 185px; height: 170px; ", "top: 160px; left: 490px;"]) ;
+    regionDeparturePortsBoundingBox.push(["EuropeAndTheMediterranean", "EuM", "80N10W","40S50E"]) ;
+    regionArrivalPortsBoundingBox.push(["EuropeAndTheMediterranean", "EuM", "50N100W","25S60E"]) ;
+*/
+            if (!portInRegion(thisPortsName, departurePortArray, localStorage.RegionOfOrigin, regionDeparturePortsBoundingBox)) {
+                //alert("Port "+thisPortsName+" not in region "+localStorage.RegionOfOrigin) ;
+                //alert("Filter should have eliminated this departure port")
+                departurePortInRegion = false ;
+                continue ;
+            }
+            else {
+                departurePortInRegion = true ;
+            }
+
+            thisPortsLatLon = parseLatLon(thisPortInfo[portLatLonIndex]);
+            thisPortsLat = thisPortsLatLon[0] ;
+            thisPortsLon = thisPortsLatLon[1] ;
+/*
+                webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+            screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+            console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+                //console.log("...mercatorXYFromLL()=="+webXYFromLL) ;
+                webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+                //console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+                thisPortsX = webWindowXYFromDocWorldXY[0] ;
+                thisPortsY = webWindowXYFromDocWorldXY[1] ;
+*/
+    webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+//console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+    webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+    //console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+    thisPortsX = webWindowXYFromDocWorldXY[0] ;
+    thisPortsY = webWindowXYFromDocWorldXY[1] ;
+
+// #### okay, why does this continue to show up even when there is only one arrival/departure port? ####
+    if (departurePortsList.length > 1) {
+        uncertainOfPortIdentity = "(?)" ;
+    }
+    else {
+        uncertainOfPortIdentity = "" ;
+    } ;
+            //console.log("...thisPortsName=="+thisPortsName+" thisPortsLatLon=="+thisPortsLatLon+" thisPortsX=="+thisPortsX+"thisPortsY=="+thisPortsY) ;
+            drawDeparturePortHTML+='<circle cx="' ;
+            drawDeparturePortHTML+=thisPortsX ;
+            drawDeparturePortHTML+='" cy="' ;
+            drawDeparturePortHTML+=thisPortsY ;
+            drawDeparturePortHTML+='" r="2" stroke="green" stroke-width="4" fill="yellow" ';
+            drawDeparturePortHTML+="/>";
+            //drawDeparturePortHTML =   '<circle cx="300" cy="300" r="15" stroke="green" stroke-width="4" fill="yellow" />' ;
+            //<text x="0" y="15" fill="red">I love SVG!</text>
+            drawDeparturePortHTML+='<text x="' ;
+             drawDeparturePortHTML+=thisPortsX ;
+            drawDeparturePortHTML+='" y="' ;
+            drawDeparturePortHTML+=thisPortsY ;
+            drawDeparturePortHTML+='" fill="black" font-family="\'Lucida Grande\', sans-serif" font-size="10"';
+            drawDeparturePortHTML+=">";
+            drawDeparturePortHTML+=thisPortsName + uncertainOfPortIdentity;
+            drawDeparturePortHTML+=" </text>";
+
+        }
+//        drawDeparturePortHTML+="</svg>" ;
+    }
+
+    // earlier...     var arrivalPortsList = arrivalPortsStruct.split("|") ;
+    console.log("                      arrivalPortsList=="+arrivalPortsList) ;
+    if (arrivalPortsList) {
+        //console.log("                      thisPortInfo=="+thisPortInfo) ;
+        //drawArrivalPortHTML = '<svg width="400" height="180" viewBox="0 0 1000 400">';
+        //drawArrivalPortHTML = '<svg width="400" height="180" position="absolute" top="0px" left="0px">';
+//        drawArrivalPortHTML = '<svg width="400" height="180">';
+        for (var thisPortIndex=0; thisPortIndex<arrivalPortsList.length; thisPortIndex++) {
+            thisPortInfo = extractPortInfoFromName(arrivalPortsList[thisPortIndex], "arrivalPort") ;
+            //console.log("                      thisPortInfo=="+thisPortInfo) ;
+            if ( !(thisPortInfo) ) { continue ; } ;
+            thisPortsName = thisPortInfo[portNameIndex];
+/*
+    regionMapArray.push(["EuropeAndTheMediterranean", "EuM", "65N102W","5S38E", "82x106.5y","106.6x90.6y", "width: 185px; height: 170px; ", "top: 160px; left: 490px;"]) ;
+    regionDeparturePortsBoundingBox.push(["EuropeAndTheMediterranean", "EuM", "80N10W","40S50E"]) ;
+    regionArrivalPortsBoundingBox.push(["EuropeAndTheMediterranean", "EuM", "50N100W","25S60E"]) ;
+*/
+
+// #### this should be redundent - have filtered out all not-in-region ports ####
+            if (!portInRegion(thisPortsName, arrivalPortArray, localStorage.RegionOfOrigin, regionArrivalPortsBoundingBox)) {
+                //alert("Port "+thisPortsName+" not in region "+localStorage.RegionOfOrigin) ;
+                //alert("Filter should have eliminated this arrival port")
+                arrivalPortInRegion = false ;
+                continue ;
+            }
+            else {
+                arrivalPortInRegion = true ;
+            }
+
+            thisPortsLatLon = parseLatLon(thisPortInfo[portLatLonIndex]);
+            thisPortsLat = thisPortsLatLon[0] ;
+            thisPortsLon = thisPortsLatLon[1] ;
+/*
+                webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+            screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+                //console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+                    //console.log("...mercatorXYFromLL()=="+webXYFromLL) ;
+                    webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+                    //console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+                    thisPortsX = webWindowXYFromDocWorldXY[0] ;
+                    thisPortsY = webWindowXYFromDocWorldXY[1] ;
+*/
+    webXYFromLL=mercatorXYFromLL(thisPortsLat, thisPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+//console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+    webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+    //console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+    thisPortsX = webWindowXYFromDocWorldXY[0] ;
+    thisPortsY = webWindowXYFromDocWorldXY[1] ;
+
+    if (arrivalPortsList.length > 1) {
+        uncertainOfPortIdentity = "(?)" ;
+    }
+    else {
+        uncertainOfPortIdentity = "" ;
+    } ;
+            drawArrivalPortHTML+='<circle cx="' ;
+            drawArrivalPortHTML+=thisPortsX ;
+            drawArrivalPortHTML+='" cy="' ;
+            drawArrivalPortHTML+=thisPortsY ;
+            drawArrivalPortHTML+='" r="2" stroke="blue" stroke-width="4" fill="yellow" ';
+            drawArrivalPortHTML+="/>";
+            //drawArrivalPortHTML =   '<circle cx="300" cy="300" r="15" stroke="green" stroke-width="4" fill="yellow" />' ;
+            //<text x="0" y="15" fill="red">I love SVG!</text>
+            //<text x="25" y="55" font-family="'Lucida Grande', sans-serif" font-size="32">
+
+            drawArrivalPortHTML+='<text x="' ;
+            drawArrivalPortHTML+=thisPortsX ;
+            drawArrivalPortHTML+='" y="' ;
+            drawArrivalPortHTML+=thisPortsY ;
+            drawArrivalPortHTML+='" fill="black" font-family="\'Lucida Grande\', sans-serif" font-size="10"';
+            drawArrivalPortHTML+=">";
+            drawArrivalPortHTML+=thisPortsName+uncertainOfPortIdentity;
+            drawArrivalPortHTML+=" </text>";
+
+        }
+//        drawArrivalPortHTML+="</svg>" ;
+    }
+
+
+    var thisEntryPortsX = 0 ;
+    var thisEntryPortsY = 0 ;
+    var thisDepartPortsX = 0 ;
+    var thisDepartPortsY = 0 ;
+    var avgDepartX = 0;
+    var avgDepartY = 0;
+    var numDeparturePorts = 0;
+    var avgArriveX = 0;
+    var avgArriveY = 0;
+    var numArrivalPorts = 0;
+    var textBoxX = 0;
+    var textBoxY = 0;
+    var displayMapPrologue ;
+    var displayMapPostlogue ;
+    var drawWarningPrologue ;
+    var drawWarningPostlogue ;
+
+    if (departurePortsList&&arrivalPortsList) {
+        for (var thisDepartPortIndex=0; thisDepartPortIndex<departurePortsList.length; thisDepartPortIndex++) {
+            thisDepartPortInfo = extractPortInfoFromName(departurePortsList[thisDepartPortIndex], "departurePort") ;
+            //console.log("                      thisDepartPortInfo=="+thisDepartPortInfo) ;
+            if ( !(thisDepartPortInfo) ) { continue ; }
+            else { numDeparturePorts++ ; }
+
+            thisDepartPortsName = thisDepartPortInfo[portNameIndex];
+            thisDepartPortsLatLon = parseLatLon(thisDepartPortInfo[portLatLonIndex]);
+            thisDepartPortsLat = thisDepartPortsLatLon[0] ;
+            thisDepartPortsLon = thisDepartPortsLatLon[1] ;
+
+            if (!portInRegion(thisDepartPortsName, departurePortArray, localStorage.RegionOfOrigin, regionDeparturePortsBoundingBox)) {
+                //console.log("Port "+thisDepartPortsName+" not in region "+localStorage.RegionOfOrigin) ;
+                //alert("Filter should have eliminated this departure port")
+                departurePortInRegion = false ;
+                continue ;
+            }
+            else {
+                departurePortInRegion = true ;
+            }
+
+/*
+                webXYFromLL=mercatorXYFromLL(thisDepartPortsLat, thisDepartPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+            screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+                console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+                    //console.log("...mercatorXYFromLL()=="+webXYFromLL) ;
+                    webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+                    //console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+*/
+    webXYFromLL=mercatorXYFromLL(thisDepartPortsLat, thisDepartPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+//console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+    webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+    //console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+        thisDepartPortsX = webWindowXYFromDocWorldXY[0] ;
+        thisDepartPortsY = webWindowXYFromDocWorldXY[1] ;
+        avgDepartX += thisDepartPortsX ;
+        avgDepartY += thisDepartPortsY ;
+
+            for (var thisEntryPortIndex=0; thisEntryPortIndex<arrivalPortsList.length; thisEntryPortIndex++) {
+                thisEntryPortInfo = extractPortInfoFromName(arrivalPortsList[thisEntryPortIndex], "arrivalPort") ;
+                //console.log("                      thisEntryPortInfo=="+thisEntryPortInfo) ;
+                if ( !(thisEntryPortInfo) ) { continue ; }
+                else { numArrivalPorts++ ; }
+                thisEntryPortsName = thisEntryPortInfo[portNameIndex];
+
+                if (!portInRegion(thisEntryPortsName, arrivalPortArray, localStorage.RegionOfOrigin, regionArrivalPortsBoundingBox)) {
+                    //console.log("Port "+thisEntryPortsName+" not in region "+localStorage.RegionOfOrigin) ;
+                    arrivalPortInRegion = false ;
+                    //alert("Filter should have eliminated this arrival port")
+                    continue ;
+                }
+                else {
+                    arrivalPortInRegion = true ;
+                }
+
+                if (!(departurePortInRegion && arrivalPortInRegion)) {
+                    continue ;
+                }
+
+                thisEntryPortsLatLon = parseLatLon(thisEntryPortInfo[portLatLonIndex]);
+                thisEntryPortsLat = thisEntryPortsLatLon[0] ;
+                thisEntryPortsLon = thisEntryPortsLatLon[1] ;
+/*
+                webXYFromLL=mercatorXYFromLL(thisEntryPortsLat, thisEntryPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+            screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+                        console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+                        webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+                        //console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+*/
+    webXYFromLL=mercatorXYFromLL(thisEntryPortsLat, thisEntryPortsLon, regionMapScreenSize[0], regionMapScreenSize[1]) ;
+screenWorldMapCoords = docMapToScreenMapCoords(webXYFromLL[0],webXYFromLL[1],regionMapScreenSize[0], regionMapScreenSize[1]);
+//console.log("...mercatorXYFromLL()=="+webXYFromLL+" screenWorldMapCoords="+screenWorldMapCoords) ;
+    webWindowXYFromDocWorldXY= docWindowXYFromDocWorldXY(screenWorldMapCoords[0], screenWorldMapCoords[1], docWorldXSpan, docWorldYSpan, screenRegionXSpan, screenRegionYSpan, docWorldXOrigin2RegionDelta, docWorldYOrigin2RegionDelta) ;
+    //console.log("...docWindowXYFromDocWorldXY() using testMercatorX|Y =="+webWindowXYFromDocWorldXY) ;
+                thisEntryPortsX = webWindowXYFromDocWorldXY[0] ;
+                thisEntryPortsY = webWindowXYFromDocWorldXY[1] ;
+            if (thisDepartPortIndex==0) {
+                avgArriveX += thisEntryPortsX ;
+                avgArriveY += thisEntryPortsY ;
+            }
+                //console.log("$$$Line:thisDepartPortsName=="+thisDepartPortsName+" thisDepartPortsLatLon=="+thisDepartPortsLatLon+" thisDepartPortsX=="+thisDepartPortsX+"thisDepartPortsY=="+thisDepartPortsY) ;
+                //console.log("$$$Line:thisEntryPortsName=="+thisEntryPortsName+" thisEntryPortsLatLon=="+thisEntryPortsLatLon+" thisEntryPortsX=="+thisEntryPortsX+"thisEntryPortsY=="+thisEntryPortsY) ;
+
+                drawRouteHTML+='<line x1="' ;
+                drawRouteHTML+=thisDepartPortsX ;
+                drawRouteHTML+='" y1="' ;
+                drawRouteHTML+=thisDepartPortsY ;
+                drawRouteHTML+='" x2="' ;
+                drawRouteHTML+=thisEntryPortsX ;
+                drawRouteHTML+='" y2="' ;
+                drawRouteHTML+=thisEntryPortsY ;
+                drawRouteHTML+='" style= "stroke:rgb(255,0,0);stroke-width:2" ';
+                drawRouteHTML+="/>";
+
+            }
+
+        }
+        // place a note about the look of the delivered route grfx
+        avgDepartX = avgDepartX/numDeparturePorts ;
+        avgDepartY = avgDepartY/numDeparturePorts ;
+        avgArriveX = avgArriveX/numArrivalPorts ;
+        avgArriveY = avgArriveY/numArrivalPorts ;
+        textBoxX = (avgDepartX+avgArriveX)/2 ;
+        textBoxY = (avgDepartY+avgArriveY)/2 ;
+            drawWarningNoticeHTML+='<text x="' ;
+            drawWarningNoticeHTML+=textBoxX ;
+            drawWarningNoticeHTML+='" y="' ;
+            drawWarningNoticeHTML+=textBoxY ;
+            drawWarningNoticeHTML+='" fill="red" font-family="\'Lucida Grande\', sans-serif" font-size="14"';
+            drawWarningNoticeHTML+=">";
+            drawWarningNoticeHTML+="This display is NOTIONAL.";
+            drawWarningNoticeHTML+=" </text>";
+            textBoxY = textBoxY+12 ;
+            drawWarningNoticeHTML+='<text x="' ;
+            drawWarningNoticeHTML+=textBoxX ;
+            drawWarningNoticeHTML+='" y="' ;
+            drawWarningNoticeHTML+=textBoxY ;
+            drawWarningNoticeHTML+='" fill="red" font-family="\'Lucida Grande\', sans-serif" font-size="14"';
+            drawWarningNoticeHTML+=">";
+            drawWarningNoticeHTML+="Your product will be based on";
+            drawWarningNoticeHTML+=" </text>";
+            textBoxY = textBoxY+12 ;
+            drawWarningNoticeHTML+='<text x="' ;
+            drawWarningNoticeHTML+=textBoxX ;
+            drawWarningNoticeHTML+='" y="' ;
+            drawWarningNoticeHTML+=textBoxY ;
+            drawWarningNoticeHTML+='" fill="red" font-family="\'Lucida Grande\', sans-serif" font-size="14"';
+            drawWarningNoticeHTML+=">";
+            drawWarningNoticeHTML+="accurate historical maps and routes.";
+            drawWarningNoticeHTML+=" </text>";
+    }
+
+
+    //        <div id="routeGrfx" style="position: absolute; bottom: 45px; left: 115px; z-index: 5;"></div>
+    displayMapPrologue='<div id="'+mapDisplayDivID+'" style="position: absolute; bottom: 0px; left: 0px; z-index: 7;">' ;
+    displayMapPostlogue='</div>' ;
+    drawWarningPrologue='<div id="drawWarning" style="position: absolute; top: 0px; left: 100px; z-index: 7;">' ;
+    drawWarningPostlogue='</div>' ;
+        displayMapHTML+=drawRouteHTML ;
+        displayMapHTML+=drawArrivalPortHTML ;
+        displayMapHTML+=drawDeparturePortHTML ;
+        //displayMapHTML+=drawWarningNoticeHTML ;
+        displayMapHTML+=drawWarningPrologue+drawWarningNoticeHTML+drawWarningPostlogue ;
+        displayMapHTML+=drawDebugHTML ;
+ //       console.log('generateRouteGrfxHTML(): displayMapHTML=='+displayMapHTML);
+//        displayMapHTML = displayMapPrologue+drawRouteHTML+drawArrivalPortHTML+drawDeparturePortHTML+drawWarningNoticeHTML+drawDebugHTML+displayMapPostlogue ;
+    /*document.write(selectShipPage) ;*/
+    //document.getElementById("routeGrfx").innerHTML = displayMapHTML;
+    //document.getElementById(menuListDivID).innerHTML = displayMapHTML;
+    //document.getElementById(mapDisplayDivID).innerHTML = displayMapHTML;
+
+//        displayMapHTML=   '<circle cx="200" cy="100" r="15" stroke="green" stroke-width="4" fill="yellow" />' ;
+    return displayMapHTML ;
+}
+// ]]></script>
+<script>// <![CDATA[
+function displayCurrentRegionMap(webMapImg, arrivalPortsStruct, departurePortsStruct, routeDisplayDivID) {
+//        console.log("displayCurrentRegionMap: arrivalPortsStruct=="+arrivalPortsStruct) ;
+            var shopifyFilePreFix = "https://cdn.shopify.com/s/files/1/1336/0641/files/" ;
+            var shopifyFileSufFix = "?16338137725744926710" ;
+
+            var webMapImgInfo = new Image() ;
+            webMapImgInfo.src = shopifyFilePreFix+webMapImg ;
+            //console.log("webMapImgInfo=="+webMapImgInfo+" width=="+webMapImgInfo.width+" height=="+webMapImgInfo.height) ;
+
+            var ImgOverlayHTML = '<div style=\"position: relative; top: 60px; left: 100px; z-index: 0; text-shadow: 1px 1px 0px Ivory;\">' ;
+
+            /* map */
+           var webMapImg = shopifyFilePreFix+localStorage.webMapImg;
+    /*         ImgOverlayHTML +=   '<img src=' + webMapImg ;
+               ImgOverlayHTML +=   'class=\"map\" style=\"width: 400px; height: auto;\" />' ;
+    */
+
+            //var shopifiedMapImg = shopifyFilePreFix + webMapImg;
+            var ImgOverlayHTML = '' ;
+
+            /* map display */
+    /*        ImgOverlayHTML +=   '<div style=\"position: absolute; top: 120px; left: 120px; z-index: 3;\">' ;  */
+            ImgOverlayHTML +=   '<div style=\"position: absolute; bottom: 20px; left: 150px; z-index: 3;\">' ;
+            // ##### ImgOverlayHTML +=     '<img src=' + shopifiedMapImg ; ###### ***rework to make this map vs ship centric***
+            ImgOverlayHTML +=     '<img src=' + webMapImg ;
+            ImgOverlayHTML +=     ' id=\"webMapImg\"';
+            ImgOverlayHTML +=     ' class=\"ship\" width=\"500px\" height=250' ;
+            ImgOverlayHTML +=     ' style=\"width: 160px maxwidth:25%; height: auto; ' ;
+            /* ImgOverlayHTML +=     ' border-style: solid; border-width: 3px; border-color: darkblue; \" />' ; */
+            ImgOverlayHTML +=     '\" />' ;
+            ImgOverlayHTML +=   '</div>' ;
+
+            ImgOverlayHTML += '</div>' ;
+
+//        console.log("ImgOverlayHTML="+ImgOverlayHTML) ;
+        /*
+         alert("ImgOverlayHTML="+ImgOverlayHTML) ;
+         */
+//        document.getElementById("routeDisplay").innerHTML = ImgOverlayHTML;  // ### not routeDisplayDivID?? ###
+        document.getElementById(routeDisplayDivID).innerHTML = ImgOverlayHTML;
+}
+
+
+function displayCurrentRoutes(webMapImg, arrivalPortsStruct, departurePortsStruct, mapDisplayDivID) {
+        console.log("displayCurrentRegionMap: arrivalPortsStruct=="+arrivalPortsStruct) ;
+
+        var regionMap = document.getElementById("webMapImg") ;
+        regionMap.addEventListener("load", function() {
+            console.log("regionMap has loaded"); // need to make sure the image is fully loaded to get its height and width (but... read from metadata?)
+            var regionMapWidth = regionMap.width ;
+            var regionMapNaturalWidth = regionMap.naturalWidth ;
+            var regionMapHeight = regionMap.height ;
+            var regionMapNaturalHeight = regionMap.naturalHeight ;
+            var width2NaturalWidthRatio = regionMapWidth/regionMapNaturalWidth ;
+            var width2NaturalHeightRatio = regionMapHeight/regionMapNaturalHeight ;
+            console.log("regionMapNaturalWidth=="+regionMapNaturalWidth+" regionMapWidth=="+regionMapWidth) ;
+            console.log("regionMapNaturalHeight=="+regionMapNaturalHeight+" regionMapHeight=="+regionMapHeight) ;
+            console.log("mapDisplayDivID=="+mapDisplayDivID) ;
+            //console.log("width2NaturalWidthRatio=="+width2NaturalWidthRatio+" width2NaturalHeightRatio=="+width2NaturalHeightRatio) ;
+            var delta = 0.01 * ((regionMapWidth+regionMapHeight)/2.0) ;
+            if ((-delta>width2NaturalWidthRatio-width2NaturalHeightRatio)||(width2NaturalWidthRatio-width2NaturalHeightRatio>delta)) {
+                alert ("displayRegionRatios-to-OrigImageRatios don't match up.  Resized map? Will probably see distorted map locations.") ;
+            }
+
+            var RoutesOverlayHTML = "" ;
+//                    RoutesOverlayHTML +=   '<div style=\"position: absolute; bottom: 0px; left: 0px; z-index: 10;\">' ;
+                RoutesOverlayHTML +=   '<div style=\"position: absolute; bottom: 20px; left: 150px; z-index: 100;\">' ;
+//                ImgOverlayHTML +=     '<img src=' + webMapImg ;
+//                ImgOverlayHTML +=     ' class=\"ship\" width=\"500px\" height=\"auto\"' ;
+                RoutesOverlayHTML +=   '<svg width="'+regionMapWidth+'" height="'+regionMapHeight+'">' ;
+                //RoutesOverlayHTML +=   '<circle cx="0" cy="0" r="50" stroke="green" stroke-width="4" fill="yellow" />' ;
+                RoutesOverlayHTML += generateRouteGrfxHTML(arrivalPortsStruct, departurePortsStruct, [0,0], [regionMapWidth,regionMapHeight], mapDisplayDivID) ;
+                //RoutesOverlayHTML +=   '<rect width="1000" height="400" style="position: absolute; z-index:100; fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />' ;
+                //RoutesOverlayHTML +=   '<circle cx="'+regionMapWidth+'" cy="'+regionMapHeight+'" r="50" stroke="yellow" stroke-width="4" fill="green" />' ;
+                RoutesOverlayHTML +=   '</svg>' ;
+                RoutesOverlayHTML +=   '</div>' ;
+
+            console.log("RoutesOverlayHTML=="+RoutesOverlayHTML) ;
+
+//        document.getElementById("routeGrfx").innerHTML = RoutesOverlayHTML;  // ### not mapDisplayDivID?? ###
+        document.getElementById(mapDisplayDivID).innerHTML = RoutesOverlayHTML;
+        });
+}
+// ]]></script>
+<script type="text/javascript">// <![CDATA[
+function portAlreadyOnList(portName, portInfoList) {
+                /*
+                for (var i = 1; i < portInfoList.length; i++) {
+                    if (portName==portInfoList[i][portNameIndex]) {
+                        return true ;
+                    } ;
+                } ;
+                return false ;
+                */
+               if (portInfoList.search == undefined) {
+                   return false ;
+               }
+               else {
+                   return (portInfoList.search(portName) >= 0 ) ;
+               }
+            }
+// ]]></script>
+<script>// <![CDATA[
+// ### not used... ###
+function removePortFromList(portName, portInfoList) {
+    console.log("removePortFromList: portName=="+portName+" portInfoList=="+portInfoList) ;
+    reconstructedList = [] ;
+    for (var i = 1; i < portInfoList.length; i++) {
+        console.log("removePortFromList: portInfoList[i]=="+portInfoList[i]) ;
+        if (portName==portInfoList[i][portNameIndex]) {
+            continue ;
+        }
+        else if (portName=="|") {
+            continue ;
+        }
+        else {
+            reconstructedList.push(portInfoList[i]) ;
+        }
+    } ;
+    console.log("removePortFromList: reconstructedList=="+reconstructedList) ;
+//    alert("removePortFromList()") ;
+    return reconstructedList ;
+} ;
+// ]]></script>
+<script>// <![CDATA[
+// ### lost the definition of chooseTypicalPort somewhere, or put in a stub and never got to.  Just defining a no-op here.
+function chooseTypicalPort(leftOrRightMenu, routeGrfx) {
+    return
+}
+// ]]></script>
+<script>// <![CDATA[
+function RecordNewPortChoice(newPortName, portInfoStr, portRole) {
+    //console.log("RecordNewPortChoice(newPortName=="+newPortName+", portInfoStr=="+portInfoStr+", portRole=="+portRole+", menuListDivID=="+menuListDivID) ;
+    var newPortList ;
+    var leftOrRightMenu ;
+//if (menuListDivID=="rightPortChoicesDisplay")
+    if (portRole=="arrivalPort") {
+        leftOrRightMenu = "leftPortChoicesDisplay" ; // ### yeah, clean this up ### ...
+        localStorage.ArrivalPortStruct = newPortName ;
+        localStorage.arrivalPort = newPortName ;
+//        alert("RecordNewPortChoice(): localStorage.arrivalPort=="+localStorage.arrivalPort) ;
+        scroll(0,0) ;  // scoll to the top of the page... yes?
+        displayCurrentRegionMap(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeDisplay") ; // ###yes?###
+//**            RelationShipsPreview("mockup", "NoFrame") ;
+/*  ### don't display routes when choosing departure ports ###
+        displayCurrentRoutes(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeGrfx") ; // ###yes?###
+*/
+        chooseTypicalPort(leftOrRightMenu, "routeGrfx") ;
+        /*
+            window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
+            -- or -- https://jimaworks.com/pages/x1-c-ship
+         */
+        // updating the departure port TextBox echo...
+        document.getElementById("destinationTextBoxL1").innerHTML = "Port of Entry: "+newPortName ;
+    }
+    else if (portRole=="departurePort") {
+        leftOrRightMenu = "rightPortChoicesDisplay" ; // ### yeah, clean this up ### ...
+        localStorage.DeparturePortStruct = newPortName ;
+        localStorage.departurePort = newPortName ;
+//        alert("RecordNewPortChoice(): localStorage.departurePort=="+localStorage.arrivalPort) ;
+        scroll(0,0) ;   // scoll to the top of the page... yes?
+        displayCurrentRegionMap(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeDisplay") ; // ###yes?###
+//**            RelationShipsPreview("mockup", "NoFrame") ;
+/*  ### don't display routes when choosing departure ports ###
+        displayCurrentRoutes(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeGrfx") ; // ###yes?###
+*/
+        chooseTypicalPort(leftOrRightMenu, "routeGrfx") ;
+        /*
+            window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
+            -- or -- https://jimaworks.com/pages/x1-c-ship
+         */
+        // updating the departure port TextBox echo...
+// just Departure text box here:
+//        document.getElementById("originsTextBoxL2").innerHTML = "Departure Port: "+newPortName ;
+    }
+    else {
+        alert("RecordNewPortChoice() - neither an arrival nor a departure port?  Assuming departure port.") ;
+        RecordNewPortChoice(newPortName, portInfoStr, "departurePort") ;
+    }
+}
+// ]]></script>
+<script>// <![CDATA[
+function RecordNewPortListChoice(newPortName, portInfoStr, portRole) {
+    //console.log("RecordNewPortListChoice(newPortName=="+newPortName+", portInfoStr=="+portInfoStr+", portRole=="+portRole+", menuListDivID=="+menuListDivID) ;
+    var newPortList ;
+    var leftOrRightMenu ;
+//if (menuListDivID=="rightPortChoicesDisplay")
+    if (portRole=="arrivalPort") {
+        leftOrRightMenu = "leftPortChoicesDisplay" ; // ### yeah, clean this up ### ...
+        newPortList = localStorage.ArrivalPortStruct ;
+        if (newPortList) {
+            if (newPortList.search(newPortName)<0) {
+                newPortList = newPortList+"|"+newPortName ;
+            }
+            else {
+                newPortList = newPortList.replace("|"+newPortName,"") ;
+            }
+        }
+        else {
+            newPortList = "|"+newPortName ;
+        }
+        localStorage.setItem("ArrivalPortStruct", newPortList) ;
+        // ### Issue:  Expecting just one choice in order, but accepting lots here ###
+        localStorage.arrivalPort = portInfoStr.split(",")[portIDIndex] ;
+        alert("portInfoStr.split(",")="+portInfoStr.split(",")+" portInfoStr.split(",")[portIDIndex=="+portIDIndex+"]=="+portInfoStr.split(",")[portIDIndex]) ;
+        scroll(0,0) ;  // scoll to the top of the page... yes?
+        displayCurrentRegionMap(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeDisplay") ; // ###yes?###
+//**            RelationShipsPreview("mockup", "NoFrame") ;
+/*      ### don't display routes when chose departure... ###
+        displayCurrentRoutes(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeGrfx") ; // ###yes?###
+*/
+        chooseTypicalPort(leftOrRightMenu, "routeGrfx") ;
+        /*
+            window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
+            -- or -- https://jimaworks.com/pages/x1-c-ship
+         */
+    }
+    else if (portRole=="departurePort") {
+        leftOrRightMenu = "rightPortChoicesDisplay" ; // ### yeah, clean this up ### ...
+        newPortList = localStorage.DeparturePortStruct ;
+        if (newPortList) {
+            if (newPortList.search(newPortName)<0) {
+                newPortList = newPortList+"|"+newPortName ;
+            }
+            else {
+                newPortList = newPortList.replace("|"+newPortName,"") ;
+            }
+        }
+        else {
+            newPortList = "|"+newPortName ;
+        }
+        localStorage.setItem("DeparturePortStruct", newPortList) ;
+        // ### Issue:  Expecting just one choice in order, but accepting lots here ###
+        localStorage.departurePort = portInfoStr.split(",")[portIDIndex] ;
+        alert("portInfoStr.split(",")="+portInfoStr.split(",")+" portInfoStr.split(",")[portIDIndex=="+portIDIndex+"]=="+portInfoStr.split(",")[portIDIndex]) ;
+        scroll(0,0) ;   // scoll to the top of the page... yes?
+        displayCurrentRegionMap(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeDisplay") ; // ###yes?###
+//**            RelationShipsPreview("mockup", "NoFrame") ;
+//        displayCurrentRoutes(localStorage.webMapImg, localStorage.ArrivalPortStruct, localStorage.DeparturePortStruct, "routeGrfx") ; // ###yes?###
+        chooseTypicalPort(leftOrRightMenu, "routeGrfx") ;
+        /*
+            window.location.href="https://jimaworks.com/pages/1-c-map-background" ;
+            -- or -- https://jimaworks.com/pages/x1-c-ship
+         */
+    }
+    else {
+        alert("RecordNewPortListChoice() - neither an arrival nor a departure port?  Assuming departure port.") ;
+        RecordNewPortListChoice(newPortName, portInfoStr, "departurePort") ;
+    }
+}
+// ]]></script>
+</div>
+      </div>
+  
+    </div>
+  
+  </div>
+  

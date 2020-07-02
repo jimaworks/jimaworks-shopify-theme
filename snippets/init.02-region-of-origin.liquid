@@ -1,0 +1,38 @@
+<script id="init-02-region-of-origin">
+  "use strict";
+  window.Jimaworks.Pages = ( window.Jimaworks.Pages || {} );
+  window.Jimaworks.Pages.RegionOfOrigin = {
+    initializeDefaults: function RegionOfOrigin_initializeDefaults() {
+      /*
+        Second page (7/31/2019) == RegionOfOrigin.
+        "Set the Stage. In What Part of the World did this Story Start?"
+        ### RegionOfOriginImageFileName ? ###
+      */
+      /* localVarNam      localVarDefault     localVarDefaultAbbrev  */
+      /* "RegionOfOrigin"  "EuropeAndTheMediterranean"  "EuM"  */
+      var RegionOfOriginDefault = "EuropeAndTheMediterranean";
+      var RegionOfOriginAbbrevDefault = "EuM";
+      /* var RegionOfOriginImgFileName = "..."; */
+      localStorage.setItem("RegionOfOriginDefault", RegionOfOriginDefault);
+      if (localStorage.RegionOfOrigin == undefined) {
+        localStorage.setItem("RegionOfOrigin", RegionOfOriginDefault);
+        localStorage.setItem("RegionOfOriginAbbrev", RegionOfOriginAbbrevDefault);
+        /* localStorage.setItem("RegionOfOriginImageFileName", RegionOfOriginImgFileName) ; */
+      }
+    }, // initializeDefaults
+    clearLocalStorageVars: function RegionOfOrigin_clearLocalStorageVars() {
+      /*
+        Second page (7/31/2019) == RegionOfOrigin.
+        "Set the Stage. In What Part of the World did this Story Start?"
+        ### RegionOfOriginImageFileName ? ###
+      */
+
+      /* localVarNam      localVarDefault     localVarDefaultAbbrev  */
+      /* "RegionOfOrigin"  "EuropeAndTheMediterranean"  "EuM"  */
+
+      localStorage.removeItem("RegionOfOriginDefault");
+      localStorage.removeItem("RegionOfOrigin");
+      localStorage.removeItem("RegionOfOriginAbbrev");
+    } // clearLocalStorageVars
+  };
+</script>
