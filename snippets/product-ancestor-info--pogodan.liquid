@@ -1073,9 +1073,9 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
                                             PlaqueInfo = ( localStorage.getItem('PlaqueLine1') === null );
                                         } else {
                                             PlaqueInfo = (
-                                                ( localStorage.getItem('PlaqueLine2') === null )
-                                                || ( localStorage.getItem('PlaqueLine1') === null )
-                                            );
+                                            	(localStorage.getItem('PlaqueLine3') === null ) || 
+                                            	(localStorage.getItem('PlaqueLine2') === null ) || 
+                                            	(localStorage.getItem('PlaqueLine1') === null ));
                                         }
 
                                         if ( PlaqueInfo ) {
