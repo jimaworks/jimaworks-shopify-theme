@@ -496,8 +496,16 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 					//orderDateStr += '">' ;
 					//document.getElementById("setUpOrder").innerHTML = orderDateStr ;
 					document.getElementById("order-date").value = orderDate ;
-					document.getElementById("map-style").value = localStorage.MapStyle ;
-					document.getElementById("frame").value = localStorage.Frame ;
+					if (localStorage.getItem('MapStyle') === null) {
+						localStorage.MapStyle = 'ParisSage';
+					}
+					
+					document.getElementById("map-style").value = localStorage.MapStyle;
+					
+					if (localStorage.getItem('Frame') === null) {
+						localStorage.MapStyle = 'BlackWalnut';
+					}
+					document.getElementById("frame").value = localStorage.Frame;
 					document.getElementById("region-of-origin").value = localStorage.RegionOfOrigin ;
 					document.getElementById("year").value = localStorage.YearOfCrossing ;
 					document.getElementById("time-period").value = localStorage.Era ;
@@ -539,13 +547,13 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 								<script>
 									function fillTitleInputs() {
 										if(localStorage.TitleLine1==undefined) {
-											document.getElementById("title-line-1").value="" ;
+											document.getElementById("title-line-1").value="The Family Crossing: First Generation" ;
 										}
 										else {
 											document.getElementById("title-line-1").value=localStorage.TitleLine1 ;
 										}
 										if(localStorage.TitleLine2==undefined) {
-											document.getElementById("title-line-2").value="" ;
+											document.getElementById("title-line-2").value="A Thread in the Great Tapistry that is America" ;
 										}
 										else {
 											document.getElementById("title-line-2").value=localStorage.TitleLine2 ;
@@ -592,7 +600,7 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 						</p>
 						<div class="input_fields_wrap">
 						  <div id="departure">
-								 <input type="hidden" id="origins" class="member" name="properties[Origin]" value="None specified">
+								 <input type="hidden" id="origin" class="member" name="properties[Origin]" value=localStorage.Origin>
 								 <input type="hidden" id="departureInput" class="member" name="properties[Departure]" value="None specified">
 								<!-- <label for"origins-line-1">Origins Line 1, e.g., Country of Origin</label> -->
 								<input  type="text" 
@@ -617,8 +625,15 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 								<p class="help-text">Start typing to see a list of suggested ports or write in your own. If you completed the date section we will only suggest ports that match those dates.</p>
 								<script>
 									function fillOriginsLineInputs() {
-										document.getElementById("origins").value = localStorage.Origins ;
-										document.getElementById("departureInput").value = localStorage.Departure ;
+										if(localStorage.Origin==undefined) {
+											localStorage.Origin = localStorage.Origin;
+										}
+										
+										document.getElementById("origin").value = localStorage.Origin;
+										if(localStorage.Departure==undefined) {
+											localStorage.Departure = "None specified";
+										}
+										document.getElementById("departureInput").value = localStorage.Departure;
 										var originsTextBoxL1 = localStorage.getItem('originsTextBoxL1');
 										var originsTextBoxL2 = localStorage.getItem('originsTextBoxL2');
 										var originsTextBoxL2 = localStorage.getItem('OriginsLine2');
@@ -684,7 +699,10 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 								<input type="text" id="arrival-line-2" class="member" name="properties[ArrivalLine2]" value="Destiny: An American Lineage" title="You can put in anything as the second line, but we suggest it be the initial destination in America, or just leave it as: 'Destiny: An American Lineage'">
 								<script>
 									 document.getElementById("arrivalInput").value = localStorage.Arrival ;
-									 document.getElementById("destination").value = localStorage.Destination ;
+									 if(localStorage.Destination==undefined) {
+									 	localStorage.Destination = "None specified";
+									 }
+									 document.getElementById("destination").value = localStorage.Destination;
 									if(localStorage.DestinyLine1==undefined) {
 										document.getElementById("arrival-line-1").value="" ;
 									}
@@ -913,39 +931,29 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
                                     var shippingLine3 = document.getElementById('ship-line-3');
                                     
                                     if ( localStorage.getItem('ShipName') === null ) {
-                                        shipName.value = 'NoShipName';
+                                        localStorage.Shipname = 'NoShipName';
                                     }
-                                    else {
-                                        shipName.value = ( localStorage.getItem('ShipName'));
-                                    }
+                                    shipName.value = localStorage.getItem('ShipName');
                                     
-                                    if ( localStorage.getItem('ShipImage') === null ) {
-                                        shipImage.value = 'NoShipImage';
+                                    if ( localStorage.getItem('ShipPic') === null ) {
+                                        localStorage.ShipPic = 'NoShipImage';
                                     }
-                                    else {
-                                        shipImage.value = ( localStorage.getItem('ShipImage'));
-                                    }
+                                    shipImage.value = localStorage.getItem('ShipPic');
                                     
                                     if ( localStorage.getItem('SeaScape') === null ) {
-                                        seaScape.value = 'NoSeaScape';
+                                        localStorage.SeaScape = 'NoSeaScape';
                                     }
-                                    else {
-                                        seaScape.value = ( localStorage.getItem('SeaScape'));
-                                    }
+                                    seaScape.value = localStorage.getItem('SeaScape');
                                     
                                     if ( localStorage.getItem('ShipInfoLine1') === null ) {
-                                        shippingLine1.value = '';
+                                        localStorage.shipInfoLine1 = 'None specified';
                                     }
-                                    else {
-                                        shippingLine1.value = ( localStorage.getItem('ShipInfoLine1') || '' );
-                                    }
+                                    shippingLine1.value = localStorage.getItem('ShipInfoLine1');
 
                                     if ( localStorage.getItem('ShipInfoLine2') === null ) {
-                                        shippingLine2.value = '';
+                                        localStorage.shipInfoLine2 = 'None specified';
                                     }
-                                    else {
-                                        shippingLine2.value = ( localStorage.getItem('ShipInfoLine2') || '' );
-                                    }
+                                    shippingLine2.value = localStorage.getItem('ShipInfoLine2');
 
                                     if ( localStorage.getItem('ShipInfoLine3') === null ) {
                                         shippingLine3.value = '';
@@ -1072,7 +1080,7 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
                                         }
 
                                         if ( PlaqueInfo ) {
-                                            input.value = '';
+                                            input.value = 'None Specified.';
                                         } else {
                                             input.value = ( plaqueLine || '' );
                                         }
