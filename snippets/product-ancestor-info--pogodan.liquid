@@ -626,7 +626,7 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 								<script>
 									function fillOriginsLineInputs() {
 										if(localStorage.Origin==undefined) {
-											localStorage.Origin = localStorage.Origin;
+											localStorage.Origin = l"None specified";
 										}
 										
 										document.getElementById("origin").value = localStorage.Origin;
@@ -931,14 +931,14 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
                                     var shippingLine3 = document.getElementById('ship-line-3');
                                     
                                     if ( localStorage.getItem('ShipName') === null ) {
-                                        localStorage.Shipname = 'NoShipName';
+                                        localStorage.ShipName = 'NoShipName';
                                     }
                                     shipName.value = localStorage.getItem('ShipName');
                                     
-                                    if ( localStorage.getItem('ShipPic') === null ) {
-                                        localStorage.ShipPic = 'NoShipImage';
+                                    if ( localStorage.getItem('shipPic') === null ) {
+                                        localStorage.shipPic = 'NoShipImage';
                                     }
-                                    shipImage.value = localStorage.getItem('ShipPic');
+                                    shipImage.value = localStorage.getItem('shipPic');
                                     
                                     if ( localStorage.getItem('SeaScape') === null ) {
                                         localStorage.SeaScape = 'NoSeaScape';
@@ -1220,7 +1220,7 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 //             '<input type=\"hidden\" id='
 //                 + '\"shipping-line-5\"' + ' class=\"member\" name=\"properties['
 //                 + 'shipPic]\" value=' + (
-//                     localStorage.getItem("shipPic")
+//                     localStorage.getItem("ShipPic")
 //                     || localStorage.getItem("shipPicDefault")
 //                     || ''
 //                 ) + '>' ) ;
