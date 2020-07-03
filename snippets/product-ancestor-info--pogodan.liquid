@@ -503,7 +503,7 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 					document.getElementById("map-style").value = localStorage.MapStyle;
 					
 					if (localStorage.getItem('Frame') === null) {
-						localStorage.MapStyle = 'BlackWalnut';
+						localStorage.Frame = 'BlackWalnut';
 					}
 					document.getElementById("frame").value = localStorage.Frame;
 					document.getElementById("region-of-origin").value = localStorage.RegionOfOrigin ;
@@ -626,7 +626,7 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 								<script>
 									function fillOriginsLineInputs() {
 										if(localStorage.Origin==undefined) {
-											localStorage.Origin = l"None specified";
+											localStorage.Origin = "None specified";
 										}
 										
 										document.getElementById("origin").value = localStorage.Origin;
@@ -698,7 +698,10 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 								<!-- <label>Destination in America</label> -->
 								<input type="text" id="arrival-line-2" class="member" name="properties[ArrivalLine2]" value="Destiny: An American Lineage" title="You can put in anything as the second line, but we suggest it be the initial destination in America, or just leave it as: 'Destiny: An American Lineage'">
 								<script>
-									 document.getElementById("arrivalInput").value = localStorage.Arrival ;
+									 if(localStorage.Arrival==undefined) {
+									 	localStorage.Arrival = "None specified";
+									 }
+									 document.getElementById("arrivalInput").value = localStorage.Arrival;
 									 if(localStorage.Destination==undefined) {
 									 	localStorage.Destination = "None specified";
 									 }
@@ -903,9 +906,9 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
                             <p class="help-text">Start typing to see a list of previously prepared ships or write in your own.  If you completed the date, origin or arrival sections, we will suggest only ships that match that data.</p>
     -->
     
-                            <input type="hidden" id="shipName" class="member" name="properties[ShipName]">
-                            <input type="hidden" id="shipImage" class="member" name="properties[ShipImage]">
-                            <input type="hidden" id="seaScape" class="member" name="properties[SeaScape]">
+                            <input type="hidden" id="shipName" class="member" name="properties[ShipName]" value="NoShipName">
+                            <input type="hidden" id="shipImage" class="member" name="properties[ShipImage]" value="NoShipImage">
+                            <input type="hidden" id="seaScape" class="member" name="properties[SeaScape]" value = "NoSeaScape">
                             <input type="text" id="ship-line-1" name="properties[ShipInfoLine1]" 
                                     value="The Voyage.  Approximate Durations:"
                                     title="The first line could carry the name of the ship, or just leave the default">
@@ -946,12 +949,12 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
                                     seaScape.value = localStorage.getItem('SeaScape');
                                     
                                     if ( localStorage.getItem('ShipInfoLine1') === null ) {
-                                        localStorage.shipInfoLine1 = 'None specified';
+                                        localStorage.ShipInfoLine1 = 'None specified';
                                     }
                                     shippingLine1.value = localStorage.getItem('ShipInfoLine1');
 
                                     if ( localStorage.getItem('ShipInfoLine2') === null ) {
-                                        localStorage.shipInfoLine2 = 'None specified';
+                                        localStorage.ShipInfoLine2 = 'None specified';
                                     }
                                     shippingLine2.value = localStorage.getItem('ShipInfoLine2');
 
@@ -1080,6 +1083,7 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
                                         }
 
                                         if ( PlaqueInfo ) {
+                                        	 localStorage.getItem('PlaqueLine' + index) = 'None Specified.';
                                             input.value = 'None Specified.';
                                         } else {
                                             input.value = ( plaqueLine || '' );
