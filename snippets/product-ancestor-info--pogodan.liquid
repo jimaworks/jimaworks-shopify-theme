@@ -1080,8 +1080,7 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 
                                         if ( PlaqueInfo ) {
                                         	 var plaqueLSKey = 'PlaqueLine' + index;
-                                        	 localStorage.plaqueLSKey = 'None Specified.';
-                                            input.value = 'None Specified.';
+                                        	 localStorage.setItem(plaqueLSKey,input.value);
                                         } else {
                                             input.value = ( plaqueLine || '' );
                                         }
