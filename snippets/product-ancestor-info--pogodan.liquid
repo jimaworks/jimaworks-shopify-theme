@@ -547,17 +547,13 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
 								<script>
 									function fillTitleInputs() {
 										if(localStorage.TitleLine1==undefined) {
-											document.getElementById("title-line-1").value="The Family Crossing: First Generation" ;
+											localStorage.TitleLine1 = "The Family Crossing: First Generation";
 										}
-										else {
-											document.getElementById("title-line-1").value=localStorage.TitleLine1 ;
-										}
+										document.getElementById("title-line-1").value=localStorage.TitleLine1;
 										if(localStorage.TitleLine2==undefined) {
-											document.getElementById("title-line-2").value="A Thread in the Great Tapistry that is America" ;
+											localStorage.TitleLine2 = "A Thread in the Great Tapistry that is America" ;
 										}
-										else {
-											document.getElementById("title-line-2").value=localStorage.TitleLine2 ;
-										} ;
+											document.getElementById("title-line-2").value=localStorage.TitleLine2;
 										if(localStorage.TitleLine3==undefined) {
 											document.getElementById("title-line-3").value="" ;
 										}
@@ -1083,7 +1079,8 @@ defaultImg = "{{ 'avatar-man.png' | asset_url }}";
                                         }
 
                                         if ( PlaqueInfo ) {
-                                        	 localStorage.getItem('PlaqueLine' + index) = 'None Specified.';
+                                        	 var plaqueLSKey = 'PlaqueLine' + index;
+                                        	 localStorage.plaqueLSKey = 'None Specified.';
                                             input.value = 'None Specified.';
                                         } else {
                                             input.value = ( plaqueLine || '' );
