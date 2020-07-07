@@ -24,6 +24,14 @@
   {% if settings.favicon %}
   <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png" />
   {% endif %}
+  
+  <!-- Suppress caching on product page ======================================= -->
+  
+  {% if page.url contains '/products/genericrelationshipsproduct' %}
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  {% endif %}
 
   <!-- Title and description ================================================== -->
   <title>
