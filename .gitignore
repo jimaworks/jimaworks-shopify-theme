@@ -10,3 +10,4 @@ backup.*/
 *.backup.*
 variable-audit.html
 _*
+config.yml
