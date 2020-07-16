@@ -87,9 +87,9 @@
             -->
             <div style="color: #0e5478; font-weight: bold; line-height: 80%; z-index: 20;">Move red box on slider to choose the year of crossing.</div>
             <div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
-            <div id="RangeSlider" style="position: absolute; z-index: 1025; top: 10px; left: 70px; width: 800px; height: 40px;"></div>
+            <div id="RangeSlider" style="position: absolute; z-index: 1025; top: 10px; left: 70px; width: 87%; height: 55px;"></div>
             <div style="position: absolute; font-weight: bold; line-height: 80%; z-index: 20; top: 30px; left: 70px;">
-            <h3>Major crossing routes and typical ship-of-crossing for that year appear on the map</h3>
+            <h3 style="margin-top: 10px">Major crossing routes and typical ship-of-crossing for that year appear on the map</h3>
             </div>
             <div id="backgroundImage"></div>
             <!--
@@ -300,15 +300,15 @@
                 lowRangeSliderButtonHTML += currentLowerMapYear ;
                 //lowRangeSliderButtonHTML += '" style="background: url(\'https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_512x512.jpg\');" />' ;
             
-                lowRangeSliderButtonHTML += '" style="background: url(' ;
-                //shopifyPrefix + prevThisNextAvailMapYears[1]+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
-                //lowRangeSliderButtonHTML += '\''+'  shopifyPrefix + prevThisNextAvailMapYears[1]+'-Routes-'+currRegionAbbrev+shopifyImgSizePostfix+'.png'+'\'' ;
-                //https://cdn.shopify.com/s/files/1/1336/0641/files/map_7.png?546
-            
-            
-            //        lowRangeSliderButtonHTML += '\'https://cdn.shopify.com/s/files/1/1336/0641/files/map_7.png?546\'' ;
-                lowRangeSliderButtonHTML += '\''+currMapFile+'\'' ;
-                lowRangeSliderButtonHTML += ');" />' ;
+                // lowRangeSliderButtonHTML += '" style="background: url(' ;
+//                 //shopifyPrefix + prevThisNextAvailMapYears[1]+"-Routes-"+currRegionAbbrev+shopifyImgSizePostfix+".png" ;
+//                 //lowRangeSliderButtonHTML += '\''+'  shopifyPrefix + prevThisNextAvailMapYears[1]+'-Routes-'+currRegionAbbrev+shopifyImgSizePostfix+'.png'+'\'' ;
+//                 //https://cdn.shopify.com/s/files/1/1336/0641/files/map_7.png?546
+//             
+//             
+//             //        lowRangeSliderButtonHTML += '\'https://cdn.shopify.com/s/files/1/1336/0641/files/map_7.png?546\'' ;
+//                 lowRangeSliderButtonHTML += '\''+currMapFile+'\'' ;
+//                 lowRangeSliderButtonHTML += ');" />' ;
             
                 lowRangeSliderButtonHTML += '<output for="foo" onforminput="value = foo.valueAsNumber;"></output>' ;
             
