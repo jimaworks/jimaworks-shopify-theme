@@ -71,8 +71,11 @@
     .tooltip:hover .tooltiptext {
       visibility: visible;
     }
+    
+    .hidden {
+      display: none;
+    }
 </style>
-
     <div style="color: #0e5478; font-size: large; font-weight: bold; line-height: 80%; z-index: 20;">Chose down to the level you know:</div>
     <div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');"><!--
         <div id="AdjustMapAndMenus" style="position: absolute; top: 140px; z-index: 15; ">
@@ -83,7 +86,7 @@
         -->
     <div id="routeDisplay"></div>
     <!-- ## Upcoming terrible hack:  just burying province and city menus.  Must remov sometime! ### -->
-    <div style="position: absolute; z-index: 50; top: 25px; left: 70px; width: 180px; height: 130px;"><select id="regionArea" style="color: #05537a; font-weight: bold;" onchange="BuildNewCountriesListFromSelectedRegion()" title="Select that region of the world where your story originates">
+    <div style="position: absolute; z-index: 50; top: 25px; left: 70px; width: 180px; height: 130px;"><select id="regionArea" name="AreaOfOrigin" style="color: #05537a; font-weight: bold;" onchange="BuildNewCountriesListFromSelectedRegion()" title="Select that region of the world where your story originates">
     <option id="AreaHeading" value="">-- Part of World --</option>
     <option id="AreaUnknown" value="Unk" title="Don't know more detail">Unknown</option>
     <!--
@@ -92,19 +95,19 @@
             <option value="EasternEurope">Eastern Europe</option>
             <option value="WesternEurope">Western Europe</option>
             --></select></div>
-    <div style="position: absolute; z-index: 50; top: 25px; left: 270px; width: 180px; height: 130px;"><select id="areaCountry" onload="BuildNewProvinceListFromSelectedCountry()" style="color: #05537a; font-weight: bold;" onchange="BuildNewProvinceListFromSelectedCountry()" title="Select the Country of Origin if you know it">
+    <div style="position: absolute; z-index: 50; top: 25px; left: 270px; width: 180px; height: 130px;"><select id="areaCountry" name="CountryOfOrigin" onload="BuildNewProvinceListFromSelectedCountry()" style="color: #05537a; font-weight: bold;" onchange="BuildNewProvinceListFromSelectedCountry()" title="Select the Country of Origin if you know it">
     <option id="CountryHeading" value="">-- Country of Origin --</option>
     <option id="CountryUnknown" value="Unk" title="Don't know more detail">Unknown</option>
     </select></div>
-    <div style="position: absolute; z-index: 25; top: 25px; left: 470px; width: 180px; height: 130px;"><select id="countryProvince" style="color: #05537a; font-weight: bold;" onchange="BuildNewCitiesListFromSelectedProvince()" title="Select the province if you know it">
+    <div style="position: absolute; z-index: 25; top: 25px; left: 470px; width: 180px; height: 130px;"><select id="countryProvince" name="ProvinceOfOrigin" style="color: #05537a; font-weight: bold;" onchange="BuildNewCitiesListFromSelectedProvince()" title="Select the province if you know it">
     <option id="ProvinceHeading" value="">-- Province --</option>
     <option id="ProvinceUnknown" value="Unk" title="Don't know more detail">Unknown</option>
-    <option id="ProvinceUserOption" value="UserProvided" title="Provide the province name">User-provided</option>
+    <option id="ProvinceUserOption" value="UserProvided" title="Provide the province name" class="user_input">User-provided</option>
     </select></div>
-    <div style="position: absolute; z-index: 25; top: 25px; left: 670px; width: 180px; height: 130px;"><select id="provinceCity" style="color: #05537a; font-weight: bold;" onchange="BuildNewStreetListFromSelectedCity()" title="Enter the city or town if you know it"><!--<select id="provinceCity" title="Enter the city or town if you know it">-->
+    <div style="position: absolute; z-index: 25; top: 25px; left: 670px; width: 180px; height: 130px;"><select id="provinceCity" name="CityOfOrigin" style="color: #05537a; font-weight: bold;" onchange="BuildNewStreetListFromSelectedCity()" title="Enter the city or town if you know it"><!--<select id="provinceCity" title="Enter the city or town if you know it">-->
     <option id="CityHeading" value="">-- City/Town --</option>
     <option id="CityUnknown" value="Unk" title="Don't know more detail">Unknown</option>
-    <option id="CityUserOption" value="UserProvided" title="Provide the city name">User-provided</option>
+    <option id="CityUserOption" value="UserProvided" title="Provide the city name" class="user_input">User-provided</option>
     </select></div>
     <!--
     <div id="TextBoxDisplay" color="Ivory" style="position: absolute; z-index: 50; top: 120px; left: 70px; width: 540px; height: 30px; color: White; font-weight: bold; text-shadow: 1px 1px 0px Black;">
@@ -414,10 +417,9 @@
             AcceptCurrentOrigins() ;
             //alert("Exit") ;
         }
-    //### take this out until can figure out how to handle UserProvided ###
         else if (selProvince=="UserProvided") {
-            alert("User-provided option under development.  Contact jimaworks to add the province and we will add.") ;
-            localStorage.ProvinceOfOrigin = "Unk" ;
+            // alert("User-provided option under development.  Contact jimaworks to add the province and we will add.") ;
+//             localStorage.ProvinceOfOrigin = "Unk" ;
             AcceptCurrentOrigins() ;
     //###        UserProvidedPlacename("homeProvince") ;
         }
@@ -463,11 +465,10 @@
             AcceptCurrentOrigins() ;
             //alert("Exit") ;
         }
-    //### take this out until can figure out how to handle UserProvided ###
        else if (selCity=="UserProvided") {
     //###        UserProvidedPlacename("homeCity") ;
-            alert("User-provided option under development.  Contact jimaworks to add the ciy/town and we will add.") ;
-            localStorage.CityOfOrigin = "Unk" ;
+//             alert("User-provided option under development.  Contact jimaworks to add the ciy/town and we will add.") ;
+//             localStorage.CityOfOrigin = "Unk" ;
             AcceptCurrentOrigins() ;
         }
         else {
@@ -498,7 +499,7 @@
         console.log('updateOriginsMenuHeadings()') ;
         if ((localStorage.AreaOfOrigin != 'Unk') & (localStorage.AreaOfOrigin != 'Unknown') & (localStorage.AreaOfOrigin != '')) {
             console.log('*****localStorage.AreaOfOrigin=='+localStorage.AreaOfOrigin+'*********') ;
-            document.getElementById("AreaHeading").text = "Choose a subregion of "+localStorage.AreaOfOrigin ;
+//             document.getElementById("AreaHeading").text = "Choose a subregion of "+localStorage.AreaOfOrigin ;
         }
         else { // -- Part of World --
             document.getElementById("AreaHeading").text = "-- Part of World --" ;
@@ -506,14 +507,14 @@
         }
     
         if ((localStorage.CountryOfOrigin != 'Unk') & (localStorage.CountryOfOrigin != 'Unknown') & (localStorage.CountryOfOrigin != '')) {
-            document.getElementById("CountryHeading").text = localStorage.CountryOfOrigin ;
+//             document.getElementById("CountryHeading").text = localStorage.CountryOfOrigin ;
         }
         else { // -- Country of Origin --
             document.getElementById("CountryHeading").text = "-- Country of Origin --" ;
         }
     
         if ((localStorage.ProvinceOfOrigin != 'Unk') & (localStorage.ProvinceOfOrigin != 'Unknown') & (localStorage.ProvinceOfOrigin != '')) {
-            document.getElementById("ProvinceHeading").text = localStorage.ProvinceOfOrigin ;
+            // document.getElementById("ProvinceHeading").text = localStorage.ProvinceOfOrigin ;
         }
     //    else if (localStorage.ProvinceOfOrigin == '') {
     //        document.getElementById("ProvinceHeading").text = "-- Province --" ;
@@ -527,7 +528,7 @@
         }
     
         if ((localStorage.CityOfOrigin != 'Unk') & (localStorage.CityOfOrigin != 'Unknown') & (localStorage.CityOfOrigin != '')) {
-            document.getElementById("CityHeading").text = localStorage.CityOfOrigin ;
+//             document.getElementById("CityHeading").text = localStorage.CityOfOrigin ;
         }
     //    else if (localStorage.CityOfOrigin == '') {
     //        document.getElementById("CityHeading").text = "-- City/Town --" ;
@@ -1046,7 +1047,65 @@
             EchoCurrentOriginEntries() ;
         }
     }
-    // ]]></script>
+    // ]]>
+    </script>
+    
+    <script>
+	
+	document.querySelectorAll('select').forEach(item => {
+	  item.elem = item;
+	  // Hide elements for which `localStorage` var is 'Unk'
+	  if (localStorage.getItem(item.name) == 'Unk') {
+	  	document.getElementsByName(item.name)[0].classList.add("hidden");
+	  }
+	  // Fire visibility toggle function on menu change
+	  item.addEventListener('change', event => {
+	    toggleSelectorVisibility(item.name);
+	    userSelectInput(item);
+	  })
+ 	})
+	
+	// Remove `hidden` class on next sibling when a value is chosen
+	function toggleSelectorVisibility(itemName) {
+		if (localStorage.getItem(itemName)) {
+			var thisMenu = document.getElementsByName(itemName)[0];
+			var nextMenu = thisMenu.parentElement.nextElementSibling.children[0];
+			nextMenu.classList.remove("hidden");
+		}
+	}
+	
+	function userSelectInput(item) {
+		// Get reference to `select` element
+		const selectEl = item;
+		// Do fancy stuff when the user chooses to input data
+		if (selectEl.value == "UserProvided") {
+			const optionEl = selectEl.getElementsByClassName('user_input')[0];
+			var optionElStartingValue = optionEl.value;
+			var optionElStartingHTML = optionEl.innerHTML;
+			
+			// Prompt user, store input in localStorage, and pop a
+			// new `option` onto the `select` based on user input
+			localStorage.setItem(selectEl.name, prompt('Enter your data.'));
+			optionEl.innerHTML = localStorage.getItem(selectEl.name);
+			optionEl.value = localStorage.getItem(selectEl.name);
+			
+			// Remove this class, now that value has changed
+			optionEl.classList.remove('user_input');
+			
+			// Create a new `option` element with the original
+			// input option's value, etc.
+			var newOpt = document.createElement('option');
+		    newOpt.value = optionElStartingValue;
+		    newOpt.innerHTML = optionElStartingHTML;
+		    newOpt.classList.add('user_input');
+		    selectEl.appendChild(newOpt);
+		    optionEl.value = localStorage.getItem(selectEl.name);
+		} else {
+			// Store regularly selected options to localStorage
+			localStorage.setItem(selectEl.name, selectEl.value);
+		}
+	}
+	</script>
       </div>
   
     </div>
