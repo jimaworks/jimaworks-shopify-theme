@@ -1,0 +1,47 @@
+.slidecontainer {
+    width: 100%;
+}
+
+.slider-label {
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 22px;
+    border-radius: 5px;
+    background: #fff;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    margin-bottom: 1em;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 35px;
+    height: 35px;
+    border: 0;
+    border-radius: 5px;
+    /* background: url('https://cdn.shopify.com/s/files/1/1336/0641/files/EuM-StmSl-SeaS.png'); */
+    background: darkred;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 35px;
+    height: 35px;
+    border: 0;
+    /* background: url('contrasticon.png'); */
+    border-radius: 5px;
+    background: darkred;
+    cursor: pointer;
+}
