@@ -35,7 +35,7 @@ Next?  Keep customer on page until explicityly go to When
 // want to run the localStorage from as early as possible
         // ### check to make sure not invoked multiple times ###
         // ### like, if decide to add the introductory page... maybe add a tag that says it has been run? ###
-        initializeDefaults() ;
+        //initializeDefaults() ;
 // ]]>
 </script>
 
@@ -143,7 +143,7 @@ Next?  Keep customer on page until explicityly go to When
                 <h4>(Later, choose to customize and change the text boxes to reflect your specific story.)</h4>
             </div>
             <div id="doneButton">
-                <button class="btn" style="font-size: 1.25em; max-width: 320px; white-space: normal !important; word-wrap: break-word;" onclick="ContinueToNextPage()"> Continue to "Title: What is this commemoration about?" </button>
+                <button class="btn" style="font-size: 1.25em; max-width: 320px; white-space: normal !important; word-wrap: break-word;"> Continue to "Title: What is this commemoration about?" </button>
             </div>
         </aside>
         </div>
@@ -151,6 +151,14 @@ Next?  Keep customer on page until explicityly go to When
 </div>  
 
 <script type="text/javascript">
+
+    document.getElementById("doneButton").addEventListener("click", function(){
+      if (localStorage.RegionOfOrigin) {
+	    ContinueToNextPage();
+	  } else {
+	    alert('Please select a region of origin on the map to the left before continuing.');
+	  }
+	});
 
     var nextPage = "https://jimaworks.com/pages/1-title-c-what" ;
 
@@ -163,7 +171,7 @@ Next?  Keep customer on page until explicityly go to When
         localStorage.setItem("RegionOfOriginAbbrev", regionAbbrev) ;
         localStorage.setItem("RegionOfOriginImageFileName", regionImageFileNm) ;
         
-        ContinueToNextPage();
+        //ContinueToNextPage();
     }
 
     function ContinueToNextPage() {
