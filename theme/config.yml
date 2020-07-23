@@ -1,8 +1,0 @@
-development:
-  password: ${DEV_PASSWORD}
-  theme_id: "75492261936"
-  store: jimaworks-dev.myshopify.com
-production:
-  password: ${PROD_PASSWORD}
-  theme_id: "16458842177"
-  store: jimaworks.myshopify.com
