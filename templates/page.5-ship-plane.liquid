@@ -105,7 +105,7 @@
       <div style="position: absolute; z-index: 50; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; line-height: 80%;"><p>***We'll find or make an image of any ship you specify***</p></div>
   -->
   <div style="position: absolute; z-index: 25; top: 25px; left: 70px; width: 180px; height: 130px; line-height: 85%;">
-    <button id="typicalShip-ChoiceXX" class="float-left submit-button" style="color: #05537a;" onclick="presentCraftOfCrossingOptions()">Show Ships-of-Crossing </button>
+    <button id="typicalShip-ChoiceXX" class="float-left submit-button btn" onclick="presentCraftOfCrossingOptions()">Show Ships-of-Crossing </button>
   </div>
   <div style="position: absolute; z-index: 25; top: 25px; left: 270px; width: 180px; height: 130px;">
     <select id="shipFilter" onchange="setFilterCraftMethod()">
@@ -132,7 +132,7 @@
     </select>
   </div>
   <div style="position: absolute; z-index: 25; top: 25px; left: 670px; width: 180px; height: 130px; line-height: 85%;">
-    <button id="knownShip" class="float-left submit-button" style="color: #05537a;" onclick="userProvidedShip()">Request a 
+    <button id="knownShip" class="float-left submit-button btn" onclick="userProvidedShip()">Request a 
       <em>specific</em> ship 
     </button>
   </div>
@@ -153,8 +153,8 @@
   </div>
   <div id="doneButton" style="position: absolute; z-index: 22250; top: 350px; left: 70px;">
     <button id="typicalShip-Given" 
-          class="float-left submit-button" 
-          style="color: #05537a; font-weight: bold;" 
+          class="float-left submit-button btn" 
+          style="font-size: 1.25em" 
           onclick="stickWithCurrentShip()">Continue to Map Background. </button>
   </div>
   <div id="shipChoicesDisplay" style="position: absolute; top: 400px; width: 800px;"></div>
