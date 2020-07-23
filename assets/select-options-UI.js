@@ -11,6 +11,9 @@
 
 
 // PROGRESSIVE DISCLOSURE
+// To enable, add `name` attributes to the `select` elements, and
+// set the values to whatever the key for that element's
+// `localStorage` pair is.
 // ----------------------
 document.querySelectorAll('select').forEach(item => {
   item.elem = item;
@@ -38,19 +41,21 @@ function toggleSelectorVisibility(itemName) {
 
 
 // USER TEXT INPUT OPTION
+// Works with the above progressive disclosure stuff. Make sure to add the
+// `user_input` class to the appropriate `option` element.
 // ----------------------
 function userSelectInput(item) {
 	// Get reference to `select` element
-	const selectEl = item;
+	var selectEl = item;
 	// Do fancy stuff when the user chooses to input data
 	if (selectEl.value == "UserProvided") {
-		const optionEl = selectEl.getElementsByClassName('user_input')[0];
+		var optionEl = selectEl.getElementsByClassName('user_input')[0];
 		var optionElStartingValue = optionEl.value;
 		var optionElStartingHTML = optionEl.innerHTML;
 		
 		// Prompt user, store input in localStorage, and pop a
 		// new `option` onto the `select` based on user input
-		localStorage.setItem(selectEl.name, prompt('Enter your data.'));
+		localStorage.setItem(selectEl.name, prompt('Enter your text.'));
 		optionEl.innerHTML = localStorage.getItem(selectEl.name);
 		optionEl.value = localStorage.getItem(selectEl.name);
 		

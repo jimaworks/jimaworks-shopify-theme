@@ -43,11 +43,18 @@
       ### remove redundant port defs ###
       Next: Add abbviations in the generated text.
 -->
+
+<style>
+    .hidden {
+      display: none;
+    }
+</style>
+
 <div style="color: #0e5478; font-size: large; font-weight: bold; line-height: 80%; z-index: 20;">Chose down to the level you know:</div>
 <div id="DisplayOverlays" style="position: relative; width: 1000px; height: 400px; color: cornsilk; text-shadow: 1px 1px 0px Darkblue; background-image: url('https://cdn.shopify.com/s/files/1/1336/0641/files/jimaworks_1000x1000.jpg');">
 <div id="routeGrfx"></div>
 <div id="routeDisplay"></div>
-<div style="position: absolute; z-index: 25; top: 25px; left: 70px; width: 180px; height: 130px;"><select id="areaRegion" title="What's the region from which your FirstGen started this crossing?" style="color: #05537a; font-weight: bold;" onchange="ChangeAreasRegionsList()">
+<div style="position: absolute; z-index: 25; top: 25px; left: 70px; width: 180px; height: 130px;"><select name="AreaOfDeparture" id="areaRegion" title="What's the region from which your FirstGen started this crossing?" style="color: #05537a; font-weight: bold;" onchange="ChangeAreasRegionsList()">
 <option value="">-- Part of World --</option>
 <option value="Unk" title="Don't know more detail">Unknown</option>
 <!--
@@ -56,20 +63,20 @@
     <option value="EasternEurope">Eastern Europe</option>
     <option value="WesternEurope">Western Europe</option>
     --></select></div>
-<div style="position: absolute; z-index: 25; top: 25px; left: 270px; width: 180px; height: 130px;"><select id="regionNavRoute" title="Select the sea lane if you know it" style="color: #05537a; font-weight: bold;" onchange="ChangeRegionsNavRoutesList()">
+<div style="position: absolute; z-index: 25; top: 25px; left: 270px; width: 180px; height: 130px;"><select name="SeaLane" id="regionNavRoute" title="Select the sea lane if you know it" style="color: #05537a; font-weight: bold;" onchange="ChangeRegionsNavRoutesList()">
 <option value="">-- Sea Lanes --</option>
 <option value="Unk" title="Don't know more detail">Unknown</option>
 </select></div>
-<div style="position: absolute; z-index: 25; top: 25px; left: 470px; width: 180px; height: 130px;"><select id="navRouteCountry" title="Select the country of departure if you know it" style="color: #05537a; font-weight: bold;" onchange="ChangeNavRoutesCountriesList()">
+<div style="position: absolute; z-index: 25; top: 25px; left: 470px; width: 180px; height: 130px;"><select name="DepartureCountry" id="navRouteCountry" title="Select the country of departure if you know it" style="color: #05537a; font-weight: bold;" onchange="ChangeNavRoutesCountriesList()">
 <option value="">-- Departure Country --</option>
 <option value="Unk" title="Don't know more detail">Unknown</option>
 <!-- no "UserProvided" option for countries
     <option value="UserProvided" title="Provide the province name">User-provided</option>
     --></select></div>
-<div style="position: absolute; z-index: 25; top: 25px; left: 670px; width: 180px; height: 130px;"><select id="countryPorts" title="Select (or add) the port of departure if you know it" style="color: #05537a; font-weight: bold;" onchange="ChangeCountryPortsList()"><!--<select id="countryPorts" title="Enter the city or town if you know it">-->
+<div style="position: absolute; z-index: 25; top: 25px; left: 670px; width: 180px; height: 130px;"><select name="PortOfDeparture" id="countryPorts" title="Select (or add) the port of departure if you know it" style="color: #05537a; font-weight: bold;" onchange="ChangeCountryPortsList()"><!--<select id="countryPorts" title="Enter the city or town if you know it">-->
 <option value="">-- Ports --</option>
 <option value="Unk" title="Don't know more detail">Unknown</option>
-<option value="UserProvided" title="Provide the departure port name">User-provided</option>
+<option value="UserProvided" title="Provide the departure port name" class="user_input">User-provided</option>
 </select></div>
 <!--
 <div style="position: absolute; z-index: 25; top: 420px; ">
@@ -140,7 +147,7 @@ function actionOnSave() {
 var nextPage = "https://jimaworks.com/pages/4-destination-a-port-of-entry" ;
 
 if ((localStorage.AreaOfDeparture==undefined)||(localStorage.AreaOfDeparture=='')) {
-    localStorage.AreaOfDeparture = "Unk" ;
+    localStorage.AreaOfDeparture = localStorage.AreaOfOrigin;
 }
 if ((localStorage.SeaLane==undefined)||(localStorage.SeaLane=='')) {
     localStorage.SeaLane = "Unk" ;
@@ -934,7 +941,7 @@ function ChangeRegionsNavRoutesList() {
      if (countries) {
          // First update the country list w countries that have ports (on this sealane, that is)
         for (i = 0; i < countries.length; i++) {
-          // if country has a port <### on this SeaLane? ###>, add the country
+          // if country has a port (on this SeaLane?), add the country
           navPortsList = countriesAndPorts[countries[i]];
           for (j = 0; j<navPortsList.length; j++) {
               var currPort = navPortsList[j];
@@ -1263,28 +1270,29 @@ function AcceptCurrentDeparture() {
 
 
 function UserProvidedPlacename(locationType) {
-    var newPlaceName ;
-    if (locationType=="homeProvince") {
-        newPlaceName = prompt("Enter the name of the home province.") ;
-        localStorage.DepartureCountry = newPlaceName ;
-        return(newPlaceName) ;
-    }
-    else if (locationType=="portOfDeparture") {
-        newPlaceName = prompt("Enter the name of the port of departure.") ;
-        localStorage.PortOfDeparture = newPlaceName ;
-        return(newPlaceName) ;
-    }
-    /*
-    if (locationType=="destinationCounty") {
-        localStorage.PortOfDeparture = prompt("Enter the name of the destination country.") ;
-    }
-    if (locationType=="destinationCity") {
-        localStorage.PortOfDeparture = prompt("Enter the name of the destination city.") ;
-    }
-    */
-    else  {
-        alert('Type of location for user-provided placename, "'+locationType+'" is unrecognized.') ;
-    }
+    // var newPlaceName ;
+//     if (locationType=="homeProvince") {
+//         newPlaceName = prompt("Enter the name of the home province.") ;
+//         localStorage.DepartureCountry = newPlaceName ;
+//         return(newPlaceName) ;
+//     }
+//     else if (locationType=="portOfDeparture") {
+//         newPlaceName = prompt("Enter the name of the port of departure.") ;
+//         localStorage.PortOfDeparture = newPlaceName ;
+//         return(newPlaceName) ;
+//     }
+//     /*
+//     if (locationType=="destinationCounty") {
+//         localStorage.PortOfDeparture = prompt("Enter the name of the destination country.") ;
+//     }
+//     if (locationType=="destinationCity") {
+//         localStorage.PortOfDeparture = prompt("Enter the name of the destination city.") ;
+//     }
+//     */
+//     else  {
+//         alert('Type of location for user-provided placename, "'+locationType+'" is unrecognized.') ;
+//     }
+	console.log('`UserProvidedPlacename()` fired; deprecated, using `userSelectInput()`.')
 }
 // ]]></script>
 <script>// <![CDATA[
@@ -3299,6 +3307,11 @@ function RecordNewPortListChoice(newPortName, portInfoStr, portRole) {
     }
 }
 // ]]></script>
+
+<!-- JIMAWORKS SELECT & OPTION UI -->
+{{ 'select-options-UI.js' | asset_url | script_tag }}
+<!-- JIMAWORKS SELECT & OPTION UI -->
+
 </div>
       </div>
   
