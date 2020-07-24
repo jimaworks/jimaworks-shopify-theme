@@ -99,7 +99,7 @@
     <option id="CountryHeading" value="">-- Country of Origin --</option>
     <option id="CountryUnknown" value="Unk" title="Don't know more detail">Unknown</option>
     </select></div>
-    <div style="position: absolute; z-index: 25; top: 25px; left: 470px; width: 180px; height: 130px;"><select id="countryProvince" name="ProvinceOfOrigin" style="color: #05537a; font-weight: bold;" onchange="BuildNewCitiesListFromSelectedProvince()" title="Select the province if you know it">
+    <div style="position: absolute; z-index: 25; top: 25px; left: 470px; width: 180px; height: 130px;"><select id="countryProvince" name="ProvinceOfOrigin" style="color: #05537a; font-weight: bold;" onblur="BuildNewCitiesListFromSelectedProvince()" title="Select the province if you know it">
     <option id="ProvinceHeading" value="">-- Province --</option>
     <option id="ProvinceUnknown" value="Unk" title="Don't know more detail">Unknown</option>
     <option id="ProvinceUserOption" value="UserProvided" title="Provide the province name" class="user_input">User-provided</option>
