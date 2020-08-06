@@ -30,14 +30,43 @@ Apr 23 2020:1615  No Title Lines on this page.  Eliminate "Update Text Boxes"
 
 Next?  Keep customer on page until explicityly go to When
 --> <!-- Begin stage wrapper -->
+
 <script>
-// <![CDATA[
-// want to run the localStorage from as early as possible
-        // ### check to make sure not invoked multiple times ###
-        // ### like, if decide to add the introductory page... maybe add a tag that says it has been run? ###
-        //initializeDefaults() ;
-// ]]>
-</script>
+
+function setDefaultValues() {
+	localStorage.MapStyle = "PalaceRosa";
+	localStorage.Frame = "BlackWalnut";
+	localStorage.Size = "Medium";
+	localStorage.RegionOfOrigin = "EuropeAndTheMediterranean";
+	localStorage.YearOfCrossing = "1822";
+	localStorage.TitleLine1 = "The Family Crossing: First Generation";
+	localStorage.TitleLine2 = "Arrived in between 1600 and 2020";
+	localStorage.Origin = "CityOfOrigin Ashford, ProvinceOfOrigin Kent, CountryOfOrigin United Kingdom, RegionOfOrigin Northern Europe";
+	localStorage.Departure = "PortOfDeparture Southampton, DepartureCountry United Kingdom of Great Britain and Northern Ireland, SeaLane NorthSeaRoutes, AreaOfDeparture Western Europe";
+	localStorage.OriginsLine1 = "Origins: Ashford in Kent,United Kingdom";
+	localStorage.OriginsLine2 = "Southampton";
+	localStorage.Arrival = "PortOfEntry Port of New York, EntryState New York, Approaches Mid-Atlantic States Approaches, RegionOfArrival Middle Atlantic";
+	localStorage.Destination = "DestinationCity Philadelphia, DestinationCounty Philadelphia, DestinationState Pennsylvania, DestinationSection Middle Atlantic"
+	localStorage.DestinyLine1 = "Destination: New York, Mid-Atlantic States Approaches";
+	localStorage.DestinyLine2 = "Left from: United Kingdom";
+	localStorage.ShipName = "Savannah(1818-1824";
+	localStorage.ShipImage = "Savannah-ColDrw";
+	localStorage.SeaScape = "NoSeaScape";
+	localStorage.ShipInfoLine1 = "Typical Ship of this Era: 1200 Passengers";
+	localStorage.ShipInfoLine2 = "Typical Duration of Crossing: Two Weeks";
+	localStorage.PlaqueLine1 = "In Appreciation of";
+	localStorage.PlaqueLine2 = "the Initiative and Courage of";
+	localStorage.PlaqueLine3 = "Our Forebears Who First Crossed to America";
+	localStorage.DefaultsSet = "True";
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+    if (localStorage.getItem("DefaultsSet") === null) {
+		setDefaultValues();
+	}
+});
+
+</script> 
 
 <style>
 .tooltip {
