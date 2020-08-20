@@ -104,7 +104,7 @@
     <option id="ProvinceUnknown" value="Unk" title="Don't know more detail">Unknown</option>
     <option id="ProvinceUserOption" value="UserProvided" title="Provide the province name" class="user_input">User-provided</option>
     </select></div>
-    <div style="position: absolute; z-index: 25; top: 25px; left: 670px; width: 180px; height: 130px;"><select id="provinceCity" name="CityOfOrigin" style="color: #05537a; font-weight: bold;" onchange="BuildNewStreetListFromSelectedCity()" title="Enter the city or town if you know it"><!--<select id="provinceCity" title="Enter the city or town if you know it">-->
+    <div style="position: absolute; z-index: 25; top: 25px; left: 670px; width: 180px; height: 130px;"><select id="provinceCity" name="CityOfOrigin" style="color: #05537a; font-weight: bold;" onblur="BuildNewStreetListFromSelectedCity()" title="Enter the city or town if you know it"><!--<select id="provinceCity" title="Enter the city or town if you know it">-->
     <option id="CityHeading" value="">-- City/Town --</option>
     <option id="CityUnknown" value="Unk" title="Don't know more detail">Unknown</option>
     <option id="CityUserOption" value="UserProvided" title="Provide the city name" class="user_input">User-provided</option>
@@ -471,22 +471,22 @@
 //             localStorage.CityOfOrigin = "Unk" ;
             AcceptCurrentOrigins() ;
         }
-        else {
-          // Keep the first two options
-          var i;
-          for (i = 3; i<streetList.options.length; i++) {
-            console.log("removing.. cityList=="+cityList) ;
-            cityList.remove(3);
-          }
-          var countries = countriesAndProvinces[selCity];
-          if (countries) {
-            for (i = 0; i < countries.length; i++) {
-              var country = new Option(countries[i], countries[i]);
-              cityList.options.add(country);
-              console.log("added country.value=="+country.value+". cityList is now "+cityList) ;
-            }
-          }
-        }
+        // else {
+//           // Keep the first two options
+//           var i;
+//           for (i = 3; i<streetList.options.length; i++) {
+//             console.log("removing.. cityList=="+cityList) ;
+//             cityList.remove(3);
+//           }
+//           var countries = countriesAndProvinces[selCity];
+//           if (countries) {
+//             for (i = 0; i < countries.length; i++) {
+//               var country = new Option(countries[i], countries[i]);
+//               cityList.options.add(country);
+//               console.log("added country.value=="+country.value+". cityList is now "+cityList) ;
+//             }
+//           }
+//         }
         EchoCurrentOriginEntries() ;
         EchoOriginsTextBoxL1() ;
     
